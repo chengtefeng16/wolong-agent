@@ -1,0 +1,91 @@
+"import_path": {
+  "allowed_for_commercial_import": true,
+  "allowed_for_individual_import": true,
+  "notes": [
+    "Commercial import requires full conformity documentation.",
+    "Individual import may use simplified taxation scheme depending on vehicle specs."
+  ]
+},
+
+"policy_environment": {
+  "trend": "tightening",
+  "risk_level": "medium_to_high",
+  "major_pressure_point": "recycling_fee",
+  "notes": [
+    "Recycling fee reforms significantly impact import cost.",
+    "Grey import channels are under increased scrutiny."
+  ]
+},
+
+{
+  "meta": {
+    "schema_version": "9.1",
+    "data_status": "active",
+    "last_verified_at": "2026-02-16",
+    "last_checked_at": "2026-02-16",
+    "next_review_due": "2026-02-23",
+    "small_update_cycle_days": 3,
+    "major_update_cycle_days": 7,
+    "source_type": "manual_seed",
+    "confidence_level": 0.65,
+    "notes": [
+      "Russia policy draft for L9. MUST verify against official RU/EAEU sources before production use.",
+      "Soft mode = warnings first; strict mode = block on hard limits."
+    ]
+  },
+  "country": {
+    "name": "Russia",
+    "iso2": "RU",
+    "aliases": ["Russian Federation", "Россия", "РФ", "RU", "ru"]
+  },
+  "enforcement_mode": "soft",
+  "legal_basis": [
+    {
+      "topic": "Vehicle technical safety / conformity",
+      "hint": "EAEU TR on wheeled vehicle safety (placeholder)",
+      "source_note": "Replace with verified RU/EAEU official references."
+    },
+    {
+      "topic": "Import cost structure (duties/fees)",
+      "hint": "Duties/taxes may apply depending on age/engine/etc (placeholder)",
+      "source_note": "Engine does not compute duties yet; only flags risk."
+    }
+  ],
+  "rules": {
+    "age": {
+      "params": {
+        "soft_warn_over_years": 3,
+        "hard_block_over_years": 25
+      }
+    },
+    "fuel": {
+      "params": {
+        "blocked_fuels": [],
+        "special_attention_fuels": ["diesel"]
+      }
+    },
+    "emission": {
+      "params": {
+        "min_euro_required": 5
+      }
+    },
+    "steering": {
+      "params": {
+        "allowed": ["LHD", "RHD"],
+        "warn": ["RHD"],
+        "blocked": []
+      }
+    },
+    "certification": {
+      "params": {
+        "requires_conformity_check": true
+      }
+    },
+    "ev_grid_risk": {
+      "params": {
+        "enable": true
+      }
+    }
+  }
+}
+

@@ -1,0 +1,412 @@
+{
+  "total_countries": 11,
+  "recommendations": [
+    {
+      "country_name_en": "Algeria",
+      "country_name_zh": "阿尔及利亚",
+      "region_pack": "africa",
+      "audit_status": "audit_restricted",
+      "cross_validation_status": "weak",
+      "cross_validation_score": 2,
+      "human_review_needed": true,
+      "language_family": "fr_ar",
+      "legal_style": "francophone_gazette_heavy",
+      "site_hint": "优先找法语官方公报、法语法令页、法语海关/财政/工业部门页面；阿语可做交叉验证。",
+      "priority_source_gaps": [
+        "customs",
+        "tax_or_revenue",
+        "transport_or_industry_or_trade"
+      ],
+      "actions": [
+        {
+          "rank": 1,
+          "source_dimension": "customs",
+          "source_dimension_label": "海关来源",
+          "action": "优先补海关官网、海关公告、清关规则页；优先找法语官方公报、法语法令页、法语海关/财政/工业部门页面；阿语可做交叉验证。"
+        },
+        {
+          "rank": 2,
+          "source_dimension": "tax_or_revenue",
+          "source_dimension_label": "税务/财政来源",
+          "action": "优先补税务、财政、收入主管部门资料；优先找法语官方公报、法语法令页、法语海关/财政/工业部门页面；阿语可做交叉验证。"
+        },
+        {
+          "rank": 3,
+          "source_dimension": "transport_or_industry_or_trade",
+          "source_dimension_label": "交通/工业/商务来源",
+          "action": "优先补交通、工业、商务主管部门资料；优先找法语官方公报、法语法令页、法语海关/财政/工业部门页面；阿语可做交叉验证。"
+        }
+      ]
+    },
+    {
+      "country_name_en": "Armenia",
+      "country_name_zh": "亚美尼亚",
+      "region_pack": "central_asia",
+      "audit_status": "audit_restricted",
+      "cross_validation_status": "weak",
+      "cross_validation_score": 2,
+      "human_review_needed": true,
+      "language_family": "hy_ru",
+      "legal_style": "post_soviet_legal_portal",
+      "site_hint": "优先找亚美尼亚政府法律门户、海关、税务、俄语/本国语法规页，必要时看欧亚经济联盟规则。",
+      "priority_source_gaps": [
+        "official_gazette_or_law_db",
+        "customs",
+        "tax_or_revenue"
+      ],
+      "actions": [
+        {
+          "rank": 1,
+          "source_dimension": "official_gazette_or_law_db",
+          "source_dimension_label": "官方公报/法律数据库来源",
+          "action": "优先补官方公报、法令库、官方法规数据库；优先找亚美尼亚政府法律门户、海关、税务、俄语/本国语法规页，必要时看欧亚经济联盟规则。"
+        },
+        {
+          "rank": 2,
+          "source_dimension": "customs",
+          "source_dimension_label": "海关来源",
+          "action": "优先补海关官网、海关公告、清关规则页；优先找亚美尼亚政府法律门户、海关、税务、俄语/本国语法规页，必要时看欧亚经济联盟规则。"
+        },
+        {
+          "rank": 3,
+          "source_dimension": "tax_or_revenue",
+          "source_dimension_label": "税务/财政来源",
+          "action": "优先补税务、财政、收入主管部门资料；优先找亚美尼亚政府法律门户、海关、税务、俄语/本国语法规页，必要时看欧亚经济联盟规则。"
+        }
+      ]
+    },
+    {
+      "country_name_en": "Kazakhstan",
+      "country_name_zh": "哈萨克斯坦",
+      "region_pack": "central_asia",
+      "audit_status": "audit_restricted",
+      "cross_validation_status": "weak",
+      "cross_validation_score": 1,
+      "human_review_needed": true,
+      "language_family": "kk_ru",
+      "legal_style": "post_soviet_legal_portal",
+      "site_hint": "优先找 eGov、Adilet、海关、税务、俄语/哈语法规与政府说明页。",
+      "priority_source_gaps": [
+        "official_gazette_or_law_db",
+        "customs",
+        "tax_or_revenue"
+      ],
+      "actions": [
+        {
+          "rank": 1,
+          "source_dimension": "official_gazette_or_law_db",
+          "source_dimension_label": "官方公报/法律数据库来源",
+          "action": "优先补官方公报、法令库、官方法规数据库；优先找 eGov、Adilet、海关、税务、俄语/哈语法规与政府说明页。"
+        },
+        {
+          "rank": 2,
+          "source_dimension": "customs",
+          "source_dimension_label": "海关来源",
+          "action": "优先补海关官网、海关公告、清关规则页；优先找 eGov、Adilet、海关、税务、俄语/哈语法规与政府说明页。"
+        },
+        {
+          "rank": 3,
+          "source_dimension": "tax_or_revenue",
+          "source_dimension_label": "税务/财政来源",
+          "action": "优先补税务、财政、收入主管部门资料；优先找 eGov、Adilet、海关、税务、俄语/哈语法规与政府说明页。"
+        }
+      ]
+    },
+    {
+      "country_name_en": "Kyrgyzstan",
+      "country_name_zh": "吉尔吉斯斯坦",
+      "region_pack": "central_asia",
+      "audit_status": "audit_restricted",
+      "cross_validation_status": "weak",
+      "cross_validation_score": 2,
+      "human_review_needed": true,
+      "language_family": "ky_ru",
+      "legal_style": "post_soviet_legal_portal",
+      "site_hint": "优先找政府法律库、海关、税务、俄语/本国语法规与政府说明页。",
+      "priority_source_gaps": [
+        "official_gazette_or_law_db",
+        "customs",
+        "tax_or_revenue"
+      ],
+      "actions": [
+        {
+          "rank": 1,
+          "source_dimension": "official_gazette_or_law_db",
+          "source_dimension_label": "官方公报/法律数据库来源",
+          "action": "优先补官方公报、法令库、官方法规数据库；优先找政府法律库、海关、税务、俄语/本国语法规与政府说明页。"
+        },
+        {
+          "rank": 2,
+          "source_dimension": "customs",
+          "source_dimension_label": "海关来源",
+          "action": "优先补海关官网、海关公告、清关规则页；优先找政府法律库、海关、税务、俄语/本国语法规与政府说明页。"
+        },
+        {
+          "rank": 3,
+          "source_dimension": "tax_or_revenue",
+          "source_dimension_label": "税务/财政来源",
+          "action": "优先补税务、财政、收入主管部门资料；优先找政府法律库、海关、税务、俄语/本国语法规与政府说明页。"
+        }
+      ]
+    },
+    {
+      "country_name_en": "Saudi Arabia",
+      "country_name_zh": "沙特阿拉伯",
+      "region_pack": "middle_east",
+      "audit_status": "audit_restricted",
+      "cross_validation_status": "weak",
+      "cross_validation_score": 2,
+      "human_review_needed": true,
+      "language_family": "ar_en",
+      "legal_style": "agency_guidance_plus_regulatory_pages",
+      "site_hint": "优先找阿语/英语官方页、ZATCA、标准/交通/商务主管部门页面；法规与行政说明双轨并看。",
+      "priority_source_gaps": [
+        "tax_or_revenue",
+        "transport_or_industry_or_trade",
+        "official_gazette_or_law_db"
+      ],
+      "actions": [
+        {
+          "rank": 1,
+          "source_dimension": "tax_or_revenue",
+          "source_dimension_label": "税务/财政来源",
+          "action": "优先补税务、财政、收入主管部门资料；优先找阿语/英语官方页、ZATCA、标准/交通/商务主管部门页面；法规与行政说明双轨并看。"
+        },
+        {
+          "rank": 2,
+          "source_dimension": "transport_or_industry_or_trade",
+          "source_dimension_label": "交通/工业/商务来源",
+          "action": "优先补交通、工业、商务主管部门资料；优先找阿语/英语官方页、ZATCA、标准/交通/商务主管部门页面；法规与行政说明双轨并看。"
+        },
+        {
+          "rank": 3,
+          "source_dimension": "official_gazette_or_law_db",
+          "source_dimension_label": "官方公报/法律数据库来源",
+          "action": "优先补官方公报、法令库、官方法规数据库；优先找阿语/英语官方页、ZATCA、标准/交通/商务主管部门页面；法规与行政说明双轨并看。"
+        }
+      ]
+    },
+    {
+      "country_name_en": "Tajikistan",
+      "country_name_zh": "塔吉克斯坦",
+      "region_pack": "central_asia",
+      "audit_status": "audit_restricted",
+      "cross_validation_status": "weak",
+      "cross_validation_score": 2,
+      "human_review_needed": true,
+      "language_family": "tg_ru",
+      "legal_style": "legal_portal_plus_agency_pages",
+      "site_hint": "优先找法律门户、海关、税务及俄语/塔吉克语政府页面。",
+      "priority_source_gaps": [
+        "official_gazette_or_law_db",
+        "customs",
+        "tax_or_revenue"
+      ],
+      "actions": [
+        {
+          "rank": 1,
+          "source_dimension": "official_gazette_or_law_db",
+          "source_dimension_label": "官方公报/法律数据库来源",
+          "action": "优先补官方公报、法令库、官方法规数据库；优先找法律门户、海关、税务及俄语/塔吉克语政府页面。"
+        },
+        {
+          "rank": 2,
+          "source_dimension": "customs",
+          "source_dimension_label": "海关来源",
+          "action": "优先补海关官网、海关公告、清关规则页；优先找法律门户、海关、税务及俄语/塔吉克语政府页面。"
+        },
+        {
+          "rank": 3,
+          "source_dimension": "tax_or_revenue",
+          "source_dimension_label": "税务/财政来源",
+          "action": "优先补税务、财政、收入主管部门资料；优先找法律门户、海关、税务及俄语/塔吉克语政府页面。"
+        }
+      ]
+    },
+    {
+      "country_name_en": "Turkmenistan",
+      "country_name_zh": "土库曼斯坦",
+      "region_pack": "central_asia",
+      "audit_status": "audit_restricted",
+      "cross_validation_status": "weak",
+      "cross_validation_score": 2,
+      "human_review_needed": true,
+      "language_family": "tk_ru",
+      "legal_style": "official_portal_limited_visibility",
+      "site_hint": "优先找官方政府页、法律公报/法令页、海关说明；公开度不足时再用高可信行业源辅助。",
+      "priority_source_gaps": [
+        "official_gazette_or_law_db",
+        "customs",
+        "tax_or_revenue"
+      ],
+      "actions": [
+        {
+          "rank": 1,
+          "source_dimension": "official_gazette_or_law_db",
+          "source_dimension_label": "官方公报/法律数据库来源",
+          "action": "优先补官方公报、法令库、官方法规数据库；优先找官方政府页、法律公报/法令页、海关说明；公开度不足时再用高可信行业源辅助。"
+        },
+        {
+          "rank": 2,
+          "source_dimension": "customs",
+          "source_dimension_label": "海关来源",
+          "action": "优先补海关官网、海关公告、清关规则页；优先找官方政府页、法律公报/法令页、海关说明；公开度不足时再用高可信行业源辅助。"
+        },
+        {
+          "rank": 3,
+          "source_dimension": "tax_or_revenue",
+          "source_dimension_label": "税务/财政来源",
+          "action": "优先补税务、财政、收入主管部门资料；优先找官方政府页、法律公报/法令页、海关说明；公开度不足时再用高可信行业源辅助。"
+        }
+      ]
+    },
+    {
+      "country_name_en": "Uzbekistan",
+      "country_name_zh": "乌兹别克斯坦",
+      "region_pack": "central_asia",
+      "audit_status": "audit_restricted",
+      "cross_validation_status": "weak",
+      "cross_validation_score": 2,
+      "human_review_needed": true,
+      "language_family": "uz_ru",
+      "legal_style": "legal_portal_plus_agency_pages",
+      "site_hint": "优先找 Lex / 政府法律门户、海关、税务、交通/贸易部门页面，乌兹语和俄语并看。",
+      "priority_source_gaps": [
+        "official_gazette_or_law_db",
+        "customs",
+        "tax_or_revenue"
+      ],
+      "actions": [
+        {
+          "rank": 1,
+          "source_dimension": "official_gazette_or_law_db",
+          "source_dimension_label": "官方公报/法律数据库来源",
+          "action": "优先补官方公报、法令库、官方法规数据库；优先找 Lex / 政府法律门户、海关、税务、交通/贸易部门页面，乌兹语和俄语并看。"
+        },
+        {
+          "rank": 2,
+          "source_dimension": "customs",
+          "source_dimension_label": "海关来源",
+          "action": "优先补海关官网、海关公告、清关规则页；优先找 Lex / 政府法律门户、海关、税务、交通/贸易部门页面，乌兹语和俄语并看。"
+        },
+        {
+          "rank": 3,
+          "source_dimension": "tax_or_revenue",
+          "source_dimension_label": "税务/财政来源",
+          "action": "优先补税务、财政、收入主管部门资料；优先找 Lex / 政府法律门户、海关、税务、交通/贸易部门页面，乌兹语和俄语并看。"
+        }
+      ]
+    },
+    {
+      "country_name_en": "Ghana",
+      "country_name_zh": "加纳",
+      "region_pack": "africa",
+      "audit_status": "audit_restricted",
+      "cross_validation_status": "medium",
+      "cross_validation_score": 3,
+      "human_review_needed": true,
+      "language_family": "en",
+      "legal_style": "agency_guidance_plus_market_info",
+      "site_hint": "优先找 Customs/Revenue Authority、交通/贸易主管部门、英文市场准入和高可信商务说明。",
+      "priority_source_gaps": [
+        "tax_or_revenue",
+        "transport_or_industry_or_trade",
+        "official_gazette_or_law_db"
+      ],
+      "actions": [
+        {
+          "rank": 1,
+          "source_dimension": "tax_or_revenue",
+          "source_dimension_label": "税务/财政来源",
+          "action": "优先补税务、财政、收入主管部门资料；优先找 Customs/Revenue Authority、交通/贸易主管部门、英文市场准入和高可信商务说明。"
+        },
+        {
+          "rank": 2,
+          "source_dimension": "transport_or_industry_or_trade",
+          "source_dimension_label": "交通/工业/商务来源",
+          "action": "优先补交通、工业、商务主管部门资料；优先找 Customs/Revenue Authority、交通/贸易主管部门、英文市场准入和高可信商务说明。"
+        },
+        {
+          "rank": 3,
+          "source_dimension": "official_gazette_or_law_db",
+          "source_dimension_label": "官方公报/法律数据库来源",
+          "action": "优先补官方公报、法令库、官方法规数据库；优先找 Customs/Revenue Authority、交通/贸易主管部门、英文市场准入和高可信商务说明。"
+        }
+      ]
+    },
+    {
+      "country_name_en": "Mexico",
+      "country_name_zh": "墨西哥",
+      "region_pack": "latin_america",
+      "audit_status": "audit_restricted",
+      "cross_validation_status": "medium",
+      "cross_validation_score": 3,
+      "human_review_needed": true,
+      "language_family": "es",
+      "legal_style": "spanish_tax_customs_legal_bulletin",
+      "site_hint": "优先找西语 SAT/Aduanas、Economía、交通主管部门、官方法令公报与法规库。",
+      "priority_source_gaps": [
+        "official_gazette_or_law_db",
+        "tax_or_revenue",
+        "transport_or_industry_or_trade"
+      ],
+      "actions": [
+        {
+          "rank": 1,
+          "source_dimension": "official_gazette_or_law_db",
+          "source_dimension_label": "官方公报/法律数据库来源",
+          "action": "优先补官方公报、法令库、官方法规数据库；优先找西语 SAT/Aduanas、Economía、交通主管部门、官方法令公报与法规库。"
+        },
+        {
+          "rank": 2,
+          "source_dimension": "tax_or_revenue",
+          "source_dimension_label": "税务/财政来源",
+          "action": "优先补税务、财政、收入主管部门资料；优先找西语 SAT/Aduanas、Economía、交通主管部门、官方法令公报与法规库。"
+        },
+        {
+          "rank": 3,
+          "source_dimension": "transport_or_industry_or_trade",
+          "source_dimension_label": "交通/工业/商务来源",
+          "action": "优先补交通、工业、商务主管部门资料；优先找西语 SAT/Aduanas、Economía、交通主管部门、官方法令公报与法规库。"
+        }
+      ]
+    },
+    {
+      "country_name_en": "United Arab Emirates",
+      "country_name_zh": "阿联酋",
+      "region_pack": "middle_east",
+      "audit_status": "audit_restricted",
+      "cross_validation_status": "medium",
+      "cross_validation_score": 3,
+      "human_review_needed": true,
+      "language_family": "ar_en",
+      "legal_style": "agency_guidance_plus_customs_pages",
+      "site_hint": "优先找阿语/英语官方页、联邦主管部门、Dubai/Abu Dhabi Customs、工业/交通说明页。",
+      "priority_source_gaps": [
+        "official_gazette_or_law_db",
+        "tax_or_revenue",
+        "high_trust_industry_or_embassy"
+      ],
+      "actions": [
+        {
+          "rank": 1,
+          "source_dimension": "official_gazette_or_law_db",
+          "source_dimension_label": "官方公报/法律数据库来源",
+          "action": "优先补官方公报、法令库、官方法规数据库；优先找阿语/英语官方页、联邦主管部门、Dubai/Abu Dhabi Customs、工业/交通说明页。"
+        },
+        {
+          "rank": 2,
+          "source_dimension": "tax_or_revenue",
+          "source_dimension_label": "税务/财政来源",
+          "action": "优先补税务、财政、收入主管部门资料；优先找阿语/英语官方页、联邦主管部门、Dubai/Abu Dhabi Customs、工业/交通说明页。"
+        },
+        {
+          "rank": 3,
+          "source_dimension": "high_trust_industry_or_embassy",
+          "source_dimension_label": "高可信行业/使领馆/商务服务来源",
+          "action": "优先补高可信行业机构、使领馆、商务服务说明；优先找阿语/英语官方页、联邦主管部门、Dubai/Abu Dhabi Customs、工业/交通说明页。"
+        }
+      ]
+    }
+  ]
+}

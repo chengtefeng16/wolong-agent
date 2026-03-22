@@ -1,0 +1,40 @@
+{
+  "index_name": "whatsapp_conversation_index",
+  "version": "2026-03-12",
+  "source": "runtime_sessions/whatsapp",
+  "items": [
+    {
+      "phone": "+77011234567",
+      "customer_name": "Zhaslan",
+      "country": "哈萨克斯坦",
+      "channel": "whatsapp",
+      "bucket": "准车商",
+      "latest_message": "Need 8 SUVs. We can buy regularly if prices are good.",
+      "last_message_time": "2026-03-12 09:12:00",
+      "needs_human_review": false,
+      "crm_status": "pending_export"
+    },
+    {
+      "phone": "+992900000001",
+      "customer_name": "Bek",
+      "country": "塔吉克斯坦",
+      "channel": "whatsapp",
+      "bucket": "疑似车商",
+      "latest_message": "Need Prado and Camry, maybe 7 units.",
+      "last_message_time": "2026-03-12 12:05:00",
+      "needs_human_review": true,
+      "crm_status": "pending_export"
+    },
+    {
+      "phone": "+79161230000",
+      "customer_name": "Ivan",
+      "country": "俄罗斯",
+      "channel": "whatsapp",
+      "bucket": "个人客户",
+      "latest_message": "I need one family car, not for resale.",
+      "last_message_time": "2026-03-12 10:02:00",
+      "needs_human_review": false,
+      "crm_status": "not_ready"
+    }
+  ]
+}

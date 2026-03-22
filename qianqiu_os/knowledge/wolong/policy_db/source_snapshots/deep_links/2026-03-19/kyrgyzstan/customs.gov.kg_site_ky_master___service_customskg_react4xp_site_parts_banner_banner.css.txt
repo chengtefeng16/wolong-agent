@@ -1,0 +1,11 @@
+# ================================================================
+# Copyright (c) 2026 程特峰 (Tefeng Cheng)
+# All Rights Reserved.
+#
+# Project: AgentOS / Wolong Agent System
+# This source code is proprietary and confidential.
+# Unauthorized copying, modification, distribution or use
+# of this software, in whole or in part, is strictly prohibited.
+# ================================================================
+
+.banner{display:flex;flex-direction:column;min-height:300px;background:linear-gradient(180deg, #12203f 0%, transparent 200%)}.banner .carousel.slide{color:#f8f9fa}.banner .carousel.slide .carousel-indicators{position:absolute;left:0;right:0;bottom:auto;height:176px;padding-top:135px;margin:0;z-index:1;overflow:hidden}.banner .carousel.slide .carousel-indicators .custom-carousel-control-prev,.banner .carousel.slide .carousel-indicators .custom-carousel-control-next{background-color:initial;color:#f8f9fa;border:0;font-size:24px;text-indent:0}.banner .carousel.slide .carousel-indicators .counter-current,.banner .carousel.slide .carousel-indicators .counter-length{margin:0 8px;font-weight:600}.banner .carousel.slide .carousel-indicators .carousel-control-indicator{display:block;background-color:#198754;width:4px;height:3px}.banner .carousel.slide .carousel-indicators .carousel-control-indicator.active{width:30px}.banner .carousel.slide .carousel-item{height:550px;background-repeat:no-repeat;background-position:center;background-size:cover}.banner .carousel.slide .carousel-item .overlay{height:550px;padding-top:192px;padding-bottom:16px;background:linear-gradient(180deg, #12203f 0%, transparent 200%)}

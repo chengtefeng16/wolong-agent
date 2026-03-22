@@ -1,0 +1,8 @@
+{
+  "default_language": "zh-CN",
+  "supported_languages": [
+    "zh-CN",
+    "en-US"
+  ],
+  "ui_language": "zh-CN"
+}

@@ -1,0 +1,27 @@
+{
+  "channel_type": "facebook",
+  "tenant_id": "default",
+  "account_id": "fb_page_demo_001",
+  "account_name": "Wolong Auto Export Page",
+  "sync_mode": "readonly",
+  "source_label": "Facebook 只读观察接入",
+  "status_label": "当前已进入只读观察模式，只接收入站，不自动回写",
+  "capabilities": {
+    "ingress": true,
+    "input": true,
+    "judgement": true,
+    "alert": true,
+    "human_review": true,
+    "auto_reply": true,
+    "auto_dispatch": true
+  },
+  "policies": {
+    "auto_reply_enabled": false,
+    "auto_dispatch_enabled": false
+  },
+  "ui_flags": {
+    "h5_visible": true,
+    "show_in_channel_template": true
+  },
+  "updated_at": "2026-03-15T11:20:00+08:00"
+}

@@ -1,0 +1,11 @@
+# ================================================================
+# Copyright (c) 2026 程特峰 (Tefeng Cheng)
+# All Rights Reserved.
+#
+# Project: AgentOS / Wolong Agent System
+# This source code is proprietary and confidential.
+# Unauthorized copying, modification, distribution or use
+# of this software, in whole or in part, is strictly prohibited.
+# ================================================================
+
+.link{display:flex;flex-direction:column}.link .tab-pane.active .card{background-repeat:no-repeat;background-position:center;background-size:contain;background-blend-mode:overlay;background-color:rgba(255,255,255,.98)}.link .tab-pane.active .card .card-title img{max-width:70px}.link .tab-pane.active .card .card-body{z-index:2}.link .tab-pane.active .card .btn.btn-primary{display:none}.link .tab-pane.active .card .overlay{position:absolute;top:0;right:0;bottom:0;left:0;z-index:1;opacity:0;background-color:#d0e5fb}.link .tab-pane.active .card:hover{background-color:rgba(255,255,255,.97)}.link .tab-pane.active .card:hover .card-title{color:#355db7}.link .tab-pane.active .card:hover .overlay{opacity:.5}.link .tab-pane.active .btn-primary{width:max-content}

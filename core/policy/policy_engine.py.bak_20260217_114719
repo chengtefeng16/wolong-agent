@@ -1,0 +1,142 @@
+import json
+from pathlib import Path
+from datetime import datetime
+
+
+def _load_country_policy(country_code: str):
+    base = Path("knowledge/policies/countries")
+    file_path = base / f"{country_code.lower()}.json"
+
+    if not file_path.exists():
+        return None
+
+    with open(file_path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def check_policy(country_code: str, vehicle: dict):
+    policy = _load_country_policy(country_code)
+
+    if not policy:
+        return {
+            "status": "unknown",
+            "risk_level": "unknown",
+            "compliance_complexity": "unknown",
+            "cost_risk": "unknown",
+            "reasons": ["No country policy configured yet."],
+            "warnings": [],
+            "notes": ["Policy data missing."],
+            "policy_meta": {},
+            "policy_country": {}
+        }
+
+    rules = policy.get("rules", {})
+    enforcement_mode = policy.get("enforcement_mode", "soft")
+    policy_meta = policy.get("policy_meta", {})
+    policy_country = policy.get("country", {})
+
+    status = "allow"
+    reasons = []
+    warnings = []
+
+    current_year = datetime.now().year
+    vehicle_year = vehicle.get("year")
+
+    # =====================
+    # AGE RULE
+    # =====================
+    age_rule = rules.get("age")
+    if age_rule and vehicle_year:
+        age = current_year - vehicle_year
+        soft_limit = age_rule.get("params", {}).get("soft_warn_over_years")
+
+        if soft_limit and age > soft_limit:
+            if age_rule.get("status_if_fail") == "block":
+                if enforcement_mode == "strict":
+                    status = "block"
+                    reasons.append(f"Vehicle age {age}y exceeds allowed limit.")
+                else:
+                    warnings.append(f"Vehicle age {age}y exceeds strict limit (soft mode warning).")
+            else:
+                warnings.append(f"Vehicle age {age}y may increase cost or complexity.")
+
+    # =====================
+    # FUEL RULE
+    # =====================
+    fuel_rule = rules.get("fuel")
+    if fuel_rule:
+        fuel = vehicle.get("fuel")
+        blocked = fuel_rule.get("params", {}).get("blocked_fuels", [])
+        special = fuel_rule.get("params", {}).get("special_attention_fuels", [])
+
+        if fuel in blocked:
+            status = "block"
+            reasons.append(f"Fuel type '{fuel}' is blocked.")
+        elif fuel in special:
+            warnings.append(f"Fuel type '{fuel}' requires additional verification.")
+
+    # =====================
+    # STEERING RULE
+    # =====================
+    steering_rule = rules.get("steering")
+    if steering_rule:
+        steering = vehicle.get("steering")
+        allowed = steering_rule.get("params", {}).get("allowed", [])
+
+        if allowed and steering not in allowed:
+            if steering_rule.get("status_if_fail") == "block":
+                status = "block"
+                reasons.append("Steering configuration not allowed.")
+            else:
+                warnings.append("Steering configuration may require verification.")
+
+    # =====================
+    # EMISSION RULE
+    # =====================
+    emission_rule = rules.get("emission")
+    if emission_rule:
+        emission = vehicle.get("emission_standard")
+        allowed = emission_rule.get("params", {}).get("allowed_standards", [])
+
+        if allowed and emission and emission not in allowed:
+            if emission_rule.get("status_if_fail") == "block":
+                status = "block"
+                reasons.append(f"Emission standard '{emission}' not allowed.")
+            else:
+                warnings.append(f"Emission standard '{emission}' requires confirmation.")
+
+    # =====================
+    # RISK SCORING
+    # =====================
+    risk_level = "low"
+    compliance_complexity = "low"
+    cost_risk = "low"
+
+    total_flags = len(warnings) + len(reasons)
+
+    if status == "block":
+        risk_level = "high"
+        compliance_complexity = "high"
+        cost_risk = "high"
+    else:
+        if total_flags >= 3:
+            risk_level = "high"
+            compliance_complexity = "high"
+            cost_risk = "high"
+        elif total_flags >= 1:
+            risk_level = "medium"
+            compliance_complexity = "medium"
+            cost_risk = "medium"
+
+    return {
+        "status": status,
+        "risk_level": risk_level,
+        "compliance_complexity": compliance_complexity,
+        "cost_risk": cost_risk,
+        "reasons": reasons,
+        "warnings": warnings,
+        "notes": policy_meta.get("notes", []),
+        "policy_meta": policy_meta,
+        "policy_country": policy_country
+    }
+

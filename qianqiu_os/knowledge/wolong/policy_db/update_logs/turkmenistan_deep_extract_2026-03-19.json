@@ -1,0 +1,11 @@
+{
+  "country_slug": "turkmenistan",
+  "run_date": "2026-03-19",
+  "policy_version": "v0.2-deep-fetch-patch-merged",
+  "evidence_count": 4,
+  "text_source_count": 4,
+  "merged_country_mode": true,
+  "import_signal_count": 2,
+  "tax_signal_count": 0,
+  "legal_signal_count": 2
+}

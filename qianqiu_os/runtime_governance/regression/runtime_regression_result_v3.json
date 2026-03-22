@@ -1,0 +1,137 @@
+{
+  "checked_at": "2026-03-14 18:09:02",
+  "suite_name": "runtime_regression_suite_v1",
+  "overall_status": "passed",
+  "passed_count": 17,
+  "failed_count": 0,
+  "checks": [
+    {
+      "name": "active_config_exists",
+      "passed": true,
+      "detail": "delegation_active_config.json exists"
+    },
+    {
+      "name": "whatsapp_control_exists",
+      "passed": true,
+      "detail": "whatsapp_control found"
+    },
+    {
+      "name": "readonly_baseline",
+      "passed": true,
+      "detail": {
+        "ingress_mode": "readonly",
+        "auto_reply": false,
+        "auto_dispatch": false
+      }
+    },
+    {
+      "name": "preview_module_exists",
+      "passed": true,
+      "detail": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/services/h5_delegation_active_config_preview_v1.py"
+    },
+    {
+      "name": "alert_guard_healthy",
+      "passed": true,
+      "detail": "healthy"
+    },
+    {
+      "name": "self_heal_runs",
+      "passed": true,
+      "detail": {
+        "ingress_mode": "readonly",
+        "auto_classify": true,
+        "auto_tagging": true,
+        "h5_visible": true,
+        "auto_reply": false,
+        "auto_dispatch": false
+      }
+    },
+    {
+      "name": "reflection_check_runs",
+      "passed": true,
+      "detail": [
+        "当前运行态检查结果健康，未发现明显高风险或中风险问题。",
+        "当前无需执行自愈动作，配置已处于稳定安全状态。"
+      ]
+    },
+    {
+      "name": "human_loop_keeps_human_authority",
+      "passed": true,
+      "detail": {
+        "final_decision": "human_decide",
+        "reason": "business_stage_negotiating_requires_human_confirmation"
+      }
+    },
+    {
+      "name": "knowledge_graph_not_empty",
+      "passed": true,
+      "detail": {
+        "node_count": 16,
+        "edge_count": 10
+      }
+    },
+    {
+      "name": "promotion_guard_safe_by_default",
+      "passed": true,
+      "detail": {
+        "final_decision": "blocked",
+        "reason": "promotion_master_switch_off"
+      }
+    },
+    {
+      "name": "time_logic_runs",
+      "passed": true,
+      "detail": "时间逻辑层已从静态规则推进为可落盘执行状态骨架。"
+    },
+    {
+      "name": "direction_check_runs",
+      "passed": true,
+      "detail": {
+        "direction_status": "on_track",
+        "core_conclusion": "当前方向未跑偏，主线仍然是：卧龙先打穿，底座后放大。",
+        "main_value": "我们做的不是普通聊天工具，而是跨境汽车贸易的规则、成本、风控、执行一体化系统。",
+        "current_risk": "当前最大未完成项不是抽象层不足，而是真实 WhatsApp 接入闭环尚未完成。",
+        "next_focus": "优先继续推进 WhatsApp 真接入；并同步补强与其弱相关但仍未完全稳固的主干。"
+      }
+    },
+    {
+      "name": "memory_index_runs",
+      "passed": true,
+      "detail": {
+        "project_memory_file_count": 27,
+        "key_files": 4
+      }
+    },
+    {
+      "name": "scheduling_overview_runs",
+      "passed": true,
+      "detail": "调度层已具备配置调度 + 时间调度总览能力。"
+    },
+    {
+      "name": "planning_engine_runs",
+      "passed": true,
+      "detail": [
+        "优先继续推进 WhatsApp 真接入主线",
+        "优先在关键节点做六要素备份与主记忆固化",
+        "优先按 nightly check / 方向检查 / 时间逻辑保持主线不跑偏",
+        "对弱相关主干持续做统一回归，保持稳态"
+      ]
+    },
+    {
+      "name": "agent_registry_runs",
+      "passed": true,
+      "detail": {
+        "agent_count": 5,
+        "core_strategy": "卧龙先打穿，底座后放大。"
+      }
+    },
+    {
+      "name": "wolong_business_judgement_runs",
+      "passed": true,
+      "detail": {
+        "count": 2,
+        "conclusion": "卧龙 Agent 已具备最小业务判断力增强骨架，可对重点客户给出客户类型、业务阶段、风险等级、下一步动作与补问建议。"
+      }
+    }
+  ]
+}

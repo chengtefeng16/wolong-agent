@@ -1,0 +1,25 @@
+{
+  "pack_name": "wolong_rule_pack_v1",
+  "version": "2026-03-12",
+  "description": "Minimal rule knowledge pack for Wolong Agent",
+  "rules": [
+    {
+      "rule_id": "rule_001",
+      "title": "No absolute compliance commitment",
+      "content": "Do not give absolute compliance or import approval commitments when only preliminary analysis is available.",
+      "severity": "high"
+    },
+    {
+      "rule_id": "rule_002",
+      "title": "Emotion-aware response downgrade",
+      "content": "When customer emotion becomes tense or unstable, downgrade aggressive business push and prefer calmer wording or collaboration support.",
+      "severity": "medium"
+    },
+    {
+      "rule_id": "rule_003",
+      "title": "Delegation remains whitelist-first",
+      "content": "Automatic external sending remains under whitelist-first, low-risk-first, stage-aware governance.",
+      "severity": "high"
+    }
+  ]
+}

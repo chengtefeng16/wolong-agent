@@ -1,0 +1,33 @@
+{
+  "exported_at": "2026-03-15 21:09:06",
+  "export_name": "runtime_whatsapp_crm_export_v1",
+  "count": 1,
+  "items": [
+    {
+      "customer_id": "customer_demo_001",
+      "customer_name": "Demo Buyer",
+      "country": "Kazakhstan",
+      "bucket": "疑似车商",
+      "confidence": "medium",
+      "priority": "medium",
+      "needs_human_review": true,
+      "models": [
+        "prado",
+        "camry"
+      ],
+      "quantity": 5,
+      "destination_country": "kazakhstan",
+      "conditions": [
+        "used"
+      ],
+      "price_signals": [
+        "price"
+      ],
+      "business_summary": "客户关注车型：prado, camry；提到数量：5；目的地：kazakhstan；条件关键词：used；客户已出现价格/预算相关信号",
+      "business_stage": "已进入报价准备",
+      "next_action": "建议人工尽快报价，并确认车况、年份、付款方式与物流路线。",
+      "judgement_reason": "消息中提到数量 5，更接近批量采购。；命中车型关键词，说明需求较明确。；命中国家/目的地关键词，具备跨境业务上下文。",
+      "updated_at": "2026-03-15 21:07:49"
+    }
+  ]
+}

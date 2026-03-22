@@ -1,0 +1,36 @@
+{
+  "generated_at": "2026-03-14 18:09:02",
+  "timezone": "Asia/Shanghai",
+  "current_weekday": 5,
+  "current_time": "18:09:02",
+  "daily_night_summary": {
+    "time": "23:00",
+    "timezone": "Asia/Shanghai",
+    "action": "回读当天 constitution/checkpoint/handoff/markdown 更新，生成夜间收口摘要与次日计划",
+    "status": "scheduled"
+  },
+  "morning_start_check": {
+    "time": "开工前",
+    "timezone": "Asia/Shanghai",
+    "action": "优先查看前一晚夜间收口摘要、PROJECT_CHECKPOINT、CURRENT_HANDOFF、主宪法文件",
+    "status": "scheduled"
+  },
+  "weekly_report_delivery": {
+    "time": "Friday 17:00",
+    "timezone": "Asia/Shanghai",
+    "action": "交付两份正式总表（Word + PDF）",
+    "status": "scheduled"
+  },
+  "window_handoff": {
+    "trigger": "对话过长 / 页面卡顿 / 准备切换新窗口",
+    "action": "生成承上启下续接备忘",
+    "status": "always_required"
+  },
+  "next_priority_actions": [
+    "优先检查主线是否跑偏",
+    "优先检查 WhatsApp 真接入是否恢复可推进",
+    "优先继续补齐未稳主干",
+    "关键节点先固化、先备份、再继续开发"
+  ],
+  "conclusion": "时间逻辑层已从静态规则推进为可落盘执行状态骨架。"
+}

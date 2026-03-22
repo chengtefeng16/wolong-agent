@@ -1,0 +1,36 @@
+{
+  "config_name": "real_channel_adapter_config_v1",
+  "version": "2026-03-12",
+  "description": "Minimal config skeleton for Wolong real channel adapters",
+  "enabled": false,
+  "default_fallback_action": "human_review",
+  "supported_channels": [
+    {
+      "channel": "whatsapp",
+      "enabled": false,
+      "provider": "placeholder",
+      "timeout_seconds": 10,
+      "retryable_errors": [
+        "send_failed",
+        "rate_limited",
+        "provider_unavailable"
+      ]
+    },
+    {
+      "channel": "web_chat",
+      "enabled": false,
+      "provider": "placeholder",
+      "timeout_seconds": 10,
+      "retryable_errors": [
+        "send_failed",
+        "provider_unavailable"
+      ]
+    }
+  ],
+  "global_rules": {
+    "audit_required": true,
+    "manual_takeover_ready": true,
+    "rollback_required": true,
+    "whitelist_required": true
+  }
+}

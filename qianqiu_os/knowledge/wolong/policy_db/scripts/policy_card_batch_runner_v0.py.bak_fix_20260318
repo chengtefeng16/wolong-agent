@@ -1,0 +1,282 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+from pathlib import Path
+import importlib.util
+import sys
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+PIPELINE_PATH = SCRIPT_DIR / "policy_card_pipeline_v0.py"
+
+spec = importlib.util.spec_from_file_location("policy_card_pipeline_v0", PIPELINE_PATH)
+module = importlib.util.module_from_spec(spec)
+assert spec and spec.loader
+spec.loader.exec_module(module)
+
+SourceRecord = module.SourceRecord
+create_or_update_country_card = module.create_or_update_country_card
+
+COUNTRY_BATCH = [
+    {
+        "country_code": "DZ",
+        "country_name_en": "Algeria",
+        "country_name_zh": "阿尔及利亚",
+        "region_pack": "africa",
+        "source_records": [
+            SourceRecord(
+                source_id="dz_official_2023_decret_23_74",
+                source_type="official_pdf",
+                source_level="A",
+                title="Décret exécutif n° 23-74 du 20 février 2023",
+                language="fr",
+                status="structured_v1",
+                notes="样板卡来源"
+            )
+        ],
+        "patch": {
+            "status": "restricted",
+            "policy_version": "v0.2-structured-from-official-pdf",
+            "confidence_level": "high"
+        }
+    },
+    {
+        "country_code": "SA",
+        "country_name_en": "Saudi Arabia",
+        "country_name_zh": "沙特阿拉伯",
+        "region_pack": "middle_east",
+        "source_records": [
+            SourceRecord(
+                source_id="sa_zatca_vehicle_import_controls_v1",
+                source_type="official_web",
+                source_level="A",
+                title="ZATCA vehicle import controls",
+                language="en",
+                status="discovered",
+                notes="待进一步结构化"
+            )
+        ],
+        "patch": {
+            "status": "pending_verification",
+            "policy_version": "v0.1-batch-init",
+            "confidence_level": "medium"
+        }
+    },
+    {
+        "country_code": "AE",
+        "country_name_en": "United Arab Emirates",
+        "country_name_zh": "阿联酋",
+        "region_pack": "middle_east",
+        "source_records": [
+            SourceRecord(
+                source_id="ae_moiat_customs_vehicle_import_v1",
+                source_type="official_web",
+                source_level="A",
+                title="UAE vehicle import related official guidance",
+                language="en",
+                status="discovered",
+                notes="待进一步结构化"
+            )
+        ],
+        "patch": {
+            "status": "pending_verification",
+            "policy_version": "v0.1-batch-init",
+            "confidence_level": "medium"
+        }
+    },
+    {
+        "country_code": "GH",
+        "country_name_en": "Ghana",
+        "country_name_zh": "加纳",
+        "region_pack": "africa",
+        "source_records": [
+            SourceRecord(
+                source_id="gh_customs_import_guidance_v1",
+                source_type="official_or_high_trust_web",
+                source_level="B",
+                title="Ghana import guidance initial source",
+                language="en",
+                status="discovered",
+                notes="待进一步结构化"
+            )
+        ],
+        "patch": {
+            "status": "pending_verification",
+            "policy_version": "v0.1-batch-init",
+            "confidence_level": "medium"
+        }
+    },
+    {
+        "country_code": "MX",
+        "country_name_en": "Mexico",
+        "country_name_zh": "墨西哥",
+        "region_pack": "latin_america",
+        "source_records": [
+            SourceRecord(
+                source_id="mx_customs_vehicle_import_guidance_v1",
+                source_type="official_or_high_trust_web",
+                source_level="B",
+                title="Mexico vehicle import guidance initial source",
+                language="es",
+                status="discovered",
+                notes="待进一步结构化"
+            )
+        ],
+        "patch": {
+            "status": "pending_verification",
+            "policy_version": "v0.1-batch-init",
+            "confidence_level": "medium"
+        }
+    },
+    {
+        "country_code": "AM",
+        "country_name_en": "Armenia",
+        "country_name_zh": "亚美尼亚",
+        "region_pack": "central_asia",
+        "source_records": [
+            SourceRecord(
+                source_id="am_official_import_rules_v1",
+                source_type="official_or_high_trust_web",
+                source_level="B",
+                title="Armenia import rules initial source",
+                language="hy",
+                status="discovered",
+                notes="待进一步结构化"
+            )
+        ],
+        "patch": {
+            "status": "pending_verification",
+            "policy_version": "v0.1-batch-init",
+            "confidence_level": "medium"
+        }
+    },
+    {
+        "country_code": "KZ",
+        "country_name_en": "Kazakhstan",
+        "country_name_zh": "哈萨克斯坦",
+        "region_pack": "central_asia",
+        "source_records": [
+            SourceRecord(
+                source_id="kz_egov_adilet_import_rules_v1",
+                source_type="official_web",
+                source_level="A",
+                title="Kazakhstan import rules initial source",
+                language="ru",
+                status="discovered",
+                notes="待进一步结构化"
+            )
+        ],
+        "patch": {
+            "status": "pending_verification",
+            "policy_version": "v0.1-batch-init",
+            "confidence_level": "medium"
+        }
+    },
+    {
+        "country_code": "KG",
+        "country_name_en": "Kyrgyzstan",
+        "country_name_zh": "吉尔吉斯斯坦",
+        "region_pack": "central_asia",
+        "source_records": [
+            SourceRecord(
+                source_id="kg_import_rules_initial_v1",
+                source_type="official_or_high_trust_web",
+                source_level="B",
+                title="Kyrgyzstan import rules initial source",
+                language="ru",
+                status="discovered",
+                notes="待进一步结构化"
+            )
+        ],
+        "patch": {
+            "status": "pending_verification",
+            "policy_version": "v0.1-batch-init",
+            "confidence_level": "medium"
+        }
+    },
+    {
+        "country_code": "UZ",
+        "country_name_en": "Uzbekistan",
+        "country_name_zh": "乌兹别克斯坦",
+        "region_pack": "central_asia",
+        "source_records": [
+            SourceRecord(
+                source_id="uz_import_rules_initial_v1",
+                source_type="official_or_high_trust_web",
+                source_level="B",
+                title="Uzbekistan import rules initial source",
+                language="uz",
+                status="discovered",
+                notes="待进一步结构化"
+            )
+        ],
+        "patch": {
+            "status": "pending_verification",
+            "policy_version": "v0.1-batch-init",
+            "confidence_level": "medium"
+        }
+    },
+    {
+        "country_code": "TJ",
+        "country_name_en": "Tajikistan",
+        "country_name_zh": "塔吉克斯坦",
+        "region_pack": "central_asia",
+        "source_records": [
+            SourceRecord(
+                source_id="tj_import_rules_initial_v1",
+                source_type="official_or_high_trust_web",
+                source_level="B",
+                title="Tajikistan import rules initial source",
+                language="tg",
+                status="discovered",
+                notes="待进一步结构化"
+            )
+        ],
+        "patch": {
+            "status": "pending_verification",
+            "policy_version": "v0.1-batch-init",
+            "confidence_level": "medium"
+        }
+    },
+    {
+        "country_code": "TM",
+        "country_name_en": "Turkmenistan",
+        "country_name_zh": "土库曼斯坦",
+        "region_pack": "central_asia",
+        "source_records": [
+            SourceRecord(
+                source_id="tm_import_rules_initial_v1",
+                source_type="official_or_high_trust_web",
+                source_level="B",
+                title="Turkmenistan import rules initial source",
+                language="tk",
+                status="discovered",
+                notes="待进一步结构化"
+            )
+        ],
+        "patch": {
+            "status": "pending_verification",
+            "policy_version": "v0.1-batch-init",
+            "confidence_level": "medium"
+        }
+    }
+]
+
+def main() -> int:
+    written = []
+    for item in COUNTRY_BATCH:
+        path = create_or_update_country_card(
+            country_code=item["country_code"],
+            country_name_en=item["country_name_en"],
+            country_name_zh=item["country_name_zh"],
+            region_pack=item["region_pack"],
+            source_records=item["source_records"],
+            patch=item["patch"],
+        )
+        print(f"[OK] wrote {path.name}")
+        written.append(path.name)
+
+    print(f"[DONE] batch wrote {len(written)} country cards")
+    return 0
+
+if __name__ == "__main__":
+    raise SystemExit(main())

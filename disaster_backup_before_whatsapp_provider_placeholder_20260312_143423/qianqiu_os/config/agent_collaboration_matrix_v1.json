@@ -1,0 +1,63 @@
+{
+  "config_name": "agent_collaboration_matrix_v1",
+  "version": "2026-03-12",
+  "description": "Minimal collaboration matrix for AgentOS sibling-agent cooperation",
+  "agents": [
+    {
+      "agent_id": "wolong",
+      "role_type": "domain_service",
+      "primary_domain": "customer_business_execution",
+      "can_receive_support_from": ["fuxue", "fengchu", "fanli", "legal_guardian"],
+      "default_mode": "primary_owner"
+    },
+    {
+      "agent_id": "fuxue",
+      "role_type": "collaboration_support",
+      "primary_domain": "emotion_support_and_soft_guidance",
+      "can_support_to": ["wolong"],
+      "support_modes": ["emotional_support", "relationship_buffer", "tone_softening"],
+      "default_mode": "silent_until_triggered"
+    },
+    {
+      "agent_id": "fengchu",
+      "role_type": "collaboration_support",
+      "primary_domain": "strategy_advice",
+      "can_support_to": ["wolong"],
+      "support_modes": ["strategy_suggestion", "alternative_path"],
+      "default_mode": "silent_until_triggered"
+    },
+    {
+      "agent_id": "fanli",
+      "role_type": "collaboration_support",
+      "primary_domain": "resource_and_business_judgment",
+      "can_support_to": ["wolong"],
+      "support_modes": ["resource_advice", "commercial_judgment"],
+      "default_mode": "silent_until_triggered"
+    },
+    {
+      "agent_id": "legal_guardian",
+      "role_type": "governance_supervisor",
+      "primary_domain": "compliance_and_risk_guard",
+      "can_support_to": ["wolong", "fuxue", "fengchu", "fanli"],
+      "support_modes": ["compliance_note", "risk_warning", "escalation_advice"],
+      "default_mode": "silent_watch"
+    }
+  ],
+  "trigger_rules": [
+    {
+      "trigger_type": "emotion_shift",
+      "description": "Customer emotion becomes unstable or conversation atmosphere turns tense",
+      "support_agents": ["fuxue"]
+    },
+    {
+      "trigger_type": "strategy_deadlock",
+      "description": "Business path is blocked and alternative strategies are needed",
+      "support_agents": ["fengchu", "fanli"]
+    },
+    {
+      "trigger_type": "compliance_risk",
+      "description": "Potential legal, regulatory, promise-boundary or compliance risk appears",
+      "support_agents": ["legal_guardian"]
+    }
+  ]
+}

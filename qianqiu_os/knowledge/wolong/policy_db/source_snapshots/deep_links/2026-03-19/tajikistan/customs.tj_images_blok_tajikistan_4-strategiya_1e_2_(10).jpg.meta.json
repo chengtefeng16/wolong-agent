@@ -1,0 +1,14 @@
+{
+  "fetched_at": "2026-03-19T00:30:28.086085+00:00",
+  "domain": "customs.tj",
+  "request_url": "https://customs.tj/images/Blok_Tajikistan/4-strategiya/1e/2 (10).jpg",
+  "ok": false,
+  "status": 0,
+  "final_url": "https://customs.tj/images/Blok_Tajikistan/4-strategiya/1e/2 (10).jpg",
+  "content_type": "",
+  "content_length": 0,
+  "headers": {},
+  "error": "Exception: URL can't contain control characters. '/images/Blok_Tajikistan/4-strategiya/1e/2 (10).jpg' (found at least ' ')",
+  "fetch_mode": "standard_ssl",
+  "body_file": ""
+}

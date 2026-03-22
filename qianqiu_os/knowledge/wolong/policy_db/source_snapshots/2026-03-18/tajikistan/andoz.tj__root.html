@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-39023065-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-39023065-1');
+    </script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Кумитаи андоз - AndozTj</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/tailwind.css?v=rHcLCY0VZbLdb83yz15bLPezcnlFqHSV4N_tbHaxADs" />
+    <link href="/lib/font-awesome/css/all.min.css" rel="stylesheet" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <link href="/css/home.index.styles.css" rel="stylesheet" />
+    <link href="/css/videoplayer.styles.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div b-ja0z6lmgno class="container mx-auto min-h-screen">
+        
+
+<header class="headerMenu">
+    <div class="headerTop flex items-center justify-between">
+        <ul class="infoIcons flex w-1/2 justify-between">
+            <li class="flex items-center">
+                <img class="locationIcon" src="/img/icons/vectorlocationicon.svg" />
+                <form id="regionForm" method="post" class="form-horizontal" role="form" action="/Home/SetRegion?returnUrl=~%2F">
+                    <select id="regionSelector" name="regionId" onchange="this.form.submit();" class="hidden">
+                            <option value="1">&#x414;&#x443;&#x448;&#x430;&#x43D;&#x431;&#x435;</option>
+                            <option value="2">&#x412;&#x438;&#x43B;&#x43E;&#x44F;&#x442;&#x438; &#x421;&#x443;&#x493;&#x434;</option>
+                            <option value="3">&#x412;&#x438;&#x43B;&#x43E;&#x44F;&#x442;&#x438; &#x425;&#x430;&#x442;&#x43B;&#x43E;&#x43D;</option>
+                            <option value="4">&#x412;&#x438;&#x43B;&#x43E;&#x44F;&#x442;&#x438; &#x41C;&#x443;&#x445;&#x442;&#x43E;&#x440;&#x438; &#x41A;&#x4EF;&#x4B3;&#x438;&#x441;&#x442;&#x43E;&#x43D;&#x438; &#x411;&#x430;&#x434;&#x430;&#x445;&#x448;&#x43E;&#x43D;</option>
+                            <option value="5">&#x41D;&#x43E;&#x4B3;&#x438;&#x44F;&#x4B3;&#x43E;&#x438; &#x442;&#x43E;&#x431;&#x435;&#x438; &#x41C;&#x430;&#x440;&#x43A;&#x430;&#x437;&#x438; &#x4B6;&#x443;&#x43C;&#x4B3;&#x443;&#x440;&#x438;&#x438; &#x422;&#x43E;&#x4B7;&#x438;&#x43A;&#x438;&#x441;&#x442;&#x43E;&#x43D;</option>
+                    </select>
+                <input name="__RequestVerificationToken" type="hidden" value="CfDJ8E9KPCm02lxOhYwR5H-EpzOD6yV0qF_fekSxy06YmpTxM5XsaivaVBme6QQRkSPfAkEms0EhE2Rc7bQbLQ6sgoEAU2rFKMklJHsg8q8BpsKP7cRiufCTUlvmPH1nSkpAZFsO0U33urQYBI07TuhHd8g" /></form>
+
+                <div id="regionBtn" class="ml-2.5 flex cursor-pointer items-center justify-center bg-transparent">
+                    <span>&#x414;&#x443;&#x448;&#x430;&#x43D;&#x431;&#x435;</span>
+                    <i class="fa-solid fa-angle-down ml-3"></i>
+                </div>
+
+                <ul class="regionCustomSelect flex hidden flex-col bg-white p-4 text-sm">
+                    <li class="chooseRegionText mb-3 px-3.5 py-3 text-xs">Минтақаи худро интихоб кунед</li>
+                        <li class="regionOption cursor-pointer p-3.5" data-region-id="1">&#x414;&#x443;&#x448;&#x430;&#x43D;&#x431;&#x435;</li>
+                        <li class="regionOption cursor-pointer p-3.5" data-region-id="2">&#x412;&#x438;&#x43B;&#x43E;&#x44F;&#x442;&#x438; &#x421;&#x443;&#x493;&#x434;</li>
+                        <li class="regionOption cursor-pointer p-3.5" data-region-id="3">&#x412;&#x438;&#x43B;&#x43E;&#x44F;&#x442;&#x438; &#x425;&#x430;&#x442;&#x43B;&#x43E;&#x43D;</li>
+                        <li class="regionOption cursor-pointer p-3.5" data-region-id="4">&#x412;&#x438;&#x43B;&#x43E;&#x44F;&#x442;&#x438; &#x41C;&#x443;&#x445;&#x442;&#x43E;&#x440;&#x438; &#x41A;&#x4EF;&#x4B3;&#x438;&#x441;&#x442;&#x43E;&#x43D;&#x438; &#x411;&#x430;&#x434;&#x430;&#x445;&#x448;&#x43E;&#x43D;</li>
+                        <li class="regionOption cursor-pointer p-3.5" data-region-id="5">&#x41D;&#x43E;&#x4B3;&#x438;&#x44F;&#x4B3;&#x43E;&#x438; &#x442;&#x43E;&#x431;&#x435;&#x438; &#x41C;&#x430;&#x440;&#x43A;&#x430;&#x437;&#x438; &#x4B6;&#x443;&#x43C;&#x4B3;&#x443;&#x440;&#x438;&#x438; &#x422;&#x43E;&#x4B7;&#x438;&#x43A;&#x438;&#x441;&#x442;&#x43E;&#x43D;</li>
+                </ul>
+            </li>
+
+            <li class="leftIconBorder hidden items-center xl:flex">
+                <img class="phoneIcon" src="/img/icons/vectorphonicon.svg" />
+                <a class="ml-2.5" href="tel:+992372330686">+992 (372) 33 06 86</a>
+            </li>
+
+            <li class="leftIconBorder hidden items-center xl:flex">
+                <img class="msgIcon" src="/img/icons/vectormsgicon.svg" />
+                <a class="ml-2.5" href="mailto:info@andoz.tj">info@andoz.tj</a>
+            </li>
+
+        </ul>
+
+        <ul class="infoIcons flex w-1/2 justify-end xl:w-80 xl:justify-between">
+            <li class="flex items-center">
+                <div class="mr-5">
+                    <img id="searchBtn" class="w-4 cursor-pointer" src="/img/icons/searchicon.svg" />
+                    <div class="search-overlay fixed hidden h-screen w-screen">
+                        <form id="searchForm" class="search-form container mx-auto flex text-sm" method="get" role="form" action="/Search">
+                            <div class="search-input flex w-4/5">
+                                <img class="w-4 cursor-pointer" src="/img/icons/searchicon.svg" />
+                                <input id="searchQuery" name="searchQuery" type="search" placeholder="Информатсияи лозимаро ворид кунед" />
+                            </div>
+
+                            <div class="w-1/5">
+                                <button class="search-btn" type="submit">Ҷустуҷу</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="hidden xl:flex">
+                    
+
+
+<div title="Request culture provider:">
+    <form id="selectLanguage" method="post" class="form-horizontal" role="form" action="/Home/SetLanguage?returnUrl=~%2F">
+        <select id="selectLang" class="flex hidden items-center gap-2 bg-transparent cursor-pointer" name="culture" onchange="this.form.submit();" data-val="true" data-val-required="The Name field is required.">
+                <option class="langIcon" value="tg-Cyrl" selected="selected">
+                    <span>&#x422;&#x43E;&#x4B7;&#x438;&#x43A;&#x4E3;</span>
+                </option>
+                <option class="langIcon" value="ru-RU">
+                    <span>&#x420;&#x443;&#x441;&#x4E3;</span>
+                </option>
+                <option class="langIcon" value="en-US">
+                    <span>&#x410;&#x43D;&#x433;&#x43B;&#x438;&#x441;&#x4E3;</span>
+                </option>
+        </select>
+        <div class="lang-btn relative flex items-center cursor-pointer">
+                <span>Тоҷикӣ</span>
+                <img class="ml-2 w-6 h-6" src="/img/icons/tj.svg" />
+            <i class="fa-solid fa-angle-down ml-3"></i>
+            
+            <ul class="lang-menu hidden flex flex-col absolute bg-transparent rounded cursor-pointer">
+                <li data-lang="tg-Cyrl" class="flex rounded items-center p-3">
+                    <span>Тоҷикӣ</span>
+                    <img class="ml-2 w-6 h-6" src="/img/icons/tj.svg" />
+                </li>
+                <li data-lang="ru-RU" class="flex rounded items-center p-3">
+                    <span>Русӣ</span>
+                    <img class="ml-2 w-6 h-6" src="/img/icons/ru.svg" />
+                </li>
+                <li data-lang="en-US" class="flex rounded items-center p-3">
+                    <span>Англисӣ</span>
+                    <img class="ml-2 w-6 h-6" src="/img/icons/gb.svg" />
+                </li>
+            </ul>
+        </div>
+    <input name="__RequestVerificationToken" type="hidden" value="CfDJ8E9KPCm02lxOhYwR5H-EpzOD6yV0qF_fekSxy06YmpTxM5XsaivaVBme6QQRkSPfAkEms0EhE2Rc7bQbLQ6sgoEAU2rFKMklJHsg8q8BpsKP7cRiufCTUlvmPH1nSkpAZFsO0U33urQYBI07TuhHd8g" /></form>
+</div>
+                </div>
+            </li>
+
+            <li class="flex items-center">
+                <a class="flex items-center" href="https://office.andoz.tj/" target="_blank">
+                    <img class="w-3" src="/img/icons/lkperson.svg" />
+                    <span class="ml-2.5">
+                        Ҳуҷраи шахсӣ
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <nav class="nav-block flex items-center justify-between">
+        <a href="/">
+            <div class="logo flex">
+                <img src="/img/icons/gerb.svg" />
+
+                <div class="logo-text flex flex-col">
+                    <span class="uppercase">КУМИТАИ АНДОЗИ</span>
+                    <span>назди Ҳукумати</span>
+                    <span>Ҷумҳурии Тоҷикистон</span>
+                </div>
+            </div>
+        </a>
+
+
+        <ul class="ul-nav hidden xl:flex">
+            <li class="relative">
+                <button class="menu-btn-item" type="button" data-menu-name="qonun">Қонунгузорӣ</button>
+                <div class="nav-item absolute flex hidden flex-col" data-menu-name="qonun">
+                    <ul class="flex w-full flex-wrap py-2">
+                            <li class="w-1/2 py-2">
+                                <a href="/Legislation/Constitution" class="link-hover flex flex-col">
+                                    <h5>&#x41A;&#x43E;&#x43D;&#x441;&#x442;&#x438;&#x442;&#x443;&#x442;&#x441;&#x438;&#x44F;</h5>
+                                    <span class="menu-info-label">&#x41A;&#x43E;&#x43D;&#x441;&#x442;&#x438;&#x442;&#x443;&#x442;&#x441;&#x438;&#x44F; &#x4B6;&#x443;&#x43C;&#x4B3;&#x443;&#x440;&#x438;&#x438; &#x422;&#x43E;&#x4B7;&#x438;&#x43A;&#x438;&#x441;&#x442;&#x43E;&#x43D;</span>
+                                </a>
+                            </li>
+                            <li class="w-1/2 py-2">
+                                <a href="/Legislation/GovernmentStrategies" class="link-hover flex flex-col">
+                                    <h5>C&#x442;&#x440;&#x430;&#x442;&#x435;&#x433;&#x438;&#x44F;&#x438; &#x434;&#x430;&#x432;&#x43B;&#x430;&#x442;&#x4E3;</h5>
+                                    <span class="menu-info-label">&#x411;&#x430;&#x440;&#x43D;&#x43E;&#x43C;&#x430;&#x4B3;&#x43E; &#x432;&#x430; &#x441;&#x442;&#x440;&#x430;&#x442;&#x435;&#x433;&#x438;&#x44F;&#x438; &#x434;&#x430;&#x432;&#x43B;&#x430;&#x442;&#x4E3;</span>
+                                </a>
+                            </li>
+                            <li class="w-1/2 py-2">
+                                <a href="/Legislation/Laws" class="link-hover flex flex-col">
+                                    <h5>&#x49A;&#x43E;&#x43D;&#x443;&#x43D;&#x4B3;&#x43E;</h5>
+                                    <span class="menu-info-label">&#x49A;&#x43E;&#x43D;&#x443;&#x43D;&#x4B3;&#x43E;&#x438; &#x4B6;&#x443;&#x43C;&#x4B3;&#x443;&#x440;&#x438;&#x438; &#x422;&#x43E;&#x4B7;&#x438;&#x43A;&#x438;&#x441;&#x442;&#x43E;&#x43D;</span>
+                                </a>
+                            </li>
+                            <li class="w-1/2 py-2">
+                                <a href="/Legislation/TaxCode" class="link-hover flex flex-col">
+                                    <h5>&#x41A;&#x43E;&#x434;&#x435;&#x43A;&#x441;&#x438; &#x430;&#x43D;&#x434;&#x43E;&#x437;</h5>
+                                    <span class="menu-info-label">&#x41A;&#x43E;&#x434;&#x435;&#x43A;&#x441;&#x438; &#x430;&#x43D;&#x434;&#x43E;&#x437;&#x438; &#x4B6;&#x443;&#x43C;&#x4B3;&#x443;&#x440;&#x438;&#x438; &#x422;&#x43E;&#x4B7;&#x438;&#x43A;&#x438;&#x441;&#x442;&#x43E;&#x43D;</span>
+                                </a>
+                            </li>
+                            <li class="w-1/2 py-2">
+                                <a href="/Legislation/Decrees" class="link-hover flex flex-col">
+                                    <h5>&#x41F;&#x440;&#x435;&#x437;&#x438;&#x434;&#x435;&#x43D;&#x442;&#x438; &#x4B6;&#x422;</h5>
+                                    <span class="menu-info-label">&#x424;&#x430;&#x440;&#x43C;&#x43E;&#x43D;&#x4B3;&#x43E;&#x438; &#x41F;&#x440;&#x435;&#x437;&#x438;&#x434;&#x435;&#x43D;&#x442;&#x438; &#x4B6;&#x422;</span>
+                                </a>
+                            </li>
+                            <li class="w-1/2 py-2">
+                                <a href="/Legislation/Resolutions" class="link-hover flex flex-col">
+                                    <h5>&#x4B2;&#x443;&#x43A;&#x443;&#x43C;&#x430;&#x442;&#x438; &#x4B6;&#x422;</h5>
+                                    <span class="menu-info-label">&#x49A;&#x430;&#x440;&#x43E;&#x440;&#x4B3;&#x43E;&#x438; &#x4B2;&#x443;&#x43A;&#x443;&#x43C;&#x430;&#x442;&#x438; &#x4B6;&#x422;</span>
+                                </a>
+                            </li>
+                            <li class="w-1/2 py-2">
+                                <a href="/Legislation/CommitteeOrders" class="link-hover flex flex-col">
+                                    <h5>&#x41A;&#x443;&#x43C;&#x438;&#x442;&#x430;</h5>
+                                    <span class="menu-info-label">&#x424;&#x430;&#x440;&#x43C;&#x43E;&#x438;&#x448;&#x4B3;&#x43E;&#x438; &#x41A;&#x443;&#x43C;&#x438;&#x442;&#x430;</span>
+                                </a>
+                            </li>
+                            <li class="w-1/2 py-2">
+                                <a href="/Legislation/InternationalAgreements" class="link-hover flex flex-col">
+                                    <h5>&#x428;&#x430;&#x440;&#x442;&#x43D;&#x43E;&#x43C;&#x430;&#x4B3;&#x43E;</h5>
+                                    <span class="menu-info-label">&#x428;&#x430;&#x440;&#x442;&#x43D;&#x43E;&#x43C;&#x430;&#x4B3;&#x43E;&#x438; &#x431;&#x430;&#x439;&#x43D;&#x430;&#x43B;&#x43C;&#x438;&#x43B;&#x430;&#x43B;&#x4E3;</span>
+                                </a>
+                            </li>
+                            <li class="w-1/2 py-2">
+                                <a href="/Legislation/OtherCodes" class="link-hover flex flex-col">
+                                    <h5>&#x41A;&#x43E;&#x434;&#x435;&#x43A;&#x441;&#x4B3;&#x43E;</h5>
+                                    <span class="menu-info-label">&#x414;&#x438;&#x433;&#x430;&#x440; &#x43A;&#x43E;&#x434;&#x435;&#x43A;&#x441;&#x4B3;&#x43E;</span>
+                                </a>
+                            </li>
+                            <li class="w-1/2 py-2">
+                                <a href="/ForTaxpayer/InstructionsOld" class="link-hover flex flex-col">
+                                    <h5>&#x414;&#x430;&#x441;&#x442;&#x443;&#x440;&#x430;&#x43C;&#x430;&#x43B;&#x4B3;&#x43E;</h5>
+                                    <span class="menu-info-label">&#x414;&#x430;&#x441;&#x442;&#x443;&#x440;&#x430;&#x43C;&#x430;&#x43B;&#x4B3;&#x43E; (&#x442;&#x43E; &#x441;&#x43E;&#x43B;&#x438; 2022)</span>
+                                </a>
+                            </li>
+                            <li class="w-1/2 py-2">
+                                <a href="/ForTaxpayer/InstructionsNew" class="link-hover flex flex-col">
+                                    <h5>&#x414;&#x430;&#x441;&#x442;&#x443;&#x440;&#x430;&#x43C;&#x430;&#x43B;&#x4B3;&#x43E;</h5>
+                                    <span class="menu-info-label">&#x414;&#x430;&#x441;&#x442;&#x443;&#x440;&#x430;&#x43C;&#x430;&#x43B;&#x4B3;&#x43E; (&#x442;&#x430;&#x4B3;&#x440;&#x438;&#x440;&#x438; &#x43D;&#x430;&#x432;-&#x441;&#x43E;&#x43B;&#x438; 2022 )</span>
+                                </a>
+                            </li>
+                    </ul>
+
+                    <a class="info-lighter flex w-full justify-center rounded py-5" href="/Legislation/TaxCodeNewEdition">
+                        <div class="text-secondary flex w-fit items-center gap-x-5">
+                            <img src="/img/icons/bulb.svg" />Шарҳи муқаррароти Кодекси андоз дар таҳрири нав<i class="fa-solid fa-chevron-right"></i>
+                        </div>
+                    </a>
+
+                </div>
+            </li>
+            <li class="relative">
+                <button class="menu-btn-item" type="button" data-menu-name="baAndozSup">Ба андозсупорандагон</button>
+                <div class="nav-item absolute flex hidden flex-col" data-menu-name="baAndozSup">
+                    <ul class="flex w-full flex-wrap py-2">
+                            <li class="w-1/2 py-2">
+                                <a href="/ForTaxpayer/Appeals" class="link-hover flex flex-col">
+                                    <h5>&#x410;&#x440;&#x438;&#x437;&#x430;&#x4B3;&#x43E;</h5>
+                                    <span class="menu-info-label">&#x428;&#x430;&#x43A;&#x43B;&#x4B3;&#x43E;&#x438; &#x44D;&#x44A;&#x43B;&#x43E;&#x43C;&#x438;&#x44F;&#x438; &#x430;&#x43D;&#x434;&#x43E;&#x437;</span>
+                                </a>
+                            </li>
+                            <li class="w-1/2 py-2">
+                                <a href="/ForTaxpayer/DeclarationsNew" class="link-hover flex flex-col">
+                                    <h5>&#x42D;&#x44A;&#x43B;&#x43E;&#x43C;&#x438;&#x44F;</h5>
+                                    <span class="menu-info-label">&#x42D;&#x44A;&#x43B;&#x43E;&#x43C;&#x438;&#x44F;&#x4B3;&#x43E; (&#x442;&#x430;&#x4B3;&#x440;&#x438;&#x440;&#x438; &#x43D;&#x430;&#x432;-&#x441;&#x43E;&#x43B;&#x438; 2022 )</span>
+                                </a>
+                            </li>
+                            <li class="w-1/2 py-2">
+                                <a href="/ForTaxpayer/DeclarationsOld" class="link-hover flex flex-col">
+                                    <h5>&#x42D;&#x44A;&#x43B;&#x43E;&#x43C;&#x438;&#x44F;</h5>
+                                    <span class="menu-info-label">&#x42D;&#x44A;&#x43B;&#x43E;&#x43C;&#x438;&#x44F;&#x4B3;&#x43E; (&#x442;&#x43E; &#x441;&#x43E;&#x43B;&#x438; 2022)</span>
+                                </a>
+                            </li>
+                            <li class="w-1/2 py-2">
+                                <a href="/ForTaxpayer/Clarifications" class="link-hover flex flex-col">
+                                    <h5>&#x422;&#x430;&#x432;&#x437;&#x435;&#x4B3;&#x43E;&#x442;</h5>
+                                    <span class="menu-info-label">&#x425;&#x443;&#x441;&#x443;&#x441;&#x438;&#x44F;&#x442;&#x4B3;&#x43E;&#x438; &#x41A;&#x43E;&#x434;&#x435;&#x43A;&#x441;&#x438; &#x430;&#x43D;&#x434;&#x43E;&#x437;</span>
+                                </a>
+                            </li>
+                            <li class="w-1/2 py-2">
+                                <a href="/ForTaxpayer/TaxRates" class="link-hover flex flex-col">
+                                    <h5>&#x41C;&#x435;&#x44A;&#x451;&#x440;&#x4B3;&#x43E;&#x438; &#x430;&#x43D;&#x434;&#x43E;&#x437;</h5>
+                                    <span class="menu-info-label">&#x425;&#x430;&#x43C;&#x430;&#x438; &#x43D;&#x430;&#x43C;&#x443;&#x434;&#x445;&#x43E;&#x438; &#x43C;&#x435;&#x44A;&#x451;&#x440;&#x438; &#x430;&#x43D;&#x434;&#x43E;&#x437;</span>
+                                </a>
+                            </li>
+                            <li class="w-1/2 py-2">
+                                <a href="../docs/kodex/EditKodexTJ.pdf" class="link-hover flex flex-col">
+                                    <h5>&#x49A;&#x430;&#x440;&#x43E;&#x440;&#x438; &#x4B2;&#x443;&#x43A;&#x443;&#x43C;&#x430;&#x442;&#x438; &#x4B6;&#x422;</h5>
+                                    <span class="menu-info-label">&#x422;&#x430;&#x493;&#x439;&#x438;&#x440;&#x43E;&#x442; &#x431;&#x430; &#x49B;&#x430;&#x440;&#x43E;&#x440;&#x438; &#x4B2;&#x443;&#x43A;&#x443;&#x43C;&#x430;&#x442;&#x438; &#x4B6;&#x422;</span>
+                                </a>
+                            </li>
+                            <li class="w-1/2 py-2">
+                                <a href="/ForTaxpayer/RateOurServices" class="link-hover flex flex-col">
+                                    <h5>C&#x438;&#x444;&#x430;&#x442;&#x438; &#x445;&#x438;&#x437;&#x43C;&#x430;&#x442;&#x440;&#x430;&#x441;&#x43E;&#x43D;&#x4E3;</h5>
+                                    <span class="menu-info-label">&#x411;&#x430;&#x4B3;&#x43E;&#x433;&#x443;&#x437;&#x43E;&#x440;&#x438;&#x438; &#x441;&#x438;&#x444;&#x430;&#x442;&#x438; &#x445;&#x438;&#x437;&#x43C;&#x430;&#x442;&#x440;&#x430;&#x441;&#x43E;&#x43D;&#x4E3;</span>
+                                </a>
+                            </li>
+                            <li class="w-1/2 py-2">
+                                <a href="/ForTaxpayer/StandartiYagona2024" class="link-hover flex flex-col">
+                                    <h5>&#x421;&#x442;&#x430;&#x43D;&#x434;&#x430;&#x440;&#x442;&#x438; &#x44F;&#x433;&#x43E;&#x43D;&#x430;&#x438; &#x445;&#x438;&#x437;&#x43C;&#x430;&#x442;&#x440;&#x430;&#x441;&#x43E;&#x43D;&#x4E3;</h5>
+                                    <span class="menu-info-label">&#x421;&#x442;&#x430;&#x43D;&#x434;&#x430;&#x440;&#x442;&#x438; &#x44F;&#x433;&#x43E;&#x43D;&#x430;&#x438; &#x445;&#x438;&#x437;&#x43C;&#x430;&#x442;&#x440;&#x430;&#x441;&#x43E;&#x43D;&#x4E3; &#x431;&#x430; &#x430;&#x43D;&#x434;&#x43E;&#x437;&#x441;&#x443;&#x43F;&#x43E;&#x440;&#x430;&#x43D;&#x434;&#x430;&#x433;&#x43E;&#x43D;</span>
+                                </a>
+                            </li>
+                    </ul>
+
+                    <a class="info-lighter flex w-full justify-center rounded py-5" href="/ForTaxpayer">
+                        <div class="text-secondary flex w-fit items-center gap-x-5">
+                            <img src="/img/icons/bulb.svg" />Хизматрасониҳои электронӣ<i class="fa-solid fa-chevron-right"></i>
+                        </div>
+                    </a>
+
+                </div>
+            </li>
+            <li class="relative">
+                <button class="menu-btn-item" type="button" data-menu-name="baqaidgiri">Бақайдгирии давлатӣ</button>
+                <div class="nav-item absolute flex hidden flex-col" data-menu-name="baqaidgiri">
+                    <ul class="flex w-full flex-wrap py-2">
+                            <li class="w-1/2 py-2">
+                                <a href="/Registration/Application" class="link-hover flex flex-col">
+                                    <h5>&#x428;&#x430;&#x43A;&#x43B;&#x438; &#x430;&#x440;&#x438;&#x437;&#x430;&#x4B3;&#x43E;</h5>
+                                    <span class="menu-info-label">&#x428;&#x430;&#x43A;&#x43B;&#x438; &#x430;&#x440;&#x438;&#x437;&#x430;&#x4B3;&#x43E;</span>
+                                </a>
+                            </li>
+                    </ul>
+
+                    <a class="info-lighter flex w-full justify-center rounded py-5" href="/Registration">
+                        <div class="text-secondary flex w-fit items-center gap-x-5">
+                            <img src="/img/icons/bulb.svg" />Бақайдгирӣ<i class="fa-solid fa-chevron-right"></i>
+                        </div>
+                    </a>
+
+                </div>
+            </li>
+            <li class="relative">
+                <button class="menu-btn-item" type="button" data-menu-name="kumita">Кумита</button>
+                <div class="nav-item absolute flex hidden flex-col" data-menu-name="kumita">
+                    
+                    <ul class="flex w-full flex-wrap py-2">
+                            <li class="w-1/2 py-2">
+                                <a href="../docs/kumita/&#x41D;&#x438;&#x437;&#x43E;&#x43C;&#x43D;&#x43E;&#x43C;&#x430;.pdf" class="link-hover flex flex-col">
+                                    <h5>&#x41D;&#x438;&#x437;&#x43E;&#x43C;&#x43D;&#x43E;&#x43C;&#x430;</h5>
+                                    <span class="menu-info-label">&#x41D;&#x438;&#x437;&#x43E;&#x43C;&#x43D;&#x43E;&#x43C;&#x430;</span>
+                                </a>
+                            </li>
+                            <li class="w-1/2 py-2">
+                                <a href="/TaxCommittee/Management" class="link-hover flex flex-col">
+                                    <h5>&#x420;&#x43E;&#x4B3;&#x431;&#x430;&#x440;&#x438;&#x44F;&#x442;</h5>
+                                    <span class="menu-info-label">&#x420;&#x43E;&#x4B3;&#x431;&#x430;&#x440;&#x438;&#x44F;&#x442;&#x438; &#x41A;&#x443;&#x43C;&#x438;&#x442;&#x430;&#x438; &#x430;&#x43D;&#x434;&#x43E;&#x437;</span>
+                                </a>
+                            </li>
+                            <li class="w-1/2 py-2">
+                                <a href="/TaxCommittee/InterCollab" class="link-hover flex flex-col">
+                                    <h5>&#x4B2;&#x430;&#x43C;&#x43A;&#x43E;&#x440;&#x438;&#x438; &#x431;&#x430;&#x439;&#x43D;&#x430;&#x43B;&#x43C;&#x438;&#x43B;&#x430;&#x43B;&#x4E3;</h5>
+                                    <span class="menu-info-label">&#x41C;&#x443;&#x43D;&#x43E;&#x441;&#x438;&#x431;&#x430;&#x442;&#x4B3;&#x43E; &#x432;&#x430; &#x430;&#x43D;&#x434;&#x43E;&#x437;&#x431;&#x430;&#x43D;&#x434;&#x438;</span>
+                                </a>
+                            </li>
+                    </ul>
+
+                    <a class="info-lighter flex w-full justify-center rounded py-5" href="/TaxCommittee/Contacts">
+                        <div class="text-secondary flex w-fit items-center gap-x-5">
+                            <img src="/img/icons/bulb.svg" />Тамос<i class="fa-solid fa-chevron-right"></i>
+                        </div>
+                    </a>
+
+                </div>
+            </li>
+            <li class="relative">
+                <a class="menu-btn-item block" type="button" href="/President">Президенти ҶТ</a>
+            </li>
+            <li class="relative">
+                <button class="menu-btn-item" type="button" data-menu-name="6">Тоҷикистон - мамлакати сайёҳӣ</button>
+                <div class="nav-item absolute flex hidden flex-col" data-menu-name="6">
+                    <ul class="flex w-full flex-wrap py-2">
+                            <li class="w-1/2 py-2">
+                                <a href="/Tajikistan/TouristPlaces" class="link-hover flex flex-col">
+                                    <h5>&#x421;&#x430;&#x439;&#x451;&#x4B3;&#x4E3; &#x434;&#x430;&#x440; &#x422;&#x43E;&#x4B7;&#x438;&#x43A;&#x438;&#x441;&#x442;&#x43E;&#x43D;</h5>
+                                    <span class="menu-info-label">&#x412;&#x438;&#x434;&#x435;&#x43E;&#x438; &#x441;&#x430;&#x439;&#x451;&#x4B3;&#x4E3;</span>
+                                </a>
+                            </li>
+                            <li class="w-1/2 py-2">
+                                <a href="/Tajikistan/OutstandingPersons" class="link-hover flex flex-col">
+                                    <h5>&#x428;&#x430;&#x445;&#x441;&#x43E;&#x43D;&#x438; &#x431;&#x430;&#x440;&#x4B7;&#x430;&#x441;&#x442;&#x430;&#x438; &#x422;&#x43E;&#x4B7;&#x438;&#x43A;&#x438;&#x441;&#x442;&#x43E;&#x43D;</h5>
+                                    <span class="menu-info-label">&#x422;&#x430;&#x440;&#x4B7;&#x443;&#x43C;&#x430;&#x438; &#x4B3;&#x43E;&#x43B;</span>
+                                </a>
+                            </li>
+                    </ul>
+
+                    <a class="info-lighter flex w-full justify-center rounded py-5" href="/Tajikistan">
+                        <div class="text-secondary flex w-fit items-center gap-x-5">
+                            <img src="/img/icons/bulb.svg" />Ҷойҳои тамошобоб<i class="fa-solid fa-chevron-right"></i>
+                        </div>
+                    </a>
+                </div>
+            </li>
+        </ul>
+
+
+        <div id="burgerBtn" class="cursor-pointer p-6 xl:hidden" data-menu-name="buregerMobMenu">
+            <img src="/img/icons/burgermenu.svg" />
+        </div>
+
+        <div class="mobile-nav flex hidden flex-col justify-between xl:hidden" data-menu-name="buregerMobMenu">
+            <ul class="flex flex-col font-medium">
+                <li class="mb-5 flex">
+                    <img class="w-8" src="/img/icons/gerb.svg" />
+                    <div class="ml-4 flex flex-col">
+                        <span class="text-sm uppercase">КУМИТАИ АНДОЗИ</span>
+                        <span class="text-xs font-normal">назди Ҳукумати Ҷумҳурии Тоҷикистон</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="mob-menu-links links-with-sub cursor-pointer" data-menu-name="qonun">Қонунгузорӣ <i class="fa-solid fa-caret-down ml-3"></i></div>
+                    <ul class="sub-menu-mob ml-6 hidden" data-menu-name="qonun">
+                            <li><a class="mob-menu-links" href="/Legislation/Constitution">&#x41A;&#x43E;&#x43D;&#x441;&#x442;&#x438;&#x442;&#x443;&#x442;&#x441;&#x438;&#x44F;</a></li>
+                            <li><a class="mob-menu-links" href="/Legislation/GovernmentStrategies">C&#x442;&#x440;&#x430;&#x442;&#x435;&#x433;&#x438;&#x44F;&#x438; &#x434;&#x430;&#x432;&#x43B;&#x430;&#x442;&#x4E3;</a></li>
+                            <li><a class="mob-menu-links" href="/Legislation/Laws">&#x49A;&#x43E;&#x43D;&#x443;&#x43D;&#x4B3;&#x43E;</a></li>
+                            <li><a class="mob-menu-links" href="/Legislation/TaxCode">&#x41A;&#x43E;&#x434;&#x435;&#x43A;&#x441;&#x438; &#x430;&#x43D;&#x434;&#x43E;&#x437;</a></li>
+                            <li><a class="mob-menu-links" href="/Legislation/Decrees">&#x41F;&#x440;&#x435;&#x437;&#x438;&#x434;&#x435;&#x43D;&#x442;&#x438; &#x4B6;&#x422;</a></li>
+                            <li><a class="mob-menu-links" href="/Legislation/Resolutions">&#x4B2;&#x443;&#x43A;&#x443;&#x43C;&#x430;&#x442;&#x438; &#x4B6;&#x422;</a></li>
+                            <li><a class="mob-menu-links" href="/Legislation/CommitteeOrders">&#x41A;&#x443;&#x43C;&#x438;&#x442;&#x430;</a></li>
+                            <li><a class="mob-menu-links" href="/Legislation/InternationalAgreements">&#x428;&#x430;&#x440;&#x442;&#x43D;&#x43E;&#x43C;&#x430;&#x4B3;&#x43E;</a></li>
+                            <li><a class="mob-menu-links" href="/Legislation/OtherCodes">&#x41A;&#x43E;&#x434;&#x435;&#x43A;&#x441;&#x4B3;&#x43E;</a></li>
+                            <li><a class="mob-menu-links" href="/ForTaxpayer/InstructionsOld">&#x414;&#x430;&#x441;&#x442;&#x443;&#x440;&#x430;&#x43C;&#x430;&#x43B;&#x4B3;&#x43E;</a></li>
+                            <li><a class="mob-menu-links" href="/ForTaxpayer/InstructionsNew">&#x414;&#x430;&#x441;&#x442;&#x443;&#x440;&#x430;&#x43C;&#x430;&#x43B;&#x4B3;&#x43E;</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="mob-menu-links links-with-sub cursor-pointer" data-menu-name="baAndozSup">Ба андозсупорандагон <i class="fa-solid fa-caret-down ml-3"></i></div>
+                    <ul class="sub-menu-mob ml-6 hidden" data-menu-name="baAndozSup">
+                            <li><a class="mob-menu-links" href="/ForTaxpayer/Appeals">&#x410;&#x440;&#x438;&#x437;&#x430;&#x4B3;&#x43E;</a></li>
+                            <li><a class="mob-menu-links" href="/ForTaxpayer/DeclarationsNew">&#x42D;&#x44A;&#x43B;&#x43E;&#x43C;&#x438;&#x44F;</a></li>
+                            <li><a class="mob-menu-links" href="/ForTaxpayer/DeclarationsOld">&#x42D;&#x44A;&#x43B;&#x43E;&#x43C;&#x438;&#x44F;</a></li>
+                            <li><a class="mob-menu-links" href="/ForTaxpayer/Clarifications">&#x422;&#x430;&#x432;&#x437;&#x435;&#x4B3;&#x43E;&#x442;</a></li>
+                            <li><a class="mob-menu-links" href="/ForTaxpayer/TaxRates">&#x41C;&#x435;&#x44A;&#x451;&#x440;&#x4B3;&#x43E;&#x438; &#x430;&#x43D;&#x434;&#x43E;&#x437;</a></li>
+                            <li><a class="mob-menu-links" href="../docs/kodex/EditKodexTJ.pdf">&#x49A;&#x430;&#x440;&#x43E;&#x440;&#x438; &#x4B2;&#x443;&#x43A;&#x443;&#x43C;&#x430;&#x442;&#x438; &#x4B6;&#x422;</a></li>
+                            <li><a class="mob-menu-links" href="/ForTaxpayer/RateOurServices">C&#x438;&#x444;&#x430;&#x442;&#x438; &#x445;&#x438;&#x437;&#x43C;&#x430;&#x442;&#x440;&#x430;&#x441;&#x43E;&#x43D;&#x4E3;</a></li>
+                            <li><a class="mob-menu-links" href="/ForTaxpayer/StandartiYagona2024">&#x421;&#x442;&#x430;&#x43D;&#x434;&#x430;&#x440;&#x442;&#x438; &#x44F;&#x433;&#x43E;&#x43D;&#x430;&#x438; &#x445;&#x438;&#x437;&#x43C;&#x430;&#x442;&#x440;&#x430;&#x441;&#x43E;&#x43D;&#x4E3;</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="mob-menu-links links-with-sub cursor-pointer" data-menu-name="baqaidgiri">Бақайдгирии давлатӣ <i class="fa-solid fa-caret-down ml-3"></i></div>
+                    <ul class="sub-menu-mob ml-6 hidden" data-menu-name="baqaidgiri">
+                            <li><a class="mob-menu-links" href="/Registration/Application">&#x428;&#x430;&#x43A;&#x43B;&#x438; &#x430;&#x440;&#x438;&#x437;&#x430;&#x4B3;&#x43E;</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="mob-menu-links links-with-sub cursor-pointer" data-menu-name="kumita">Кумита <i class="fa-solid fa-caret-down ml-3"></i></div>
+                    <ul class="sub-menu-mob ml-6 hidden" data-menu-name="kumita">
+                            <li><a class="mob-menu-links" href="../docs/kumita/&#x41D;&#x438;&#x437;&#x43E;&#x43C;&#x43D;&#x43E;&#x43C;&#x430;.pdf">&#x41D;&#x438;&#x437;&#x43E;&#x43C;&#x43D;&#x43E;&#x43C;&#x430;</a></li>
+                            <li><a class="mob-menu-links" href="/TaxCommittee/Management">&#x420;&#x43E;&#x4B3;&#x431;&#x430;&#x440;&#x438;&#x44F;&#x442;</a></li>
+                            <li><a class="mob-menu-links" href="/TaxCommittee/InterCollab">&#x4B2;&#x430;&#x43C;&#x43A;&#x43E;&#x440;&#x438;&#x438; &#x431;&#x430;&#x439;&#x43D;&#x430;&#x43B;&#x43C;&#x438;&#x43B;&#x430;&#x43B;&#x4E3;</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="mob-menu-links links-with-sub cursor-pointer" href="/President">Президенти ҶТ</a>
+                </li>
+                <li>
+                    <div class="mob-menu-links links-with-sub cursor-pointer" data-menu-name="6">Тоҷикистон - мамлакати сайёҳӣ <i class="fa-solid fa-caret-down ml-3"></i></div>
+                    <ul class="sub-menu-mob ml-6 hidden" data-menu-name="6">
+                            <li><a class="mob-menu-links" href="/Tajikistan/TouristPlaces">&#x421;&#x430;&#x439;&#x451;&#x4B3;&#x4E3; &#x434;&#x430;&#x440; &#x422;&#x43E;&#x4B7;&#x438;&#x43A;&#x438;&#x441;&#x442;&#x43E;&#x43D;</a></li>
+                            <li><a class="mob-menu-links" href="/Tajikistan/OutstandingPersons">&#x428;&#x430;&#x445;&#x441;&#x43E;&#x43D;&#x438; &#x431;&#x430;&#x440;&#x4B7;&#x430;&#x441;&#x442;&#x430;&#x438; &#x422;&#x43E;&#x4B7;&#x438;&#x43A;&#x438;&#x441;&#x442;&#x43E;&#x43D;</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="mob-menu-langSelector text-xs">
+                        
+
+
+<div title="Request culture provider:">
+    <form id="selectLanguage" method="post" class="form-horizontal" role="form" action="/Home/SetLanguage?returnUrl=~%2F">
+        <select id="selectLang" class="flex hidden items-center gap-2 bg-transparent cursor-pointer" name="culture" onchange="this.form.submit();" data-val="true" data-val-required="The Name field is required.">
+                <option class="langIcon" value="tg-Cyrl" selected="selected">
+                    <span>&#x422;&#x43E;&#x4B7;&#x438;&#x43A;&#x4E3;</span>
+                </option>
+                <option class="langIcon" value="ru-RU">
+                    <span>&#x420;&#x443;&#x441;&#x4E3;</span>
+                </option>
+                <option class="langIcon" value="en-US">
+                    <span>&#x410;&#x43D;&#x433;&#x43B;&#x438;&#x441;&#x4E3;</span>
+                </option>
+        </select>
+        <div class="lang-btn relative flex items-center cursor-pointer">
+                <span>Тоҷикӣ</span>
+                <img class="ml-2 w-6 h-6" src="/img/icons/tj.svg" />
+            <i class="fa-solid fa-angle-down ml-3"></i>
+            
+            <ul class="lang-menu hidden flex flex-col absolute bg-transparent rounded cursor-pointer">
+                <li data-lang="tg-Cyrl" class="flex rounded items-center p-3">
+                    <span>Тоҷикӣ</span>
+                    <img class="ml-2 w-6 h-6" src="/img/icons/tj.svg" />
+                </li>
+                <li data-lang="ru-RU" class="flex rounded items-center p-3">
+                    <span>Русӣ</span>
+                    <img class="ml-2 w-6 h-6" src="/img/icons/ru.svg" />
+                </li>
+                <li data-lang="en-US" class="flex rounded items-center p-3">
+                    <span>Англисӣ</span>
+                    <img class="ml-2 w-6 h-6" src="/img/icons/gb.svg" />
+                </li>
+            </ul>
+        </div>
+    <input name="__RequestVerificationToken" type="hidden" value="CfDJ8E9KPCm02lxOhYwR5H-EpzOD6yV0qF_fekSxy06YmpTxM5XsaivaVBme6QQRkSPfAkEms0EhE2Rc7bQbLQ6sgoEAU2rFKMklJHsg8q8BpsKP7cRiufCTUlvmPH1nSkpAZFsO0U33urQYBI07TuhHd8g" /></form>
+</div>
+                    </div>
+                </li>
+            </ul>
+
+            <ul>
+                <li class="flex cursor-pointer">
+                    <a class="mob-menu-links flex items-center" href="tel:+992372330686">
+                        <img class="w-3" src="/img/icons/vectorphonicon.svg" />
+                        <span class="ml-2.5 text-xs">+992 (372) 33 06 86</span>
+                    </a>
+                </li>
+
+                <li class="flex cursor-pointer">
+                    <a class="mob-menu-links flex items-center" href="mailto:info@andoz.tj">
+                        <img class="w-3" src="/img/icons/vectormsgicon.svg" />
+                        <span class="ml-2.5 text-xs">info@andoz.tj</span>
+                    </a>
+                </li>
+
+                <li class="flex cursor-pointer">
+                    <a class="mob-menu-links flex items-center" href="https://office.andoz.tj/" target="_blank">
+                        <img class="w-3" src="/img/icons/lkperson.svg" />
+                        <span class="ml-2.5 text-xs">Ҳуҷраи шахсӣ</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+
+
+
+
+
+
+
+
+        <main b-ja0z6lmgno role="main" class="pb-3">
+            
+
+
+
+<a href="/President">
+    <div class="president group/president mt-3 flex flex-col items-end justify-around px-5 py-4 md:flex-row md:items-center md:px-28">
+        <div class="text-xs font-medium">«Мақсади асосии сиёсати андозу буҷет сафарбар намудан ва самаранок истифода бурдани захираҳои молияи давлатӣ ҷиҳати ноилшавӣ ба ҳадафҳои рушди иҷтимоиву иқтисодии кишвар мебошад»</div>
+        <div class="secondary-text-color mt-2.5 whitespace-nowrap pl-4 text-base font-medium md:mt-0">
+            <span class="mr-3">Эмомалӣ Раҳмон</span>
+            <i class="fa-solid fa-chevron-right duration-500 group-hover/president:translate-x-2"></i>
+        </div>
+    </div>
+</a>
+
+
+    <div class="flex cursor-pointer flex-col justify-between lg:flex-row">
+        
+                <div class="fizLica group/fizLica relative mt-3 flex w-full items-center justify-between px-8 lg:w-1/4">
+                    <a href="https://office.andoz.tj/" class="flex w-full items-center justify-between">
+                        <div>
+                            <h3 class="text-lg md:text-2xl">&#x428;&#x430;&#x445;&#x441;&#x43E;&#x43D;&#x438; &#x432;&#x43E;&#x49B;&#x435;&#x4E3;</h3>
+                            <span class="text-sm font-bold">&#x4B2;&#x443;&#x4B7;&#x440;&#x430;&#x438; &#x448;&#x430;&#x445;&#x441;&#x4E3; <i class="fa-solid fa-arrow-right ml-3 text-xs duration-500 group-hover/fizLica:translate-x-2"></i></span>
+                        </div>
+                        <img src="/img/fizlica.png" alt="image"/>
+                    </a>
+                        <ul class="LicaSubMenu absolute hidden w-full bg-white py-4 pl-8 text-sm font-medium group-hover/fizLica:block">
+                                <li> 
+                                    <a href="/ForTaxpayer/ePayment">
+                                        <i class="fa-solid fa-credit-card mr-4 w-4"></i> &#x41F;&#x430;&#x440;&#x434;&#x43E;&#x445;&#x442;&#x438; &#x430;&#x43D;&#x434;&#x43E;&#x437;&#x4B3;&#x43E; &#x432;&#x430; &#x431;&#x43E;&#x4B7;&#x4B3;&#x43E;
+                                    </a>
+                                </li>
+                                <li> 
+                                    <a href="/TaxCommittee/AccountRegistration">
+                                        <i class="fa-solid fa-credit-card mr-4 w-4"></i> &#x411;&#x430;&#x49B;&#x430;&#x439;&#x434;&#x433;&#x438;&#x440;&#x438;&#x438; &#x4B3;&#x443;&#x4B7;&#x440;&#x430;&#x438; &#x448;&#x430;&#x445;&#x441;&#x4E3;
+                                    </a>
+                                </li>
+                                <li> 
+                                    <a href="/ForTaxpayer/getInn">
+                                        <i class="fa-solid fa-credit-card mr-4 w-4"></i> &#x411;&#x430;&#x4B3;&#x438;&#x441;&#x43E;&#x431;&#x433;&#x438;&#x440;&#x438;&#x438; &#x420;&#x41C;&#x410;
+                                    </a>
+                                </li>
+                                <li> 
+                                    <a href="/TaxCommittee/TaxCalculator">
+                                        <i class="fa-solid fa-credit-card mr-4 w-4"></i> &#x4B2;&#x438;&#x441;&#x43E;&#x431;&#x43A;&#x443;&#x43D;&#x430;&#x43A;&#x438; &#x430;&#x43D;&#x434;&#x43E;&#x437;
+                                    </a>
+                                </li>
+                                <li> 
+                                    <a href="/ForTaxpayer/Index">
+                                        <i class="fa-solid fa-credit-card mr-4 w-4"></i> &#x4B2;&#x430;&#x43C;&#x430;&#x438; &#x445;&#x438;&#x437;&#x43C;&#x430;&#x442;&#x440;&#x430;&#x441;&#x43E;&#x43D;&#x438;&#x4B3;&#x43E;&#x438; &#x44D;&#x43B;&#x435;&#x43A;&#x442;&#x440;&#x43E;&#x43D;&#x4E3;
+                                    </a>
+                                </li>
+                        </ul>
+                </div>
+                <div class="ipLica group/ipLica relative mt-3 flex w-full items-center justify-between px-8 lg:w-1/4">
+                    <a href="https://office.andoz.tj/" class="flex w-full items-center justify-between">
+                        <div>
+                            <h3 class="text-lg md:text-2xl">&#x421;&#x43E;&#x4B3;&#x438;&#x431;&#x43A;&#x43E;&#x440;&#x43E;&#x43D;&#x438; &#x438;&#x43D;&#x444;&#x438;&#x440;&#x43E;&#x434;&#x4E3;</h3>
+                            <span class="text-sm font-bold">&#x4B2;&#x443;&#x4B7;&#x440;&#x430;&#x438; &#x448;&#x430;&#x445;&#x441;&#x4E3; <i class="fa-solid fa-arrow-right ml-3 text-xs duration-500 group-hover/ipLica:translate-x-2"></i></span>
+                        </div>
+                        <img src="/img/ip.png" alt="image"/>
+                    </a>
+                        <ul class="LicaSubMenu absolute hidden w-full bg-white py-4 pl-8 text-sm font-medium group-hover/ipLica:block">
+                                <li> 
+                                    <a href="/ForTaxpayer/ePayment">
+                                        <i class="fa-solid fa-credit-card mr-4 w-4"></i> &#x41F;&#x430;&#x440;&#x434;&#x43E;&#x445;&#x442;&#x438; &#x430;&#x43D;&#x434;&#x43E;&#x437;&#x4B3;&#x43E; &#x432;&#x430; &#x431;&#x43E;&#x4B7;&#x4B3;&#x43E;
+                                    </a>
+                                </li>
+                                <li> 
+                                    <a href="/TaxCommittee/AccountRegistration">
+                                        <i class="fa-solid fa-credit-card mr-4 w-4"></i> &#x411;&#x430;&#x49B;&#x430;&#x439;&#x434;&#x433;&#x438;&#x440;&#x438;&#x438; &#x4B3;&#x443;&#x4B7;&#x440;&#x430;&#x438; &#x448;&#x430;&#x445;&#x441;&#x4E3;
+                                    </a>
+                                </li>
+                                <li> 
+                                    <a href="/ForTaxpayer/UnifiedStateRegister">
+                                        <i class="fa-solid fa-credit-card mr-4 w-4"></i> &#x424;&#x435;&#x4B3;&#x440;&#x438;&#x441;&#x442;&#x438; &#x44F;&#x433;&#x43E;&#x43D;&#x430;&#x438; &#x434;&#x430;&#x432;&#x43B;&#x430;&#x442;&#x4E3;
+                                    </a>
+                                </li>
+                                <li> 
+                                    <a href="/ForTaxpayer/zapros_patent">
+                                        <i class="fa-solid fa-credit-card mr-4 w-4"></i> &#x410;&#x440;&#x438;&#x437;&#x430;&#x438; &#x442;&#x430;&#x442;&#x431;&#x438;&#x49B;&#x438; &#x438;&#x43C;&#x442;&#x438;&#x451;&#x437;&#x438; &#x421;&#x418; (&#x41F;&#x410;&#x422;&#x415;&#x41D;&#x422;)
+                                    </a>
+                                </li>
+                                <li> 
+                                    <a href="/ForTaxpayer/Index">
+                                        <i class="fa-solid fa-credit-card mr-4 w-4"></i> &#x4B2;&#x430;&#x43C;&#x430;&#x438; &#x445;&#x438;&#x437;&#x43C;&#x430;&#x442;&#x440;&#x430;&#x441;&#x43E;&#x43D;&#x438;&#x4B3;&#x43E;&#x438; &#x44D;&#x43B;&#x435;&#x43A;&#x442;&#x440;&#x43E;&#x43D;&#x4E3;
+                                    </a>
+                                </li>
+                        </ul>
+                </div>
+                <div class="urLica group/urLica relative mt-3 flex w-full items-center justify-between px-8 lg:w-1/4">
+                    <a href="https://office.andoz.tj/" class="flex w-full items-center justify-between">
+                        <div>
+                            <h3 class="text-lg md:text-2xl">&#x428;&#x430;&#x445;&#x441;&#x43E;&#x43D;&#x438; &#x4B3;&#x443;&#x49B;&#x443;&#x49B;&#x4E3;</h3>
+                            <span class="text-sm font-bold">&#x4B2;&#x443;&#x4B7;&#x440;&#x430;&#x438; &#x448;&#x430;&#x445;&#x441;&#x4E3; <i class="fa-solid fa-arrow-right ml-3 text-xs duration-500 group-hover/urLica:translate-x-2"></i></span>
+                        </div>
+                        <img src="/img/urLica.png" alt="image"/>
+                    </a>
+                        <ul class="LicaSubMenu absolute hidden w-full bg-white py-4 pl-8 text-sm font-medium group-hover/urLica:block">
+                                <li> 
+                                    <a href="/ForTaxpayer/ePayment">
+                                        <i class="fa-solid fa-credit-card mr-4 w-4"></i> &#x41F;&#x430;&#x440;&#x434;&#x43E;&#x445;&#x442;&#x438; &#x430;&#x43D;&#x434;&#x43E;&#x437;&#x4B3;&#x43E; &#x432;&#x430; &#x431;&#x43E;&#x4B7;&#x4B3;&#x43E;
+                                    </a>
+                                </li>
+                                <li> 
+                                    <a href="/TaxCommittee/AccountRegistration">
+                                        <i class="fa-solid fa-credit-card mr-4 w-4"></i> &#x411;&#x430;&#x49B;&#x430;&#x439;&#x434;&#x433;&#x438;&#x440;&#x438;&#x438; &#x4B3;&#x443;&#x4B7;&#x440;&#x430;&#x438; &#x448;&#x430;&#x445;&#x441;&#x4E3;
+                                    </a>
+                                </li>
+                                <li> 
+                                    <a href="/ForTaxpayer/UnifiedStateRegister">
+                                        <i class="fa-solid fa-credit-card mr-4 w-4"></i> &#x424;&#x435;&#x4B3;&#x440;&#x438;&#x441;&#x442;&#x438; &#x44F;&#x433;&#x43E;&#x43D;&#x430;&#x438; &#x434;&#x430;&#x432;&#x43B;&#x430;&#x442;&#x4E3;
+                                    </a>
+                                </li>
+                                <li> 
+                                    <a href="/ForTaxpayer/Index">
+                                        <i class="fa-solid fa-credit-card mr-4 w-4"></i> &#x4B2;&#x430;&#x43C;&#x430;&#x438; &#x445;&#x438;&#x437;&#x43C;&#x430;&#x442;&#x440;&#x430;&#x441;&#x43E;&#x43D;&#x438;&#x4B3;&#x43E;&#x438; &#x44D;&#x43B;&#x435;&#x43A;&#x442;&#x440;&#x43E;&#x43D;&#x4E3;
+                                    </a>
+                                </li>
+                        </ul>
+                </div>
+                <div class="urLica group/urLica relative mt-3 flex w-full items-center justify-between px-8 lg:w-1/4">
+                    <a href="/TaxCommittee/StateEnterprises" class="flex w-full items-center justify-between">
+                        <div>
+                            <h3 class="text-lg md:text-2xl">&#x418;&#x434;&#x43E;&#x440;&#x430;&#x4B3;&#x43E;&#x438; &#x434;&#x430;&#x432;&#x43B;&#x430;&#x442;&#x4E3;</h3>
+                            <span class="text-sm font-bold">&#x414;&#x43E;&#x445;&#x438;&#x43B; &#x448;&#x443;&#x434;&#x430;&#x43D; <i class="fa-solid fa-arrow-right ml-3 text-xs duration-500 group-hover/urLica:translate-x-2"></i></span>
+                        </div>
+                        <img src="/img/gosUch.png" alt="image"/>
+                    </a>
+                </div>
+    </div>
+
+
+<div id="slide" class="mt-3 flex">
+    <div class="flex flex-col items-center gap-6 py-4 md:flex-row">
+        <!-- Android Card -->
+        <a class="flex w-full items-center rounded-lg p-4 shadow-lg md:w-50 md:p-4" href="https://play.google.com/store/apps/details?id=tj.tax.my_tax" target="_blank">
+            <div class="mr-3 flex h-20 w-20 items-center justify-center rounded-lg bg-green-500"> <i style="font-size:40px" class="fa-brands fa-android text-white"></i> </div>
+            <img src="/images/android.png" alt="QR Code" class="mx-2 h-32 w-32">
+        </a>
+        <!-- Apple Card -->
+        <a class="flex w-full items-center rounded-lg p-4 shadow-lg md:w-50 md:p-4" href="https://apps.apple.com/tj/app/%D0%B0%D0%BD%D0%B4%D0%BE%D0%B7%D0%B8-%D0%BC%D0%B0%D0%BD/id6737259275" target="_blank">
+            <div class="mr-3 flex h-20 w-20 items-center justify-center rounded-lg bg-green-500"> <i style="font-size:50px" class="fa-brands fa-apple text-white"></i> </div>
+            <img src="/images/apple.png" alt="QR Code" class="mx-2 h-32 w-32">
+        </a>
+    </div>
+</div>
+
+
+    <div class="w-100 py-4 font-sans text-gray-800">
+        <div class="news-buttons flex border-b border-gray-300 mb-6 text-sm font-medium">
+            <button class="news-btn news-active cursor-pointer p-2.5" data-menu-name="news">Хабарҳои охирин</button>
+            <button class="news-btn cursor-pointer p-2.5" data-menu-name="ad">Эълонҳо</button>
+            <button class="news-btn cursor-pointer p-2.5" data-menu-name="workPlace">Ҷойхои кори</button>
+        </div>
+        <div class="flex flex-col lg:flex-row gap-6">
+            <div class="lg:w-3/4">
+                <div class="max-h-[390px] overflow-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden news-block grid md:grid-cols-2 gap-6" data-menu-name="news">
+                        <a class="space-y-3 sub-news-link" href="/News/SingleNews?newsId=3412">
+                            <h2 style="min-height:5vh" class="text-lg font-bold leading-tight line-clamp-2">&#x414;&#x430;&#x441;&#x442;&#x43E;&#x432;&#x430;&#x440;&#x434;&#x4B3;&#x43E;&#x438; &#x41B;&#x43E;&#x438;&#x4B3;&#x430;&#x438; &#x201C;&#x410;&#x43C;&#x430;&#x43B;&#x438;&#x451;&#x442; &#x43E;&#x438;&#x434; &#x431;&#x430; &#x438;&#x441;&#x43B;&#x43E;&#x4B3;&#x43E;&#x442;&#x438; &#x430;&#x43D;&#x434;&#x43E;&#x437;&#x201D; &#x432;&#x430; &#x434;&#x443;&#x440;&#x43D;&#x430;&#x43C;&#x43E;&#x438; &#x440;&#x443;&#x448;&#x434;&#x438; &#x440;&#x430;&#x49B;&#x430;&#x43C;&#x438;&#x43A;&#x443;&#x43D;&#x43E;&#x43D;&#x438;&#x438; &#x441;&#x43E;&#x4B3;&#x430;&#x438; &#x430;&#x43D;&#x434;&#x43E;&#x437; &#x434;&#x430;&#x440; &#x422;&#x43E;&#x4B7;&#x438;&#x43A;&#x438;&#x441;&#x442;&#x43E;&#x43D;. </h2>
+                            <div class="aspect-video bg-gray-200 overflow-hidden rounded shadow-sm">
+                                <img src="https://andoz.tj/images/news/img_2312202501.jpeg" alt="News" class="w-full h-full object-cover">
+                            </div>
+                            <p class="text-xs text-gray-500 italic">23 &#x434;&#x435;&#x43A;&#x430;&#x431;&#x440; 2025 &#x441;.</p>
+                            
+                            <div class="single-news-desc mt-4 h-12 overflow-hidden text-base"><p style="text-align: justify">Бо ибтикори Кумитаи андози назди Ҳукумати Ҷумҳурии Тоҷикистон санаи 22-юми декабри соли 2025 дар меҳмонхонаи “Кроун-Плаза”-и пойтахт ҷаласаи муштараки Кумитаи ҳамоҳангсозии Амалиёт оид ба ислоҳоти андоз ва Шӯрои машваратии андозсупорандагон доир гашт.</p>
+<p style="text-align: justify">Чорабинӣ ба мавзуи муҳим - татбиқ ва дастовардҳои Лоиҳаи “Амалиёти ислоҳоти андоз ва дурнамои рушди рақамикунонии соҳаи андоз дар Тоҷикистон” бахшида шуда, дар он намояндагони вазорату идораҳои гуногуни давлатӣ, ташкилотҳои хориҷӣ, ширкатҳои ватанӣ ва ассотсиатсиятҳои соҳибкорон иштирок доштанд.</p>
+<p style="text-align: justify">Чорабиниро Солеҳзода Аюбҷон Маъруф, муовини аввали раиси Кумитаи андози назди Ҳукумати Ҷумҳурии Тоҷикистон бо сухани муқаддимавӣ ифтитоҳ намуда, баъдан оид ба рафти татбиқи Барномаи амалиёти ислоҳоти андоз дар ҷумҳурӣ маълумот доданд. Зикр гардид, ки Лоиҳаи “Амалиёт оид ба ислоҳоти андоз” ва дурнамои рушди рақамикунонии соҳаи андоз дар Тоҷикистон, ки бо дастгирии Бонки ҷаҳонӣ амалӣ мегардад, ба иҷрои ҳадафҳои Стратегияи миллии рушди кишвар то соли 2030, Барномаи рушди маъмурикунонии андоз барои солҳои 2020-2025 ва Консепсияи иқтисоди рақамӣ равона гардида, ба ташкили низоми самаранок, шаффоф ва пешгӯишавандаи андоз, таҳкими устувории молиявии давлат, баланд бардоштани ҷолибияти сармоягузорӣ ва рушди соҳибкорӣ нигаронида шудааст.</p>
+<p style="text-align: justify">Лоиҳаи мазкур ба баланд бардоштани сифати хизматрасониҳои давлатӣ дар соҳаи андоз, ҷорӣ намудани платформаҳои муосири рақамӣ ва низомҳои автоматикунонидашудаи идоракунии андоз мусоидат менамояд.</p>
+<p style="text-align: justify">“Амалиёт оид ба ислоҳоти андоз” ва дурнамои рушди рақамикунонии соҳаи андоз дар Тоҷикистон ба афзоиши устувори даромадҳои буҷети давлатӣ тавассути таҳкими интизоми андоз, васеъ намудани манбъҳои андозбандӣ ва баланд бардоштани самаранокии институтсионалии мақомоти андоз шароит фароҳам меорад. Ҳадаф аз татбиқи лоиҳаи мазкур ташаккули низоми шаффофу самараноки андоз, фароҳам овардани шароити мусоид баҳри фаъолияти соҳибкорӣ ва баланд бардоштани сатҳи риояи ихтиёрии қонунгузории андоз мебошад,-гуфт Аюбҷон Солеҳзода ва таъкид намуд, ки сиёсати андоз имрӯз дар тамоми ҷаҳон тағйир ёфта, бидуни гузаронидани ислоҳот рушди ин соҳаи муҳим ғайриимкон мебошад.</p>
+<img class="single-news-img w-full mb-11" src="https://andoz.tj/images/news/img_2312202502.jpg">
+<p style="text-align: justify">Дар чорабинӣ ҳамчунин Восидиён Фарҳод, муовини вазири рушди иқтисод ва савдои Тоҷикистон суханронӣ намуда, оид ба натиҷаҳои ҳамоҳангсозии татбиқи барномаи маъмурикунонии андоз ва лоиҳаҳои ислоҳотии андоз бо мақомоти давлатӣ маълумот дод. </p>
+<p style="text-align: justify">“Натиҷаҳои мониторинги лоиҳа нишон дод, ки Кумитаи андоз дар самти рақамикунонии соҳа ба дастовардҳои назаррас ноил гаштааст. Истифода аз барномаю модулҳои компютерӣ, зеҳни сунъӣ ва ҷорӣ намудани хизматрасониҳои зиёди электронӣ барои андозсупорандагон боиси шаффоф гаштани низоми андоз ва коҳиш ёфтани сатҳи иқтисоди пинҳонӣ гаштааст”,- гуфт зимни суханронии хеш Фарҳод Восидиён.</p>
+<img class="single-news-img w-full mb-11" src="https://andoz.tj/images/news/img_2312202503.jpg">
+<p style="text-align: justify">Дар чорабинӣ намояндагони Бонки ҷаҳонӣ ширкат доштанд ва аз натиҷаҳои лоиҳа изҳори қаноматмандӣ намуда, таъкид карданд, ки “ин лоиҳа барои Бонки ҷаҳонӣ як лоиҳаи махсус ба ҳисоб рафта, аз ҷумлаи лоиҳаҳои хеле муваффақ мебошад. Бонки ҷаҳонӣ минбаъд низ лоиҳаҳоеро, ки ба ислоҳоти соҳаи андоз нагаронида шудаанд, дастгирӣ хоҳад кард”.</p>
+<img class="single-news-img w-full mb-11" src="https://andoz.tj/images/news/img_2312202504.jpg">
+<p style="text-align: justify">Дар рафти чорабинӣ кормандони мақомоти андоз Собирҷон Вазиров, Амриддин Сатторзода ва Собирҷон Исоев дар боби самтҳои стратегӣ ва сиёсати андоз, соҳибкории иҷтимоӣ ва андозбандию танзими тиҷорати электронӣ маълумот доданд. Аз ҷумла, Собирҷон Вазиров дар бораи ребрединг ва тағйир ёфтани рамзи мақомоти адоз сухан ронд. Собирҷон Исоев бошад, зимни баромади хеш дар боби рушди тиҷорати электронӣ дар кишвар маълумот дод ва таъкид намуд, ки андозбандии субектҳое, ки бо тиҷорати электронӣ машғул мебошанд, дар асоси Қонуни Ҷумҳурии Тоҷикистон “Дар бораи савдои электронӣ” аз 24.12.2022 таҳти рақами №1921 сурат мегирад ва имрӯз дар ҷумҳурӣ зиёда аз 4500 нафар бо тиҷорати электронӣ машғул буда, маблағи андоз аз тиҷорати электронӣ 222,9 миллион сомониро ташкил медиҳад.</p>
+<p style="text-align: justify">Дар рафти чорабинӣ ҳамчунин ба масъалаҳои дигари муҳим, аз қабили пешниҳоди имтиёзҳои муайян барои андозсупорандагон, аз пардохти андоз аз арзиши иловашуда озод гаштани соҳибкорон ва ширкатҳое, ки панелҳои офтобӣ ва қисмҳои онро ба ҷумҳурӣ ворид менамояд, рушди иқтисодиёти сабз, мошинҳои барқӣ, ҳифзи муҳити зист ва ғайра сухан рафта, байни иштирокчиёни ҷаласа ва масъулини мақомоти андоз саволу ҷавоб сурат гирифт.</p>
+<p style="text-align: justify">Таъкид карда шуд, ки татбиқи лоиҳаи «Амалиёт оид ба ислоҳоти андоз”  ва дурнамои рушди рақамикунонии соҳаи андоз дар Тоҷикистон ба рушди иҷтимоию иқтисодии Ҷумҳурии Тоҷикистон таъсири мусбат расонида, ба баланд бардоштани самаранокӣ ва шаффофияти маъмурикунонии андоз, таҳкими эътимоди соҳибкорон, беҳтар гаштани муҳити соҳибкорӣ ва фароҳам овардани шароитҳои зарурӣ барои ҷалби сармоягузорӣ мусоидат менамояд.</p>
+<p style="text-align: justify">Президенти Ҷумҳурии Тоҷикистон муҳтарам Эмомалӣ Раҳмон дар Паёми навбатии худ супориш доданд, ки дар муҳлати кӯтоҳтарин «Барномаи нави рушди маъмурикунонии андоз барои солҳои 2026-2030» қабул ва татбиқ карда шавад. Кумитаи андоз бо мақсади иҷрои супориши мазкур ба омодасозии лоиҳаи барномаи нав шуруъ намудааст, ки ҳадафҳои навбатии он трансформатсияи рақамӣ, коҳиш додани иқтисодиёти пинҳонӣ ва баланд бардоштани шаффофияти андоз мебошад.</p>
+</div>
+                        </a>
+                        <a class="space-y-3 sub-news-link" href="/News/SingleNews?newsId=3407">
+                            <h2 style="min-height:5vh" class="text-lg font-bold leading-tight line-clamp-2">&#x412;&#x43E;&#x445;&#x45E;&#x440;&#x438;&#x438; &#x43D;&#x430;&#x43C;&#x43E;&#x44F;&#x43D;&#x434;&#x430;&#x433;&#x43E;&#x43D;&#x438; &#x410;&#x433;&#x435;&#x43D;&#x442;&#x438;&#x438; &#x43D;&#x430;&#x437;&#x43E;&#x440;&#x430;&#x442;&#x438; &#x434;&#x430;&#x432;&#x43B;&#x430;&#x442;&#x438;&#x438; &#x43C;&#x43E;&#x43B;&#x438;&#x44F;&#x432;&#x4E3; &#x432;&#x430; &#x43C;&#x443;&#x431;&#x43E;&#x440;&#x438;&#x437;&#x430; &#x431;&#x43E; &#x43A;&#x43E;&#x440;&#x440;&#x443;&#x43F;&#x441;&#x438;&#x44F;&#x438; &#x4B6;&#x443;&#x43C;&#x4B3;&#x443;&#x440;&#x438;&#x438; &#x422;&#x43E;&#x4B7;&#x438;&#x43A;&#x438;&#x441;&#x442;&#x43E;&#x43D; &#x431;&#x43E; &#x43A;&#x43E;&#x440;&#x43C;&#x430;&#x43D;&#x434;&#x43E;&#x43D;&#x438; &#x43C;&#x430;&#x49B;&#x43E;&#x43C;&#x43E;&#x442;&#x438; &#x430;&#x43D;&#x434;&#x43E;&#x437;</h2>
+                            <div class="aspect-video bg-gray-200 overflow-hidden rounded shadow-sm">
+                                <img src="https://andoz.tj/images/news/2025-11-21.jpg" alt="News" class="w-full h-full object-cover">
+                            </div>
+                            <p class="text-xs text-gray-500 italic">21 &#x43D;&#x43E;&#x44F;&#x431;&#x440; 2025 &#x441;.</p>
+                            
+                            <div class="single-news-desc mt-4 h-12 overflow-hidden text-base">  <p style="text-align: justify">&nbsp;&nbsp;&nbsp;&nbsp;Санаи 20 ноябри соли 2025 дар маҷлисгоҳи дастгоҳи марказии Кумитаи андоз вохўрии навбатии намояндагони Агентии назорати давлатии молиявӣ ва мубориза бо коррупсияи Ҷумҳурии Тоҷикистон бо кормандони мақомоти андоз баргузор гардид.</p><br />
+        <p style="text-align: justify">&nbsp;&nbsp;&nbsp;&nbsp;Дар вохўрӣ, ки бо иштироки муовини Раиси Кумитаи андоз Бахтиёр Султон, сардори Раёсати муқовимат бо коррупсияи Агентии назорати давлатии молиявӣ ва мубориза бо коррупсияи ҷумҳурии Тоҷикистон Акмалзода Нодир Носир ва доираи васеи кормандони мақомоти андоз баргузор гардид, масъалаҳои мубрами муқовимат ба коррупсия, татбиқи дурусти қонунгузории ҷорӣ дар самти муқовимат бо коррупсия, роҳҳои пешгирӣ ва бартараф намудани сабабу шароитҳои ба омилҳои коррупсионӣ мусоидаткунанда баррасӣ гардид. </p><br />
+        <p style="text-align: justify">&nbsp;&nbsp;&nbsp;&nbsp;Муовини Раиси Кумитаи андоз Бахтиёр Султон қайд намуданд, ки мақомоти андоз бо мақсади пешгирии содиршавии ҳамагуна зуҳуроти номатлуби коррупсионӣ, мустаҳкам намудани боварии шаҳрвандон ва андозсупорандагон ба фаъолияти шаффофи мақомоти андоз пайваста чораҳои зарурӣ ва пешгирикунандаро роҳандозӣ намуда, дар ин замина бо фармоишҳои дахлдори Раиси Кумитаи андоз як қатор фармоишҳо ва мактубҳои дастуриву тавзеҳотӣ қабул ва тасдиқ карда шудаанд, ки ҷиҳати пурзўр намудани муқовимат бо коррупсия, пешгирии ҳолатҳои бархурди манфиатҳо ва дигар омилҳо, ки раванди кор ва иҷрои вазифаҳои қонунии кормандони мақомотро халалдор месозанд, мусоидат менамоянд. </p><br />
+        <p style="text-align: justify">&nbsp;&nbsp;&nbsp;&nbsp;Қайд карда шуд, ки дар ин радиф, гузаронидани чунин вохўриҳо ба паст намудани шиддати коррупсия ва пешгирии ин зуҳуроти номатлуб нақши муҳим мебозад.</p><br />
+        <p style="text-align: justify">&nbsp;&nbsp;&nbsp;&nbsp;Дар идомаи вохўрӣ сардори Раёсати муқовимат бо коррупсияи Агентӣ Акмалзода Н.Н. баромад намуда қайд намуданд, ки муқовимат ба коррупсия на танҳо вазифаи кормандони мақомоти Агентӣ, балки вазифаи ҳамаи мақомоти давлатӣ, хизматчиёни давлатӣ ва дар маҷмўъ ҷомеаи шаҳрвандӣ маҳсуб меёбад.</p><br />
+        <p style="text-align: justify">&nbsp;&nbsp;&nbsp;&nbsp;Дар баробари ин, дар вохўрӣ вобаста ба татбиқи қонунгузории ҷумҳурии Тоҷикистон дар самти муқовимат ба коррупсия аз ҷумла, қонуни Ҷумҳурии Тоҷикистон “Дар бораи муқовимат ба коррупсия”, фармони Президенти Ҷумҳурии Тоҷикистон аз 3 августи соли 2021, №222 «Дар бораи Стратегияи давлатии муқовимат ба коррупсия дар Ҷумҳурии Тоҷикистон барои давраи то соли 2030» ва қарори Ҷукумати ҷумҳурии Тоҷикистон аз 28 октябри соли 2016, №465 «Дар бораи Методологияи тартиб ва методикаи гузаронидани таҳлили фаъолият (хавфҳои коррупсионӣ)» ба иштирокчиёни вохўрӣ тавсияҳои судманд ироа гардид.</p><br />
+        <p style="text-align: justify">&nbsp;&nbsp;&nbsp;&nbsp;Зикр гардид, ки солҳои охир дар кишвари мо дар самти мубориза бо коррупсия дигаргуниҳои мусбӣ ба амал омада, таҳти роҳбарии хирадмандонаи Пешвои муаззами миллат баҳри расидан ба ҳадафҳои зиддикоррупсионӣ, таъмини муқовимати дастаҷамъона ба коррупсия ва баланд бардоштани фарҳанги зиддикоррупсионӣ ва маърифати ҳуқуқии аҳолӣ чораҳои дахлдор роҳандозӣ шуда истодааст. </p><br />
+        <p style="text-align: justify">&nbsp;&nbsp;&nbsp;&nbsp;Дар ин ҷода бояд тазаккур дод, ки кормандони мақомоти андоз дар баробари вазифаҳои муҳими бар дўш доштаашон, ҳамзамон дар баланд бардоштани маърифати зиддикоррупсиони аҳолӣ саҳми бевосита ва назаррас гузошта, дар ин самт нақши ҳар як корманди соҳа ҷиҳати  муқовимат ба коррупсия зимни амалигардонии уҳдадориҳои хизматӣ дар самти иҷрои қонунгузории андоз беандоза муҳим мебошад.</p><br />
+        <p style="text-align: justify">&nbsp;&nbsp;&nbsp;&nbsp;Дар фароварди вохўрӣ, муовини Раиси Кумитаи андоз зикр намуданд, ки мақомоти андоз - ҳамчун субъекти дар муқовимат ба коррупсия иштирокунанда ҷиҳати пурзур намудани фаъолияти худ дар самти мубориза бар зидди коррупсия, маҳдуд намудани омилҳои коррупсионӣ дар байни кормандон, татбиқи дурусти муқаррароти Стратегияи давлатии муқовимат ба коррупсия дар Ҷумҳурии Тоҷикистон ва пайваста гузаронидани таҳлили хавфҳои коррупсия дар фаъолияти мақомоти андоз тадбирҳои иловагӣ меандешад. </p><br /></div>
+                        </a>
+                        <a class="space-y-3 sub-news-link" href="/News/SingleNews?newsId=3406">
+                            <h2 style="min-height:5vh" class="text-lg font-bold leading-tight line-clamp-2">&#x41E;&#x438;&#x434; &#x431;&#x430; &#x431;&#x430;&#x4B3;&#x43E;&#x433;&#x443;&#x437;&#x43E;&#x440;&#x438;&#x438; &#x43D;&#x438;&#x437;&#x43E;&#x43C;&#x438; &#x43C;&#x430;&#x44A;&#x43C;&#x443;&#x440;&#x438;&#x43A;&#x443;&#x43D;&#x43E;&#x43D;&#x438;&#x438; &#x430;&#x43D;&#x434;&#x43E;&#x437; &#x442;&#x438;&#x431;&#x49B;&#x438; &#x421;&#x442;&#x430;&#x43D;&#x434;&#x430;&#x440;&#x442;&#x4B3;&#x43E;&#x438; TADAT</h2>
+                            <div class="aspect-video bg-gray-200 overflow-hidden rounded shadow-sm">
+                                <img src="https://andoz.tj/images/news/Tadat1-1.jpg" alt="News" class="w-full h-full object-cover">
+                            </div>
+                            <p class="text-xs text-gray-500 italic">1 &#x43E;&#x43A;&#x442;&#x44F;&#x431;&#x440; 2025 &#x441;.</p>
+                            
+                            <div class="single-news-desc mt-4 h-12 overflow-hidden text-base"><p style="text-align: justify">&nbsp;&nbsp;&nbsp;&nbsp;Аз санаи 17 сентябр то 1 октябри соли 2025 бо дастгирии техникии Хазинаи Байналмилалии Асъор (минбаъд - ХБА) ва Бонки Умумиҷаҳонӣ дар Кумитаи андози назди Ҳукумати Ҷумҳурии Тоҷикистон баҳогузории низоми маъмурикунонии андоз тибқи Стандартҳои воситаи ташхис ва баҳогузории маъмурикунонии андоз (минбаъд – баҳогузории TADAT) баргузор гардид.</p>
+ <br />
+ <p style="text-align: justify">&nbsp;&nbsp;&nbsp;&nbsp;Бояд қайд намуд, ки баҳогузории TADAT дар доираи татбиқи Барномаи миёнамуҳлати даромадҳои давлатии Ҷумҳурии Тоҷикистон барои солҳои 2024–2029, ки бо қарори Ҳукумати Ҷумҳурии Тоҷикистон аз 30.12.2023, №594 қабул шудааст, барои муайян намудани тарафҳои мусбӣ ва манфии маъмурикунонии андоз равона гардида, ҷиҳати беҳтар намудани маъмурикунонии андоз ва баланд бардоштани сатҳи шаффофияти фаъолияти мақомоти андоз мусоидат менамояд.</p>
+ <br />
+ <p style="text-align: justify">&nbsp;&nbsp;&nbsp;&nbsp;Баҳогузории TADAT бо ҷалби коршиносони байналмилалӣ бо роҳбарии Стоян Марков-мушовири Департаменти фискалии Хазинаи Байналмилалии Асъор гузаронида шуд.</p>
+ <br />
+ <p style="text-align: justify">&nbsp;&nbsp;&nbsp;&nbsp;Коршиносони ХБА бо Раиси Кумитаи андоз муҳтарам Давлатзода Нусратулло Муқим вохӯрӣ намуда, оид ба баҳогузории TADAT маълумоти мухтассар пешниҳод намуданд.</p>
+ <br />
+ <p style="text-align: justify">&nbsp;&nbsp;&nbsp;&nbsp;Зимни баҳогузории TADAT, Нусратулло Муқим қайд намуд, ки фаъолияти мақомоти андози Ҷумҳурии Тоҷикистон соли 2019 тибқи стандартҳои TADAT баҳогузорӣ карда шуд ва он имконият дод, ки самтҳои ниёз ба ислоҳот дар фаъолияти мақомоти андоз муайян шуда, такмил дода шаванд. Изҳори умед карда шуд, ки фаъолияти мақомоти андоз аз рӯи стандартҳои TADAT барои соли 2025 низ воқеъбинона баҳогузорӣ карда мешаванд ва он имконият медиҳад, ки Кумитаи андоз камбудиҳои мавҷударо ислоҳ намуда, маъмурикунонии андозро боз беҳтару хубтар намояд.</p>
+ <br />
+ <p style="text-align: justify">&nbsp;&nbsp;&nbsp;&nbsp;Рузҳои 17-25 сентябри соли ҷорӣ бо роҳбарии Муовини якуми Раиси Кумитаи андоз муҳтарам Солеҳзода Аюбҷон Маруф сардорони раёсатҳои дастгоҳи марказии Кумитаи андоз, Раёсати андози андозсупорандагони калон, Раёсати андози шаҳри Душанбе вобаста ба 9 самти асосии баҳогузории TADAT, аз ҷумла ягонагии махзани иттилоотии андозсупорандагон, идоракунии хавфҳои андозӣ, мусоидат намудан ба иҷрои ихтиёрии қонунгузории андоз, саривақт пешниҳод намудани эъломияҳо ва пардохти андозҳо, дурустии маълумотҳо дар эъломияҳои андозӣ, ҳалли баҳсҳои андозӣ, идоракунии даромадҳо, ҳисоботдиҳӣ ва шаффофият ба коршиносони байналмилалӣ маълумоти муфассал ва ҳуҷҷатҳои тасдиқкунанда пешниҳод намуданд.</p>
+ <br />
+ <p style="text-align: justify">&nbsp;&nbsp;&nbsp;&nbsp;Ҳамчунин, коршиносони ХБА бевосита ба Раёсати андози андозсупорандагони калон, Раёсати андози шаҳри Душанбе, нозиротҳои андози ноҳияҳои И.Сомонӣ ва Шоҳмансур, Маркази тамоси Кумитаи андоз ташриф оварда, бо сохтор, самтҳои фаъолият, равандҳои хизматрасонӣ ба андозсупорандагон, тартиби гузаронидани корҳои назоратӣ ва бо модулҳои Системаи иттилоотии идоракунии андозҳои мақомоти андоз аз наздик шинос шуданд.</p>
+ <br />
+ <img src="https://andoz.tj/images/news/Tadat1-2.jpg" width="100%"/>
+ <br />
+ <p style="text-align: justify">&nbsp;&nbsp;&nbsp;&nbsp;Бояд тазаккур дод, ки зимни баҳогузории TADAT коршиносони ХБА бо роҳбарияти Вазорати молияи Ҷумҳурии Тоҷикистон ва Агентии назорати давлатии молиявӣ ва мубориза бо коррупсияи Ҷумҳурии Тоҷикистон низ вобаста ба фаъолияти мақомоти андоз вохӯрӣ намуданд.</p>
+ <br />
+ <p style="text-align: justify">&nbsp;&nbsp;&nbsp;&nbsp;Дар назар аст, ки натиҷаҳои баҳогузории TADAT дар таҳияи лоиҳаи Барномаи рушди маъмурикунонии андоз дар Ҷумҳурии Тоҷикистон барои солҳои 2026-2030 истифода бурда мешавад ва ба баланд бардоштани сатҳи шаффофият, самаранокӣ ва эътимод ба низоми андози Ҷумҳурии Тоҷикистон мусоидат менамояд.</p>
+ <br /></div>
+                        </a>
+                        <a class="space-y-3 sub-news-link" href="/News/SingleNews?newsId=3405">
+                            <h2 style="min-height:5vh" class="text-lg font-bold leading-tight line-clamp-2">&#x412;&#x43E;&#x445;&#x443;&#x440;&#x438;&#x438; &#x43D;&#x430;&#x432;&#x431;&#x430;&#x442;&#x438; &#x434;&#x430;&#x440; &#x41A;&#x443;&#x43C;&#x438;&#x442;&#x430;&#x438; &#x430;&#x43D;&#x434;&#x43E;&#x437; &#x431;&#x43E; &#x438;&#x448;&#x442;&#x438;&#x440;&#x43E;&#x43A;&#x438; &#x43D;&#x430;&#x43C;&#x43E;&#x44F;&#x43D;&#x434;&#x43E;&#x433;&#x43E;&#x43D;&#x438; &#x410;&#x433;&#x435;&#x43D;&#x442;&#x438;&#x438; &#x43D;&#x430;&#x437;&#x43E;&#x440;&#x430;&#x442;&#x438; &#x434;&#x430;&#x432;&#x43B;&#x430;&#x442;&#x438;&#x438; &#x43C;&#x43E;&#x43B;&#x438;&#x44F;&#x432;&#x438; &#x43C;&#x443;&#x431;&#x43E;&#x440;&#x438;&#x437;&#x430; &#x431;&#x43E; &#x43A;&#x43E;&#x440;&#x440;&#x443;&#x43F;&#x441;&#x438;&#x44F;</h2>
+                            <div class="aspect-video bg-gray-200 overflow-hidden rounded shadow-sm">
+                                <img src="https://andoz.tj/images/news/photo_2025-09-16.jpg" alt="News" class="w-full h-full object-cover">
+                            </div>
+                            <p class="text-xs text-gray-500 italic">16 &#x441;&#x435;&#x43D;&#x442;&#x44F;&#x431;&#x440; 2025 &#x441;.</p>
+                            
+                            <div class="single-news-desc mt-4 h-12 overflow-hidden text-base">
+<p style="text-align: justify">&nbsp;&nbsp;&nbsp;&nbsp;Санаи 02.09.2025 дар Кумитаи андоз бо иштироки Муовини Раиси Кумитаи андоз Бахтиёр Султон, намояндагони Агентии назорати давлатии молиявӣ ва мубориза бо коррупсияи Ҷумҳурии Тоҷикистон муовини сардори Раёсати муқовимат ба коррупсия Рабизода Диловар ва сарнозири ҳамин Раёсат Ҳамдамзода Садриддин ва дигар кормандони мақомоти андоз ҷаласаи васеъ  баргузор гардида, дар он пешниҳодҳои Агентӣ, ки ба Кумитаи андоз ворид гардидаанд, мавриди баррасӣ қарор дода шуд.</p>
+<p style="text-align: justify">&nbsp;&nbsp;&nbsp;&nbsp;Муовини Раиси Кумитаи андоз Бахтиёр Султон қайд намуданд, ки дар Кумитаи андоз ҷиҳати пешгирии коррупсия ба таври мунтазам корҳои муайян анҷом дода мешавад. Аз ҷумла ҳамасола фармоишҳои дахлдори Кумитаи андоз “Нақшаи дохилиидоравии Кумитаи андози назди ҳукумати Ҷумҳурии Тоҷикистон барои соли дахлдор, ҷиҳати таъмини иҷрои Стратегияи давлатии муқовимат ба коррупсия дар Ҷумҳурии Тоҷикистон барои давраи то соли 2030 ва нақшаи чорабиниҳои амалисозии он барои марҳилаи якум ( солҳои 2021 – 2025 )” қабул карда мешавад. </p>
+<p style="text-align: justify">&nbsp;&nbsp;&nbsp;&nbsp;Инчунин, тибқи муқаррароти моддаи 162 Кодекси андоз яке аз вазифаҳои асосии мақомоти андоз муайян намудани расмиёт ва усулҳои гузаронидани таҳлили хавфҳои коррупсия дар мақомоти андоз ва амалӣ намудани онҳо мебошад.</p>
+<p style="text-align: justify">&nbsp;&nbsp;&nbsp;&nbsp;Намояндагони Агентӣ баромад намуда қайд намуданд, ки муқовимат бар зидди ҳама гуна амалҳои коррупсионӣ на танҳо вазифаи кормандони мақомоти давлатӣ, балки вазифаи ҳар як шаҳрванд мебошад"</p>
+<p style="text-align: justify">&nbsp;&nbsp;&nbsp;&nbsp;Дар баробари ин, дар Ҷаласа оид ба қонунгузории Ҷумҳурии Тоҷикистон, ки самти муқовимат ба коррупсияро танзим менамоянд, кодексҳои Ҷиноятӣ ва ҳуқуқвайронкунии маъмурӣ, инчунин қонуни Ҷумҳурии Тоҷикистон “Дар бораи муқовимат ба коррупсия”, Фармони Президенти Ҷумҳурии Тоҷикистон аз 3 августи соли 2021, №222 «Дар бораи Стратегияи давлатии муқовимат ба коррупсия дар Ҷумҳурии Тоҷикистон барои давраи то соли 2030» ва қарори ҳукумати Ҷумҳурии Тоҷикистон аз 28 октябри соли 2016, №465 «Дар бораи Методологияи тартиб ва методикаи гузаронидани таҳлили фаъолият (хавфҳои коррупсионӣ)» ба иштирокчиёни ҷаласа маълумоти мухтасар пешниҳод гардида бори дигар дар сатҳи баланд ва зарурӣ иҷроиши онҳо таъкид карда шуд."</p>
+<p style="text-align: justify">&nbsp;&nbsp;&nbsp;&nbsp;Дар охир, Муовини Раиси Кумитаи андоз ба намояндагони Агентӣ ҷиҳати иштирок дар ҷаласа ва дар маҷмуъ оиди ҳамкорӣ дар самти муқовимат ва пешгирии коррупсия дар мақомоти андоз изҳори сипос намуда, изҳор намуданд, ки Кумитаи андоз Ҷиҳати иҷрои бандҳои дахлдори нақшаи чорабиниҳои амалисозии Стратегияи давлатии муқовимат ба коррупсия дар Ҷумҳурии Тоҷикистон барои давраи то соли 2030 барои марҳилаи якум (солҳои 2021–2025) , иҷрои қарори ҳукумати Ҷумҳурии Тоҷикистон аз 28.10.2016, №465 “Дар бораи Методологияи тартиб ва методикаи гузаронидани таҳлили фаъолият (хавфҳои коррупсионӣ)” ва фармоиши  Кумитаи андоз аз 09.04.2025, №220 “Дар бораи тасдиқ намудани “Нақшаи мукаммал барои солҳои 2025-2026, ҷиҳати пешгирӣ, бартараф ва коҳиш додани хавфҳои коррупсионӣ” минбаъд низ чораҷўӣ менамояд.</p>
+
+</div>
+                        </a>
+                </div>
+                <div class="max-h-[390px] overflow-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden news-block hidden grid md:grid-cols-2 gap-6" data-menu-name="ad">
+                        <a class="space-y-3 sub-news-link" href="/News/SingleNews?newsId=18">                            <h2 style="min-height:5vh" class="text-lg font-bold leading-tight line-clamp-2">&#x41C;&#x443;&#x4B3;&#x442;&#x430;&#x440;&#x430;&#x43C; &#x448;&#x430;&#x4B3;&#x440;&#x432;&#x430;&#x43D;&#x434;&#x43E;&#x43D; &#x432;&#x430; &#x430;&#x43D;&#x434;&#x43E;&#x437;&#x441;&#x443;&#x43F;&#x43E;&#x440;&#x430;&#x43D;&#x434;&#x430;&#x433;&#x43E;&#x43D;!</h2>
+                            
+                        <div class="aspect-video bg-gray-200 overflow-hidden rounded shadow-sm">
+                                <img src="../images/Server_2025.jpg" alt="News" class="w-full h-full object-cover">
+                            </div>
+                            <p class="text-xs text-gray-500 italic">19 &#x43C;&#x430;&#x439; 2025 &#x441;.</p>
+                            
+                            <div class="single-news-desc mt-4 h-12 overflow-hidden text-base"></div>
+                        </a>
+                        <a class="space-y-3 sub-news-link" href="/News/SingleNews?newsId=16">                            <h2 style="min-height:5vh" class="text-lg font-bold leading-tight line-clamp-2">&#x4B2;&#x430;&#x43C;&#x43E;&#x438;&#x448;&#x438; &#x43A;&#x43E;&#x440;&#x43C;&#x430;&#x43D;&#x434;&#x43E;&#x43D;&#x438; &#x4B7;&#x430;&#x432;&#x43E;&#x43D;&#x438; &#x43C;&#x430;&#x49B;&#x43E;&#x43C;&#x43E;&#x442;&#x438; &#x430;&#x43D;&#x434;&#x43E;&#x437;&#x438; &#x4B6;&#x443;&#x43C;&#x4B3;&#x443;&#x440;&#x438;&#x438; &#x422;&#x43E;&#x4B7;&#x438;&#x43A;&#x438;&#x441;&#x442;&#x43E;&#x43D; &#x442;&#x430;&#x4B3;&#x442;&#x438; &#x443;&#x43D;&#x432;&#x43E;&#x43D;&#x438; &#xAB;&#x41D;&#x430;&#x49B;&#x448;&#x438; &#x4B7;&#x430;&#x432;&#x43E;&#x43D;&#x43E;&#x43D; &#x434;&#x430;&#x440; 33 &#x441;&#x43E;&#x43B;&#x438; &#x441;&#x43E;&#x4B3;&#x438;&#x431;&#x438;&#x441;&#x442;&#x438;&#x49B;&#x43B;&#x43E;&#x43B;&#x4E3;: &#x434;&#x430;&#x441;&#x442;&#x43E;&#x432;&#x430;&#x440;&#x434; &#x432;&#x430; &#x434;&#x443;&#x440;&#x43D;&#x430;&#x43C;&#x43E;&#xBB;  </h2>
+                            
+                        <div class="aspect-video bg-gray-200 overflow-hidden rounded shadow-sm">
+                                <img src="../images/news/Hamoishi_Andoz_2024.jpg" alt="News" class="w-full h-full object-cover">
+                            </div>
+                            <p class="text-xs text-gray-500 italic">1 &#x43D;&#x43E;&#x44F;&#x431;&#x440; 2024 &#x441;.</p>
+                            
+                            <div class="single-news-desc mt-4 h-12 overflow-hidden text-base"></div>
+                        </a>
+                        <a class="space-y-3 sub-news-link" href="/News/SingleNews?newsId=12">                            <h2 style="min-height:5vh" class="text-lg font-bold leading-tight line-clamp-2">&#x42D;&#x42A;&#x41B;&#x41E;&#x41D; &#x41C;&#x443;&#x4B3;&#x442;&#x430;&#x440;&#x430;&#x43C; &#x448;&#x430;&#x4B3;&#x440;&#x432;&#x430;&#x43D;&#x434;&#x43E;&#x43D; &#x432;&#x430; &#x430;&#x43D;&#x434;&#x43E;&#x437;&#x441;&#x443;&#x43F;&#x43E;&#x440;&#x430;&#x43D;&#x434;&#x430;&#x433;&#x43E;&#x43D;!</h2>
+                            
+                        <div class="aspect-video bg-gray-200 overflow-hidden rounded shadow-sm">
+                                <img src="../images/news/Oplata_2023.jpg" alt="News" class="w-full h-full object-cover">
+                            </div>
+                            <p class="text-xs text-gray-500 italic">29 &#x438;&#x44E;&#x43D; 2023 &#x441;.</p>
+                            
+                            <div class="single-news-desc mt-4 h-12 overflow-hidden text-base"></div>
+                        </a>
+                        <a class="space-y-3 sub-news-link" href="/News/SingleNews?newsId=11">                            <h2 style="min-height:5vh" class="text-lg font-bold leading-tight line-clamp-2">&#x42D;&#x42A;&#x41B;&#x41E;&#x41D; &#x41C;&#x443;&#x4B3;&#x442;&#x430;&#x440;&#x430;&#x43C; &#x448;&#x430;&#x4B3;&#x440;&#x432;&#x430;&#x43D;&#x434;&#x43E;&#x43D; &#x432;&#x430; &#x430;&#x43D;&#x434;&#x43E;&#x437;&#x441;&#x443;&#x43F;&#x43E;&#x440;&#x430;&#x43D;&#x434;&#x430;&#x433;&#x43E;&#x43D;!</h2>
+                            
+                        <div class="aspect-video bg-gray-200 overflow-hidden rounded shadow-sm">
+                                <img src="../images/news/Elon_TJ_2023.jpg" alt="News" class="w-full h-full object-cover">
+                            </div>
+                            <p class="text-xs text-gray-500 italic">25 &#x430;&#x43F;&#x440;&#x435;&#x43B; 2023 &#x441;.</p>
+                            
+                            <div class="single-news-desc mt-4 h-12 overflow-hidden text-base"></div>
+                        </a>
+                </div>
+                <div class="max-h-[390px] overflow-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden news-block hidden grid md:grid-cols-2 gap-6" data-menu-name="workPlace">
+                        <a class="space-y-3 sub-news-link" href="/News/SingleNews?newsId=35">
+                            <h2 style="min-height:5vh" class="text-lg font-bold leading-tight line-clamp-2">&#x42D;&#x42A;&#x41B;&#x41E;&#x41D;&#x418; &#x4B6;O&#x419;&#x4B2;&#x41E;&#x418; &#x41A;&#x41E;&#x420;&#x418;&#x418; &#x425;&#x41E;&#x41B;&#x4E2; 2025</h2>
+    
+                            <div class="aspect-video bg-gray-200 overflow-hidden rounded shadow-sm">
+                                <img src="../images/EloniTakmili_ihtisos_2025.jpg" alt="News" class="w-full h-full object-cover">
+                            </div>
+                            <p class="text-xs text-gray-500 italic">27 &#x43D;&#x43E;&#x44F;&#x431;&#x440; 2025 &#x441;.</p>
+                            <div class="single-news-desc mt-4 h-12 overflow-hidden text-base"></div>
+                        </a>
+                        <a class="space-y-3 sub-news-link" href="/News/SingleNews?newsId=34">
+                            <h2 style="min-height:5vh" class="text-lg font-bold leading-tight line-clamp-2">&#x42D;&#x42A;&#x41B;&#x41E;&#x41D;&#x418; &#x4B6;O&#x419;&#x4B2;&#x41E;&#x418; &#x41A;&#x41E;&#x420;&#x418;&#x418; &#x425;&#x41E;&#x41B;&#x4E2; 2025</h2>
+    
+                            <div class="aspect-video bg-gray-200 overflow-hidden rounded shadow-sm">
+                                <img src="../images/Foto_Ozmun_2025.jpg" alt="News" class="w-full h-full object-cover">
+                            </div>
+                            <p class="text-xs text-gray-500 italic">3 &#x438;&#x44E;&#x43B; 2025 &#x441;.</p>
+                            <div class="single-news-desc mt-4 h-12 overflow-hidden text-base"></div>
+                        </a>
+                </div>
+            </div>
+
+            <div class="lg:w-1/4 space-y-6">
+                    <div class="single-text-news hidden cursor-pointer md:block">
+                        <a href="/News/SingleNews?newsId=3390">
+                            <div class="single-news-date text-xs font-medium"><i class="fa-solid secondary-text-color fa-calendar-days"></i> 2 &#x438;&#x44E;&#x43B; 2025 &#x441;.</div>
+                            <div class="single-news-desc mt-4 h-12 overflow-hidden text-base">Доир ба Конфронси якҷояи Кумитаи андози назди Ҳукумати Ҷумҳурии Тоҷикистон ва Хадамоти федералии андози Федератсияи Россия «Оид ба натиҷаҳои татбиқи Созишнома байни Вазорати молияи Ҷумҳурии Тоҷикистон ва Вазорати молияи Федератсияи Россия дар бораи аз ҷониби Федератсияи Россия расонидани кумаки беподоши техникӣ ба Ҷумҳурии Тоҷикистон бо мақсади рушд ва такмили низоми маъмурикунонии андоз»</div>
+                        </a>
+                    </div>
+                    <div class="single-text-news hidden cursor-pointer md:block">
+                        <a href="/News/SingleNews?newsId=3381">
+                            <div class="single-news-date text-xs font-medium"><i class="fa-solid secondary-text-color fa-calendar-days"></i> 10 &#x438;&#x44E;&#x43D; 2025 &#x441;.</div>
+                            <div class="single-news-desc mt-4 h-12 overflow-hidden text-base">Оид ба рафти гузаронидани аттестатсияи навбатии хизматчиёни давлатии мақомоти андоз</div>
+                        </a>
+                    </div>
+                    <div class="single-text-news hidden cursor-pointer md:block">
+                        <a href="/News/SingleNews?newsId=3380">
+                            <div class="single-news-date text-xs font-medium"><i class="fa-solid secondary-text-color fa-calendar-days"></i> 30 &#x430;&#x43F;&#x440;&#x435;&#x43B; 2025 &#x441;.</div>
+                            <div class="single-news-desc mt-4 h-12 overflow-hidden text-base">Иштироки намояндагони Кумитаи андози назди Ҳукумати Ҷумҳурии Тоҷикистон дар ҷаласаи машваратӣ дар шаҳри Пекини Ҷумҳурии Мардумии Чин ҷиҳати омодагӣ ба  гузаронидани Форуми 6-уми ҳамкории роҳбарони мақомоти андоз дар доираи ташаббуси «Як камарбанд, як роҳ»  (BRITACOM)</div>
+                        </a>
+                    </div>
+                <div class="mt-4">
+                    <a class="secondary-text-color group mt-0 flex items-center justify-end md:mt-12 md:justify-start" href="/News">
+                        Дигар хабарҳо <i class="fa-solid fa-arrow-right ml-3 text-xs duration-500 group-hover:translate-x-2"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="lg:w-1/4 space-y-3">
+                    <a href="/news/payompr" class="flex items-center p-3 border border-gray-200 rounded shadow-sm hover:shadow-md transition cursor-pointer">
+                        <div class="w-12 h-12 bg-gray-100 flex-shrink-0 mr-3 rounded overflow-hidden"><img src="/img/icons/president.svg" alt="Icon"></div>
+                        <span class="text-[12px] uppercase">&#x41F;&#x430;&#x451;&#x43C;&#x438; &#x41F;&#x440;&#x435;&#x437;&#x438;&#x434;&#x435;&#x43D;&#x442;&#x438; &#x4B6;&#x443;&#x43C;&#x4B3;&#x443;&#x440;&#x438;&#x438; &#x422;&#x43E;&#x4B7;&#x438;&#x43A;&#x438;&#x441;&#x442;&#x43E;&#x43D;, &#x41F;&#x435;&#x448;&#x432;&#x43E;&#x438; &#x43C;&#x438;&#x43B;&#x43B;&#x430;&#x442; &#x43C;&#x443;&#x4B3;&#x442;&#x430;&#x440;&#x430;&#x43C; &#x42D;&#x43C;&#x43E;&#x43C;&#x430;&#x43B;&#x4E3; &#x420;&#x430;&#x4B3;&#x43C;&#x43E;&#x43D;</span>
+                    </a>
+                    <a href="/docs/35solagi.pdf" class="flex items-center p-3 border border-gray-200 rounded shadow-sm hover:shadow-md transition cursor-pointer">
+                        <div class="w-12 h-12 bg-gray-100 flex-shrink-0 mr-3 rounded overflow-hidden"><img src="/img/icons/35solagi.png" alt="Icon"></div>
+                        <span class="text-[12px] uppercase">35-&#x441;&#x43E;&#x43B;&#x430;&#x433;&#x438;&#x438; &#x418;&#x441;&#x442;&#x438;&#x49B;&#x43B;&#x43E;&#x43B;&#x438;&#x44F;&#x442;&#x438; &#x4B6;&#x443;&#x43C;&#x4B3;&#x443;&#x440;&#x438;&#x438; &#x422;&#x43E;&#x4B7;&#x438;&#x43A;&#x438;&#x441;&#x442;&#x43E;&#x43D;</span>
+                    </a>
+                    <a href="/Legislation/MuqovimatBoTerorizm" class="flex items-center p-3 border border-gray-200 rounded shadow-sm hover:shadow-md transition cursor-pointer">
+                        <div class="w-12 h-12 bg-gray-100 flex-shrink-0 mr-3 rounded overflow-hidden"><img src="/img/icons/terorizm.png" alt="Icon"></div>
+                        <span class="text-[12px] uppercase">&#x41C;&#x443;&#x49B;&#x43E;&#x432;&#x438;&#x43C;&#x430;&#x442; &#x431;&#x43E; &#x442;&#x435;&#x440;&#x440;&#x43E;&#x440;&#x438;&#x437;&#x43C; &#x432;&#x430; &#x44D;&#x43A;&#x441;&#x442;&#x440;&#x435;&#x43C;&#x438;&#x437;&#x43C; &#x432;&#x430;&#x437;&#x438;&#x444;&#x430;&#x438; &#x4B3;&#x430;&#x440; &#x44F;&#x43A; &#x443;&#x437;&#x432;&#x438; &#x4B7;&#x43E;&#x43C;&#x435;&#x430;</span>
+                    </a>
+                    <a href="/Legislation/MuqovimatBoKorupsiya" class="flex items-center p-3 border border-gray-200 rounded shadow-sm hover:shadow-md transition cursor-pointer">
+                        <div class="w-12 h-12 bg-gray-100 flex-shrink-0 mr-3 rounded overflow-hidden"><img src="/img/icons/muqovimat_bo_korupsiya.jpg" alt="Icon"></div>
+                        <span class="text-[12px] uppercase">&#x41C;&#x443;&#x49B;&#x43E;&#x432;&#x438;&#x43C;&#x430;&#x442; &#x431;&#x43E; &#x43A;&#x43E;&#x440;&#x440;&#x443;&#x43F;&#x441;&#x438;&#x44F; &#x434;&#x430;&#x440; &#x4B6;&#x443;&#x43C;&#x4B3;&#x443;&#x440;&#x438;&#x438; &#x422;&#x43E;&#x4B7;&#x438;&#x43A;&#x438;&#x441;&#x442;&#x43E;&#x43D; &#x431;&#x430;&#x440;&#x43E;&#x438; &#x434;&#x430;&#x432;&#x440;&#x430;&#x438; &#x442;&#x43E; &#x441;&#x43E;&#x43B;&#x438; 2030</span>
+                    </a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="mt-4 flex flex-wrap md:mt-14">
+            <div class="single-icon-block mb-6 w-full">
+                <a href="/Legislation/TaxCode" class="group flex items-center rounded-xl bg-white p-2">
+                    <div class="icon-holder flex h-16 w-16 items-center justify-center rounded-lg"><i class="fa-solid fa-book-open"></i></div>
+                    <div class="icon-part-text ml-4 flex flex-col">
+                        <h3 class="text-sm">&#x41A;&#x43E;&#x434;&#x435;&#x43A;&#x441;&#x438; &#x430;&#x43D;&#x434;&#x43E;&#x437;</h3>
+                        <span class="mt-1 text-sm">Дохил шудан <i class="fa-solid fa-arrow-right text-xs duration-500 group-hover:translate-x-2"></i></span>
+                    </div>
+                </a>
+            </div>
+            <div class="single-icon-block mb-6 w-full">
+                <a href="/TaxCommittee/TaxAffairs" class="group flex items-center rounded-xl bg-white p-2">
+                    <div class="icon-holder flex h-16 w-16 items-center justify-center rounded-lg"><i class="fa-solid fa-gears"></i></div>
+                    <div class="icon-part-text ml-4 flex flex-col">
+                        <h3 class="text-sm">&#x424;&#x430;&#x44A;&#x43E;&#x43B;&#x438;&#x44F;&#x442;&#x438; &#x41A;&#x443;&#x43C;&#x438;&#x442;&#x430;&#x438; &#x430;&#x43D;&#x434;&#x43E;&#x437;</h3>
+                        <span class="mt-1 text-sm">Дохил шудан <i class="fa-solid fa-arrow-right text-xs duration-500 group-hover:translate-x-2"></i></span>
+                    </div>
+                </a>
+            </div>
+            <div class="single-icon-block mb-6 w-full">
+                <a href="/TaxCommittee/ExplanatoryLetters" class="group flex items-center rounded-xl bg-white p-2">
+                    <div class="icon-holder flex h-16 w-16 items-center justify-center rounded-lg"><i class="fa-solid fa-envelope"></i></div>
+                    <div class="icon-part-text ml-4 flex flex-col">
+                        <h3 class="text-sm">&#x41C;&#x430;&#x43A;&#x442;&#x443;&#x431;&#x4B3;&#x43E;&#x438; &#x434;&#x430;&#x441;&#x442;&#x443;&#x440;&#x438;&#x438; &#x41A;&#x410;</h3>
+                        <span class="mt-1 text-sm">Дохил шудан <i class="fa-solid fa-arrow-right text-xs duration-500 group-hover:translate-x-2"></i></span>
+                    </div>
+                </a>
+            </div>
+            <div class="single-icon-block mb-6 w-full">
+                <a href="/TaxCommittee/SettlementAccounts" class="group flex items-center rounded-xl bg-white p-2">
+                    <div class="icon-holder flex h-16 w-16 items-center justify-center rounded-lg"><i class="fa-solid fa-money-bill"></i></div>
+                    <div class="icon-part-text ml-4 flex flex-col">
+                        <h3 class="text-sm">&#x421;&#x443;&#x440;&#x430;&#x442;&#x4B3;&#x438;&#x441;&#x43E;&#x431;&#x4B3;&#x43E;</h3>
+                        <span class="mt-1 text-sm">Дохил шудан <i class="fa-solid fa-arrow-right text-xs duration-500 group-hover:translate-x-2"></i></span>
+                    </div>
+                </a>
+            </div>
+            <div class="single-icon-block mb-6 w-full">
+                <a href="/TaxCommittee/Contacts" class="group flex items-center rounded-xl bg-white p-2">
+                    <div class="icon-holder flex h-16 w-16 items-center justify-center rounded-lg"><i class="fa-solid fa-location-pin"></i></div>
+                    <div class="icon-part-text ml-4 flex flex-col">
+                        <h3 class="text-sm">&#x421;&#x443;&#x440;&#x43E;&#x493;&#x430;&#x438; &#x43D;&#x43E;&#x437;&#x438;&#x440;&#x43E;&#x442;&#x4B3;&#x43E;</h3>
+                        <span class="mt-1 text-sm">Дохил шудан <i class="fa-solid fa-arrow-right text-xs duration-500 group-hover:translate-x-2"></i></span>
+                    </div>
+                </a>
+            </div>
+            <div class="single-icon-block mb-6 w-full">
+                <a href="/TaxCommittee/AddressTerminals" class="group flex items-center rounded-xl bg-white p-2">
+                    <div class="icon-holder flex h-16 w-16 items-center justify-center rounded-lg"><i class="fa-solid fa-book-open"></i></div>
+                    <div class="icon-part-text ml-4 flex flex-col">
+                        <h3 class="text-sm">&#x421;&#x443;&#x440;&#x43E;&#x493;&#x430;&#x438; &#x442;&#x435;&#x440;&#x43C;&#x438;&#x43D;&#x430;&#x43B;&#x4B3;&#x43E;</h3>
+                        <span class="mt-1 text-sm">Дохил шудан <i class="fa-solid fa-arrow-right text-xs duration-500 group-hover:translate-x-2"></i></span>
+                    </div>
+                </a>
+            </div>
+    </div>
+
+
+    <div class="services-section mt-0 md:mt-9 mb-10">
+        <h1 class="text-2xl font-bold md:text-3xl">Хизматрасониҳо</h1>
+        <div class="mt-5 flex flex-wrap">
+            <div class="single-service mt-6">
+                <div class="flex flex-col justify-evenly rounded px-7">
+                    <h3 class="text-2xl font-medium">Хизматрасониҳои электронӣ</h3>
+                    <span>Дар сайт ба қайд гиред ва тамоми бартариҳои истифодаи хизматрасониҳои онлайнро ба даст оред</span>
+                </div>
+            </div>
+            
+                <div class="single-service mt-6">
+                    <a href="https://office.andoz.tj" target="_blank" class="group flex flex-col justify-evenly rounded px-7">
+                        <h3 class="text-2xl font-medium">&#x4B2;&#x443;&#x4B7;&#x440;&#x430;&#x438; &#x448;&#x430;&#x445;&#x441;&#x4E3;</h3>
+                        <span>&#x423;&#x442;&#x43E;&#x49B;&#x438; &#x448;&#x430;&#x445;&#x441;&#x438;&#x438; &#x430;&#x43D;&#x434;&#x43E;&#x437;&#x441;&#x443;&#x43F;&#x43E;&#x440;&#x430;&#x43D;&#x434;&#x430;</span>
+                        <span class="secondary-text-color mt-1 text-sm">Дохил шудан <i class="fa-solid fa-arrow-right text-xs duration-500 group-hover:translate-x-2"></i></span>
+                    </a>
+                </div>
+                <div class="single-service mt-6">
+                    <a href="https://secure.andoz.tj/" target="_blank" class="group flex flex-col justify-evenly rounded px-7">
+                        <h3 class="text-2xl font-medium">e-Filing system for foreigners</h3>
+                        <span>For foreigner entities who provide E-services (electronic services) to individuals of Tajikistan</span>
+                        <span class="secondary-text-color mt-1 text-sm">Дохил шудан <i class="fa-solid fa-arrow-right text-xs duration-500 group-hover:translate-x-2"></i></span>
+                    </a>
+                </div>
+                <div class="single-service mt-6">
+                    <a href="/ForTaxpayer/ForeignEServiceProviders" target="_blank" class="group flex flex-col justify-evenly rounded px-7">
+                        <h3 class="text-2xl font-medium">Information For Foreign E-service Providers</h3>
+                        <span>&#x418;&#x43D;&#x444;&#x43E;&#x440;&#x43C;&#x430;&#x446;&#x438;&#x44F; &#x434;&#x43B;&#x44F; &#x437;&#x430;&#x440;&#x443;&#x431;&#x435;&#x436;&#x43D;&#x44B;&#x445; &#x43F;&#x43E;&#x441;&#x442;&#x430;&#x432;&#x449;&#x438;&#x43A;&#x43E;&#x432; &#x44D;&#x43B;&#x435;&#x43A;&#x442;&#x440;&#x43E;&#x43D;&#x43D;&#x44B;&#x445; &#x443;&#x441;&#x43B;&#x443;&#x433;</span>
+                        <span class="secondary-text-color mt-1 text-sm">Дохил шудан <i class="fa-solid fa-arrow-right text-xs duration-500 group-hover:translate-x-2"></i></span>
+                    </a>
+                </div>
+                <div class="single-service mt-6">
+                    <a href="/ForTaxpayer/getInn" target="_blank" class="group flex flex-col justify-evenly rounded px-7">
+                        <h3 class="text-2xl font-medium">&#x411;&#x430;&#x4B3;&#x438;&#x441;&#x43E;&#x431;&#x433;&#x438;&#x440;&#x438;&#x438; &#x420;&#x41C;&#x410;</h3>
+                        <span>&#x411;&#x430;&#x4B3;&#x438;&#x441;&#x43E;&#x431;&#x433;&#x438;&#x440;&#x438;&#x438; &#x420;&#x430;&#x49B;&#x430;&#x43C;&#x438; &#x43C;&#x443;&#x448;&#x430;&#x445;&#x445;&#x430;&#x441;&#x438; &#x430;&#x43D;&#x434;&#x43E;&#x437;&#x441;&#x443;&#x43F;&#x43E;&#x440;&#x430;&#x43D;&#x434;&#x430;</span>
+                        <span class="secondary-text-color mt-1 text-sm">Дохил шудан <i class="fa-solid fa-arrow-right text-xs duration-500 group-hover:translate-x-2"></i></span>
+                    </a>
+                </div>
+                <div class="single-service mt-6">
+                    <a href="/ForTaxpayer/RateOurServices" target="_blank" class="group flex flex-col justify-evenly rounded px-7">
+                        <h3 class="text-2xl font-medium">&#x411;&#x430;&#x4B3;&#x43E;&#x433;&#x443;&#x437;&#x43E;&#x440;&#x438;&#x438; &#x441;&#x438;&#x444;&#x430;&#x442;&#x438; &#x445;&#x438;&#x437;&#x43C;&#x430;&#x442;&#x440;&#x430;&#x441;&#x43E;&#x43D;&#x438;</h3>
+                        <span>&#x411;&#x430; &#x441;&#x438;&#x444;&#x430;&#x442;&#x438; &#x445;&#x438;&#x437;&#x43C;&#x430;&#x442;&#x440;&#x430;&#x441;&#x43E;&#x43D;&#x438;&#x438; &#x41A;&#x443;&#x43C;&#x438;&#x442;&#x430;&#x438; &#x430;&#x43D;&#x434;&#x43E;&#x437; &#x431;&#x430;&#x4B3;&#x43E; &#x433;&#x443;&#x437;&#x43E;&#x440;&#x435;&#x434;</span>
+                        <span class="secondary-text-color mt-1 text-sm">Дохил шудан <i class="fa-solid fa-arrow-right text-xs duration-500 group-hover:translate-x-2"></i></span>
+                    </a>
+                </div>
+                <div class="single-service mt-6">
+                    <a href="/TaxCommittee/TaxCalculator" target="_blank" class="group flex flex-col justify-evenly rounded px-7">
+                        <h3 class="text-2xl font-medium">&#x4B2;&#x438;&#x441;&#x43E;&#x431;&#x43A;&#x443;&#x43D;&#x430;&#x43A;&#x438; &#x430;&#x43D;&#x434;&#x43E;&#x437;</h3>
+                        <span>&#x4B2;&#x438;&#x441;&#x43E;&#x431;&#x43A;&#x443;&#x43D;&#x430;&#x43A;&#x438; &#x430;&#x43D;&#x434;&#x43E;&#x437; &#x431;&#x430;&#x440;&#x43E;&#x438; &#x4B3;&#x438;&#x441;&#x43E;&#x431; &#x43D;&#x430;&#x43C;&#x443;&#x434;&#x430;&#x43D;&#x438; &#x430;&#x43D;&#x434;&#x43E;&#x437;&#x4B3;&#x43E; &#x430;&#x437; &#x434;&#x430;&#x440;&#x43E;&#x43C;&#x430;&#x434;, &#x43C;&#x43E;&#x43B;&#x443; &#x43C;&#x443;&#x43B;&#x43A;&#x438; &#x493;&#x430;&#x439;&#x440;&#x438;&#x43C;&#x430;&#x43D;&#x49B;&#x443;&#x43B; &#x432;&#x430; &#x432;&#x43E;&#x441;&#x438;&#x442;&#x430;&#x4B3;&#x43E;&#x438; &#x43D;&#x430;&#x49B;&#x43B;&#x438;&#x451;&#x442;</span>
+                        <span class="secondary-text-color mt-1 text-sm">Дохил шудан <i class="fa-solid fa-arrow-right text-xs duration-500 group-hover:translate-x-2"></i></span>
+                    </a>
+                </div>
+
+            <div class="single-service mt-6">
+                <a class="group flex flex-col justify-evenly rounded px-7" href="/ForTaxpayer">
+                    <h3 class="text-2xl font-medium">Ҳамаи хизматрасониҳои электронӣ</h3>
+                    <span class="secondary-text-color mt-1 text-sm">Дохил шудан <i class="fa-solid fa-arrow-right text-xs duration-500 group-hover:translate-x-2"></i></span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-14 flex flex-wrap text-center justify-start">
+            <div class="tajikistan-info-block mb-6 w-full">
+                <a href="/News/SingleNews?newsId=3192" class="tajikistan-link link-hover flex items-center justify-center rounded-xl bg-white p-2">
+                    <div class="flex h-16 w-16 items-center justify-center rounded-lg">
+                        <img class="max-w-none" src="/img/icons/mount.svg" />
+                    </div>
+                    <div class="ml-3 flex flex-col text-center text-sm md:text-base">&#x421;&#x43E;&#x43B;&#x4B3;&#x43E;&#x438; &#x440;&#x443;&#x448;&#x434;&#x438; &#x441;&#x430;&#x439;&#x451;&#x4B3;&#x4E3; &#x432;&#x430; &#x4B3;&#x443;&#x43D;&#x430;&#x440;&#x4B3;&#x43E;&#x438; &#x43C;&#x430;&#x440;&#x434;&#x443;&#x43C;&#x4E3;</div>
+                </a>
+            </div>
+            <div class="tajikistan-info-block mb-6 w-full">
+                <a href="/News/SingleNews?newsId=3361" class="tajikistan-link link-hover flex items-center justify-center rounded-xl bg-white p-2">
+                    <div class="flex h-16 w-16 items-center justify-center rounded-lg">
+                        <img class="max-w-none" src="/img/icons/huquq2024.svg" />
+                    </div>
+                    <div class="ml-3 flex flex-col text-center text-sm md:text-base">&#x421;&#x43E;&#x43B;&#x438; 2024 &quot;&#x421;&#x43E;&#x43B;&#x438; &#x43C;&#x430;&#x44A;&#x440;&#x438;&#x444;&#x430;&#x442;&#x438; &#x4B3;&#x443;&#x49B;&#x443;&#x49B;&#x4E3;&quot;</div>
+                </a>
+            </div>
+    </div>
+
+<div class="video-section mb-14 mt-9 flex justify-between flex-wrap">
+    <div style="width:560px">
+        <h1 class="w-full text-2xl font-bold md:text-3xl">Маводҳои видеоӣ</h1>
+    
+        <span class="videos-desc hidden text-xl md:inline">Барои осонии кори Шумо маводҳои видеоҳои </br> омӯзишӣ омода намудем</span>
+
+        <div class="mt-10 flex w-full flex-col justify-between">    
+            <div class="video-switchers buttons text-sm">
+                    <button class="mb-2 px-5 py-2.5" onclick="changeVideo('/videos/Utoqi_shakhsi_2023.mp4', this)">&#x4B2;&#x443;&#x4B7;&#x440;&#x430;&#x438; &#x448;&#x430;&#x445;&#x441;&#x4E3;</button>
+                    <button class="mb-2 px-5 py-2.5" onclick="changeVideo('/videos/Andozi_man_2025.mp4', this)">&#x417;&#x430;&#x43C;&#x438;&#x43C;&#x430;&#x438; &#x43C;&#x43E;&#x431;&#x438;&#x43B;&#x438;&#x438; &#xAB;&#x410;&#x43D;&#x434;&#x43E;&#x437;&#x438; &#x43C;&#x430;&#x43D;&#xBB;</button>
+                    <button class="mb-2 px-5 py-2.5" onclick="changeVideo('/videos/bekor_kardani_imzoi_m-2026.mp4', this)">&#x422;&#x430;&#x440;&#x442;&#x438;&#x431;&#x438; &#x431;&#x435;&#x43A;&#x43E;&#x440; &#x43D;&#x430;&#x43C;&#x443;&#x434;&#x430;&#x43D;&#x438; &#x438;&#x43C;&#x437;&#x43E;&#x438; &#x43C;&#x43E;&#x431;&#x438;&#x43B;&#x4E3;</button>
+                    <button class="mb-2 px-5 py-2.5" onclick="changeVideo('/videos/change_phone_number_2026.mp4', this)">&#x418;&#x432;&#x430;&#x437;&#x438; &#x440;&#x430;&#x49B;&#x430;&#x43C;&#x438; &#x442;&#x435;&#x43B;&#x435;&#x444;&#x43E;&#x43D;</button>
+                    <button class="mb-2 px-5 py-2.5" onclick="changeVideo('/videos/anbori_virtuali_2026.mp4', this)">&#x412;&#x43E;&#x441;&#x438;&#x442;&#x430;&#x4B3;&#x43E;&#x438; &#x430;&#x441;&#x43E;&#x441;&#x438; &#x431;&#x430; &#x430;&#x43D;&#x431;&#x43E;&#x440;&#x438; &#x432;&#x438;&#x440;&#x442;&#x443;&#x430;&#x43B;&#x4E3;</button>
+                    <button class="mb-2 px-5 py-2.5" onclick="changeVideo('/videos/Qati_Faoliyati_Patent_2023.mp4', this)">&#x49A;&#x430;&#x442;&#x44A;&#x438; &#x43F;&#x430;&#x442;&#x435;&#x43D;&#x442;</button>
+                    <button class="mb-2 px-5 py-2.5" onclick="changeVideo('/videos/bahoguzorii_sifati_khizmatrasoni.mp4', this)">&#x411;&#x430;&#x4B3;&#x43E;&#x433;&#x443;&#x437;&#x43E;&#x440;&#x438;&#x438; &#x441;&#x438;&#x444;&#x430;&#x442;&#x438; &#x445;&#x438;&#x437;&#x43C;&#x430;&#x442;&#x440;&#x430;&#x441;&#x43E;&#x43D;&#x4E3;</button>
+            </div>
+            <a class="group my-2 text-base" href="/News/Videos">Дигар видеоҳо <i class="fa-solid fa-arrow-right ml-3 text-xs duration-500 group-hover:translate-x-2"></i></a>
+        </div>
+    </div>
+  
+    <div class="mt-10 flex w-full flex-col md:w-1/2 md:items-end">
+        <div class="home-page-videos">
+            
+<div class="video-container paused" data-volume-level="high">
+    <img class="thumbnail-img">
+    <div class="video-controls-container">
+        <div class="timeline-container">
+            <div class="timeline">
+                <div class="thumb-indicator"></div>
+            </div>
+        </div>
+        <div class="controls">
+            <button class="play-pause-btn">
+                <svg class="play-icon" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M8,5.14V19.14L19,12.14L8,5.14Z" />
+                </svg>
+                <svg class="pause-icon" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M14,19H18V5H14M6,19H10V5H6V19Z" />
+                </svg>
+            </button>
+            <div class="volume-container">
+                <button class="mute-btn">
+                    <svg class="volume-high-icon" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.84 14,18.7V20.77C18,19.86 21,16.28 21,12C21,7.72 18,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16C15.5,15.29 16.5,13.76 16.5,12M3,9V15H7L12,20V4L7,9H3Z" />
+                    </svg>
+                    <svg class="volume-low-icon" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M5,9V15H9L14,20V4L9,9M18.5,12C18.5,10.23 17.5,8.71 16,7.97V16C17.5,15.29 18.5,13.76 18.5,12Z" />
+                    </svg>
+                    <svg class="volume-muted-icon" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M12,4L9.91,6.09L12,8.18M4.27,3L3,4.27L7.73,9H3V15H7L12,20V13.27L16.25,17.53C15.58,18.04 14.83,18.46 14,18.7V20.77C15.38,20.45 16.63,19.82 17.68,18.96L19.73,21L21,19.73L12,10.73M19,12C19,12.94 18.8,13.82 18.46,14.64L19.97,16.15C20.62,14.91 21,13.5 21,12C21,7.72 18,4.14 14,3.23V5.29C16.89,6.15 19,8.83 19,12M16.5,12C16.5,10.23 15.5,8.71 14,7.97V10.18L16.45,12.63C16.5,12.43 16.5,12.21 16.5,12Z" />
+                    </svg>
+                </button>
+                <input class="volume-slider" type="range" min="0" max="1" step="any" value="1">
+            </div>
+            <div class="duration-container">
+                <div class="current-time">0:00</div>
+                /
+                <div class="total-time"></div>
+            </div>
+            <button class="speed-btn wide-btn">
+                1x
+            </button>
+            <button class="mini-player-btn">
+                <svg viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zm-10-7h9v6h-9z" />
+                </svg>
+            </button>
+            <button class="theater-btn">
+                <svg class="tall" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M19 6H5c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 10H5V8h14v8z" />
+                </svg>
+                <svg class="wide" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M19 7H5c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm0 8H5V9h14v6z" />
+                </svg>
+            </button>
+            <button class="full-screen-btn">
+                <svg class="open" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z" />
+                </svg>
+                <svg class="close" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z" />
+                </svg>
+            </button>
+        </div>
+    </div>
+    <video id="homeVideoPlayer" class="rounded" src="/videos/Utoqi_shakhsi_2023.mp4">
+    </video>
+</div>
+
+        </div>
+    </div>
+</div>
+
+
+
+        </main>
+
+    </div>
+    <footer class="border-top footer text-muted flex flex-col justify-between">
+    <div class="container mx-auto">
+        <div class="flex w-full py-4 md:w-1/2">
+            <div class="footer-links flex justify-between gap-4">
+            </div>
+        </div>
+        <hr class="opacity-10" />
+
+
+
+        <div class="flex w-full gap-4 py-4">
+            <div class="footer-links flex gap-4 text-sm">
+                <ul>
+                       <li><a href="/TaxCommittee/BojuHiroj">&#x4B2;&#x430;&#x444;&#x442;&#x430;&#x43D;&#x43E;&#x43C;&#x430;&#x438; &#xAB;&#x411;&#x41E;&#x4B6;&#x423; &#x425;&#x418;&#x420;&#x41E;&#x4B6;&#xBB;</a></li>   
+                       <li><a href="/ForTaxpayer/OtherAgencies">&#x421;&#x43E;&#x43C;&#x43E;&#x43D;&#x430;&#x4B3;&#x43E;&#x438; &#x434;&#x438;&#x433;&#x430;&#x440; &#x43C;&#x430;&#x49B;&#x43E;&#x43C;&#x43E;&#x442;&#x4B3;&#x43E;</a></li>   
+                       <li><a href="/ForTaxpayer/VisitStatistics">&#x41E;&#x43C;&#x43E;&#x440;</a></li>   
+                       <li><a href="/ForTaxpayer/Handbook">&#x41C;&#x430;&#x44A;&#x43B;&#x443;&#x43C;&#x43E;&#x442;&#x43D;&#x43E;&#x43C;&#x430;</a></li>   
+                       <li><a href="https://play.google.com/store/apps/details?id=tj.tax.my_tax">&#x411;&#x430;&#x440;&#x43D;&#x43E;&#x43C;&#x430;&#x438; &#x43C;&#x43E;&#x431;&#x438;&#x43B;&#x438;&#x438; &#xAB;&#x410;&#x43D;&#x434;&#x43E;&#x437;&#x438; &#x43C;&#x430;&#x43D;&#xBB; (&#x431;&#x430;&#x440;&#x43E;&#x438; Android)</a></li>   
+                       <li><a href="/ForTaxpayer/TaxpayersActivity">&#x410;&#x43D;&#x434;&#x43E;&#x437;&#x441;&#x443;&#x43F;&#x43E;&#x440;&#x430;&#x43D;&#x434;&#x430;&#x433;&#x43E;&#x43D; &#x430;&#x437; &#x440;&#x4EF;&#x438; &#x441;&#x43E;&#x4B3;&#x430;&#x4B3;&#x43E;&#x438; &#x444;&#x430;&#x44A;&#x43E;&#x43B;&#x438;&#x44F;&#x442;</a></li>   
+                       <li><a href="/TaxCommittee/TaxBenefitReportingAnalysis">&#x4B2;&#x438;&#x441;&#x43E;&#x431;&#x43E;&#x442; &#x432;&#x430; &#x442;&#x430;&#x4B3;&#x43B;&#x438;&#x43B;&#x438; &#x438;&#x43C;&#x442;&#x438;&#x451;&#x437;&#x438; &#x430;&#x43D;&#x434;&#x43E;&#x437;</a></li>   
+                       <li><a href="/TaxCommittee/ShumoraiSanjish2024">&#x428;&#x443;&#x43C;&#x43E;&#x440;&#x430;&#x438; &#x443;&#x43C;&#x443;&#x43C;&#x438;&#x438; &#x441;&#x443;&#x431;&#x44A;&#x435;&#x43A;&#x442;&#x4B3;&#x43E;&#x435;, &#x43A;&#x438; &#x442;&#x430;&#x4B3;&#x442;&#x438; &#x441;&#x430;&#x43D;&#x4B7;&#x438;&#x448;&#x438; &#x430;&#x43D;&#x434;&#x43E;&#x437; &#x49B;&#x430;&#x440;&#x43E;&#x440; &#x434;&#x43E;&#x434;&#x430; &#x448;&#x443;&#x434;&#x430;&#x430;&#x441;&#x442;</a></li>   
+                       <li><a href="/TaxCommittee/NDS_Hisobot">&#x420;&#x4EF;&#x439;&#x445;&#x430;&#x442;&#x438; &#x448;&#x430;&#x445;&#x441;&#x43E;&#x43D;&#x438; &#x4B3;&#x443;&#x49B;&#x443;&#x49B;&#x438;&#x435;, &#x43A;&#x438; &#x434;&#x430;&#x440; &#x43D;&#x438;&#x437;&#x43E;&#x43C;&#x438; &#x443;&#x43C;&#x443;&#x43C;&#x4E3; (&#x410;&#x410;&#x418;) &#x444;&#x430;&#x44A;&#x43E;&#x43B;&#x438;&#x44F;&#x442; &#x43C;&#x435;&#x43D;&#x430;&#x43C;&#x43E;&#x44F;&#x43D;&#x434;</a></li>   
+                </ul>
+                <ul>
+                       <li><a href="/ForTaxpayer/TaxCalendar">&#x422;&#x430;&#x49B;&#x432;&#x438;&#x43C;&#x438; &#x430;&#x43D;&#x434;&#x43E;&#x437;</a></li>   
+                       <li><a href="../docs/bezovtstvennie/iskluchennie/bezovtstvennie_iz_iskluchennie.pdf">&#x410;&#x437; &#x440;&#x4EF;&#x439;&#x445;&#x430;&#x442;&#x438; &#x431;&#x435;&#x43C;&#x430;&#x441;&#x44A;&#x443;&#x43B;&#x438;&#x44F;&#x442; &#x431;&#x430;&#x440;&#x43E;&#x432;&#x430;&#x440;&#x434;&#x430;&#x448;&#x443;&#x434;&#x430;</a></li>   
+                       <li><a href="/TaxCommittee/ExplanatoryLetters">&#x41C;&#x430;&#x43A;&#x442;&#x443;&#x431;&#x4B3;&#x43E;&#x438; &#x434;&#x430;&#x441;&#x442;&#x443;&#x440;&#x438;&#x438; &#x41A;&#x410;</a></li>   
+                       <li><a href="/ForTaxpayer/CivilCervants">&#x425;&#x438;&#x437;&#x43C;&#x430;&#x442;&#x447;&#x438;&#x451;&#x43D;&#x438; &#x434;&#x430;&#x432;&#x43B;&#x430;&#x442;&#x4E3;</a></li>   
+                       <li><a href="/TaxCommittee/Nazarpursi">&#x4B2;&#x438;&#x441;&#x43E;&#x431;&#x43E;&#x442; &#x43E;&#x438;&#x434; &#x431;&#x430; &#x43D;&#x430;&#x442;&#x438;&#x4B7;&#x430;&#x438; &#x43D;&#x430;&#x437;&#x430;&#x440;&#x43F;&#x443;&#x440;&#x441;&#x438;&#x438; &#x430;&#x43D;&#x434;&#x43E;&#x437;&#x441;&#x443;&#x43F;&#x43E;&#x440;&#x430;&#x43D;&#x434;&#x430;&#x433;&#x43E;&#x43D;</a></li>   
+                       <li><a href="/TaxCommittee/AnnualReportTaxpayer">&#x4B2;&#x438;&#x441;&#x43E;&#x431;&#x43E;&#x442;&#x438; &#x441;&#x43E;&#x43B;&#x43E;&#x43D;&#x430; &#x43E;&#x438;&#x434; &#x431;&#x430; &#x444;&#x438;&#x43A;&#x440;&#x443; &#x43C;&#x443;&#x43B;&#x43E;&#x4B3;&#x438;&#x437;&#x430;&#x4B3;&#x43E;&#x438; &#x430;&#x43D;&#x434;&#x43E;&#x437;&#x441;&#x443;&#x43F;&#x43E;&#x440;&#x430;&#x43D;&#x434;&#x430;&#x433;&#x43E;&#x43D;</a></li>   
+                       <li><a href="/TaxCommittee/FAQ">&#x421;&#x430;&#x432;&#x43E;&#x43B;&#x4B3;&#x43E;&#x438; &#x442;&#x430;&#x43A;&#x440;&#x43E;&#x440;&#x448;&#x430;&#x432;&#x430;&#x43D;&#x434;&#x430;</a></li>   
+                       <li><a href="/TaxCommittee/VoridotiAndozho">&#x41C;&#x430;&#x44A;&#x43B;&#x443;&#x43C;&#x43E;&#x442; &#x43E;&#x438;&#x434; &#x431;&#x430; &#x434;&#x430;&#x440;&#x43E;&#x43C;&#x430;&#x434;&#x438; &#x431;&#x443;&#x4B7;&#x435;&#x442;&#x438; &#x434;&#x430;&#x432;&#x43B;&#x430;&#x442;&#x4E3;</a></li>   
+                </ul>
+            </div>
+        </div>
+        
+        
+        
+        <hr class="opacity-10" />
+        <div class="flex flex-col pt-5 md:flex-row">
+            <ul class="flex w-full flex-wrap gap-x-8 text-xs">
+                    <li class="mb-4"><a href="/WorldBank/Index">&#x411;&#x43E;&#x43D;&#x43A;&#x438; &#x4B6;&#x430;&#x4B3;&#x43E;&#x43D;&#x4E3;</a></li>
+                    <li class="mb-4"><a href="https://lib.andoz.tj/">&#x41A;&#x438;&#x442;&#x43E;&#x431;&#x445;&#x43E;&#x43D;&#x430;&#x438; &#x440;&#x430;&#x441;&#x43C;&#x4E3;</a></li>
+                    <li class="mb-4"><a href="../docs/bezovtstvennie/bezovtstvennie.pdf">&#x410;&#x43D;&#x434;&#x43E;&#x437;&#x441;&#x443;&#x43F;&#x43E;&#x440;&#x430;&#x43D;&#x434;&#x430;&#x433;&#x43E;&#x43D;&#x438; &#x431;&#x435;&#x43C;&#x430;&#x441;&#x44A;&#x443;&#x43B;&#x438;&#x44F;&#x442;</a></li>
+                    <li class="mb-4"><a href="../docs/doljniki/Debtors_01-01-2019.pdf">&#x49A;&#x430;&#x440;&#x437;&#x434;&#x43E;&#x440;&#x4B3;&#x43E;</a></li>
+                    <li class="mb-4"><a href="/WorldBank/Project">&#x41B;&#x43E;&#x438;&#x4B3;&#x430;&#x438; &#xAB;&#x410;&#x43C;&#x430;&#x43B;&#x438;&#x451;&#x442; &#x43E;&#x438;&#x434; &#x431;&#x430; &#x438;&#x441;&#x43B;&#x43E;&#x4B3;&#x43E;&#x442;&#x438; &#x430;&#x43D;&#x434;&#x43E;&#x437;&#xBB;</a></li>
+                    <li class="mb-4"><a href="../docs/savolho/&#x421;&#x430;&#x432;&#x43E;&#x43B;&#x43D;&#x43E;&#x43C;&#x430; &#x43E;&#x438;&#x434; &#x431;&#x430; &#x43C;&#x443;&#x49B;&#x430;&#x440;&#x440;&#x430;&#x440;&#x43E;&#x442;&#x438; &#x43A;&#x43E;&#x43D;&#x443;&#x43D;&#x433;&#x443;&#x437;&#x43E;&#x440;&#x438;&#x438; &#x430;&#x43D;&#x434;&#x43E;&#x437;.pdf">&#x421;&#x430;&#x432;&#x43E;&#x43B;&#x43D;&#x43E;&#x43C;&#x430;</a></li>
+                    <li class="mb-4"><a href="/Home/Privacy">&#x421;&#x438;&#x451;&#x441;&#x430;&#x442;&#x438; &#x43C;&#x430;&#x445;&#x444;&#x438;&#x44F;&#x442;</a></li>
+                    <li class="mb-4"><a href="/TaxCommittee/ElectronicReportingSystem">&#x421;&#x438;&#x441;&#x442;&#x435;&#x43C;&#x430;&#x438; &#x44D;&#x43B;&#x435;&#x43A;&#x442;&#x440;&#x43E;&#x43D;&#x438;&#x438; &#x4B3;&#x438;&#x441;&#x43E;&#x431;&#x43E;&#x442;&#x4B3;&#x43E;</a></li>
+            </ul>
+            <div class="my-4 flex w-full justify-end text-base md:w-1/2">
+                <div class="flex w-full justify-around xl:w-2/3">
+                    <div class="flex flex-col">
+                        <a href="tel:151" class="font-bold">151</a>
+                        <span>Маркази тамос</span>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <a href="tel:+992372330686" class="font-bold">(+992-37)233-06-86</a>
+                        <span>Рақамҳои телефон</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="copyRights flex items-center text-sm">
+        <div class="container mx-auto flex items-center justify-between">
+            <div class="w-1/2">© 2026 “Andoz.tj”. Ҳамаи маълумотҳо бо ҳуқуқи муаллиф ҳифз карда шудааст</div>
+            <div class="flex w-1/2 items-center justify-end">
+                <a href="https://mbma.tj/" target="_blank">Сохт ва барномасозӣ: КВД "Маркази барномасозии маъмурикунонии андоз"</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/js/select2.min.js"></script>
+    <script src="/js/site.js?v=nMXZ-KW188ErPVqDZ4Z0k0Yl8rieSA2cb3K2dQhp304"></script>
+    
+    <script src="/js/videoplayerscripts.js"></script>
+    <script>
+            function changeVideo(link, button) {
+                document.getElementById('homeVideoPlayer').src = link;
+                document.getElementById('homeVideoPlayer').play();
+
+                document.querySelectorAll('.buttons button').forEach(btn => btn.classList.remove('video-btn-active'));
+                button.classList.add('video-btn-active');
+            }
+    </script>
+
+
+    
+</body>
+</html>

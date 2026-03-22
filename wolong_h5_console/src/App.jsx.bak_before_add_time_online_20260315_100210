@@ -1,0 +1,1020 @@
+import { useEffect, useMemo, useRef, useState } from 'react'
+import './index.css'
+
+const fallbackCustomers = [
+  {
+    id: '1',
+    name: '艾哈迈德汽车集团',
+    category: '准车商',
+    country: '哈萨克斯坦',
+    channel: 'WhatsApp',
+    time: '10:24',
+    message: '需要8辆凯美瑞/普拉多，长期采购，走霍尔果斯',
+    keywords: ['8辆车', '霍尔果斯', '经销商', '普拉多', '凯美瑞', '长期采购'],
+    reason: '有批量采购、数量明确、口岸明确、长期合作信号。',
+    tags: ['批量采购', '中亚方向', '口岸明确'],
+    phone: '+7 701 234 5678',
+    timeline: [
+      '03-10 首次询问普拉多/凯美瑞车源',
+      '03-10 明确提到需要8辆车',
+      '03-11 提到走霍尔果斯口岸',
+      '03-12 继续问长期稳定供货',
+    ],
+    messages: [
+      { role: '客户', text: 'Hello, do you have Prado and Camry for export?' },
+      { role: '我方', text: 'Yes, how many units do you need?' },
+      { role: '客户', text: 'About 8 units first, maybe long-term, via Horgos.' },
+      { role: '我方', text: 'We can support that. Which port do you prefer?' },
+      { role: '客户', text: 'Horgos. Can you keep supply stable?' },
+      { role: '我方', text: 'Yes, we can discuss a stable monthly plan.' },
+    ],
+  },
+]
+
+const fallbackStats = [
+  { label: '准车商', value: 12 },
+  { label: '疑似车商', value: 18 },
+  { label: '个人客户', value: 7 },
+  { label: '沟通无效', value: 4 },
+]
+
+const channels = ['WhatsApp', 'Facebook（后续）', 'Ins（后续）', '更多渠道（后续）']
+
+function getCounts(messages) {
+  const safeMessages = Array.isArray(messages) ? messages : []
+  return {
+    proactiveCount: safeMessages.filter((msg) => msg.role === '客户').length,
+    exchangeCount: safeMessages.length,
+  }
+}
+
+function getModeLabel(mode) {
+  if (mode === 'off') return '关闭'
+  if (mode === 'readonly') return '只读观察'
+  if (mode === 'manual') return '人工接管'
+  return mode || '-'
+}
+
+function getCustomerTypeLabel(value) {
+  if (value === 'dealer') return '经销商'
+  if (value === 'dealer_like') return '疑似经销商'
+  if (value === 'retail') return '个人客户'
+  if (value === 'unknown') return '待判断'
+  return value || '待判断'
+}
+
+function getBusinessStageLabel(value) {
+  if (value === 'new') return '新线索'
+  if (value === 'negotiating') return '洽谈中'
+  if (value === 'quoted') return '已报价'
+  if (value === 'waiting') return '待回复'
+  if (value === 'closed') return '已收口'
+  if (value === 'unknown') return '待判断'
+  return value || '待判断'
+}
+
+function getRiskLevelLabel(value) {
+  if (value === 'low') return '低'
+  if (value === 'medium') return '中'
+  if (value === 'high') return '高'
+  if (value === 'unknown') return '待判断'
+  return value || '待判断'
+}
+
+function getActionLabel(value) {
+  if (value === 'human_follow_up') return '建议人工跟进'
+  if (value === 'send_quote') return '发送报价'
+  if (value === 'ask_requirements') return '继续确认需求'
+  if (value === 'pause_and_review') return '暂停并复核'
+  if (value === 'unknown') return '待判断'
+  return value || '待判断'
+}
+
+function buildBusinessReason(currentBusiness) {
+  if (!currentBusiness) return '暂无业务判断说明'
+
+  const parts = []
+  const customerType = getCustomerTypeLabel(currentBusiness.customer_type)
+  const businessStage = getBusinessStageLabel(currentBusiness.business_stage)
+  const riskLevel = getRiskLevelLabel(currentBusiness.risk_level)
+  const nextAction = getActionLabel(currentBusiness.next_best_action)
+
+  parts.push(`系统判断当前客户更接近“${customerType}”，当前业务阶段为“${businessStage}”，风险等级为“${riskLevel}”。`)
+
+  if (currentBusiness.handoff_recommended) {
+    parts.push('当前建议由人工介入跟进，以便更稳地确认采购身份、数量和成交条件。')
+  } else {
+    parts.push('当前可继续按自动跟进节奏推进。')
+  }
+
+  parts.push(`下一步建议为“${nextAction}”。`)
+
+  if (Array.isArray(currentBusiness.reason_keywords) && currentBusiness.reason_keywords.length) {
+    parts.push(`判断依据关键词包括：${currentBusiness.reason_keywords.join('、')}。`)
+  }
+
+  return parts.join('')
+}
+
+function normalizeCustomer(item, index) {
+  if (!item || typeof item !== 'object') return null
+
+  return {
+    id: String(item.id || item.customer_id || item.phone || index + 1),
+    name: item.name || item.customer_name || item.title || item.phone || `客户${index + 1}`,
+    category: item.category || item.customer_type || item.segment || item.bucket || '待判断',
+    country: item.country || item.destination_country || item.region || '未知',
+    channel: item.channel || 'WhatsApp',
+    time: item.time || item.last_time || item.updated_at || '—',
+    message: item.message || item.last_message || item.summary || item.latest_message || '暂无摘要',
+    keywords: Array.isArray(item.keywords) ? item.keywords : [],
+    reason: item.reason || item.rationale || item.judgement_reason || '暂无判断说明',
+    tags: Array.isArray(item.tags) ? item.tags : [],
+    phone: item.phone || item.customer_id || '-',
+    timeline: Array.isArray(item.timeline) ? item.timeline : [],
+    messages: Array.isArray(item.messages) ? item.messages : [],
+  }
+}
+
+function normalizeDashboard(data) {
+  if (!data || typeof data !== 'object') {
+    return { customers: fallbackCustomers, stats: fallbackStats }
+  }
+
+  const candidateList =
+    data.customers ||
+    data.items ||
+    data.records ||
+    data.conversations ||
+    data.list ||
+    data.recent_focus ||
+    []
+
+  const customers = Array.isArray(candidateList)
+    ? candidateList.map(normalizeCustomer).filter(Boolean)
+    : fallbackCustomers
+
+  const statsSource = data.stats || data.summary || data.top_stats || {}
+  const stats = [
+    { label: '准车商', value: statsSource.准车商 || statsSource.ready_dealers || statsSource.readyDealerCount || 0 },
+    { label: '疑似车商', value: statsSource.疑似车商 || statsSource.suspected_dealers || statsSource.suspectedDealerCount || 0 },
+    { label: '个人客户', value: statsSource.个人客户 || statsSource.individual_customers || statsSource.personalCount || 0 },
+    { label: '沟通无效', value: statsSource.沟通无效 || statsSource.无效沟通 || statsSource.invalid_conversations || statsSource.invalidCount || 0 },
+  ]
+
+  return {
+    customers: customers.length ? customers : fallbackCustomers,
+    stats: stats.some((x) => x.value > 0) ? stats : fallbackStats,
+  }
+}
+
+function normalizeBusinessItem(item) {
+  if (!item || typeof item !== 'object') return null
+
+  return {
+    customer_name: item.customer_name || item.name || item.customer || 'Unknown',
+    customer_type: item.customer_type || 'unknown',
+    business_stage: item.business_stage || 'unknown',
+    risk_level: item.risk_level || 'unknown',
+    next_best_action: item.next_best_action || 'unknown',
+    handoff_recommended: Boolean(item.handoff_recommended),
+    follow_up_questions: Array.isArray(item.follow_up_questions) ? item.follow_up_questions : [],
+    reason_keywords: Array.isArray(item.reason_keywords) ? item.reason_keywords : [],
+  }
+}
+
+function normalizeBusinessSnapshot(data) {
+  if (!data || typeof data !== 'object') {
+    return {
+      updated_at: '',
+      customer_count: 0,
+      customers: [],
+    }
+  }
+
+  const candidateList =
+    data.customers ||
+    data.items ||
+    data.results ||
+    []
+
+  const customers = Array.isArray(candidateList)
+    ? candidateList.map(normalizeBusinessItem).filter(Boolean)
+    : []
+
+  return {
+    updated_at: data.updated_at || '',
+    customer_count: data.customer_count || customers.length || 0,
+    customers,
+  }
+}
+
+function SwitchRow({ label, checked, onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: '12px',
+        padding: '8px 0',
+        background: 'transparent',
+        border: 'none',
+        cursor: 'pointer',
+        textAlign: 'left',
+      }}
+    >
+      <span style={{ fontSize: '13px', color: '#111827', fontWeight: 600 }}>{label}</span>
+      <span
+        style={{
+          width: '42px',
+          height: '24px',
+          borderRadius: '999px',
+          background: checked ? '#2563eb' : '#d1d5db',
+          position: 'relative',
+          transition: 'all 0.2s ease',
+          flexShrink: 0,
+        }}
+      >
+        <span
+          style={{
+            width: '18px',
+            height: '18px',
+            borderRadius: '50%',
+            background: '#ffffff',
+            position: 'absolute',
+            top: '3px',
+            left: checked ? '21px' : '3px',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.2)',
+            transition: 'all 0.2s ease',
+          }}
+        />
+      </span>
+    </button>
+  )
+}
+
+function buildReminderList(customers, businessSnapshot) {
+  const items = []
+  const businessMap = new Map()
+
+  ;(businessSnapshot?.customers || []).forEach((item) => {
+    businessMap.set((item.customer_name || '').trim().toLowerCase(), item)
+  })
+
+  ;(customers || []).forEach((customer) => {
+    const key = (customer.name || '').trim().toLowerCase()
+    const business = businessMap.get(key)
+    if (!business) return
+
+    const reasons = []
+    if (business.handoff_recommended) reasons.push('建议人工介入')
+    if (business.risk_level === 'high') reasons.push('高风险')
+    if (business.next_best_action === 'human_follow_up') reasons.push('待跟进')
+    if (!reasons.length) return
+
+    items.push({
+      id: customer.id,
+      customerName: customer.name,
+      reasons,
+      riskLevel: business.risk_level,
+      handoffRecommended: business.handoff_recommended,
+      nextBestAction: business.next_best_action,
+      customerType: business.customer_type,
+      businessStage: business.business_stage,
+    })
+  })
+
+  return items
+}
+
+function getNotificationBody(reminder) {
+  const parts = []
+  if (reminder.reasons?.length) parts.push(reminder.reasons.join(' / '))
+  parts.push(`建议动作：${getActionLabel(reminder.nextBestAction)}`)
+  return parts.join(' ｜ ')
+}
+
+async function ensureBrowserNotificationPermission() {
+  if (typeof window === 'undefined' || !('Notification' in window)) {
+    return 'unsupported'
+  }
+
+  if (Notification.permission === 'granted') return 'granted'
+  if (Notification.permission === 'denied') return 'denied'
+
+  try {
+    const permission = await Notification.requestPermission()
+    return permission
+  } catch {
+    return 'error'
+  }
+}
+
+function sendBrowserNotification(reminder) {
+  if (typeof window === 'undefined' || !('Notification' in window)) return
+  if (Notification.permission !== 'granted') return
+
+  try {
+    const notification = new Notification('卧龙Agent提醒', {
+      body: `${reminder.customerName}：${getNotificationBody(reminder)}`,
+      tag: `wolong-${reminder.customerName}`,
+    })
+
+    notification.onclick = () => {
+      window.focus()
+    }
+  } catch (error) {
+    console.error('browser notification failed', error)
+  }
+}
+
+function sendEnterpriseWecomPlaceholder(reminder) {
+  console.log('[占位] 企业微信通知待接通：', {
+    channel: 'wecom',
+    customer: reminder.customerName,
+    reason: reminder.reasons,
+    action: reminder.nextBestAction,
+  })
+}
+
+function sendWechatPlaceholder(reminder) {
+  console.log('[占位] 微信通知待接通：', {
+    channel: 'wechat',
+    customer: reminder.customerName,
+    reason: reminder.reasons,
+    action: reminder.nextBestAction,
+  })
+}
+
+function sendDingTalkPlaceholder(reminder) {
+  console.log('[占位] 钉钉通知待接通：', {
+    channel: 'dingtalk',
+    customer: reminder.customerName,
+    reason: reminder.reasons,
+    action: reminder.nextBestAction,
+  })
+}
+
+export default function App() {
+  const [customers, setCustomers] = useState(fallbackCustomers)
+  const [stats, setStats] = useState(fallbackStats)
+  const [selectedId, setSelectedId] = useState('1')
+  const [loadingText, setLoadingText] = useState('正在读取 runtime 真源...')
+  const [activeChannel, setActiveChannel] = useState('WhatsApp')
+
+  const [ingressMode, setIngressMode] = useState('readonly')
+  const [autoClassify, setAutoClassify] = useState(true)
+  const [autoTagging, setAutoTagging] = useState(true)
+  const [h5Visible, setH5Visible] = useState(true)
+  const [autoReply, setAutoReply] = useState(false)
+  const [autoDispatch, setAutoDispatch] = useState(false)
+
+  const [browserNotifyEnabled, setBrowserNotifyEnabled] = useState(false)
+  const [browserNotifyStatus, setBrowserNotifyStatus] = useState('未授权')
+  const [wecomNotifyEnabled, setWecomNotifyEnabled] = useState(false)
+  const [wechatNotifyEnabled, setWechatNotifyEnabled] = useState(false)
+  const [dingtalkNotifyEnabled, setDingtalkNotifyEnabled] = useState(false)
+
+  const [businessSnapshot, setBusinessSnapshot] = useState({
+    updated_at: '',
+    customer_count: 0,
+    customers: [],
+  })
+
+  const [activeReminder, setActiveReminder] = useState(null)
+  const shownReminderKeysRef = useRef(new Set())
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && 'Notification' in window) {
+      if (Notification.permission === 'granted') {
+        setBrowserNotifyEnabled(true)
+        setBrowserNotifyStatus('已授权')
+      } else if (Notification.permission === 'denied') {
+        setBrowserNotifyEnabled(false)
+        setBrowserNotifyStatus('已拒绝')
+      } else {
+        setBrowserNotifyEnabled(false)
+        setBrowserNotifyStatus('未授权')
+      }
+    } else {
+      setBrowserNotifyEnabled(false)
+      setBrowserNotifyStatus('浏览器不支持')
+    }
+  }, [])
+
+  useEffect(() => {
+    Promise.all([
+      fetch('/runtime/views/h5_dashboard_whatsapp.json').then((r) => r.ok ? r.json() : null).catch(() => null),
+      fetch('/runtime/views/whatsapp_control_snapshot.json').then((r) => r.ok ? r.json() : null).catch(() => null),
+      fetch('/runtime/views/h5_business_judgement_snapshot.json').then((r) => r.ok ? r.json() : null).catch(() => null),
+    ]).then(([dashboardData, controlData, businessData]) => {
+      const normalized = normalizeDashboard(dashboardData)
+      const normalizedBusiness = normalizeBusinessSnapshot(businessData)
+
+      setCustomers(normalized.customers)
+      setStats(normalized.stats)
+      setBusinessSnapshot(normalizedBusiness)
+      setSelectedId((prev) => {
+        if (prev && normalized.customers.some((x) => x.id === prev)) return prev
+        return normalized.customers[0]?.id ?? '1'
+      })
+
+      if (controlData && typeof controlData === 'object') {
+        setIngressMode(controlData.ingress_mode || 'readonly')
+        setAutoClassify(Boolean(controlData.auto_classify))
+        setAutoTagging(Boolean(controlData.auto_tagging))
+        setH5Visible(Boolean(controlData.h5_visible))
+        setAutoReply(Boolean(controlData.auto_reply))
+        setAutoDispatch(Boolean(controlData.auto_dispatch))
+      }
+
+      setLoadingText('已读取 runtime 真源')
+    })
+  }, [])
+
+  const selected = customers.find((x) => x.id === selectedId) || customers[0] || fallbackCustomers[0]
+  const isHot = selected.category === '准车商'
+  const { proactiveCount, exchangeCount } = useMemo(() => getCounts(selected.messages), [selected])
+
+  const currentBusiness = useMemo(() => {
+    const targetName = (selected?.name || '').trim().toLowerCase()
+    return businessSnapshot.customers.find((item) => {
+      return (item.customer_name || '').trim().toLowerCase() === targetName
+    }) || null
+  }, [businessSnapshot, selected])
+
+  const businessReasonText = useMemo(() => {
+    if (currentBusiness) return buildBusinessReason(currentBusiness)
+    return selected.reason || '暂无判断说明'
+  }, [currentBusiness, selected])
+
+  const reminderList = useMemo(() => buildReminderList(customers, businessSnapshot), [customers, businessSnapshot])
+
+  const reminderStats = useMemo(() => {
+    return {
+      total: reminderList.length,
+      handoff: reminderList.filter((item) => item.handoffRecommended).length,
+      highRisk: reminderList.filter((item) => item.riskLevel === 'high').length,
+      followUp: reminderList.filter((item) => item.nextBestAction === 'human_follow_up').length,
+    }
+  }, [reminderList])
+
+  useEffect(() => {
+    if (!reminderList.length) {
+      setActiveReminder(null)
+      return
+    }
+
+    const firstUnshown = reminderList.find((item) => {
+      const key = `${item.customerName}-${item.reasons.join('|')}`
+      return !shownReminderKeysRef.current.has(key)
+    })
+
+    if (firstUnshown) {
+      const key = `${firstUnshown.customerName}-${firstUnshown.reasons.join('|')}`
+      shownReminderKeysRef.current.add(key)
+      setActiveReminder(firstUnshown)
+
+      if (browserNotifyEnabled && browserNotifyStatus === '已授权') {
+        sendBrowserNotification(firstUnshown)
+      }
+
+      if (wecomNotifyEnabled) {
+        sendEnterpriseWecomPlaceholder(firstUnshown)
+      }
+
+      if (wechatNotifyEnabled) {
+        sendWechatPlaceholder(firstUnshown)
+      }
+
+      if (dingtalkNotifyEnabled) {
+        sendDingTalkPlaceholder(firstUnshown)
+      }
+    }
+  }, [
+    reminderList,
+    browserNotifyEnabled,
+    browserNotifyStatus,
+    wecomNotifyEnabled,
+    wechatNotifyEnabled,
+    dingtalkNotifyEnabled,
+  ])
+
+  const onTogglePlaceholder = (label) => {
+    window.alert(`${label} 当前为前端演示开关。真实开关动作后续应接后端配置保存链。`)
+  }
+
+  const emergencyStop = () => {
+    window.alert('当前按钮仅保留演示占位，不再修改前端本地状态。真实止水动作应走后端配置保存链。')
+  }
+
+  const handleReminderJump = () => {
+    if (!activeReminder) return
+    const target = customers.find((item) => item.name === activeReminder.customerName)
+    if (target) setSelectedId(target.id)
+    setActiveReminder(null)
+  }
+
+  const handleBrowserNotifyToggle = async () => {
+    if (browserNotifyEnabled) {
+      setBrowserNotifyEnabled(false)
+      setBrowserNotifyStatus(Notification.permission === 'granted' ? '已授权' : browserNotifyStatus)
+      return
+    }
+
+    const permission = await ensureBrowserNotificationPermission()
+
+    if (permission === 'granted') {
+      setBrowserNotifyEnabled(true)
+      setBrowserNotifyStatus('已授权')
+      window.alert('浏览器通知已开启。后续命中提醒条件时，会弹系统通知。')
+      return
+    }
+
+    if (permission === 'denied') {
+      setBrowserNotifyEnabled(false)
+      setBrowserNotifyStatus('已拒绝')
+      window.alert('浏览器通知权限被拒绝。需要你在浏览器设置里重新允许。')
+      return
+    }
+
+    if (permission === 'unsupported') {
+      setBrowserNotifyEnabled(false)
+      setBrowserNotifyStatus('浏览器不支持')
+      window.alert('当前浏览器不支持系统通知。')
+      return
+    }
+
+    setBrowserNotifyEnabled(false)
+    setBrowserNotifyStatus('未授权')
+    window.alert('浏览器通知未开启成功。')
+  }
+
+  return (
+    <div className="page">
+      <div className="top-title">卧龙代理聊天实战工作台</div>
+
+      {activeReminder ? (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(15, 23, 42, 0.35)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 9999,
+            padding: '20px',
+          }}
+        >
+          <div
+            style={{
+              width: 'min(560px, 100%)',
+              background: '#ffffff',
+              borderRadius: '18px',
+              boxShadow: '0 24px 60px rgba(0,0,0,0.2)',
+              border: '1px solid #fecaca',
+              overflow: 'hidden',
+            }}
+          >
+            <div style={{ padding: '16px 18px', background: '#fff1f2', borderBottom: '1px solid #fecaca' }}>
+              <div style={{ fontSize: '18px', fontWeight: 800, color: '#b91c1c', marginBottom: '4px' }}>
+                业务提醒弹窗
+              </div>
+              <div style={{ fontSize: '13px', color: '#7f1d1d' }}>
+                检测到需要优先处理的客户，请立即判断是否继续。
+              </div>
+            </div>
+
+            <div style={{ padding: '18px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              <div style={{ border: '1px solid #e5e7eb', borderRadius: '12px', padding: '12px', background: '#fafafa' }}>
+                <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '6px' }}>客户</div>
+                <div style={{ fontSize: '18px', fontWeight: 800 }}>{activeReminder.customerName}</div>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                <div style={{ border: '1px solid #e5e7eb', borderRadius: '12px', padding: '12px', background: '#fafafa' }}>
+                  <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '4px' }}>提醒原因</div>
+                  <div style={{ fontSize: '14px', fontWeight: 700, color: '#b91c1c' }}>{activeReminder.reasons.join(' / ')}</div>
+                </div>
+
+                <div style={{ border: '1px solid #e5e7eb', borderRadius: '12px', padding: '12px', background: '#fafafa' }}>
+                  <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '4px' }}>建议动作</div>
+                  <div style={{ fontSize: '14px', fontWeight: 700 }}>{getActionLabel(activeReminder.nextBestAction)}</div>
+                </div>
+
+                <div style={{ border: '1px solid #e5e7eb', borderRadius: '12px', padding: '12px', background: '#fafafa' }}>
+                  <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '4px' }}>客户类型</div>
+                  <div style={{ fontSize: '14px', fontWeight: 700 }}>{getCustomerTypeLabel(activeReminder.customerType)}</div>
+                </div>
+
+                <div style={{ border: '1px solid #e5e7eb', borderRadius: '12px', padding: '12px', background: '#fafafa' }}>
+                  <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '4px' }}>业务阶段</div>
+                  <div style={{ fontSize: '14px', fontWeight: 700 }}>{getBusinessStageLabel(activeReminder.businessStage)}</div>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', paddingTop: '4px' }}>
+                <button
+                  onClick={() => setActiveReminder(null)}
+                  style={{
+                    height: '40px',
+                    padding: '0 14px',
+                    borderRadius: '10px',
+                    border: '1px solid #d1d5db',
+                    background: '#ffffff',
+                    color: '#374151',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                  }}
+                >
+                  稍后处理
+                </button>
+
+                <button
+                  onClick={handleReminderJump}
+                  style={{
+                    height: '40px',
+                    padding: '0 16px',
+                    borderRadius: '10px',
+                    border: '1px solid #2563eb',
+                    background: '#2563eb',
+                    color: '#ffffff',
+                    fontWeight: 800,
+                    cursor: 'pointer',
+                  }}
+                >
+                  立即跟进
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
+      <div
+        style={{
+          marginBottom: '10px',
+          border: '1px solid #d7dde7',
+          background: '#ffffff',
+          borderRadius: '12px',
+          padding: '10px 12px',
+          display: 'grid',
+          gridTemplateColumns: '1.2fr 1fr 1fr 1fr',
+          gap: '10px',
+        }}
+      >
+        <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '10px', background: '#fafafa' }}>
+          <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '6px' }}>待提醒</div>
+          <div style={{ fontSize: '28px', fontWeight: 800 }}>{reminderStats.total}</div>
+        </div>
+
+        <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '10px', background: '#fafafa' }}>
+          <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '6px' }}>建议人工介入</div>
+          <div style={{ fontSize: '28px', fontWeight: 800, color: '#b91c1c' }}>{reminderStats.handoff}</div>
+        </div>
+
+        <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '10px', background: '#fafafa' }}>
+          <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '6px' }}>高风险</div>
+          <div style={{ fontSize: '28px', fontWeight: 800, color: '#b91c1c' }}>{reminderStats.highRisk}</div>
+        </div>
+
+        <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '10px', background: '#fafafa' }}>
+          <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '6px' }}>待跟进</div>
+          <div style={{ fontSize: '28px', fontWeight: 800, color: '#1d4ed8' }}>{reminderStats.followUp}</div>
+        </div>
+      </div>
+
+      <div
+        style={{
+          marginBottom: '10px',
+          border: '1px solid #d7dde7',
+          background: '#ffffff',
+          borderRadius: '12px',
+          padding: '10px 12px',
+          display: 'grid',
+          gridTemplateColumns: '1.2fr 1fr 1fr 1fr',
+          gap: '10px',
+        }}
+      >
+        <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '10px', background: '#fafafa' }}>
+          <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '6px' }}>浏览器通知</div>
+          <div style={{ fontSize: '15px', fontWeight: 800, marginBottom: '4px' }}>
+            {browserNotifyEnabled ? '已开启' : '未开启'}
+          </div>
+          <div style={{ fontSize: '12px', color: '#6b7280' }}>状态：{browserNotifyStatus}</div>
+        </div>
+
+        <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '10px', background: '#fafafa' }}>
+          <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '6px' }}>企业微信</div>
+          <div style={{ fontSize: '15px', fontWeight: 800, marginBottom: '4px' }}>
+            {wecomNotifyEnabled ? '占位已开' : '占位未开'}
+          </div>
+          <div style={{ fontSize: '12px', color: '#6b7280' }}>后续接 webhook</div>
+        </div>
+
+        <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '10px', background: '#fafafa' }}>
+          <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '6px' }}>微信</div>
+          <div style={{ fontSize: '15px', fontWeight: 800, marginBottom: '4px' }}>
+            {wechatNotifyEnabled ? '占位已开' : '占位未开'}
+          </div>
+          <div style={{ fontSize: '12px', color: '#6b7280' }}>后续接桥接通道</div>
+        </div>
+
+        <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '10px', background: '#fafafa' }}>
+          <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '6px' }}>钉钉</div>
+          <div style={{ fontSize: '15px', fontWeight: 800, marginBottom: '4px' }}>
+            {dingtalkNotifyEnabled ? '占位已开' : '占位未开'}
+          </div>
+          <div style={{ fontSize: '12px', color: '#6b7280' }}>后续接机器人 webhook</div>
+        </div>
+      </div>
+
+      <div style={{ background: '#fff', border: '1px solid #d7dde7', borderRadius: '12px', padding: '10px 12px', marginBottom: '10px', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap', marginBottom: '8px' }}>
+          <div>
+            <div style={{ fontSize: '15px', fontWeight: 700 }}>WhatsApp 房间开关（运行时真源读取）</div>
+            <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '2px' }}>
+              {loadingText}
+            </div>
+          </div>
+
+          <button
+            onClick={emergencyStop}
+            style={{
+              height: '34px',
+              padding: '0 14px',
+              borderRadius: '10px',
+              border: '1px solid #ef4444',
+              background: '#fff1f2',
+              color: '#d92020',
+              fontWeight: 700,
+              cursor: 'pointer',
+            }}
+          >
+            紧急止水（前端演示）
+          </button>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr 1fr', gap: '10px', alignItems: 'stretch' }}>
+          <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '12px', background: '#fafafa' }}>
+            <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '10px' }}>第1层 · 接入层</div>
+            <div style={{ fontSize: '13px', fontWeight: 700, marginBottom: '8px' }}>WhatsApp 接入模式</div>
+            <div style={{ fontSize: '14px', fontWeight: 700, marginBottom: '8px' }}>{getModeLabel(ingressMode)}</div>
+
+            <div style={{ borderTop: '1px solid #e5e7eb', paddingTop: '6px' }}>
+              <SwitchRow label="接入开关" checked={ingressMode !== 'off'} onClick={() => onTogglePlaceholder('接入开关')} />
+            </div>
+          </div>
+
+          <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '12px', background: '#fafafa' }}>
+            <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '10px' }}>第2层 · 处理层</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+              <SwitchRow label="自动分类" checked={autoClassify} onClick={() => onTogglePlaceholder('自动分类')} />
+              <SwitchRow label="自动标签" checked={autoTagging} onClick={() => onTogglePlaceholder('自动标签')} />
+              <SwitchRow label="H5 可见" checked={h5Visible} onClick={() => onTogglePlaceholder('H5 可见')} />
+            </div>
+          </div>
+
+          <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '12px', background: '#fafafa' }}>
+            <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '10px' }}>第3层 · 输出层</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+              <SwitchRow label="自动回复" checked={autoReply} onClick={() => onTogglePlaceholder('自动回复')} />
+              <SwitchRow label="自动外发" checked={autoDispatch} onClick={() => onTogglePlaceholder('自动外发')} />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style={{ background: '#fff', border: '1px solid #d7dde7', borderRadius: '12px', padding: '10px 12px', marginBottom: '10px', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+        <div style={{ fontSize: '15px', fontWeight: 700, marginBottom: '10px' }}>通知通道开关（浏览器真跑，外部通道预留）</div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: '10px' }}>
+          <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '12px', background: '#fafafa' }}>
+            <SwitchRow label="浏览器通知" checked={browserNotifyEnabled} onClick={handleBrowserNotifyToggle} />
+          </div>
+
+          <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '12px', background: '#fafafa' }}>
+            <SwitchRow
+              label="企业微信占位"
+              checked={wecomNotifyEnabled}
+              onClick={() => setWecomNotifyEnabled((prev) => !prev)}
+            />
+          </div>
+
+          <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '12px', background: '#fafafa' }}>
+            <SwitchRow
+              label="微信占位"
+              checked={wechatNotifyEnabled}
+              onClick={() => setWechatNotifyEnabled((prev) => !prev)}
+            />
+          </div>
+
+          <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '12px', background: '#fafafa' }}>
+            <SwitchRow
+              label="钉钉占位"
+              checked={dingtalkNotifyEnabled}
+              onClick={() => setDingtalkNotifyEnabled((prev) => !prev)}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="stats-row">
+        {stats.map((item) => (
+          <div className="mini-card" key={item.label}>
+            <span>{item.label}</span>
+            <strong>{item.value}</strong>
+          </div>
+        ))}
+      </div>
+
+      <div className="channel-row">
+        {channels.map((name) => (
+          <button
+            key={name}
+            className={`channel ${activeChannel === name ? 'active' : ''}`}
+            onClick={() => setActiveChannel(name)}
+          >
+            {name}
+          </button>
+        ))}
+      </div>
+
+      <div className="main-grid">
+        <div className="panel">
+          <div className="panel-head">
+            <h3>客户总览</h3>
+            <p>按固定顺序密集展示，当前优先读取运行时真源</p>
+          </div>
+
+          <div className="list-wrap">
+            {customers.map((item) => {
+              const rowBusiness = businessSnapshot.customers.find((x) => {
+                return (x.customer_name || '').trim().toLowerCase() === (item.name || '').trim().toLowerCase()
+              })
+
+              return (
+                <button
+                  key={item.id}
+                  className={`list-row ${selectedId === item.id ? 'selected' : ''}`}
+                  onClick={() => setSelectedId(item.id)}
+                >
+                  <div className="list-main">
+                    <div className="name-line">
+                      <strong>{item.name}</strong>
+                      <span className={`tag ${item.category}`}>{item.category}</span>
+                    </div>
+                    <div className="msg-line">{item.message}</div>
+
+                    {rowBusiness ? (
+                      <div style={{ marginTop: '6px', display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+                        <span style={{ borderRadius: '999px', background: '#f3f4f6', padding: '2px 8px', fontSize: '11px', color: '#374151' }}>
+                          {getCustomerTypeLabel(rowBusiness.customer_type)}
+                        </span>
+                        <span style={{ borderRadius: '999px', background: '#f3f4f6', padding: '2px 8px', fontSize: '11px', color: '#374151' }}>
+                          {getBusinessStageLabel(rowBusiness.business_stage)}
+                        </span>
+                        <span style={{ borderRadius: '999px', background: '#f3f4f6', padding: '2px 8px', fontSize: '11px', color: '#374151' }}>
+                          {getRiskLevelLabel(rowBusiness.risk_level)}
+                        </span>
+                      </div>
+                    ) : null}
+                  </div>
+
+                  <div className="list-side">{item.country}</div>
+                  <div className="list-side">{item.channel}</div>
+                  <div className="list-side">{item.time}</div>
+                </button>
+              )
+            })}
+          </div>
+        </div>
+
+        <div className="panel">
+          <div className="detail-top">
+            <div>
+              <h3>{selected.name}</h3>
+              <p>{selected.country} · {selected.channel} · {selected.phone}</p>
+            </div>
+
+            <div className="keyword-box">
+              <div className="keyword-title">判断依据关键词</div>
+              <div className="keyword-wrap">
+                {currentBusiness && currentBusiness.reason_keywords.length
+                  ? currentBusiness.reason_keywords.map((keyword) => (
+                      <span className="chip" key={keyword}>{keyword}</span>
+                    ))
+                  : (selected.keywords || []).map((keyword) => (
+                      <span className="chip" key={keyword}>{keyword}</span>
+                    ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="detail-card">
+            <div className="detail-card-title">业务判断</div>
+
+            {!currentBusiness ? (
+              <div style={{ color: '#6b7280' }}>暂无业务判断结果</div>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                  <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '10px', background: '#fafafa' }}>
+                    <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '4px' }}>客户类型</div>
+                    <div style={{ fontSize: '14px', fontWeight: 700 }}>{getCustomerTypeLabel(currentBusiness.customer_type)}</div>
+                  </div>
+
+                  <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '10px', background: '#fafafa' }}>
+                    <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '4px' }}>业务阶段</div>
+                    <div style={{ fontSize: '14px', fontWeight: 700 }}>{getBusinessStageLabel(currentBusiness.business_stage)}</div>
+                  </div>
+
+                  <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '10px', background: '#fafafa' }}>
+                    <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '4px' }}>风险等级</div>
+                    <div style={{ fontSize: '14px', fontWeight: 700 }}>{getRiskLevelLabel(currentBusiness.risk_level)}</div>
+                  </div>
+
+                  <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '10px', background: '#fafafa' }}>
+                    <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '4px' }}>人工接管</div>
+                    <div style={{ fontSize: '14px', fontWeight: 700 }}>
+                      {currentBusiness.handoff_recommended ? '建议人工介入' : '可继续自动跟进'}
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ borderRadius: '10px', padding: '10px', background: '#eff6ff', border: '1px solid #bfdbfe' }}>
+                  <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '4px' }}>建议下一步</div>
+                  <div style={{ fontSize: '14px', fontWeight: 700 }}>{getActionLabel(currentBusiness.next_best_action)}</div>
+                </div>
+
+                <div style={{ fontSize: '12px', color: '#6b7280' }}>
+                  判断快照时间：{businessSnapshot.updated_at || '—'}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="detail-card">
+            <div className="detail-card-title">判断说明</div>
+            <div>{businessReasonText}</div>
+          </div>
+
+          <div className="detail-card">
+            <div className="detail-card-title">建议追问</div>
+            {currentBusiness && currentBusiness.follow_up_questions.length ? (
+              <ul style={{ margin: 0, paddingLeft: '18px' }}>
+                {currentBusiness.follow_up_questions.map((question, idx) => (
+                  <li key={`${question}-${idx}`} style={{ marginBottom: '8px' }}>{question}</li>
+                ))}
+              </ul>
+            ) : (
+              <div style={{ color: '#6b7280' }}>暂无建议追问</div>
+            )}
+          </div>
+
+          <div className="detail-card">
+            <div className="detail-card-title">活跃度提示</div>
+            <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+              <span style={{ fontSize: '12px', fontWeight: 700, color: '#d92020' }}>主动问询 {proactiveCount} 次</span>
+              <span style={{ fontSize: '12px', fontWeight: 700, color: '#d92020' }}>对话来往 {exchangeCount} 次</span>
+              {isHot ? <span style={{ fontSize: '12px', fontWeight: 700, color: '#14a44d' }}>高意向重点跟进</span> : null}
+            </div>
+          </div>
+
+          <div className="detail-card">
+            <div className="detail-card-title">判断时间线</div>
+            <ul style={{ margin: 0, paddingLeft: '18px' }}>
+              {(selected.timeline || []).map((item, idx) => (
+                <li key={`${item}-${idx}`} style={{ marginBottom: '6px' }}>{item}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="detail-card">
+            <div className="detail-card-title">聊天记录</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {(selected.messages || []).map((msg, idx) => (
+                <div
+                  key={`${msg.role}-${idx}`}
+                  style={{
+                    padding: '8px 10px',
+                    borderRadius: '10px',
+                    background: msg.role === '客户' ? '#fff7ed' : '#eff6ff',
+                    border: '1px solid #e5e7eb',
+                  }}
+                >
+                  <strong style={{ display: 'block', marginBottom: '4px' }}>{msg.role}</strong>
+                  <span>{msg.text}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}

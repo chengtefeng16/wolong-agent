@@ -1,0 +1,29 @@
+{
+  "phone": "+77011234567",
+  "customer_name": "Zhaslan",
+  "country": "哈萨克斯坦",
+  "channel": "whatsapp",
+  "bucket": "准车商",
+  "destination": "霍尔果斯",
+  "crm_status": "pending_export",
+  "summary": "客户明确表示自己是 dealer，且有持续采购意愿，属于高价值准车商。",
+  "wants": ["8台", "SUV", "长期采购", "价格优势"],
+  "conditions": ["自认dealer", "数量>=5", "长期采购倾向"],
+  "messages": [
+    {
+      "role": "customer",
+      "text": "Need 8 SUVs. We can buy regularly if prices are good.",
+      "time": "2026-03-12 09:10:00"
+    },
+    {
+      "role": "agent",
+      "text": "您好，我们是上海的二手车出口公司，可以给您提供更有价格优势的中国车源。您是做车商采购，对吗？",
+      "time": "2026-03-12 09:11:00"
+    },
+    {
+      "role": "customer",
+      "text": "Yes, I am a dealer.",
+      "time": "2026-03-12 09:12:00"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "fetched_at": "2026-03-19T00:29:35.747579+00:00",
+  "domain": "andoz.tj",
+  "request_url": "https://andoz.tj/ForTaxpayer/Appeals",
+  "ok": true,
+  "status": 200,
+  "final_url": "https://andoz.tj/ForTaxpayer/Appeals",
+  "content_type": "text/html; charset=utf-8",
+  "content_length": 52935,
+  "headers": {
+    "Server": "nginx",
+    "Date": "Thu, 19 Mar 2026 00:20:17 GMT",
+    "Content-Type": "text/html; charset=utf-8",
+    "Transfer-Encoding": "chunked",
+    "Connection": "close",
+    "Cache-Control": "no-cache, no-store",
+    "Pragma": "no-cache",
+    "Strict-Transport-Security": "max-age=15768000",
+    "Set-Cookie": ".AspNetCore.Antiforgery.TEck4vaLGGY=CfDJ8E9KPCm02lxOhYwR5H-EpzOWg60OYbSFxWGmrJQ4U-gfL8a8Ij-VLybnGsSLfZPrYjDsobyMAxJIi1ACtY6sFI4N3K50SDfnPIbxCFR9Yk5Bf3mwuNWFJdZ4dzXeOg_gVN-bG44CFWRLeeu_BB0kyi8; path=/; samesite=strict; httponly",
+    "X-Frame-Options": "SAMEORIGIN",
+    "X-Powered-By": "ASP.NET"
+  },
+  "error": "",
+  "fetch_mode": "fallback_unverified_ssl",
+  "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+  "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+  "body_file": "andoz.tj_fortaxpayer_appeals.html"
+}

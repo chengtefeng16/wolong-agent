@@ -1,0 +1,176 @@
+{
+  "dashboard_name": "h5_dashboard_whatsapp",
+  "source": "runtime_sessions/whatsapp",
+  "customers": [
+    {
+      "id": "+77011234567",
+      "name": "Zhaslan",
+      "category": "准车商",
+      "country": "哈萨克斯坦",
+      "channel": "whatsapp",
+      "time": "2026-03-12 09:12:00",
+      "message": "Need 8 SUVs. We can buy regularly if prices are good.",
+      "keywords": [
+        "8台",
+        "SUV",
+        "长期采购",
+        "价格优势",
+        "自认dealer",
+        "数量>=5",
+        "长期采购倾向"
+      ],
+      "reason": "客户明确表示自己是 dealer，且有持续采购意愿，属于高价值准车商。",
+      "tags": [
+        "8台",
+        "SUV",
+        "长期采购",
+        "价格优势"
+      ],
+      "phone": "+77011234567",
+      "timeline": [
+        "2026-03-12 09:10:00 客户：Need 8 SUVs. We can buy regularly if prices are good.",
+        "2026-03-12 09:11:00 我方：您好，我们是上海的二手车出口公司，可以给您提供更有价格优势的中国车源。您是做车商采购，对吗？",
+        "2026-03-12 09:12:00 客户：Yes, I am a dealer."
+      ],
+      "messages": [
+        {
+          "role": "客户",
+          "text": "Need 8 SUVs. We can buy regularly if prices are good.",
+          "time": "2026-03-12 09:10:00"
+        },
+        {
+          "role": "我方",
+          "text": "您好，我们是上海的二手车出口公司，可以给您提供更有价格优势的中国车源。您是做车商采购，对吗？",
+          "time": "2026-03-12 09:11:00"
+        },
+        {
+          "role": "客户",
+          "text": "Yes, I am a dealer.",
+          "time": "2026-03-12 09:12:00"
+        }
+      ],
+      "crm_status": "pending_export",
+      "needs_human_review": false,
+      "destination": "霍尔果斯"
+    },
+    {
+      "id": "+992900000001",
+      "name": "Bek",
+      "category": "疑似车商",
+      "country": "塔吉克斯坦",
+      "channel": "whatsapp",
+      "time": "2026-03-12 12:05:00",
+      "message": "Need Prado and Camry, maybe 7 units.",
+      "keywords": [
+        "Prado",
+        "Camry",
+        "7台",
+        "数量>=5",
+        "车型明确",
+        "身份待确认"
+      ],
+      "reason": "客户数量较大、车型明确，倾向批量采购，但尚未明确承认自己是车商。",
+      "tags": [
+        "Prado",
+        "Camry",
+        "7台"
+      ],
+      "phone": "+992900000001",
+      "timeline": [
+        "2026-03-12 12:05:00 客户：Need Prado and Camry, maybe 7 units.",
+        "2026-03-12 12:06:00 我方：明白，您这边更像批量采购。请问您自己是车商，还是替客户集中采购？"
+      ],
+      "messages": [
+        {
+          "role": "客户",
+          "text": "Need Prado and Camry, maybe 7 units.",
+          "time": "2026-03-12 12:05:00"
+        },
+        {
+          "role": "我方",
+          "text": "明白，您这边更像批量采购。请问您自己是车商，还是替客户集中采购？",
+          "time": "2026-03-12 12:06:00"
+        }
+      ],
+      "crm_status": "pending_export",
+      "needs_human_review": true,
+      "destination": "杜尚别"
+    },
+    {
+      "id": "+79161230000",
+      "name": "Ivan",
+      "category": "个人客户",
+      "country": "俄罗斯",
+      "channel": "whatsapp",
+      "time": "2026-03-12 10:02:00",
+      "message": "I need one family car, not for resale.",
+      "keywords": [
+        "1台",
+        "家庭用车",
+        "预算待补",
+        "明确非转卖",
+        "数量=1",
+        "自用倾向明显"
+      ],
+      "reason": "客户明确表示是家庭自用，不是转卖，属于个人客户。",
+      "tags": [
+        "1台",
+        "家庭用车",
+        "预算待补"
+      ],
+      "phone": "+79161230000",
+      "timeline": [
+        "2026-03-12 10:02:00 客户：I need one family car, not for resale.",
+        "2026-03-12 10:03:00 我方：好的，您更偏向家庭自用。请问您更想要SUV还是轿车？预算大概是多少？"
+      ],
+      "messages": [
+        {
+          "role": "客户",
+          "text": "I need one family car, not for resale.",
+          "time": "2026-03-12 10:02:00"
+        },
+        {
+          "role": "我方",
+          "text": "好的，您更偏向家庭自用。请问您更想要SUV还是轿车？预算大概是多少？",
+          "time": "2026-03-12 10:03:00"
+        }
+      ],
+      "crm_status": "not_ready",
+      "needs_human_review": false,
+      "destination": "待确认"
+    },
+    {
+      "id": "+70000000000",
+      "name": "Demo Customer",
+      "category": "疑似车商",
+      "country": "哈萨克斯坦",
+      "channel": "whatsapp",
+      "time": "2026-03-15 20:49:44",
+      "message": "Need Prado and Camry, maybe 5 units.",
+      "keywords": [],
+      "reason": "客户有批量采购意图，需要人工继续判断。",
+      "tags": [],
+      "phone": "+70000000000",
+      "timeline": [
+        "2026-03-15 20:49:44 客户：Need Prado and Camry, maybe 5 units."
+      ],
+      "messages": [
+        {
+          "role": "客户",
+          "text": "Need Prado and Camry, maybe 5 units.",
+          "time": "2026-03-15 20:49:44"
+        }
+      ],
+      "crm_status": "pending_export",
+      "needs_human_review": true,
+      "destination": ""
+    }
+  ],
+  "stats": {
+    "准车商": 1,
+    "疑似车商": 2,
+    "个人客户": 1,
+    "沟通无效": 0
+  },
+  "customer_count": 4
+}

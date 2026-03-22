@@ -1,0 +1,58 @@
+{
+  "generated_at": "2026-03-14 18:09:02",
+  "source_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_views/h5_dashboard_whatsapp.json",
+  "count": 2,
+  "items": [
+    {
+      "phone": "+77011234567",
+      "customer_name": "Zhaslan",
+      "bucket": "准车商",
+      "latest_message": "Need 8 SUVs. We can buy regularly if prices are good.",
+      "customer_type": "dealer",
+      "business_stage": "quoted",
+      "risk_level": "medium",
+      "intent_type": "vehicle_purchase",
+      "next_best_action": "human_follow_up",
+      "follow_up_questions": [
+        "请确认您是展厅/经销商采购还是项目采购？",
+        "请确认首批数量、长期月需求和目的国。",
+        "请确认目标车型、年份范围和预算。",
+        "请确认是否接受中国境内交车价与口岸交车价两套报价。"
+      ],
+      "handoff_recommended": true,
+      "reason_keywords": [
+        "buy",
+        "price",
+        "prices",
+        "quantity_signal",
+        "regularly",
+        "suv"
+      ]
+    },
+    {
+      "phone": "+992900000001",
+      "customer_name": "Bek",
+      "bucket": "疑似车商",
+      "latest_message": "Need Prado and Camry, maybe 7 units.",
+      "customer_type": "dealer_like",
+      "business_stage": "quoted",
+      "risk_level": "medium",
+      "intent_type": "vehicle_purchase",
+      "next_best_action": "human_follow_up",
+      "follow_up_questions": [
+        "请确认您是展厅/经销商采购还是项目采购？",
+        "请确认首批数量、长期月需求和目的国。",
+        "请确认目标车型、年份范围和预算。",
+        "请确认是否接受中国境内交车价与口岸交车价两套报价。"
+      ],
+      "handoff_recommended": true,
+      "reason_keywords": [
+        "camry",
+        "prado",
+        "quantity_signal",
+        "units"
+      ]
+    }
+  ],
+  "conclusion": "卧龙 Agent 已具备最小业务判断力增强骨架，可对重点客户给出客户类型、业务阶段、风险等级、下一步动作与补问建议。"
+}

@@ -1,0 +1,65 @@
+{
+  "country_code": "GH",
+  "country_name_en": "Ghana",
+  "country_name_zh": "加纳",
+  "region_pack": "africa",
+  "status": "pending_verification",
+  "policy_version": "v0.1-batch-init",
+  "confidence_level": "medium",
+  "last_checked_at": "2026-03-18",
+  "next_small_update_due": "2026-03-21",
+  "next_major_update_due": "2026-03-25",
+  "source_records": [
+    {
+      "source_id": "gh_customs_import_guidance_v1",
+      "source_type": "official_or_high_trust_web",
+      "source_level": "B",
+      "title": "Ghana import guidance initial source",
+      "language": "en",
+      "status": "discovered",
+      "notes": "待进一步结构化"
+    }
+  ],
+  "eligibility_scope": {},
+  "access_rules": {},
+  "tax_rules": {},
+  "customs_and_documents": {},
+  "logistics_and_delivery": {},
+  "risk_and_review": {},
+  "output_support": {
+    "customer_safe_explanation_template": "Initial source discovered. Further structured verification is still required before using as a final customer-facing rule."
+  },
+  "pending_tasks": [],
+  "audit_status": "audit_restricted",
+  "audit_summary": {
+    "issues": [],
+    "warnings": [
+      "status_pending_verification",
+      "policy_version_batch_init"
+    ],
+    "human_review_needed": true,
+    "source_coverage": {
+      "customs": true,
+      "tax_or_revenue": false,
+      "transport_or_industry_or_trade": false,
+      "official_gazette_or_law_db": false,
+      "high_trust_industry_or_embassy": true,
+      "soft_signals_only": false
+    },
+    "cross_validation_score": 3,
+    "cross_validation_status": "medium"
+  },
+  "audit_last_checked_at": "2026-03-18",
+  "source_validation_summary": {
+    "source_coverage": {
+      "customs": true,
+      "tax_or_revenue": false,
+      "transport_or_industry_or_trade": false,
+      "official_gazette_or_law_db": false,
+      "high_trust_industry_or_embassy": true,
+      "soft_signals_only": false
+    },
+    "cross_validation_score": 3,
+    "cross_validation_status": "medium"
+  }
+}

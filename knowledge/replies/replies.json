@@ -1,0 +1,36 @@
+{
+  "greeting_form": {
+    "intent": "lead_from_form",
+    "replies": {
+      "en": "Hi, thank you for reaching out and filling in the form. We are a used car export company based in China. May I know which country you plan to import the vehicles to?",
+      "zh": "你好，感谢你的留言并填写表单。我们是一家位于中国的二手车出口公司。方便了解一下，您计划把车辆出口到哪个国家吗？",
+      "es": "Hola, gracias por tu mensaje y por completar el formulario. Somos una empresa de exportación de autos usados con sede en China. ¿A qué país planeas importar los vehículos?",
+      "fr": "Bonjour, merci pour votre message et d’avoir rempli le formulaire. Nous sommes une entreprise d’exportation de voitures d’occasion basée en Chine. Vers quel pays souhaitez-vous importer les véhicules ?",
+      "ru": "Здравствуйте, спасибо за сообщение и за заполнение формы. Мы — компания по экспорту подержанных автомобилей из Китая. В какую страну вы планируете импортировать автомобили?",
+      "ar": "مرحبًا، شكرًا لرسالتك وملء النموذج. نحن شركة لتصدير السيارات المستعملة مقرّها في الصين. إلى أي دولة تخطط لاستيراد السيارات؟"
+    }
+  },
+  "ask_location": {
+    "intent": "company_background",
+    "replies": {
+      "en": "We are based in China and specialize in exporting used vehicles to Africa and the Middle East.",
+      "zh": "我们在中国，主要做二手车出口，重点服务非洲和中东市场。",
+      "es": "Estamos en China y nos especializamos en exportar vehículos usados a África y Oriente Medio.",
+      "fr": "Nous sommes basés en Chine et spécialisés dans l’exportation de véhicules d’occasion vers l’Afrique et le Moyen-Orient.",
+      "ru": "Мы находимся в Китае и специализируемся на экспорте подержанных автомобилей в Африку и на Ближний Восток.",
+      "ar": "نحن مقرّنا في الصين ومتخصصون في تصدير السيارات المستعملة إلى أفريقيا والشرق الأوسط."
+    }
+  },
+  "fallback": {
+    "intent": "unknown",
+    "replies": {
+      "en": "Thanks for your message. Could you please share a bit more detail?",
+      "zh": "谢谢你的消息。你方便再补充一点具体需求吗？比如出口国家、车型或数量。",
+      "es": "Gracias por tu mensaje. ¿Podrías compartir un poco más de detalle?",
+      "fr": "Merci pour votre message. Pourriez-vous partager un peu plus de détails ?",
+      "ru": "Спасибо за сообщение. Не могли бы вы уточнить детали?",
+      "ar": "شكرًا لرسالتك. هل يمكنك تزويدي بمزيد من التفاصيل من فضلك؟"
+    }
+  }
+}
+

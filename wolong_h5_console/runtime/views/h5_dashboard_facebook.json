@@ -1,0 +1,111 @@
+{
+  "view_name": "h5_dashboard_facebook",
+  "version": "2026-03-15",
+  "channel_type": "facebook",
+  "tenant_id": "default",
+  "account_id": "fb_page_demo_001",
+  "account_name": "Wolong Auto Export Page",
+  "top_stats": {
+    "准车商": 2,
+    "疑似车商": 2,
+    "个人客户": 1,
+    "无效沟通": 0
+  },
+  "customers": [
+    {
+      "id": "fb_thread_1001",
+      "customer_id": "fb_user_9001",
+      "customer_name": "Arman",
+      "category": "准车商",
+      "country": "哈萨克斯坦",
+      "channel": "Facebook",
+      "time": "2026-03-15 10:22",
+      "last_time": "2026-03-15 10:22",
+      "message": "Need 6 SUVs for resale, can buy monthly if supply is stable.",
+      "latest_message": "Need 6 SUVs for resale, can buy monthly if supply is stable.",
+      "keywords": ["6 units", "resale", "monthly", "stable supply", "SUV"],
+      "reason": "有批量采购与持续采购信号，倾向车商。",
+      "tags": ["批量采购", "Facebook来源", "持续供货"],
+      "phone": "-",
+      "source_type": "messenger",
+      "platform_customer_id": "fb_user_9001",
+      "platform_thread_id": "fb_thread_1001",
+      "timeline": [
+        "03-15 首次通过 Facebook Messenger 咨询",
+        "03-15 提到首批 6 台 SUV",
+        "03-15 表示若供应稳定可长期采购"
+      ],
+      "messages": [
+        { "role": "客户", "text": "Hello, do you have SUVs for export?" },
+        { "role": "我方", "text": "Yes, what quantity do you need?" },
+        { "role": "客户", "text": "Need 6 SUVs for resale, can buy monthly if supply is stable." }
+      ]
+    },
+    {
+      "id": "fb_thread_1002",
+      "customer_id": "fb_user_9002",
+      "customer_name": "Bekzat",
+      "category": "疑似车商",
+      "country": "乌兹别克斯坦",
+      "channel": "Facebook",
+      "time": "2026-03-15 09:48",
+      "last_time": "2026-03-15 09:48",
+      "message": "Need Prado and Camry, maybe 4-5 units first.",
+      "latest_message": "Need Prado and Camry, maybe 4-5 units first.",
+      "keywords": ["Prado", "Camry", "4-5 units"],
+      "reason": "有车型明确和数量信号，但长期性未确认。",
+      "tags": ["车型明确", "Facebook来源"],
+      "phone": "-",
+      "source_type": "messenger",
+      "platform_customer_id": "fb_user_9002",
+      "platform_thread_id": "fb_thread_1002",
+      "timeline": [
+        "03-15 咨询 Prado / Camry",
+        "03-15 提到首批 4-5 台"
+      ],
+      "messages": [
+        { "role": "客户", "text": "Need Prado and Camry, maybe 4-5 units first." }
+      ]
+    },
+    {
+      "id": "fb_thread_1003",
+      "customer_id": "fb_user_9003",
+      "customer_name": "Murod",
+      "category": "个人客户",
+      "country": "吉尔吉斯斯坦",
+      "channel": "Facebook",
+      "time": "2026-03-15 08:35",
+      "last_time": "2026-03-15 08:35",
+      "message": "Looking for one Camry for personal use.",
+      "latest_message": "Looking for one Camry for personal use.",
+      "keywords": ["Camry", "personal use", "1 unit"],
+      "reason": "目前看更像个人购车需求。",
+      "tags": ["个人客户", "Facebook来源"],
+      "phone": "-",
+      "source_type": "messenger",
+      "platform_customer_id": "fb_user_9003",
+      "platform_thread_id": "fb_thread_1003",
+      "timeline": [
+        "03-15 通过 Facebook Messenger 咨询 Camry",
+        "03-15 明确是个人自用"
+      ],
+      "messages": [
+        { "role": "客户", "text": "Looking for one Camry for personal use." }
+      ]
+    }
+  ],
+  "recent_focus": [
+    {
+      "customer_id": "fb_user_9001",
+      "customer_name": "Arman",
+      "bucket": "准车商",
+      "latest_message": "Need 6 SUVs for resale, can buy monthly if supply is stable."
+    },
+    {
+      "customer_id": "fb_user_9002",
+      "customer_name": "Bekzat",
+      "bucket": "疑似车商",
+      "latest_message": "Need Prado and Camry, maybe 4-5 units first."
+    }
+  ]
+}

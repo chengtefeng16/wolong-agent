@@ -1,0 +1,450 @@
+from __future__ import annotations
+
+from dataclasses import dataclass, asdict, field
+from datetime import datetime
+from typing import Any, Dict, List, Optional
+
+
+@dataclass
+class TestPlan:
+    plan_id: str
+    task_id: str
+    agent_id: str
+    plan_name: str
+    plan_scope: List[str] = field(default_factory=list)
+    plan_goal: List[str] = field(default_factory=list)
+    created_at: str = field(default_factory=lambda: datetime.utcnow().isoformat())
+
+
+@dataclass
+class TestScenario:
+    scenario_id: str
+    scenario_type: str
+    scenario_name: str
+    scenario_description: str
+    expected_focus: List[str] = field(default_factory=list)
+    created_at: str = field(default_factory=lambda: datetime.utcnow().isoformat())
+
+
+@dataclass
+class TestSuite:
+    suite_id: str
+    task_id: str
+    agent_id: str
+    suite_name: str
+    scenarios: List[Dict[str, Any]] = field(default_factory=list)
+    created_at: str = field(default_factory=lambda: datetime.utcnow().isoformat())
+
+
+@dataclass
+class FaultInjectionPlan:
+    injection_plan_id: str
+    task_id: str
+    agent_id: str
+    injection_status: str
+    injection_targets: List[str] = field(default_factory=list)
+    injection_actions: List[str] = field(default_factory=list)
+    created_at: str = field(default_factory=lambda: datetime.utcnow().isoformat())
+
+
+@dataclass
+class FaultInjectionResult:
+    injection_result_id: str
+    task_id: str
+    agent_id: str
+    simulated_failure_count: int
+    simulated_failures: List[Dict[str, Any]] = field(default_factory=list)
+    observation_points: List[str] = field(default_factory=list)
+    created_at: str = field(default_factory=lambda: datetime.utcnow().isoformat())
+
+
+@dataclass
+class TestConclusion:
+    conclusion_id: str
+    task_id: str
+    agent_id: str
+    test_status: str
+    test_summary: str
+    findings: List[str] = field(default_factory=list)
+    next_test_actions: List[str] = field(default_factory=list)
+    created_at: str = field(default_factory=lambda: datetime.utcnow().isoformat())
+
+
+@dataclass
+class TestLog:
+    log_id: str
+    task_id: str
+    agent_id: str
+    test_plan: Dict[str, Any]
+    test_suite: Dict[str, Any]
+    fault_injection_plan: Dict[str, Any]
+    fault_injection_result: Dict[str, Any]
+    test_conclusion: Dict[str, Any]
+    created_at: str = field(default_factory=lambda: datetime.utcnow().isoformat())
+
+
+class TestManager:
+    """
+    测试层第二刀：
+    - 在第一刀“测试计划与测试场景骨架”基础上，
+      新增异常路径故障注入骨架。
+    - 当前仍属于结构化测试层，不是真实执行故障。
+    """
+
+    def __init__(self) -> None:
+        self.module_name = "test_manager_v2"
+
+    def build_test_plan(
+        self,
+        task_id: str,
+        agent_id: str,
+        plan_name: str,
+        plan_scope: Optional[List[str]] = None,
+        plan_goal: Optional[List[str]] = None,
+    ) -> Dict[str, Any]:
+        plan = TestPlan(
+            plan_id=f"test_plan_{task_id}",
+            task_id=task_id,
+            agent_id=agent_id,
+            plan_name=plan_name,
+            plan_scope=plan_scope or [],
+            plan_goal=plan_goal or [],
+        )
+        return asdict(plan)
+
+    def build_test_scenario(
+        self,
+        scenario_type: str,
+        scenario_name: str,
+        scenario_description: str,
+        expected_focus: Optional[List[str]] = None,
+    ) -> Dict[str, Any]:
+        scenario = TestScenario(
+            scenario_id=f"test_scenario_{scenario_type}_{datetime.utcnow().strftime('%Y%m%d%H%M%S%f')}",
+            scenario_type=scenario_type,
+            scenario_name=scenario_name,
+            scenario_description=scenario_description,
+            expected_focus=expected_focus or [],
+        )
+        return asdict(scenario)
+
+    def build_test_suite(
+        self,
+        task_id: str,
+        agent_id: str,
+        suite_name: str,
+        scenarios: Optional[List[Dict[str, Any]]] = None,
+    ) -> Dict[str, Any]:
+        suite = TestSuite(
+            suite_id=f"test_suite_{task_id}",
+            task_id=task_id,
+            agent_id=agent_id,
+            suite_name=suite_name,
+            scenarios=scenarios or [],
+        )
+        return asdict(suite)
+
+    def build_fault_injection_plan(
+        self,
+        task_id: str,
+        agent_id: str,
+        injection_status: str,
+        injection_targets: Optional[List[str]] = None,
+        injection_actions: Optional[List[str]] = None,
+    ) -> Dict[str, Any]:
+        plan = FaultInjectionPlan(
+            injection_plan_id=f"fault_injection_plan_{task_id}",
+            task_id=task_id,
+            agent_id=agent_id,
+            injection_status=injection_status,
+            injection_targets=injection_targets or [],
+            injection_actions=injection_actions or [],
+        )
+        return asdict(plan)
+
+    def build_fault_injection_result(
+        self,
+        task_id: str,
+        agent_id: str,
+        simulated_failure_count: int,
+        simulated_failures: Optional[List[Dict[str, Any]]] = None,
+        observation_points: Optional[List[str]] = None,
+    ) -> Dict[str, Any]:
+        result = FaultInjectionResult(
+            injection_result_id=f"fault_injection_result_{task_id}",
+            task_id=task_id,
+            agent_id=agent_id,
+            simulated_failure_count=simulated_failure_count,
+            simulated_failures=simulated_failures or [],
+            observation_points=observation_points or [],
+        )
+        return asdict(result)
+
+    def build_test_conclusion(
+        self,
+        task_id: str,
+        agent_id: str,
+        test_status: str,
+        test_summary: str,
+        findings: Optional[List[str]] = None,
+        next_test_actions: Optional[List[str]] = None,
+    ) -> Dict[str, Any]:
+        conclusion = TestConclusion(
+            conclusion_id=f"test_conclusion_{task_id}",
+            task_id=task_id,
+            agent_id=agent_id,
+            test_status=test_status,
+            test_summary=test_summary,
+            findings=findings or [],
+            next_test_actions=next_test_actions or [],
+        )
+        return asdict(conclusion)
+
+    def build_test_log(
+        self,
+        task_id: str,
+        agent_id: str,
+        test_plan: Dict[str, Any],
+        test_suite: Dict[str, Any],
+        fault_injection_plan: Dict[str, Any],
+        fault_injection_result: Dict[str, Any],
+        test_conclusion: Dict[str, Any],
+    ) -> Dict[str, Any]:
+        log = TestLog(
+            log_id=f"test_log_{task_id}",
+            task_id=task_id,
+            agent_id=agent_id,
+            test_plan=test_plan,
+            test_suite=test_suite,
+            fault_injection_plan=fault_injection_plan,
+            fault_injection_result=fault_injection_result,
+            test_conclusion=test_conclusion,
+        )
+        return asdict(log)
+
+    def _build_default_scenarios(self) -> List[Dict[str, Any]]:
+        scenarios: List[Dict[str, Any]] = []
+
+        scenarios.append(
+            self.build_test_scenario(
+                scenario_type="normal_path",
+                scenario_name="正常路径测试",
+                scenario_description="验证规划、执行、输出、反思、图谱、人机闭环是否能按正常路径跑通。",
+                expected_focus=[
+                    "execution_result 是否完整",
+                    "formatted_output 是否生成",
+                    "reflection_log 是否生成",
+                    "knowledge_graph 是否生成",
+                    "human_machine_loop_log 是否生成",
+                ],
+            )
+        )
+
+        scenarios.append(
+            self.build_test_scenario(
+                scenario_type="exception_path",
+                scenario_name="异常路径测试",
+                scenario_description="验证执行失败、治理异常、输出异常时，系统是否能进入异常分支。",
+                expected_focus=[
+                    "failed_step_count 是否上升",
+                    "error_reflection 是否进入主链",
+                    "self_healing 是否能介入",
+                ],
+            )
+        )
+
+        scenarios.append(
+            self.build_test_scenario(
+                scenario_type="healing_path",
+                scenario_name="守护/自愈路径测试",
+                scenario_description="验证守护层在失败出现后是否能触发重试、修复与日志归档。",
+                expected_focus=[
+                    "healing_plan 是否生成",
+                    "healing_result 是否记录",
+                    "retry_result / repair_result 是否可观察",
+                ],
+            )
+        )
+
+        scenarios.append(
+            self.build_test_scenario(
+                scenario_type="warning_path",
+                scenario_name="预警路径测试",
+                scenario_description="验证预警层是否能在风险放大前识别征兆并生成干预建议。",
+                expected_focus=[
+                    "risk_signals 是否生成",
+                    "warning_snapshot 是否可用",
+                    "trend_analysis 是否可用",
+                    "intervention_suggestion 是否可用",
+                ],
+            )
+        )
+
+        scenarios.append(
+            self.build_test_scenario(
+                scenario_type="human_machine_loop",
+                scenario_name="人机协同闭环测试",
+                scenario_description="验证人工确认、机器执行、结果回流、反思接入和下一轮调整是否形成闭环。",
+                expected_focus=[
+                    "human_decision 是否记录",
+                    "machine_execution 是否记录",
+                    "result_feedback 是否回流",
+                    "next_round_adjustment 是否形成",
+                ],
+            )
+        )
+
+        scenarios.append(
+            self.build_test_scenario(
+                scenario_type="concurrency_boundary",
+                scenario_name="并发与边界测试",
+                scenario_description="验证系统在任务量抬升、等待人工复核任务堆积、执行器压力增大时的可承受边界。",
+                expected_focus=[
+                    "系统何时开始抬升预警",
+                    "哪个模块先成为瓶颈",
+                    "并发边界受哪些资源与架构因素决定",
+                ],
+            )
+        )
+
+        return scenarios
+
+    def build_test_blueprint_from_runtime(
+        self,
+        task_id: str,
+        agent_id: str,
+        execution_result: Optional[Dict[str, Any]] = None,
+        healing_result: Optional[Dict[str, Any]] = None,
+        reflection_log: Optional[Dict[str, Any]] = None,
+        early_warning_log: Optional[Dict[str, Any]] = None,
+        human_machine_loop_log: Optional[Dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
+        execution_result = execution_result or {}
+        healing_result = healing_result or {}
+        reflection_log = reflection_log or {}
+        early_warning_log = early_warning_log or {}
+        human_machine_loop_log = human_machine_loop_log or {}
+
+        test_plan = self.build_test_plan(
+            task_id=task_id,
+            agent_id=agent_id,
+            plan_name="AgentOS 测试层第二刀计划",
+            plan_scope=[
+                "正常路径",
+                "异常路径",
+                "守护/自愈路径",
+                "反思路径",
+                "预警路径",
+                "人机协同闭环路径",
+                "并发测试路径",
+                "边界测试路径",
+                "故障注入路径",
+            ],
+            plan_goal=[
+                "验证主链是否可稳定运行。",
+                "验证异常情况下系统是否能被发现、预警、守护与记录。",
+                "验证故障注入后各层是否有对应观察点。",
+            ],
+        )
+
+        test_suite = self.build_test_suite(
+            task_id=task_id,
+            agent_id=agent_id,
+            suite_name="AgentOS 第二批测试场景套件",
+            scenarios=self._build_default_scenarios(),
+        )
+
+        fault_injection_plan = self.build_fault_injection_plan(
+            task_id=task_id,
+            agent_id=agent_id,
+            injection_status="planned",
+            injection_targets=[
+                "execution_layer",
+                "output_adapter",
+                "self_healing",
+                "early_warning",
+            ],
+            injection_actions=[
+                "模拟 execution_step 失败",
+                "模拟输出状态异常",
+                "模拟 retry / repair 触发",
+                "模拟预警信号上升",
+            ],
+        )
+
+        simulated_failures = [
+            {
+                "failure_id": f"sim_exec_fail_{task_id}",
+                "failure_type": "execution_step_failure",
+                "target_module": "execution_layer",
+                "failure_summary": "模拟执行步骤失败，用于观察 failed_step_count、self_healing 与 reflection 是否联动。",
+            },
+            {
+                "failure_id": f"sim_output_fail_{task_id}",
+                "failure_type": "output_status_anomaly",
+                "target_module": "output_adapter",
+                "failure_summary": "模拟输出异常或输出未闭环，用于观察预警层与人机闭环是否联动。",
+            },
+        ]
+
+        observation_points = [
+            "execution_result.failed_step_count 是否变化",
+            "healing_plan / healing_result 是否变化",
+            "reflection_log.error_reflection 是否进入主链",
+            "early_warning_log.risk_signals 是否上升",
+            "human_machine_loop_log.result_feedback 是否出现异常回流",
+        ]
+
+        fault_injection_result = self.build_fault_injection_result(
+            task_id=task_id,
+            agent_id=agent_id,
+            simulated_failure_count=len(simulated_failures),
+            simulated_failures=simulated_failures,
+            observation_points=observation_points,
+        )
+
+        findings: List[str] = []
+        next_actions: List[str] = []
+
+        if execution_result.get("execution_status") == "done":
+            findings.append("当前正常路径仍可跑通，说明故障注入骨架是在稳定主链基础上新增。")
+
+        if healing_result:
+            findings.append("守护层已具备可观察结果，后续适合推进真实失败注入。")
+
+        if reflection_log:
+            findings.append("反思层已接入，后续适合把 error_reflection 与故障注入联动起来。")
+
+        if early_warning_log:
+            findings.append("预警层已接入，后续适合在异常放大时观察风险信号是否同步抬升。")
+
+        if human_machine_loop_log:
+            findings.append("人机协同闭环已接入，后续适合测试异常结果是否能回流到人工侧。")
+
+        next_actions.extend(
+            [
+                "下一步可注入真实 failed_steps，验证 self_healing、reflection、early_warning 三层联动。",
+                "下一步可设计并发压测前的单点故障注入测试。",
+                "下一步可细化边界测试：先观察执行层、再观察预警层、再观察守护层的响应顺序。",
+                "后续可把 H5 预警弹窗与故障注入结果联动展示。",
+            ]
+        )
+
+        test_conclusion = self.build_test_conclusion(
+            task_id=task_id,
+            agent_id=agent_id,
+            test_status="planned_with_fault_injection",
+            test_summary="测试层第二刀已把异常路径故障注入骨架正式接入，后续可继续推进真实失败注入与联动观察。",
+            findings=findings,
+            next_test_actions=next_actions,
+        )
+
+        return self.build_test_log(
+            task_id=task_id,
+            agent_id=agent_id,
+            test_plan=test_plan,
+            test_suite=test_suite,
+            fault_injection_plan=fault_injection_plan,
+            fault_injection_result=fault_injection_result,
+            test_conclusion=test_conclusion,
+        )

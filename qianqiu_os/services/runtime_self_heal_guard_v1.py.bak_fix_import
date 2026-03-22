@@ -1,0 +1,107 @@
+import json
+from pathlib import Path
+
+from qianqiu_os.services.runtime_alert_guard_v1 import RuntimeAlertGuardV1
+
+
+BASE_DIR = Path(__file__).resolve().parents[1]
+ACTIVE_CONFIG_PATH = BASE_DIR / "runtime_governance" / "delegation_active_config.json"
+
+
+class RuntimeSelfHealGuardV1:
+    def _default_whatsapp_control(self):
+        return {
+            "ingress_mode": "readonly",
+            "auto_classify": True,
+            "auto_tagging": True,
+            "h5_visible": True,
+            "auto_reply": False,
+            "auto_dispatch": False,
+        }
+
+    def _read_json(self, path: Path):
+        if not path.exists():
+            return None
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            return None
+
+    def _write_json(self, path: Path, data: dict):
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+
+    def run(self, auto_apply=True):
+        alert_guard = RuntimeAlertGuardV1()
+        alert_result = alert_guard.evaluate()
+
+        actions = []
+        changed = False
+
+        active_config = self._read_json(ACTIVE_CONFIG_PATH)
+        if active_config is None:
+            active_config = {
+                "config_name": "delegation_active_config",
+                "config_version": "self_heal_bootstrap",
+                "saved_at": "self_heal_bootstrap",
+                "operator_id": "runtime_self_heal_guard_v1",
+                "operator_name": "runtime_self_heal_guard_v1",
+                "change_reason": "bootstrap_missing_active_config",
+                "delegation_policy": {},
+                "whatsapp_control": self._default_whatsapp_control(),
+            }
+            if auto_apply:
+                self._write_json(ACTIVE_CONFIG_PATH, active_config)
+                changed = True
+            actions.append({
+                "action": "bootstrap_active_config",
+                "applied": auto_apply,
+            })
+
+        whatsapp_control = active_config.get("whatsapp_control", {}) or {}
+        if not whatsapp_control:
+            active_config["whatsapp_control"] = self._default_whatsapp_control()
+            if auto_apply:
+                self._write_json(ACTIVE_CONFIG_PATH, active_config)
+                changed = True
+            actions.append({
+                "action": "inject_default_whatsapp_control",
+                "applied": auto_apply,
+            })
+            whatsapp_control = active_config.get("whatsapp_control", {}) or {}
+
+        if whatsapp_control.get("auto_reply") is True:
+            active_config["whatsapp_control"]["auto_reply"] = False
+            if auto_apply:
+                self._write_json(ACTIVE_CONFIG_PATH, active_config)
+                changed = True
+            actions.append({
+                "action": "force_auto_reply_false",
+                "applied": auto_apply,
+            })
+
+        if whatsapp_control.get("auto_dispatch") is True:
+            active_config["whatsapp_control"]["auto_dispatch"] = False
+            if auto_apply:
+                self._write_json(ACTIVE_CONFIG_PATH, active_config)
+                changed = True
+            actions.append({
+                "action": "force_auto_dispatch_false",
+                "applied": auto_apply,
+            })
+
+        final_config = self._read_json(ACTIVE_CONFIG_PATH)
+
+        return {
+            "alert_result": alert_result,
+            "actions": actions,
+            "changed": changed,
+            "final_whatsapp_control": (final_config or {}).get("whatsapp_control", {}),
+        }
+
+
+if __name__ == "__main__":
+    guard = RuntimeSelfHealGuardV1()
+    print(json.dumps(guard.run(auto_apply=True), ensure_ascii=False, indent=2))

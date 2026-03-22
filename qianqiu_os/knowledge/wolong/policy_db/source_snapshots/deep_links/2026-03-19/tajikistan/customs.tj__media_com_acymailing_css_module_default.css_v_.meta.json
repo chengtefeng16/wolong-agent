@@ -1,0 +1,22 @@
+{
+  "fetched_at": "2026-03-19T00:30:25.326611+00:00",
+  "domain": "customs.tj",
+  "request_url": "https://customs.tj//media/com_acymailing/css/module_default.css?v=",
+  "ok": false,
+  "status": 404,
+  "final_url": "https://customs.tj//media/com_acymailing/css/module_default.css?v=",
+  "content_type": "",
+  "content_length": 0,
+  "headers": {
+    "Date": "Thu, 19 Mar 2026 00:30:23 GMT",
+    "Server": "Apache",
+    "Content-Length": "355",
+    "Connection": "close",
+    "Content-Type": "text/html; charset=iso-8859-1"
+  },
+  "error": "HTTPError: HTTP Error 404: Not Found",
+  "fetch_mode": "fallback_unverified_ssl",
+  "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+  "security_note": "Standard and fallback SSL fetch both failed.",
+  "body_file": ""
+}

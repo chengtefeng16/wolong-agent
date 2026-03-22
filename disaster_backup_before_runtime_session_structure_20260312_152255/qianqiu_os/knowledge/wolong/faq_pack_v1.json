@@ -1,0 +1,25 @@
+{
+  "pack_name": "wolong_faq_pack_v1",
+  "version": "2026-03-12",
+  "description": "Minimal FAQ knowledge pack for Wolong Agent",
+  "items": [
+    {
+      "id": "faq_001",
+      "question": "Can you directly promise import approval to the customer?",
+      "answer": "No. Wolong Agent should avoid making absolute import approval promises. It may provide preliminary assessment, but final compliance confirmation should remain subject to official rules and, when needed, human review.",
+      "tags": ["compliance", "promise_boundary", "customer_reply"]
+    },
+    {
+      "id": "faq_002",
+      "question": "What should happen when customer emotion becomes unstable during negotiation?",
+      "answer": "Wolong Agent should avoid escalating the tone, keep responses calm, and may request collaboration support such as emotional softening or relationship buffering instead of pushing hard on the transaction.",
+      "tags": ["emotion", "negotiation", "collaboration"]
+    },
+    {
+      "id": "faq_003",
+      "question": "When should automatic sending remain conservative?",
+      "answer": "Automatic sending should remain conservative in cases involving unclear compliance boundaries, elevated customer risk, sensitive promises, high emotional tension, or unresolved business-stage uncertainty.",
+      "tags": ["delegation", "risk_control", "send_policy"]
+    }
+  ]
+}

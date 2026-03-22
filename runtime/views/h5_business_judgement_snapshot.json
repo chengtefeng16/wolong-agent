@@ -1,0 +1,49 @@
+{
+  "updated_at": "2026-03-14T11:03:04.350900+00:00",
+  "source_file": "qianqiu_os/runtime_views/business_judgement/wolong_business_judgement_v1.json",
+  "customer_count": 2,
+  "customers": [
+    {
+      "customer_name": "Zhaslan",
+      "customer_type": "dealer",
+      "business_stage": "quoted",
+      "risk_level": "medium",
+      "next_best_action": "human_follow_up",
+      "handoff_recommended": true,
+      "follow_up_questions": [
+        "请确认您是展厅/经销商采购还是项目采购？",
+        "请确认首批数量、长期月需求和目的国。",
+        "请确认目标车型、年份范围和预算。",
+        "请确认是否接受中国境内交车价与口岸交车价两套报价。"
+      ],
+      "reason_keywords": [
+        "buy",
+        "price",
+        "prices",
+        "quantity_signal",
+        "regularly",
+        "suv"
+      ]
+    },
+    {
+      "customer_name": "Bek",
+      "customer_type": "dealer_like",
+      "business_stage": "quoted",
+      "risk_level": "medium",
+      "next_best_action": "human_follow_up",
+      "handoff_recommended": true,
+      "follow_up_questions": [
+        "请确认您是展厅/经销商采购还是项目采购？",
+        "请确认首批数量、长期月需求和目的国。",
+        "请确认目标车型、年份范围和预算。",
+        "请确认是否接受中国境内交车价与口岸交车价两套报价。"
+      ],
+      "reason_keywords": [
+        "camry",
+        "prado",
+        "quantity_signal",
+        "units"
+      ]
+    }
+  ]
+}

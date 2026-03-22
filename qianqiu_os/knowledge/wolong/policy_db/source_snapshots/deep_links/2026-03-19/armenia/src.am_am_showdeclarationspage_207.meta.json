@@ -1,0 +1,25 @@
+{
+  "fetched_at": "2026-03-19T00:36:36.118912+00:00",
+  "domain": "src.am",
+  "request_url": "https://src.am/am/showDeclarationsPage/207",
+  "ok": true,
+  "status": 200,
+  "final_url": "https://src.am/am/showDeclarationsPage/207",
+  "content_type": "text/html; charset=UTF-8",
+  "content_length": 1054477,
+  "headers": {
+    "Date": "Thu, 19 Mar 2026 00:36:30 GMT",
+    "Server": "Apache/2.4.37 (Red Hat Enterprise Linux) OpenSSL/1.1.1k",
+    "X-Powered-By": "PHP/8.2.28",
+    "Cache-Control": "no-cache, private",
+    "Set-Cookie": "laravel_session=eyJpdiI6IkpRTXZSdEV4VDJZNHluRFpDWjZrR1E9PSIsInZhbHVlIjoiM05SeEdpdk44a1hsK2NpVGh3ZjNiYk1LSGpqZ1J2VXBrQlpoTE45cmh1OVFILy9kQXkyM1hlcFB3blZBbHpzU1VXWTJQNlRwaVhneG9SNm9zYVozNkl1cklqU3lYZnBjSjMxbjU4MitMYW1SNUVWbVl6Mlo0cDdGS09XQ1podXMiLCJtYWMiOiI4YTlmNzllZTc5MTM1Y2QxNmNiYTA5NDUwMjNkOTYzMjhmODUwZjlkYTliZDMzNWJjM2VlMzI0MjIwZmJhZmY3IiwidGFnIjoiIn0%3D; expires=Thu, 19-Mar-2026 02:36:30 GMT; Max-Age=7200; path=/; httponly; samesite=lax",
+    "Connection": "close",
+    "Transfer-Encoding": "chunked",
+    "Content-Type": "text/html; charset=UTF-8"
+  },
+  "error": "",
+  "fetch_mode": "fallback_unverified_ssl",
+  "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+  "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+  "body_file": "src.am_am_showdeclarationspage_207.html"
+}

@@ -1,0 +1,8 @@
+{
+  "ingress_mode": "readonly",
+  "auto_classify": true,
+  "auto_tagging": true,
+  "h5_visible": true,
+  "auto_reply": false,
+  "auto_dispatch": false
+}

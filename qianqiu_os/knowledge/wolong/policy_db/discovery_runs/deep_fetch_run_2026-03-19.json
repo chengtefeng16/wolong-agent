@@ -1,0 +1,708 @@
+{
+  "run_id": "deep_fetch_run_2026-03-19",
+  "run_time": "2026-03-19",
+  "source_site_search_run_id": "site_search_run_2026-03-19",
+  "site_count": 15,
+  "total_selected_links": 31,
+  "ok_links": 29,
+  "failed_links": 2,
+  "pdf_links": 1,
+  "results": [
+    {
+      "country_slug": "algeria",
+      "domain": "commerce.gov.dz",
+      "candidate_count": 20,
+      "selected_count": 3,
+      "fetched_count": 3,
+      "items": [
+        {
+          "url": "http://www.commerce.gov.dz/avis/collection/avis-douverture-de-licence-dimportation",
+          "domain": "commerce.gov.dz",
+          "ok": false,
+          "status": 503,
+          "content_type": "",
+          "content_length": 0,
+          "body_file": "",
+          "meta_file": "www.commerce.gov.dz_avis_collection_avis-douverture-de-licence-dimportation.meta.json",
+          "error": "HTTPError: HTTP Error 503: Service Unavailable",
+          "fetch_mode": "fallback_unverified_ssl",
+          "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+          "security_note": "Standard and fallback SSL fetch both failed.",
+          "score": 1,
+          "keyword_hits": [
+            "import"
+          ]
+        },
+        {
+          "url": "https://commerce.gov.dz/avis/profil/importateur",
+          "domain": "commerce.gov.dz",
+          "ok": true,
+          "status": 200,
+          "content_type": "text/html; charset=UTF-8",
+          "content_length": 83363,
+          "body_file": "commerce.gov.dz_avis_profil_importateur.html",
+          "meta_file": "commerce.gov.dz_avis_profil_importateur.meta.json",
+          "error": "",
+          "fetch_mode": "fallback_unverified_ssl",
+          "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+          "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+          "score": 1,
+          "keyword_hits": [
+            "import"
+          ]
+        },
+        {
+          "url": "https://commerce.gov.dz/listing-des-autorites-de-regulation",
+          "domain": "commerce.gov.dz",
+          "ok": true,
+          "status": 200,
+          "content_type": "text/html; charset=UTF-8",
+          "content_length": 64368,
+          "body_file": "commerce.gov.dz_listing-des-autorites-de-regulation.html",
+          "meta_file": "commerce.gov.dz_listing-des-autorites-de-regulation.meta.json",
+          "error": "",
+          "fetch_mode": "fallback_unverified_ssl",
+          "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+          "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+          "score": 1,
+          "keyword_hits": [
+            "regulation"
+          ]
+        }
+      ]
+    },
+    {
+      "country_slug": "algeria",
+      "domain": "joradp.dz",
+      "candidate_count": 2,
+      "selected_count": 0,
+      "fetched_count": 0,
+      "items": []
+    },
+    {
+      "country_slug": "armenia",
+      "domain": "arlis.am",
+      "candidate_count": 20,
+      "selected_count": 3,
+      "fetched_count": 3,
+      "items": [
+        {
+          "url": "http://www.datalex.am/",
+          "domain": "arlis.am",
+          "ok": true,
+          "status": 200,
+          "content_type": "text/html; charset=UTF-8",
+          "content_length": 18969,
+          "body_file": "www.datalex.am_.html",
+          "meta_file": "www.datalex.am_.meta.json",
+          "error": "",
+          "fetch_mode": "fallback_unverified_ssl",
+          "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+          "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+          "score": 1,
+          "keyword_hits": [
+            "lex"
+          ]
+        },
+        {
+          "url": "https://wiselaw.am/",
+          "domain": "arlis.am",
+          "ok": true,
+          "status": 200,
+          "content_type": "text/html; charset=UTF-8",
+          "content_length": 104500,
+          "body_file": "wiselaw.am_.html",
+          "meta_file": "wiselaw.am_.meta.json",
+          "error": "",
+          "fetch_mode": "fallback_unverified_ssl",
+          "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+          "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+          "score": 1,
+          "keyword_hits": [
+            "law"
+          ]
+        },
+        {
+          "url": "https://www.finlex.am/",
+          "domain": "arlis.am",
+          "ok": true,
+          "status": 200,
+          "content_type": "",
+          "content_length": 1095914,
+          "body_file": "www.finlex.am_.bin",
+          "meta_file": "www.finlex.am_.meta.json",
+          "error": "",
+          "fetch_mode": "fallback_unverified_ssl",
+          "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+          "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+          "score": 1,
+          "keyword_hits": [
+            "lex"
+          ]
+        }
+      ]
+    },
+    {
+      "country_slug": "armenia",
+      "domain": "src.am",
+      "candidate_count": 20,
+      "selected_count": 2,
+      "fetched_count": 2,
+      "items": [
+        {
+          "url": "https://src.am/am/legal",
+          "domain": "src.am",
+          "ok": true,
+          "status": 200,
+          "content_type": "text/html; charset=UTF-8",
+          "content_length": 277374,
+          "body_file": "src.am_am_legal.html",
+          "meta_file": "src.am_am_legal.meta.json",
+          "error": "",
+          "fetch_mode": "fallback_unverified_ssl",
+          "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+          "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+          "score": 1,
+          "keyword_hits": [
+            "legal"
+          ]
+        },
+        {
+          "url": "https://src.am/am/showDeclarationsPage/207",
+          "domain": "src.am",
+          "ok": true,
+          "status": 200,
+          "content_type": "text/html; charset=UTF-8",
+          "content_length": 1054477,
+          "body_file": "src.am_am_showdeclarationspage_207.html",
+          "meta_file": "src.am_am_showdeclarationspage_207.meta.json",
+          "error": "",
+          "fetch_mode": "fallback_unverified_ssl",
+          "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+          "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+          "score": 1,
+          "keyword_hits": [
+            "declaration"
+          ]
+        }
+      ]
+    },
+    {
+      "country_slug": "kazakhstan",
+      "domain": "adilet.zan.kz",
+      "candidate_count": 20,
+      "selected_count": 1,
+      "fetched_count": 1,
+      "items": [
+        {
+          "url": "https://adilet.zan.kz/kaz/histlawkz",
+          "domain": "adilet.zan.kz",
+          "ok": true,
+          "status": 200,
+          "content_type": "text/html;charset=UTF-8",
+          "content_length": 23471,
+          "body_file": "adilet.zan.kz_kaz_histlawkz.html",
+          "meta_file": "adilet.zan.kz_kaz_histlawkz.meta.json",
+          "error": "",
+          "fetch_mode": "fallback_unverified_ssl",
+          "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+          "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+          "score": 1,
+          "keyword_hits": [
+            "law"
+          ]
+        }
+      ]
+    },
+    {
+      "country_slug": "kazakhstan",
+      "domain": "egov.kz",
+      "candidate_count": 20,
+      "selected_count": 3,
+      "fetched_count": 3,
+      "items": [
+        {
+          "url": "https://egov.kz/cms/kk/categories/bus_tax",
+          "domain": "egov.kz",
+          "ok": true,
+          "status": 200,
+          "content_type": "text/html; charset=utf-8",
+          "content_length": 49084,
+          "body_file": "egov.kz_cms_kk_categories_bus_tax.html",
+          "meta_file": "egov.kz_cms_kk_categories_bus_tax.meta.json",
+          "error": "",
+          "fetch_mode": "fallback_unverified_ssl",
+          "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+          "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+          "score": 1,
+          "keyword_hits": [
+            "tax"
+          ]
+        },
+        {
+          "url": "https://egov.kz/cms/kk/information/help/tax_code",
+          "domain": "egov.kz",
+          "ok": true,
+          "status": 200,
+          "content_type": "text/html; charset=utf-8",
+          "content_length": 189421,
+          "body_file": "egov.kz_cms_kk_information_help_tax_code.html",
+          "meta_file": "egov.kz_cms_kk_information_help_tax_code.meta.json",
+          "error": "",
+          "fetch_mode": "fallback_unverified_ssl",
+          "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+          "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+          "score": 1,
+          "keyword_hits": [
+            "tax"
+          ]
+        },
+        {
+          "url": "https://egov.kz/cms/kk/law",
+          "domain": "egov.kz",
+          "ok": false,
+          "status": 504,
+          "content_type": "",
+          "content_length": 0,
+          "body_file": "",
+          "meta_file": "egov.kz_cms_kk_law.meta.json",
+          "error": "HTTPError: HTTP Error 504: Gateway Time-out",
+          "fetch_mode": "fallback_unverified_ssl",
+          "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+          "security_note": "Standard and fallback SSL fetch both failed.",
+          "score": 1,
+          "keyword_hits": [
+            "law"
+          ]
+        }
+      ]
+    },
+    {
+      "country_slug": "kyrgyzstan",
+      "domain": "customs.gov.kg",
+      "candidate_count": 20,
+      "selected_count": 3,
+      "fetched_count": 3,
+      "items": [
+        {
+          "url": "https://customs.gov.kg/#",
+          "domain": "customs.gov.kg",
+          "ok": true,
+          "status": 200,
+          "content_type": "text/html;charset=utf-8",
+          "content_length": 454144,
+          "body_file": "customs.gov.kg_#.html",
+          "meta_file": "customs.gov.kg_#.meta.json",
+          "error": "",
+          "fetch_mode": "fallback_unverified_ssl",
+          "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+          "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+          "score": 1,
+          "keyword_hits": [
+            "customs"
+          ]
+        },
+        {
+          "url": "https://customs.gov.kg/site/ky/master/_/service/customskg/react4xp/shared.css",
+          "domain": "customs.gov.kg",
+          "ok": true,
+          "status": 200,
+          "content_type": "text/css",
+          "content_length": 251784,
+          "body_file": "customs.gov.kg_site_ky_master___service_customskg_react4xp_shared.css.txt",
+          "meta_file": "customs.gov.kg_site_ky_master___service_customskg_react4xp_shared.css.meta.json",
+          "error": "",
+          "fetch_mode": "fallback_unverified_ssl",
+          "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+          "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+          "score": 1,
+          "keyword_hits": [
+            "customs"
+          ]
+        },
+        {
+          "url": "https://customs.gov.kg/site/ky/master/_/service/customskg/react4xp/site/layouts/section/section.css",
+          "domain": "customs.gov.kg",
+          "ok": true,
+          "status": 200,
+          "content_type": "text/css",
+          "content_length": 94,
+          "body_file": "customs.gov.kg_site_ky_master___service_customskg_react4xp_site_layouts_section_section.css.txt",
+          "meta_file": "customs.gov.kg_site_ky_master___service_customskg_react4xp_site_layouts_section_section.css.meta.json",
+          "error": "",
+          "fetch_mode": "fallback_unverified_ssl",
+          "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+          "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+          "score": 1,
+          "keyword_hits": [
+            "customs"
+          ]
+        }
+      ]
+    },
+    {
+      "country_slug": "mexico",
+      "domain": "sat.gob.mx",
+      "candidate_count": 11,
+      "selected_count": 0,
+      "fetched_count": 0,
+      "items": []
+    },
+    {
+      "country_slug": "saudi_arabia",
+      "domain": "zatca.gov.sa",
+      "candidate_count": 20,
+      "selected_count": 0,
+      "fetched_count": 0,
+      "items": []
+    },
+    {
+      "country_slug": "tajikistan",
+      "domain": "andoz.tj",
+      "candidate_count": 20,
+      "selected_count": 3,
+      "fetched_count": 3,
+      "items": [
+        {
+          "url": "https://andoz.tj/ForTaxpayer/DeclarationsNew",
+          "domain": "andoz.tj",
+          "ok": true,
+          "status": 200,
+          "content_type": "text/html; charset=utf-8",
+          "content_length": 58407,
+          "body_file": "andoz.tj_fortaxpayer_declarationsnew.html",
+          "meta_file": "andoz.tj_fortaxpayer_declarationsnew.meta.json",
+          "error": "",
+          "fetch_mode": "fallback_unverified_ssl",
+          "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+          "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+          "score": 2,
+          "keyword_hits": [
+            "tax",
+            "declaration"
+          ]
+        },
+        {
+          "url": "https://andoz.tj/ForTaxpayer/DeclarationsOld",
+          "domain": "andoz.tj",
+          "ok": true,
+          "status": 200,
+          "content_type": "text/html; charset=utf-8",
+          "content_length": 50763,
+          "body_file": "andoz.tj_fortaxpayer_declarationsold.html",
+          "meta_file": "andoz.tj_fortaxpayer_declarationsold.meta.json",
+          "error": "",
+          "fetch_mode": "fallback_unverified_ssl",
+          "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+          "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+          "score": 2,
+          "keyword_hits": [
+            "tax",
+            "declaration"
+          ]
+        },
+        {
+          "url": "https://andoz.tj/ForTaxpayer",
+          "domain": "andoz.tj",
+          "ok": true,
+          "status": 200,
+          "content_type": "text/html; charset=utf-8",
+          "content_length": 66244,
+          "body_file": "andoz.tj_fortaxpayer.html",
+          "meta_file": "andoz.tj_fortaxpayer.meta.json",
+          "error": "",
+          "fetch_mode": "fallback_unverified_ssl",
+          "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+          "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+          "score": 1,
+          "keyword_hits": [
+            "tax"
+          ]
+        }
+      ]
+    },
+    {
+      "country_slug": "tajikistan",
+      "domain": "customs.tj",
+      "candidate_count": 20,
+      "selected_count": 3,
+      "fetched_count": 3,
+      "items": [
+        {
+          "url": "https://customs.tj/images/stories/img_text/Dar_borai_KHGHJT/Kodeks/Kodek.pdf",
+          "domain": "customs.tj",
+          "ok": true,
+          "status": 200,
+          "content_type": "application/pdf",
+          "content_length": 1673579,
+          "body_file": "customs.tj_images_stories_img_text_dar_borai_khghjt_kodeks_kodek.pdf.pdf",
+          "meta_file": "customs.tj_images_stories_img_text_dar_borai_khghjt_kodeks_kodek.pdf.meta.json",
+          "error": "",
+          "fetch_mode": "fallback_unverified_ssl",
+          "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+          "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+          "score": 2,
+          "keyword_hits": [
+            "customs",
+            "kodeks"
+          ]
+        },
+        {
+          "url": "http://customs.tj/",
+          "domain": "customs.tj",
+          "ok": true,
+          "status": 200,
+          "content_type": "text/html; charset=utf-8",
+          "content_length": 252756,
+          "body_file": "customs.tj_.html",
+          "meta_file": "customs.tj_.meta.json",
+          "error": "",
+          "fetch_mode": "fallback_unverified_ssl",
+          "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+          "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+          "score": 1,
+          "keyword_hits": [
+            "customs"
+          ]
+        },
+        {
+          "url": "http://infoportal.customs.tj",
+          "domain": "customs.tj",
+          "ok": true,
+          "status": 200,
+          "content_type": "text/html;charset=utf-8",
+          "content_length": 5575,
+          "body_file": "infoportal.customs.tj.html",
+          "meta_file": "infoportal.customs.tj.meta.json",
+          "error": "",
+          "fetch_mode": "standard_ssl",
+          "fallback_reason": "",
+          "security_note": "",
+          "score": 1,
+          "keyword_hits": [
+            "customs"
+          ]
+        }
+      ]
+    },
+    {
+      "country_slug": "turkmenistan",
+      "domain": "customs.gov.tm",
+      "candidate_count": 20,
+      "selected_count": 3,
+      "fetched_count": 3,
+      "items": [
+        {
+          "url": "https://customs.gov.tm/#for_legal_entities",
+          "domain": "customs.gov.tm",
+          "ok": true,
+          "status": 200,
+          "content_type": "text/html; charset=UTF-8",
+          "content_length": 105465,
+          "body_file": "customs.gov.tm_#for_legal_entities.html",
+          "meta_file": "customs.gov.tm_#for_legal_entities.meta.json",
+          "error": "",
+          "fetch_mode": "fallback_unverified_ssl",
+          "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1096)>",
+          "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+          "score": 2,
+          "keyword_hits": [
+            "customs",
+            "legal"
+          ]
+        },
+        {
+          "url": "https://customs.gov.tm/customs-info/for-legal-entities",
+          "domain": "customs.gov.tm",
+          "ok": true,
+          "status": 200,
+          "content_type": "text/html; charset=UTF-8",
+          "content_length": 112267,
+          "body_file": "customs.gov.tm_customs-info_for-legal-entities.html",
+          "meta_file": "customs.gov.tm_customs-info_for-legal-entities.meta.json",
+          "error": "",
+          "fetch_mode": "fallback_unverified_ssl",
+          "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1096)>",
+          "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+          "score": 2,
+          "keyword_hits": [
+            "customs",
+            "legal"
+          ]
+        },
+        {
+          "url": "https://customs.gov.tm/export-import/brokers",
+          "domain": "customs.gov.tm",
+          "ok": true,
+          "status": 200,
+          "content_type": "text/html; charset=UTF-8",
+          "content_length": 80987,
+          "body_file": "customs.gov.tm_export-import_brokers.html",
+          "meta_file": "customs.gov.tm_export-import_brokers.meta.json",
+          "error": "",
+          "fetch_mode": "fallback_unverified_ssl",
+          "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1096)>",
+          "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+          "score": 2,
+          "keyword_hits": [
+            "import",
+            "customs"
+          ]
+        }
+      ]
+    },
+    {
+      "country_slug": "turkmenistan",
+      "domain": "infotrade.gov.tm",
+      "candidate_count": 20,
+      "selected_count": 1,
+      "fetched_count": 1,
+      "items": [
+        {
+          "url": "https://infotrade.gov.tm/Laws?l=tk",
+          "domain": "infotrade.gov.tm",
+          "ok": true,
+          "status": 200,
+          "content_type": "text/html; charset=utf-8",
+          "content_length": 124278,
+          "body_file": "infotrade.gov.tm_laws_l_tk.html",
+          "meta_file": "infotrade.gov.tm_laws_l_tk.meta.json",
+          "error": "",
+          "fetch_mode": "fallback_unverified_ssl",
+          "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+          "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+          "score": 1,
+          "keyword_hits": [
+            "law"
+          ]
+        }
+      ]
+    },
+    {
+      "country_slug": "united_arab_emirates",
+      "domain": "moiat.gov.ae",
+      "candidate_count": 20,
+      "selected_count": 3,
+      "fetched_count": 3,
+      "items": [
+        {
+          "url": "https://moiat.gov.ae/ar/about-us/laws-and-legislation",
+          "domain": "moiat.gov.ae",
+          "ok": true,
+          "status": 200,
+          "content_type": "text/html; charset=utf-8",
+          "content_length": 423638,
+          "body_file": "moiat.gov.ae_ar_about-us_laws-and-legislation.html",
+          "meta_file": "moiat.gov.ae_ar_about-us_laws-and-legislation.meta.json",
+          "error": "",
+          "fetch_mode": "fallback_unverified_ssl",
+          "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+          "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+          "score": 1,
+          "keyword_hits": [
+            "law"
+          ]
+        },
+        {
+          "url": "https://moiat.gov.ae/ar/digital-participation/consultations/advisory-national-metrology-capabilitiestechnical-regulations-for-air-quality-measurement",
+          "domain": "moiat.gov.ae",
+          "ok": true,
+          "status": 200,
+          "content_type": "text/html; charset=utf-8",
+          "content_length": 395383,
+          "body_file": "moiat.gov.ae_ar_digital-participation_consultations_advisory-national-metrology-capabilitiestechnical-regulations-for-air-quality-measurement.html",
+          "meta_file": "moiat.gov.ae_ar_digital-participation_consultations_advisory-national-metrology-capabilitiestechnical-regulations-for-air-quality-measurement.meta.json",
+          "error": "",
+          "fetch_mode": "fallback_unverified_ssl",
+          "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+          "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+          "score": 1,
+          "keyword_hits": [
+            "regulation"
+          ]
+        },
+        {
+          "url": "https://moiat.gov.ae/ar/digital-participation/consultations/advisory-note-registering-items-for-customs-exemption",
+          "domain": "moiat.gov.ae",
+          "ok": true,
+          "status": 200,
+          "content_type": "text/html; charset=utf-8",
+          "content_length": 393923,
+          "body_file": "moiat.gov.ae_ar_digital-participation_consultations_advisory-note-registering-items-for-customs-exemption.html",
+          "meta_file": "moiat.gov.ae_ar_digital-participation_consultations_advisory-note-registering-items-for-customs-exemption.meta.json",
+          "error": "",
+          "fetch_mode": "fallback_unverified_ssl",
+          "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+          "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+          "score": 1,
+          "keyword_hits": [
+            "customs"
+          ]
+        }
+      ]
+    },
+    {
+      "country_slug": "uzbekistan",
+      "domain": "customs.uz",
+      "candidate_count": 20,
+      "selected_count": 3,
+      "fetched_count": 3,
+      "items": [
+        {
+          "url": "http://customs.uz",
+          "domain": "customs.uz",
+          "ok": true,
+          "status": 200,
+          "content_type": "text/html; charset=UTF-8",
+          "content_length": 9829,
+          "body_file": "customs.uz.html",
+          "meta_file": "customs.uz.meta.json",
+          "error": "",
+          "fetch_mode": "fallback_unverified_ssl",
+          "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1096)>",
+          "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+          "score": 1,
+          "keyword_hits": [
+            "customs"
+          ]
+        },
+        {
+          "url": "http://customs.uz/css/bootstrap-theme.min.css",
+          "domain": "customs.uz",
+          "ok": true,
+          "status": 200,
+          "content_type": "text/css",
+          "content_length": 24423,
+          "body_file": "customs.uz_css_bootstrap-theme.min.css.txt",
+          "meta_file": "customs.uz_css_bootstrap-theme.min.css.meta.json",
+          "error": "",
+          "fetch_mode": "fallback_unverified_ssl",
+          "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1096)>",
+          "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+          "score": 1,
+          "keyword_hits": [
+            "customs"
+          ]
+        },
+        {
+          "url": "http://customs.uz/css/bootstrap.min.css",
+          "domain": "customs.uz",
+          "ok": true,
+          "status": 200,
+          "content_type": "text/css",
+          "content_length": 154592,
+          "body_file": "customs.uz_css_bootstrap.min.css.txt",
+          "meta_file": "customs.uz_css_bootstrap.min.css.meta.json",
+          "error": "",
+          "fetch_mode": "fallback_unverified_ssl",
+          "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1096)>",
+          "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+          "score": 1,
+          "keyword_hits": [
+            "customs"
+          ]
+        }
+      ]
+    }
+  ]
+}

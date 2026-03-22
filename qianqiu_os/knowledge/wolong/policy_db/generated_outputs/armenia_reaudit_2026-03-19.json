@@ -1,0 +1,23 @@
+{
+  "country_file": "armenia.json",
+  "audit_status": "audit_pass_with_warning",
+  "cross_validation_status": "medium",
+  "cross_validation_score": 5,
+  "issues": [],
+  "warnings": [
+    "legal_basis_not_detected"
+  ],
+  "audit_last_checked_at": "2026-03-19",
+  "deep_fetch_summary": {
+    "evidence_count": 2,
+    "text_source_count": 2,
+    "import_signal_count": 1,
+    "tax_signal_count": 1,
+    "legal_signal_count": 0
+  },
+  "policy_signals": {
+    "used_vehicle_import_allowed": "signal_detected",
+    "tax_rules_present": true,
+    "legal_basis_present": false
+  }
+}

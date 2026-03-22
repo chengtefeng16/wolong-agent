@@ -1,0 +1,14 @@
+{
+  "run_id": "uzbekistan_2026-03-18",
+  "run_time": "2026-03-18",
+  "target_country": "Uzbekistan",
+  "source_count": 1,
+  "new_sources_found": 1,
+  "fields_extracted": [],
+  "fields_updated": [],
+  "pending_verification_count": 0,
+  "next_small_update_due": "2026-03-21",
+  "next_major_update_due": "2026-03-25",
+  "human_review_needed": true,
+  "card_file": "uzbekistan.json"
+}

@@ -1,0 +1,225 @@
+{
+  "nightly_checkpoint": {
+    "2026-03-17 10:31": {
+      "success": true,
+      "task": "nightly_checkpoint",
+      "export_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_20260317_103112.md",
+      "latest_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_latest.md",
+      "generated_at": "2026-03-17 10:31:12"
+    },
+    "2026-03-17 10:39": {
+      "success": true,
+      "task": "nightly_checkpoint",
+      "export_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_20260317_103905.md",
+      "latest_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_latest.md",
+      "generated_at": "2026-03-17 10:39:05"
+    },
+    "2026-03-17 14:25": {
+      "success": true,
+      "task": "nightly_checkpoint",
+      "export_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_20260317_142505.md",
+      "latest_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_latest.md",
+      "generated_at": "2026-03-17 14:25:05"
+    },
+    "2026-03-17 18:00": {
+      "success": true,
+      "task": "nightly_checkpoint",
+      "export_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_20260317_180002.md",
+      "latest_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_latest.md",
+      "generated_at": "2026-03-17 18:00:02"
+    },
+    "2026-03-17 20:13": {
+      "success": true,
+      "task": "nightly_checkpoint",
+      "export_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_20260317_201349.md",
+      "latest_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_latest.md",
+      "pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_20260317_201349.pdf",
+      "latest_pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_latest.pdf",
+      "generated_at": "2026-03-17 20:13:49"
+    },
+    "2026-03-18 18:00": {
+      "success": true,
+      "task": "nightly_checkpoint",
+      "export_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_20260318_180004.md",
+      "latest_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_latest.md",
+      "pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_20260318_180004.pdf",
+      "latest_pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_latest.pdf",
+      "generated_at": "2026-03-18 18:00:04"
+    },
+    "2026-03-18 22:53": {
+      "success": true,
+      "task": "nightly_checkpoint",
+      "export_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_20260318_225351.md",
+      "latest_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_latest.md",
+      "pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_20260318_225351.pdf",
+      "latest_pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_latest.pdf",
+      "generated_at": "2026-03-18 22:53:51"
+    },
+    "nightly_checkpoint::2026-03-18": {
+      "success": true,
+      "task": "nightly_checkpoint",
+      "export_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_20260318_230116.md",
+      "latest_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_latest.md",
+      "pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_20260318_230116.pdf",
+      "latest_pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_latest.pdf",
+      "generated_at": "2026-03-18 23:01:16"
+    },
+    "2026-03-19 18:00": {
+      "success": true,
+      "task": "nightly_checkpoint",
+      "export_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_20260319_180004.md",
+      "latest_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_latest.md",
+      "pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_20260319_180004.pdf",
+      "latest_pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_latest.pdf",
+      "generated_at": "2026-03-19 18:00:04"
+    },
+    "2026-03-20 18:00": {
+      "success": true,
+      "task": "nightly_checkpoint",
+      "export_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_20260320_180004.md",
+      "latest_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_latest.md",
+      "pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_20260320_180004.pdf",
+      "latest_pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_latest.pdf",
+      "generated_at": "2026-03-20 18:00:04"
+    },
+    "2026-03-21 18:00": {
+      "success": true,
+      "task": "nightly_checkpoint",
+      "export_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_20260321_180010.md",
+      "latest_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_latest.md",
+      "pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_20260321_180010.pdf",
+      "latest_pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_latest.pdf",
+      "generated_at": "2026-03-21 18:00:10"
+    }
+  },
+  "weekly_agentos_report": {
+    "2026-03-17 10:31": {
+      "success": true,
+      "task": "weekly_agentos_report",
+      "export_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/agentos_weekly_report_20260317_103112.md",
+      "latest_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/agentos_weekly_report_latest.md",
+      "generated_at": "2026-03-17 10:31:12"
+    },
+    "2026-03-17 20:13": {
+      "success": true,
+      "task": "weekly_agentos_report",
+      "export_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/agentos_weekly_report_20260317_201349.md",
+      "latest_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/agentos_weekly_report_latest.md",
+      "pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/agentos_weekly_report_20260317_201349.pdf",
+      "latest_pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/agentos_weekly_report_latest.pdf",
+      "generated_at": "2026-03-17 20:13:49"
+    },
+    "2026-03-18 22:53": {
+      "success": true,
+      "task": "weekly_agentos_report",
+      "export_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/agentos_weekly_report_20260318_225351.md",
+      "latest_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/agentos_weekly_report_latest.md",
+      "pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/agentos_weekly_report_20260318_225351.pdf",
+      "latest_pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/agentos_weekly_report_latest.pdf",
+      "generated_at": "2026-03-18 22:53:51"
+    },
+    "weekly_agentos_report::2026-03-18": {
+      "success": true,
+      "task": "weekly_agentos_report",
+      "export_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/agentos_weekly_report_20260318_230116.md",
+      "latest_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/agentos_weekly_report_latest.md",
+      "pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/agentos_weekly_report_20260318_230116.pdf",
+      "latest_pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/agentos_weekly_report_latest.pdf",
+      "generated_at": "2026-03-18 23:01:16"
+    },
+    "2026-03-20 17:00": {
+      "success": true,
+      "task": "weekly_agentos_report",
+      "export_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/agentos_weekly_report_20260320_170000.md",
+      "latest_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/agentos_weekly_report_latest.md",
+      "pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/agentos_weekly_report_20260320_170000.pdf",
+      "latest_pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/agentos_weekly_report_latest.pdf",
+      "generated_at": "2026-03-20 17:00:00"
+    }
+  },
+  "weekly_wolong_report": {
+    "2026-03-17 10:31": {
+      "success": true,
+      "task": "weekly_wolong_report",
+      "export_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/wolong_weekly_report_20260317_103112.md",
+      "latest_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/wolong_weekly_report_latest.md",
+      "generated_at": "2026-03-17 10:31:12"
+    },
+    "2026-03-17 20:13": {
+      "success": true,
+      "task": "weekly_wolong_report",
+      "export_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/wolong_weekly_report_20260317_201349.md",
+      "latest_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/wolong_weekly_report_latest.md",
+      "pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/wolong_weekly_report_20260317_201349.pdf",
+      "latest_pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/wolong_weekly_report_latest.pdf",
+      "generated_at": "2026-03-17 20:13:49"
+    },
+    "2026-03-18 22:53": {
+      "success": true,
+      "task": "weekly_wolong_report",
+      "export_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/wolong_weekly_report_20260318_225351.md",
+      "latest_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/wolong_weekly_report_latest.md",
+      "pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/wolong_weekly_report_20260318_225351.pdf",
+      "latest_pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/wolong_weekly_report_latest.pdf",
+      "generated_at": "2026-03-18 22:53:51"
+    },
+    "weekly_wolong_report::2026-03-18": {
+      "success": true,
+      "task": "weekly_wolong_report",
+      "export_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/wolong_weekly_report_20260318_230116.md",
+      "latest_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/wolong_weekly_report_latest.md",
+      "pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/wolong_weekly_report_20260318_230116.pdf",
+      "latest_pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/wolong_weekly_report_latest.pdf",
+      "generated_at": "2026-03-18 23:01:16"
+    },
+    "2026-03-20 17:00": {
+      "success": true,
+      "task": "weekly_wolong_report",
+      "export_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/wolong_weekly_report_20260320_170000.md",
+      "latest_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/wolong_weekly_report_latest.md",
+      "pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/wolong_weekly_report_20260320_170000.pdf",
+      "latest_pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/weekly/wolong_weekly_report_latest.pdf",
+      "generated_at": "2026-03-20 17:00:00"
+    }
+  },
+  "daily_layers_export": {
+    "daily_layers_export::2026-03-18": {
+      "success": true,
+      "task": "daily_layers_export",
+      "export_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/daily_layers/daily_layers_export_20260318_230116.md",
+      "latest_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/daily_layers/daily_layers_export_latest.md",
+      "generated_at": "2026-03-18 23:01:16",
+      "section_count": 4
+    },
+    "2026-03-19 18:00": {
+      "success": true,
+      "task": "daily_layers_export",
+      "export_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/daily_layers/daily_layers_export_20260319_180004.md",
+      "latest_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/daily_layers/daily_layers_export_latest.md",
+      "pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/daily_layers/daily_layers_export_20260319_180004.pdf",
+      "latest_pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/daily_layers/daily_layers_export_latest.pdf",
+      "generated_at": "2026-03-19 18:00:04",
+      "section_count": 4
+    },
+    "2026-03-20 18:00": {
+      "success": true,
+      "task": "daily_layers_export",
+      "export_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/daily_layers/daily_layers_export_20260320_180004.md",
+      "latest_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/daily_layers/daily_layers_export_latest.md",
+      "pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/daily_layers/daily_layers_export_20260320_180004.pdf",
+      "latest_pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/daily_layers/daily_layers_export_latest.pdf",
+      "generated_at": "2026-03-20 18:00:04",
+      "section_count": 4
+    },
+    "2026-03-21 18:00": {
+      "success": true,
+      "task": "daily_layers_export",
+      "export_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/daily_layers/daily_layers_export_20260321_180009.md",
+      "latest_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/daily_layers/daily_layers_export_latest.md",
+      "pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/daily_layers/daily_layers_export_20260321_180009.pdf",
+      "latest_pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/daily_layers/daily_layers_export_latest.pdf",
+      "generated_at": "2026-03-21 18:00:09",
+      "section_count": 4
+    }
+  }
+}

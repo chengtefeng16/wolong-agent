@@ -1,0 +1,49 @@
+{
+  "policy_version": "v0.2-deep-fetch-patch-merged",
+  "last_deep_extract_at": "2026-03-19",
+  "source_evidence": [
+    {
+      "url": "https://moiat.gov.ae/ar/about-us/laws-and-legislation",
+      "body_file": "moiat.gov.ae_ar_about-us_laws-and-legislation.html",
+      "content_type": "text/html; charset=utf-8",
+      "score": 1,
+      "keyword_hits": [
+        "law"
+      ],
+      "fetch_mode": "fallback_unverified_ssl"
+    },
+    {
+      "url": "https://moiat.gov.ae/ar/digital-participation/consultations/advisory-national-metrology-capabilitiestechnical-regulations-for-air-quality-measurement",
+      "body_file": "moiat.gov.ae_ar_digital-participation_consultations_advisory-national-metrology-capabilitiestechnical-regulations-for-air-quality-measurement.html",
+      "content_type": "text/html; charset=utf-8",
+      "score": 1,
+      "keyword_hits": [
+        "regulation"
+      ],
+      "fetch_mode": "fallback_unverified_ssl"
+    },
+    {
+      "url": "https://moiat.gov.ae/ar/digital-participation/consultations/advisory-note-registering-items-for-customs-exemption",
+      "body_file": "moiat.gov.ae_ar_digital-participation_consultations_advisory-note-registering-items-for-customs-exemption.html",
+      "content_type": "text/html; charset=utf-8",
+      "score": 1,
+      "keyword_hits": [
+        "customs"
+      ],
+      "fetch_mode": "fallback_unverified_ssl"
+    }
+  ],
+  "deep_fetch_summary": {
+    "evidence_count": 3,
+    "text_source_count": 3,
+    "merged_country_mode": true,
+    "import_signal_count": 1,
+    "tax_signal_count": 0,
+    "legal_signal_count": 2
+  },
+  "policy_signals": {
+    "used_vehicle_import_allowed": "signal_detected",
+    "tax_rules_present": false,
+    "legal_basis_present": true
+  }
+}

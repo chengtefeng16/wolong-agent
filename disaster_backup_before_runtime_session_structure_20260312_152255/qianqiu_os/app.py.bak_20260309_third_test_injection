@@ -1,0 +1,352 @@
+import json
+import os
+
+from qianqiu_os.services.state_manager import StateManager
+from qianqiu_os.services.audit_logger import AuditLogger
+from qianqiu_os.services.memory_manager import MemoryManager
+from qianqiu_os.services.scheduler import Scheduler
+from qianqiu_os.services.input_adapter import InputAdapter
+from qianqiu_os.services.output_adapter import OutputAdapter
+from qianqiu_os.services.planner import Planner
+from qianqiu_os.services.metrics_manager import MetricsManager
+from qianqiu_os.services.critic import Critic
+from qianqiu_os.services.agent_loader import AgentLoader
+from qianqiu_os.services.execution_manager import ExecutionManager
+from qianqiu_os.services.self_healing_manager import SelfHealingManager
+from qianqiu_os.services.promotion_manager import PromotionManager
+from qianqiu_os.services.reflection_manager import ReflectionManager
+from qianqiu_os.services.knowledge_graph_manager import KnowledgeGraphManager
+from qianqiu_os.services.human_machine_loop_manager import HumanMachineLoopManager
+from qianqiu_os.services.early_warning_manager import EarlyWarningManager
+from qianqiu_os.services.test_manager import TestManager
+from qianqiu_os.registry.agent_registry import AgentRegistry
+from qianqiu_os.registry.tool_registry import ToolRegistry
+from qianqiu_os.tools.policy_check_tool import policy_check_tool
+
+
+EXPERIENCE_LOG_PATH = "qianqiu_os/data/experience_log.json"
+
+
+def build_platform_governance(result):
+    manual_review_required = False
+    governance_notes = []
+
+    tool_result = result.get("tool_result", {})
+    policy_health = tool_result.get("policy_health", {})
+    policy_meta = tool_result.get("policy_meta", {})
+
+    if policy_health.get("is_outdated") is True:
+        manual_review_required = True
+        governance_notes.append("Policy data is outdated; manual review required.")
+
+    confidence_level = policy_meta.get("confidence_level")
+    if isinstance(confidence_level, (int, float)) and confidence_level < 0.75:
+        manual_review_required = True
+        governance_notes.append("Confidence level is below platform threshold; manual review required.")
+
+    return {
+        "manual_review_required": manual_review_required,
+        "governance_notes": governance_notes
+    }
+
+
+def load_experience_log():
+    if not os.path.exists(EXPERIENCE_LOG_PATH):
+        return []
+
+    with open(EXPERIENCE_LOG_PATH, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def find_similar_experience(task_input, tool_result):
+    experiences = load_experience_log()
+
+    current_country = task_input.get("country_code_or_name")
+    current_risk = tool_result.get("risk_level")
+    current_outdated = tool_result.get("policy_health", {}).get("is_outdated")
+
+    matched = []
+    for exp in experiences:
+        if (
+            exp.get("country_code_or_name") == current_country
+            and exp.get("risk_level") == current_risk
+            and exp.get("is_outdated") == current_outdated
+        ):
+            matched.append(exp)
+
+    if not matched:
+        return {
+            "matched_count": 0,
+            "latest_decision": None,
+            "latest_note": None
+        }
+
+    latest = matched[-1]
+    return {
+        "matched_count": len(matched),
+        "latest_decision": latest.get("human_review_decision"),
+        "latest_note": latest.get("human_review_note")
+    }
+
+
+def main():
+    state_manager = StateManager()
+    audit_logger = AuditLogger()
+    memory_manager = MemoryManager()
+    input_adapter = InputAdapter()
+    output_adapter = OutputAdapter()
+    planner = Planner()
+    metrics_manager = MetricsManager()
+    critic = Critic()
+    execution_manager = ExecutionManager()
+    self_healing_manager = SelfHealingManager()
+    promotion_manager = PromotionManager()
+    reflection_manager = ReflectionManager()
+    knowledge_graph_manager = KnowledgeGraphManager()
+    human_machine_loop_manager = HumanMachineLoopManager()
+    early_warning_manager = EarlyWarningManager()
+    test_manager = TestManager()
+    agent_registry = AgentRegistry()
+    tool_registry = ToolRegistry()
+
+    tool_registry.register("policy_check", policy_check_tool)
+
+    agent_loader = AgentLoader()
+    loaded_agents = agent_loader.load_agents(tool_registry, audit_logger)
+
+    agent_profiles = {}
+    for agent_id, agent_data in loaded_agents.items():
+        agent_registry.register(agent_id, agent_data["instance"])
+        agent_profiles[agent_id] = agent_data["profile"]
+
+    scheduler = Scheduler(state_manager, audit_logger, agent_registry)
+
+    incoming_input = input_adapter.normalize_input(
+        source="facebook",
+        user_profile={
+            "user_id": "fb_user_001",
+            "source": "facebook",
+            "display_name": "test_customer",
+            "language": "zh",
+            "preference": "关注合规和物流"
+        },
+        message_text="我想了解俄罗斯二手车出口合规和物流风险。",
+        metadata={
+            "channel": "messenger",
+            "session_id": "fb_session_001"
+        }
+    )
+
+    user_profile = incoming_input["user_profile"]
+    user_memory_context = memory_manager.upsert_user_memory(user_profile)
+
+    task = scheduler.create_task(
+        agent_id="wolong",
+        task_type="policy_check",
+        input_payload={
+            "source": incoming_input["source"],
+            "message_text": incoming_input["message_text"],
+            "metadata": incoming_input["metadata"],
+            "user_profile": user_profile,
+            "country_code_or_name": "ru",
+            "vehicle": {
+                "age": 4,
+                "fuel": "gasoline",
+                "emission": "euro6",
+                "steering": "left",
+                "certification": True,
+                "ev_grid_risk": "medium"
+            }
+        }
+    )
+
+    scheduler.enqueue_task(task)
+
+    try:
+        task, result = scheduler.dispatch_next_task()
+
+        plan_context = planner.build_plan(task)
+
+        platform_governance = build_platform_governance(result)
+        result["platform_governance"] = platform_governance
+
+        experience_reference = find_similar_experience(
+            task.input_payload,
+            result.get("tool_result", {})
+        )
+        result["experience_reference"] = experience_reference
+
+        memory_context = memory_manager.get_memory_summary()
+        result["memory_context"] = memory_context
+
+        result["user_memory_context"] = user_memory_context
+        result["input_context"] = incoming_input
+        result["plan_context"] = plan_context
+        result["agent_profile"] = agent_profiles.get(task.agent_id)
+
+        execution_task = execution_manager.build_execution_task(
+            task=task,
+            plan_context=plan_context,
+            agent_profile=result.get("agent_profile")
+        )
+        result["execution_task"] = execution_task
+
+        execution_result = execution_manager.simulate_execution(execution_task)
+        result["execution_result"] = execution_result
+
+        heartbeat_context = self_healing_manager.build_heartbeat(
+            module_name="execution_layer",
+            status="alive",
+            details={
+                "execution_id": execution_task.get("execution_id"),
+                "task_id": execution_task.get("task_id"),
+                "execution_status": execution_result.get("execution_status")
+            }
+        )
+        result["heartbeat_context"] = heartbeat_context
+
+        health_snapshot = self_healing_manager.build_health_snapshot(
+            execution_task=execution_task,
+            execution_result=execution_result
+        )
+        result["health_snapshot"] = health_snapshot
+
+        healing_plan = self_healing_manager.analyze_execution_failure(
+            execution_task=execution_task,
+            execution_result=execution_result
+        )
+        result["healing_plan"] = healing_plan
+
+        healing_result = self_healing_manager.execute_healing_plan(
+            healing_plan=healing_plan
+        )
+        result["healing_result"] = healing_result
+
+        healing_log = self_healing_manager.build_healing_log(
+            health_snapshot=health_snapshot,
+            healing_plan=healing_plan,
+            healing_result=healing_result
+        )
+        result["healing_log"] = healing_log
+
+        promotion_goal = {
+            "target_channel": "web_content",
+            "target_audience": "potential_clients",
+            "promotion_mode": "silent",
+            "promotion_intensity": "low"
+        }
+
+        promotion_task = promotion_manager.build_promotion_task(
+            agent_profile=result.get("agent_profile"),
+            promotion_goal=promotion_goal
+        )
+        result["promotion_task"] = promotion_task
+
+        promotion_content = promotion_manager.generate_promotion_content(
+            agent_profile=result.get("agent_profile"),
+            promotion_goal=promotion_goal
+        )
+        result["promotion_content"] = promotion_content
+
+        distribution_plan = promotion_manager.build_distribution_plan(
+            promotion_task=promotion_task,
+            promotion_content=promotion_content
+        )
+        result["distribution_plan"] = distribution_plan
+
+        promotion_log = promotion_manager.build_promotion_log(
+            promotion_task=promotion_task,
+            promotion_content=promotion_content,
+            distribution_plan=distribution_plan
+        )
+        result["promotion_log"] = promotion_log
+
+        reflection_log = reflection_manager.reflect_from_runtime(
+            task_id=task.task_id,
+            agent_id=task.agent_id,
+            input_context=incoming_input,
+            plan_context=plan_context,
+            execution_task=execution_task,
+            execution_result=execution_result,
+            platform_governance=platform_governance,
+        )
+        result["reflection_log"] = reflection_log
+
+        knowledge_graph = knowledge_graph_manager.build_graph_from_runtime(
+            task_id=task.task_id,
+            agent_id=task.agent_id,
+            input_context=incoming_input,
+            tool_result=result.get("tool_result", {}),
+            execution_task=execution_task,
+            agent_profile=result.get("agent_profile"),
+        )
+        result["knowledge_graph"] = knowledge_graph
+
+        formatted_output = output_adapter.format_output(
+            source=incoming_input["source"],
+            result=result
+        )
+        result["formatted_output"] = formatted_output
+
+        human_machine_loop_log = human_machine_loop_manager.build_loop_from_runtime(
+            task_id=task.task_id,
+            agent_id=task.agent_id,
+            platform_governance=platform_governance,
+            execution_task=execution_task,
+            execution_result=execution_result,
+            formatted_output=formatted_output,
+            reflection_log=reflection_log,
+        )
+        result["human_machine_loop_log"] = human_machine_loop_log
+
+        metrics_context = metrics_manager.build_metrics_summary()
+        result["metrics_context"] = metrics_context
+
+        early_warning_log = early_warning_manager.analyze_runtime_signals(
+            task_id=task.task_id,
+            agent_id=task.agent_id,
+            platform_governance=platform_governance,
+            execution_result=execution_result,
+            healing_result=healing_result,
+            metrics_context=metrics_context,
+            formatted_output=formatted_output,
+        )
+        result["early_warning_log"] = early_warning_log
+
+        test_log = test_manager.build_test_blueprint_from_runtime(
+            task_id=task.task_id,
+            agent_id=task.agent_id,
+            execution_result=execution_result,
+            healing_result=healing_result,
+            reflection_log=reflection_log,
+            early_warning_log=early_warning_log,
+            human_machine_loop_log=human_machine_loop_log,
+        )
+        result["test_log"] = test_log
+
+        critic_context = critic.review(
+            plan_context=plan_context,
+            formatted_output=formatted_output,
+            tool_result=result.get("tool_result", {}),
+            experience_reference=experience_reference
+        )
+        result["critic_context"] = critic_context
+
+        if platform_governance["manual_review_required"]:
+            state_manager.update_task_status(task.task_id, "waiting_human_review", result=result)
+            audit_logger.info(f"Task waiting_human_review: {task.task_id}")
+        else:
+            state_manager.update_task_status(task.task_id, "done", result=result)
+            audit_logger.info(f"Task done: {task.task_id}")
+
+        print("=== TASK RESULT ===")
+        print(result)
+
+    except Exception as e:
+        state_manager.update_task_status(task.task_id, "failed", error_message=str(e))
+        audit_logger.error(f"Task failed: {task.task_id} | {str(e)}")
+        print("Task failed:", str(e))
+
+
+if __name__ == "__main__":
+    main()

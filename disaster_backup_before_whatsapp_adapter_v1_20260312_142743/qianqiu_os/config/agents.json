@@ -1,0 +1,33 @@
+[
+  {
+    "agent_id": "wolong",
+    "name": "Wolong Agent",
+    "class_name": "WolongAgent",
+    "enabled": true,
+    "description": "二手车国际贸易与政策合规样板智能体",
+    "domain": "trade",
+    "supported_task_types": [
+      "policy_check"
+    ],
+    "default_tools": [
+      "policy_check"
+    ],
+    "channel_policy": [
+      "facebook",
+      "instagram",
+      "web_chat"
+    ],
+    "capability_boundary": {
+      "can_do": [
+        "二手车国际贸易政策判断",
+        "合规风险提示",
+        "人工复核前的初步判断"
+      ],
+      "cannot_do": [
+        "替代人工做最终政策承诺",
+        "绕过平台治理直接放行高风险任务",
+        "超出业务边界的法律和医疗判断"
+      ]
+    }
+  }
+]

@@ -1,0 +1,33 @@
+{
+  "meta": {
+    "schema_version": "1.0",
+    "updated_at": "2026-02-15",
+    "source": "manual_seed",
+    "notes": "Example only. Replace with verified rules."
+  },
+  "country": {
+    "name": "Ghana",
+    "aliases": [
+      "GH",
+      "Republic of Ghana",
+      "غانا"
+    ]
+  },
+  "rules": {
+    "vehicle_age_max_years": 10,
+    "allowed_fuel": [],
+    "blocked_fuel": [],
+    "left_hand_drive_only": null,
+    "right_hand_drive_only": null,
+    "diesel_restrictions": {
+      "enabled": false,
+      "notes": ""
+    },
+    "notes_to_customer": [
+      "We will confirm any destination-specific restrictions before shipping."
+    ]
+  },
+  "policy_meta": {
+    "draft_generated_at": "2026-02-16 08:59:16"
+  }
+}

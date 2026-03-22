@@ -1,0 +1,45 @@
+{
+  "checked_at": "2026-03-14 18:09:02",
+  "check_name": "runtime_reflection_check_v1",
+  "alert_result": {
+    "overall_status": "healthy",
+    "alert_count": 0,
+    "high_count": 0,
+    "medium_count": 0,
+    "low_count": 0,
+    "alerts": []
+  },
+  "self_heal_result": {
+    "alert_result": {
+      "overall_status": "healthy",
+      "alert_count": 0,
+      "high_count": 0,
+      "medium_count": 0,
+      "low_count": 0,
+      "alerts": []
+    },
+    "actions": [],
+    "changed": false,
+    "final_whatsapp_control": {
+      "ingress_mode": "readonly",
+      "auto_classify": true,
+      "auto_tagging": true,
+      "h5_visible": true,
+      "auto_reply": false,
+      "auto_dispatch": false
+    }
+  },
+  "reflection_notes": [
+    "当前运行态检查结果健康，未发现明显高风险或中风险问题。",
+    "当前无需执行自愈动作，配置已处于稳定安全状态。"
+  ],
+  "next_actions": [
+    "继续保持 readonly 安全基线，避免未完成真实接入前误开自动回复。",
+    "继续把主干偏弱层从半稳推进到稳。"
+  ],
+  "tomorrow_plan_seed": [
+    "优先补强偏弱主干模块",
+    "继续收尾 H5 对接链",
+    "保持先检查、再修改、再验证的节奏"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "view_name": "h5_dashboard_whatsapp",
+  "version": "2026-03-12",
+  "top_stats": {
+    "准车商": 1,
+    "疑似车商": 1,
+    "个人客户": 1,
+    "无效沟通": 0
+  },
+  "recent_focus": [
+    {
+      "phone": "+77011234567",
+      "customer_name": "Zhaslan",
+      "bucket": "准车商",
+      "latest_message": "Need 8 SUVs. We can buy regularly if prices are good."
+    },
+    {
+      "phone": "+992900000001",
+      "customer_name": "Bek",
+      "bucket": "疑似车商",
+      "latest_message": "Need Prado and Camry, maybe 7 units."
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "fetched_at": "2026-03-19T00:36:51.989412+00:00",
+  "domain": "egov.kz",
+  "request_url": "https://egov.kz/cms/kk/law",
+  "ok": false,
+  "status": 504,
+  "final_url": "https://egov.kz/cms/kk/law",
+  "content_type": "",
+  "content_length": 0,
+  "headers": {
+    "Server": "nginx",
+    "Date": "Thu, 19 Mar 2026 00:36:51 GMT",
+    "Content-Type": "text/html",
+    "Content-Length": "228021",
+    "Connection": "close",
+    "ETag": "\"6253b1f0-37ab5\"",
+    "Permissions-Policy": "interest-cohort=(),geolocation=(),midi=(),sync-xhr=(),microphone=(),camera=(),magnetometer=(),gyroscope=(),fullscreen=(self),payment=()",
+    "Set-Cookie": "cookiesession1=678B76AD11D9893E77552EE47420D346;Expires=Fri, 19 Mar 2027 00:36:51 GMT;Path=/;HttpOnly"
+  },
+  "error": "HTTPError: HTTP Error 504: Gateway Time-out",
+  "fetch_mode": "fallback_unverified_ssl",
+  "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+  "security_note": "Standard and fallback SSL fetch both failed.",
+  "body_file": ""
+}

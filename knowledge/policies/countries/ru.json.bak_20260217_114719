@@ -1,0 +1,122 @@
+{
+  "schema_version": "9.1",
+  "meta": {
+    "data_status": "active",
+    "last_verified_at": "2026-02-16",
+    "last_checked_at": "2026-02-16",
+    "next_review_due": "2026-02-23",
+    "small_update_cycle_days": 3,
+    "major_update_cycle_days": 7,
+    "source_type": "manual_seed",
+    "confidence_level": 0.65,
+    "notes": "Russia policy draft for L9. Must verify against official RU/EAEU sources before production use."
+  },
+  "country": {
+    "name": "Russia",
+    "iso2": "RU",
+    "aliases": ["Russian Federation", "Россия", "РФ", "RU", "ru"]
+  },
+  "legal_basis": [
+    {
+      "topic": "Vehicle technical safety / conformity",
+      "hint": "EAEU Technical Regulation on wheeled vehicle safety (TR TS 018/2011). Import vehicles generally need conformity procedures/certification.",
+      "source_note": "Verify latest consolidated text and applicable conformity route for your scenario (individual vs dealer)."
+    },
+    {
+      "topic": "Import cost structure (duties/fees)",
+      "hint": "Used vehicles are typically subject to duties/taxes; age/engine parameters can significantly impact costs.",
+      "source_note": "This engine does NOT compute duties yet; only flags complexity risk."
+    },
+    {
+      "topic": "Recycling fee / utilization fee",
+      "hint": "Russia applies a recycling/utilization fee on vehicles; rules/rates can change.",
+      "source_note": "Add verified decree/rate tables later. Keep warnings until verified."
+    }
+  ],
+"enforcement_mode": "soft",
+  "rules": {
+    "age": {
+      "status_if_fail": "warn",
+      "params": {
+        "soft_warn_over_years": 3,
+        "hard_block_over_years": null
+      },
+      "message": {
+        "warn": {
+          "en": "Vehicle age may increase import cost/complexity in Russia.",
+          "zh": "车辆年限可能会显著增加俄罗斯进口成本/复杂度。",
+          "ru": "Возраст автомобиля может заметно повысить стоимость/сложность ввоза в РФ."
+        }
+      }
+    },
+    "fuel": {
+      "status_if_fail": "warn",
+      "params": {
+        "blocked_fuels": [],
+        "special_attention_fuels": ["diesel"]
+      },
+      "message": {
+        "warn": {
+          "en": "Fuel type may require additional compliance verification.",
+          "zh": "燃油类型可能需要额外合规核实。",
+          "ru": "Тип топлива может потребовать дополнительной проверки соответствия."
+        }
+      }
+    },
+    "steering": {
+      "status_if_fail": "warn",
+      "params": {
+        "preferred": "LHD",
+        "warn_if": ["RHD"],
+        "block_if": []
+      },
+      "message": {
+        "warn": {
+          "en": "Steering configuration may require verification for registration/compliance.",
+          "zh": "方向盘位置可能需要核实注册/合规要求。",
+          "ru": "Расположение руля может потребовать проверки требований регистрации/соответствия."
+        }
+      }
+    },
+    "emission": {
+      "status_if_fail": "warn",
+      "params": {
+        "min_standard": null,
+        "warn_if_missing": true
+      },
+      "message": {
+        "warn": {
+          "en": "Emission standard/compliance must be verified before shipment.",
+          "zh": "排放标准/合规必须在发运前核实。",
+          "ru": "Экологический стандарт/соответствие нужно проверить перед отгрузкой."
+        }
+      }
+    },
+    "certification": {
+      "status_if_fail": "warn",
+      "params": {
+        "requires_conformity_check": true
+      },
+      "message": {
+        "warn": {
+          "en": "Compliance certification (EAEU/RU) must be verified before shipment.",
+          "zh": "必须在发运前核实EAEU/俄罗斯合规认证要求。",
+          "ru": "Необходимо проверить требования сертификации соответствия (ЕАЭС/РФ) перед отгрузкой."
+        }
+      }
+    },
+    "ev_grid_risk": {
+      "status_if_fail": "warn",
+      "params": {
+        "enable": true
+      },
+      "message": {
+        "warn": {
+          "en": "For EV/plug-in models, confirm local charging infrastructure and certification requirements.",
+          "zh": "新能源/插混车型需确认当地充电条件与认证要求。",
+          "ru": "Для электромобилей/плагинов уточните инфраструктуру зарядки и требования сертификации."
+        }
+      }
+    }
+  }
+}

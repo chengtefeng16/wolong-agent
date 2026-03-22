@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<!--
+ * (с) Andrey Kuznetsov, SIMOURG LIMITED, 2021
+ * Developed for UNECE, 2021
+-->
+<html>
+    <head>
+        <title>CACIP</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" type="text/css" href="css/datatables.css">
+        <link rel="stylesheet" type="text/css" href="css/custom.css">
+
+        <script src="js/datatables.min.js"></script>
+        <script src="js/jquery.csv.js" defer></script>
+        <script src="js/custom.js?update" defer></script>
+
+    </head>
+    <body>
+        <div class="CIPPage">
+<!--            
+            <hr class="hrline">
+-->
+            <div class="CIPHeader">
+                <div name="buttons" class="CIPLeft" id="buttons"></div>
+                <div name="langs" class="CIPRight" id="langs"></div>
+                <div name="countries" class="CIPBlock  clearfloat" id="countries"></div>
+            </div>
+            <hr class="CIPhr">
+
+            <div class="CIPMain" id="main">
+                <div class="CIPError"></div>
+            </div>
+        
+            <hr class="CIPhr CIPClear">
+            <div class="CIPFooter">
+            </div>
+
+        </div>
+        <script>
+            $(document).ready(function() {
+                initPage();
+            } );
+        </script>
+    </body>
+</html>

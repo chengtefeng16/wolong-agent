@@ -1,0 +1,44 @@
+{
+  "generated_at": "2026-03-15 21:17:55",
+  "reflection_name": "reflection_learning_latest",
+  "metrics": {
+    "profile_count": 1,
+    "manual_review_count": 1,
+    "quote_ready_count": 1,
+    "high_priority_count": 0,
+    "judgement_weak_count": 0,
+    "alert_count": 3,
+    "high_alert_count": 1,
+    "medium_alert_count": 2,
+    "delivery_blocked_count": 1,
+    "regression_status": "passed",
+    "regression_passed_count": 12,
+    "regression_failed_count": 0
+  },
+  "bucket_counts": {
+    "准车商": 0,
+    "疑似车商": 1,
+    "个人客户": 0,
+    "待判断": 0,
+    "沟通无效": 0
+  },
+  "reflections": [
+    "当前主干回归已通过，说明接入、真源、预警、记忆、导出等核心链路当前是稳定的。",
+    "当前存在外发被治理层拦截的记录，这在 readonly 阶段属于预期现象，不应误判为系统发送故障。",
+    "当前有 1 个客户需要人工查看，说明人工监管仍是主干关键能力，不能被弱化。",
+    "当前已有 1 个客户进入报价准备阶段，说明系统已经具备从线索识别走向业务推进的能力。",
+    "当前存在 1 条高优先级预警，说明预警层已经开始真正参与主干治理。"
+  ],
+  "learning_points": [
+    "好的做法要保持：先让消息进主干，再统一真源，再做判断、记忆、预警、导出。",
+    "只读观察阶段的正确原则要保持：先观察、不扰动、不自动外发。",
+    "当前客户判断链已经能识别高意向客户，后续要继续把判断结果反哺到人工接管和 CRM 跟进里。",
+    "业务上下文层已能识别报价准备阶段，后续要继续把报价、物流、付款条件也纳入上下文。"
+  ],
+  "next_actions": [
+    "继续补强人工接管工作台，让高意向客户能更快进入人工处理。",
+    "继续补强 CRM 导出和报价流转，让“报价准备”客户尽快进入业务推进。",
+    "继续保留 readonly 治理闸门，同时把被拦截案例纳入人工处理闭环。",
+    "下一阶段继续补知识图谱层、自愈层与测试回归加强版。"
+  ]
+}

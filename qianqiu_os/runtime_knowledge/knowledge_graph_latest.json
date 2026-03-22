@@ -1,0 +1,68 @@
+{
+  "generated_at": "2026-03-15 21:21:43",
+  "graph_name": "knowledge_graph_latest",
+  "node_count": 6,
+  "edge_count": 5,
+  "nodes": [
+    {
+      "id": "customer::customer_demo_001",
+      "type": "customer",
+      "label": "Demo Buyer",
+      "customer_id": "customer_demo_001",
+      "priority": "medium",
+      "needs_human_review": true
+    },
+    {
+      "id": "country::Kazakhstan",
+      "type": "country",
+      "label": "Kazakhstan"
+    },
+    {
+      "id": "bucket::疑似车商",
+      "type": "bucket",
+      "label": "疑似车商"
+    },
+    {
+      "id": "stage::已进入报价准备",
+      "type": "business_stage",
+      "label": "已进入报价准备"
+    },
+    {
+      "id": "model::prado",
+      "type": "car_model",
+      "label": "prado"
+    },
+    {
+      "id": "model::camry",
+      "type": "car_model",
+      "label": "camry"
+    }
+  ],
+  "edges": [
+    {
+      "source": "customer::customer_demo_001",
+      "target": "country::Kazakhstan",
+      "relation": "destination_country"
+    },
+    {
+      "source": "customer::customer_demo_001",
+      "target": "bucket::疑似车商",
+      "relation": "classified_as"
+    },
+    {
+      "source": "customer::customer_demo_001",
+      "target": "stage::已进入报价准备",
+      "relation": "current_stage"
+    },
+    {
+      "source": "customer::customer_demo_001",
+      "target": "model::prado",
+      "relation": "interested_in"
+    },
+    {
+      "source": "customer::customer_demo_001",
+      "target": "model::camry",
+      "relation": "interested_in"
+    }
+  ]
+}

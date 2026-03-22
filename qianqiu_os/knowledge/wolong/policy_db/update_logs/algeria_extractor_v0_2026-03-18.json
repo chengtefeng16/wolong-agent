@@ -1,0 +1,33 @@
+{
+  "run_id": "algeria_extractor_v0_2026-03-18",
+  "run_time": "2026-03-18",
+  "target_country": "Algeria",
+  "source_count": 1,
+  "new_sources_found": 0,
+  "fields_extracted": [
+    "eligibility_scope",
+    "access_rules",
+    "tax_rules",
+    "customs_and_documents",
+    "logistics_and_delivery",
+    "risk_and_review",
+    "output_support"
+  ],
+  "fields_updated": [
+    "status",
+    "policy_version",
+    "confidence_level",
+    "eligibility_scope",
+    "access_rules",
+    "tax_rules",
+    "customs_and_documents",
+    "logistics_and_delivery",
+    "risk_and_review",
+    "output_support"
+  ],
+  "pending_verification_count": 3,
+  "next_small_update_due": "2026-03-21",
+  "next_major_update_due": "2026-03-25",
+  "human_review_needed": true,
+  "pipeline_stage": "extractor_v0"
+}

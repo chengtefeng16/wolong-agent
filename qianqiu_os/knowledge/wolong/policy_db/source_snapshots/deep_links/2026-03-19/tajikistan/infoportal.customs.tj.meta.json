@@ -1,0 +1,25 @@
+{
+  "fetched_at": "2026-03-19T00:37:33.132616+00:00",
+  "domain": "customs.tj",
+  "request_url": "http://infoportal.customs.tj",
+  "ok": true,
+  "status": 200,
+  "final_url": "http://infoportal.customs.tj",
+  "content_type": "text/html;charset=utf-8",
+  "content_length": 5575,
+  "headers": {
+    "Connection": "close",
+    "Transfer-Encoding": "chunked",
+    "Cache-Control": "no-cache",
+    "Content-Type": "text/html;charset=utf-8",
+    "Date": "Thu, 19 Mar 2026 00:37:32 GMT",
+    "Expires": "Thu, 01 Jan 1970 00:00:00 GMT",
+    "Server": "nginx/1.17.4",
+    "Set-Cookie": "PORTALSESSION=Pjrkp7GR77LxpGLLmT7p6DSyBg4BLlqPkQ7phxcvHwnhpD0Tt8F1!1401582135; path=/",
+    "X-Oracle-Dms-Ecid": "4e3f3a6ccdce7f35:267fac31:19c2ddd31c8:-8000-0000000000036f84",
+    "X-Powered-By": "Servlet/2.5 JSP/2.1"
+  },
+  "error": "",
+  "fetch_mode": "standard_ssl",
+  "body_file": "infoportal.customs.tj.html"
+}

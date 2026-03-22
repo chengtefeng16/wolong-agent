@@ -1,0 +1,25 @@
+{
+  "fetched_at": "2026-03-18T13:55:52.842900+00:00",
+  "domain": "infotrade.gov.tm",
+  "request_url": "https://infotrade.gov.tm/",
+  "ok": true,
+  "status": 200,
+  "final_url": "https://infotrade.gov.tm/?l=tk",
+  "content_type": "text/html; charset=utf-8",
+  "content_length": 96726,
+  "headers": {
+    "Cache-Control": "private",
+    "Content-Type": "text/html; charset=utf-8",
+    "X-AspNet-Version": "4.0.30319",
+    "Set-Cookie": "__RequestVerificationToken=GFTNhZPNtH-551kQSMrlJJjHFa3jyn1ftYASfhsiuRvqDY_t9o_ziF3S26PZKEWrUYclpJsVsZPvrYM_a9xipFdxSZBSVuDl8OUW-n2gWNccA3RTy9OWCt2U52dgPyveA-eLDA2; path=/; HttpOnly",
+    "X-Powered-By": "ASP.NET",
+    "Date": "Wed, 18 Mar 2026 13:55:50 GMT",
+    "Connection": "close",
+    "Content-Length": "96726"
+  },
+  "error": "",
+  "fetch_mode": "fallback_unverified_ssl",
+  "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+  "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+  "body_file": "infotrade.gov.tm__root.html"
+}

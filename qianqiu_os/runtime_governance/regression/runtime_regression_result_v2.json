@@ -1,0 +1,82 @@
+{
+  "checked_at": "2026-03-14 12:10:12",
+  "suite_name": "runtime_regression_suite_v1",
+  "overall_status": "passed",
+  "passed_count": 10,
+  "failed_count": 0,
+  "checks": [
+    {
+      "name": "active_config_exists",
+      "passed": true,
+      "detail": "delegation_active_config.json exists"
+    },
+    {
+      "name": "whatsapp_control_exists",
+      "passed": true,
+      "detail": "whatsapp_control found"
+    },
+    {
+      "name": "readonly_baseline",
+      "passed": true,
+      "detail": {
+        "ingress_mode": "readonly",
+        "auto_reply": false,
+        "auto_dispatch": false
+      }
+    },
+    {
+      "name": "preview_module_exists",
+      "passed": true,
+      "detail": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/services/h5_delegation_active_config_preview_v1.py"
+    },
+    {
+      "name": "alert_guard_healthy",
+      "passed": true,
+      "detail": "healthy"
+    },
+    {
+      "name": "self_heal_runs",
+      "passed": true,
+      "detail": {
+        "ingress_mode": "readonly",
+        "auto_classify": true,
+        "auto_tagging": true,
+        "h5_visible": true,
+        "auto_reply": false,
+        "auto_dispatch": false
+      }
+    },
+    {
+      "name": "reflection_check_runs",
+      "passed": true,
+      "detail": [
+        "当前运行态检查结果健康，未发现明显高风险或中风险问题。",
+        "当前无需执行自愈动作，配置已处于稳定安全状态。"
+      ]
+    },
+    {
+      "name": "human_loop_keeps_human_authority",
+      "passed": true,
+      "detail": {
+        "final_decision": "human_decide",
+        "reason": "business_stage_negotiating_requires_human_confirmation"
+      }
+    },
+    {
+      "name": "knowledge_graph_not_empty",
+      "passed": true,
+      "detail": {
+        "node_count": 16,
+        "edge_count": 10
+      }
+    },
+    {
+      "name": "promotion_guard_safe_by_default",
+      "passed": true,
+      "detail": {
+        "final_decision": "blocked",
+        "reason": "promotion_master_switch_off"
+      }
+    }
+  ]
+}

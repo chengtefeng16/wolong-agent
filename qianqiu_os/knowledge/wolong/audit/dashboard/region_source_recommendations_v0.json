@@ -1,0 +1,129 @@
+{
+  "total_regions": 4,
+  "recommendations": [
+    {
+      "region_pack": "central_asia",
+      "country_count": 6,
+      "audit_restricted_count": 6,
+      "cross_validation_weak_count": 6,
+      "priority_source_gaps": [
+        "customs",
+        "official_gazette_or_law_db",
+        "tax_or_revenue"
+      ],
+      "actions": [
+        {
+          "rank": 1,
+          "source_dimension": "customs",
+          "source_dimension_label": "海关来源",
+          "action": "优先补海关官网、海关公告、清关规则页"
+        },
+        {
+          "rank": 2,
+          "source_dimension": "official_gazette_or_law_db",
+          "source_dimension_label": "官方公报/法律数据库来源",
+          "action": "优先补官方公报、法令库、官方法规数据库"
+        },
+        {
+          "rank": 3,
+          "source_dimension": "tax_or_revenue",
+          "source_dimension_label": "税务/财政来源",
+          "action": "优先补税务、财政、收入主管部门资料"
+        }
+      ]
+    },
+    {
+      "region_pack": "africa",
+      "country_count": 2,
+      "audit_restricted_count": 2,
+      "cross_validation_weak_count": 1,
+      "priority_source_gaps": [
+        "tax_or_revenue",
+        "transport_or_industry_or_trade",
+        "customs"
+      ],
+      "actions": [
+        {
+          "rank": 1,
+          "source_dimension": "tax_or_revenue",
+          "source_dimension_label": "税务/财政来源",
+          "action": "优先补税务、财政、收入主管部门资料"
+        },
+        {
+          "rank": 2,
+          "source_dimension": "transport_or_industry_or_trade",
+          "source_dimension_label": "交通/工业/商务来源",
+          "action": "优先补交通、工业、商务主管部门资料"
+        },
+        {
+          "rank": 3,
+          "source_dimension": "customs",
+          "source_dimension_label": "海关来源",
+          "action": "优先补海关官网、海关公告、清关规则页"
+        }
+      ]
+    },
+    {
+      "region_pack": "middle_east",
+      "country_count": 2,
+      "audit_restricted_count": 2,
+      "cross_validation_weak_count": 1,
+      "priority_source_gaps": [
+        "high_trust_industry_or_embassy",
+        "official_gazette_or_law_db",
+        "tax_or_revenue"
+      ],
+      "actions": [
+        {
+          "rank": 1,
+          "source_dimension": "high_trust_industry_or_embassy",
+          "source_dimension_label": "高可信行业/使领馆/商务服务来源",
+          "action": "优先补高可信行业机构、使领馆、商务服务说明"
+        },
+        {
+          "rank": 2,
+          "source_dimension": "official_gazette_or_law_db",
+          "source_dimension_label": "官方公报/法律数据库来源",
+          "action": "优先补官方公报、法令库、官方法规数据库"
+        },
+        {
+          "rank": 3,
+          "source_dimension": "tax_or_revenue",
+          "source_dimension_label": "税务/财政来源",
+          "action": "优先补税务、财政、收入主管部门资料"
+        }
+      ]
+    },
+    {
+      "region_pack": "latin_america",
+      "country_count": 1,
+      "audit_restricted_count": 1,
+      "cross_validation_weak_count": 0,
+      "priority_source_gaps": [
+        "official_gazette_or_law_db",
+        "tax_or_revenue",
+        "transport_or_industry_or_trade"
+      ],
+      "actions": [
+        {
+          "rank": 1,
+          "source_dimension": "official_gazette_or_law_db",
+          "source_dimension_label": "官方公报/法律数据库来源",
+          "action": "优先补官方公报、法令库、官方法规数据库"
+        },
+        {
+          "rank": 2,
+          "source_dimension": "tax_or_revenue",
+          "source_dimension_label": "税务/财政来源",
+          "action": "优先补税务、财政、收入主管部门资料"
+        },
+        {
+          "rank": 3,
+          "source_dimension": "transport_or_industry_or_trade",
+          "source_dimension_label": "交通/工业/商务来源",
+          "action": "优先补交通、工业、商务主管部门资料"
+        }
+      ]
+    }
+  ]
+}

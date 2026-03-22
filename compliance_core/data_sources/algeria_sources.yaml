@@ -1,0 +1,29 @@
+# ================================================================
+# Copyright (c) 2026 程特峰 (Tefeng Cheng)
+# All Rights Reserved.
+#
+# Project: AgentOS / Wolong Agent System
+# This source code is proprietary and confidential.
+# Unauthorized copying, modification, distribution or use
+# of this software, in whole or in part, is strictly prohibited.
+# ================================================================
+
+country: "Algeria"
+
+sources:
+  - name: "Algeria Customs Official Policy"
+    url: "https://www.douane.gov.dz/index.php/en/import-regulations"
+    type: "html"
+    is_official: true
+
+  - name: "Ministry of Transport Regulations"
+    url: "https://www.mtpt.gov.dz/vehicle-import-guidelines"
+    type: "html"
+    is_official: true
+
+update_cycle:
+  small_update_days: 3
+  full_update_days: 7
+
+notes: "Initial configured sources for Algeria vehicle import policy."
+

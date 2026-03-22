@@ -1,0 +1,225 @@
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  background: #f3f5f8;
+  font-family: Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.page {
+  padding: 14px;
+  color: #1f2937;
+}
+
+.top-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.stats-row,
+.channel-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.mini-card {
+  background: #fff;
+  border: 1px solid #d7dde7;
+  border-radius: 10px;
+  padding: 8px 12px;
+  min-height: 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.mini-card span {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+.mini-card strong {
+  font-size: 22px;
+}
+
+.channel {
+  height: 38px;
+  border-radius: 10px;
+  border: 1px solid #d7dde7;
+  background: #fff;
+  font-size: 13px;
+}
+
+.channel.active {
+  background: #e8f1ff;
+  border-color: #8eb7ff;
+}
+
+.main-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.9fr;
+  gap: 12px;
+}
+
+.panel {
+  background: #fff;
+  border: 1px solid #d7dde7;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.panel-head h3,
+.detail-top h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.panel-head p,
+.detail-top p {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.list-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.list-row {
+  width: 100%;
+  border: 1px solid #d7dde7;
+  background: #f9fafb;
+  border-radius: 10px;
+  padding: 8px 10px;
+  display: grid;
+  grid-template-columns: 1.9fr 110px 96px 64px;
+  gap: 8px;
+  text-align: left;
+  align-items: center;
+}
+
+.list-row.selected {
+  border-color: #8eb7ff;
+  background: #edf4ff;
+}
+
+.list-main {
+  min-width: 0;
+}
+
+.name-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.msg-line {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.list-side {
+  text-align: center;
+  font-size: 12px;
+  color: #4b5563;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.准车商 {
+  background: #e7f8ee;
+  color: #1f8f52;
+}
+
+.疑似车商 {
+  background: #fff4df;
+  color: #b7791f;
+}
+
+.个人客户 {
+  background: #e8f1ff;
+  color: #2f6edb;
+}
+
+.无效沟通 {
+  background: #fdeaea;
+  color: #c24141;
+}
+
+.detail-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.keyword-box {
+  width: 320px;
+  border: 1px solid #d7dde7;
+  border-radius: 10px;
+  padding: 10px;
+  background: #f9fafb;
+}
+
+.keyword-title {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+.keyword-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: #e8f1ff;
+  color: #2f6edb;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.detail-card {
+  border: 1px solid #d7dde7;
+  border-radius: 10px;
+  padding: 12px;
+  background: #f9fafb;
+  margin-bottom: 10px;
+}
+
+.detail-card-title {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 8px;
+}

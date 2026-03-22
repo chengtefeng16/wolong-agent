@@ -1,0 +1,323 @@
+import { useEffect, useMemo, useState } from 'react'
+import './index.css'
+
+const fallbackCustomers = [
+  {
+    id: '1',
+    name: '艾哈迈德汽车集团',
+    category: '准车商',
+    country: '哈萨克斯坦',
+    channel: 'WhatsApp',
+    time: '10:24',
+    message: '需要8辆凯美瑞/普拉多，长期采购，走霍尔果斯',
+    keywords: ['8辆车', '霍尔果斯', '经销商', '普拉多', '凯美瑞', '长期采购'],
+    reason: '有批量采购、数量明确、口岸明确、长期合作信号。',
+    tags: ['批量采购', '中亚方向', '口岸明确'],
+    phone: '+7 701 234 5678',
+    timeline: [
+      '03-10 首次询问普拉多/凯美瑞车源',
+      '03-10 明确提到需要8辆车',
+      '03-11 提到走霍尔果斯口岸',
+      '03-12 继续问长期稳定供货',
+    ],
+    messages: [
+      { role: '客户', text: 'Hello, do you have Prado and Camry for export?' },
+      { role: '我方', text: 'Yes, how many units do you need?' },
+      { role: '客户', text: 'About 8 units first, maybe long-term, via Horgos.' },
+      { role: '我方', text: 'We can support that. Which port do you prefer?' },
+      { role: '客户', text: 'Horgos. Can you keep supply stable?' },
+      { role: '我方', text: 'Yes, we can discuss a stable monthly plan.' },
+    ],
+  },
+]
+
+const fallbackStats = [
+  { label: '准车商', value: 12 },
+  { label: '疑似车商', value: 18 },
+  { label: '个人客户', value: 7 },
+  { label: '沟通无效', value: 4 },
+]
+
+const channels = ['WhatsApp', 'Facebook（后续）', 'Ins（后续）', '更多渠道（后续）']
+
+function getCounts(messages) {
+  const safeMessages = Array.isArray(messages) ? messages : []
+  return {
+    proactiveCount: safeMessages.filter((msg) => msg.role === '客户').length,
+    exchangeCount: safeMessages.length,
+  }
+}
+
+function getModeLabel(mode) {
+  if (mode === 'off') return '关闭'
+  if (mode === 'readonly') return '只读观察'
+  if (mode === 'manual') return '人工接管'
+  return mode || '-'
+}
+
+function normalizeCustomer(item, index) {
+  if (!item || typeof item !== 'object') return null
+
+  return {
+    id: String(item.id || item.customer_id || item.phone || index + 1),
+    name: item.name || item.customer_name || item.title || item.phone || `客户${index + 1}`,
+    category: item.category || item.customer_type || item.segment || '待判断',
+    country: item.country || item.destination_country || item.region || '未知',
+    channel: item.channel || 'WhatsApp',
+    time: item.time || item.last_time || item.updated_at || '—',
+    message: item.message || item.last_message || item.summary || '暂无摘要',
+    keywords: Array.isArray(item.keywords) ? item.keywords : [],
+    reason: item.reason || item.rationale || item.judgement_reason || '暂无判断说明',
+    tags: Array.isArray(item.tags) ? item.tags : [],
+    phone: item.phone || item.customer_id || '-',
+    timeline: Array.isArray(item.timeline) ? item.timeline : [],
+    messages: Array.isArray(item.messages) ? item.messages : [],
+  }
+}
+
+function normalizeDashboard(data) {
+  if (!data || typeof data !== 'object') {
+    return { customers: fallbackCustomers, stats: fallbackStats }
+  }
+
+  const candidateList =
+    data.customers ||
+    data.items ||
+    data.records ||
+    data.conversations ||
+    data.list ||
+    []
+
+  const customers = Array.isArray(candidateList)
+    ? candidateList.map(normalizeCustomer).filter(Boolean)
+    : fallbackCustomers
+
+  const statsSource = data.stats || data.summary || {}
+  const stats = [
+    { label: '准车商', value: statsSource.准车商 || statsSource.ready_dealers || statsSource.readyDealerCount || 0 },
+    { label: '疑似车商', value: statsSource.疑似车商 || statsSource.suspected_dealers || statsSource.suspectedDealerCount || 0 },
+    { label: '个人客户', value: statsSource.个人客户 || statsSource.individual_customers || statsSource.personalCount || 0 },
+    { label: '沟通无效', value: statsSource.沟通无效 || statsSource.invalid_conversations || statsSource.invalidCount || 0 },
+  ]
+
+  return {
+    customers: customers.length ? customers : fallbackCustomers,
+    stats: stats.some((x) => x.value > 0) ? stats : fallbackStats,
+  }
+}
+
+export default function App() {
+  const [customers, setCustomers] = useState(fallbackCustomers)
+  const [stats, setStats] = useState(fallbackStats)
+  const [selectedId, setSelectedId] = useState('1')
+  const [loadingText, setLoadingText] = useState('正在读取 runtime 真源...')
+  const [activeChannel, setActiveChannel] = useState('WhatsApp')
+
+  const [ingressMode, setIngressMode] = useState('readonly')
+  const [autoClassify, setAutoClassify] = useState(true)
+  const [autoTagging, setAutoTagging] = useState(true)
+  const [h5Visible, setH5Visible] = useState(true)
+  const [autoReply, setAutoReply] = useState(false)
+  const [autoDispatch, setAutoDispatch] = useState(false)
+
+  useEffect(() => {
+    Promise.all([
+      fetch('/runtime/views/h5_dashboard_whatsapp.json').then((r) => r.ok ? r.json() : null).catch(() => null),
+      fetch('/runtime/views/whatsapp_control_snapshot.json').then((r) => r.ok ? r.json() : null).catch(() => null),
+    ]).then(([dashboardData, controlData]) => {
+      const normalized = normalizeDashboard(dashboardData)
+      setCustomers(normalized.customers)
+      setStats(normalized.stats)
+      setSelectedId((prev) => prev || (normalized.customers[0]?.id ?? '1'))
+
+      if (controlData && typeof controlData === 'object') {
+        setIngressMode(controlData.ingress_mode || 'readonly')
+        setAutoClassify(Boolean(controlData.auto_classify))
+        setAutoTagging(Boolean(controlData.auto_tagging))
+        setH5Visible(Boolean(controlData.h5_visible))
+        setAutoReply(Boolean(controlData.auto_reply))
+        setAutoDispatch(Boolean(controlData.auto_dispatch))
+      }
+
+      setLoadingText('已读取 runtime 真源')
+    })
+  }, [])
+
+  const selected = customers.find((x) => x.id === selectedId) || customers[0] || fallbackCustomers[0]
+  const isHot = selected.category === '准车商'
+  const { proactiveCount, exchangeCount } = useMemo(() => getCounts(selected.messages), [selected])
+
+  const emergencyStop = () => {
+    window.alert('当前按钮仅保留演示占位，不再修改前端本地状态。真实止水动作应走后端配置保存链。')
+  }
+
+  return (
+    <div className="page">
+      <div className="top-title">卧龙代理聊天实战工作台</div>
+
+      <div style={{ background: '#fff', border: '1px solid #d7dde7', borderRadius: '12px', padding: '10px 12px', marginBottom: '10px', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap', marginBottom: '8px' }}>
+          <div>
+            <div style={{ fontSize: '15px', fontWeight: 700 }}>WhatsApp 水龙头开关（runtime 真源读取）</div>
+            <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '2px' }}>
+              {loadingText}
+            </div>
+          </div>
+
+          <button
+            onClick={emergencyStop}
+            style={{
+              height: '34px',
+              padding: '0 14px',
+              borderRadius: '10px',
+              border: '1px solid #ef4444',
+              background: '#fff1f2',
+              color: '#d92020',
+              fontWeight: 700,
+              cursor: 'pointer',
+            }}
+          >
+            紧急止水（前端演示）
+          </button>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr 1fr', gap: '10px', alignItems: 'stretch' }}>
+          <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '10px', background: '#fafafa' }}>
+            <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '6px' }}>第1层 · 接入层</div>
+            <div style={{ fontSize: '13px', fontWeight: 700, marginBottom: '8px' }}>WhatsApp 接入模式</div>
+            <div style={{ fontSize: '14px', fontWeight: 700 }}>{getModeLabel(ingressMode)}</div>
+          </div>
+
+          <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '10px', background: '#fafafa' }}>
+            <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '6px' }}>第2层 · 处理层</div>
+            <div style={{ fontSize: '12px', lineHeight: 1.8 }}>
+              <div>自动分类：{autoClassify ? '开' : '关'}</div>
+              <div>自动标签：{autoTagging ? '开' : '关'}</div>
+              <div>H5可见：{h5Visible ? '开' : '关'}</div>
+            </div>
+          </div>
+
+          <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '10px', background: '#fafafa' }}>
+            <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '6px' }}>第3层 · 输出层</div>
+            <div style={{ fontSize: '12px', lineHeight: 1.8 }}>
+              <div>自动回复：{autoReply ? '开' : '关'}</div>
+              <div>自动外发：{autoDispatch ? '开' : '关'}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="stats-row">
+        {stats.map((item) => (
+          <div className="mini-card" key={item.label}>
+            <span>{item.label}</span>
+            <strong>{item.value}</strong>
+          </div>
+        ))}
+      </div>
+
+      <div className="channel-row">
+        {channels.map((name) => (
+          <button
+            key={name}
+            className={`channel ${activeChannel === name ? 'active' : ''}`}
+            onClick={() => setActiveChannel(name)}
+          >
+            {name}
+          </button>
+        ))}
+      </div>
+
+      <div className="main-grid">
+        <div className="panel">
+          <div className="panel-head">
+            <h3>客户总览</h3>
+            <p>按固定顺序密集展示，当前优先读取 runtime 真源</p>
+          </div>
+
+          <div className="list-wrap">
+            {customers.map((item) => (
+              <button
+                key={item.id}
+                className={`list-row ${selectedId === item.id ? 'selected' : ''}`}
+                onClick={() => setSelectedId(item.id)}
+              >
+                <div className="list-main">
+                  <div className="name-line">
+                    <strong>{item.name}</strong>
+                    <span className={`tag ${item.category}`}>{item.category}</span>
+                  </div>
+                  <div className="msg-line">{item.message}</div>
+                </div>
+                <div className="list-side">{item.country}</div>
+                <div className="list-side">{item.channel}</div>
+                <div className="list-side">{item.time}</div>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="panel">
+          <div className="detail-top">
+            <div>
+              <h3>{selected.name}</h3>
+              <p>{selected.country} · {selected.channel} · {selected.phone}</p>
+            </div>
+
+            <div className="keyword-box">
+              <div className="keyword-title">判断依据关键词</div>
+              <div className="keyword-wrap">
+                {(selected.keywords || []).map((keyword) => (
+                  <span className="chip" key={keyword}>{keyword}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="detail-card">
+            <div className="detail-card-title">判断说明</div>
+            <div>{selected.reason}</div>
+          </div>
+
+          <div className="detail-card">
+            <div className="detail-card-title">活跃度提示</div>
+            <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+              <span style={{ fontSize: '12px', fontWeight: 700, color: '#d92020' }}>主动问询 {proactiveCount} 次</span>
+              <span style={{ fontSize: '12px', fontWeight: 700, color: '#d92020' }}>对话来往 {exchangeCount} 次</span>
+              {isHot ? <span style={{ fontSize: '12px', fontWeight: 700, color: '#14a44d' }}>高意向重点跟进</span> : null}
+            </div>
+          </div>
+
+          <div className="detail-card">
+            <div className="detail-card-title">判断时间线</div>
+            <ul style={{ margin: 0, paddingLeft: '18px' }}>
+              {(selected.timeline || []).map((item, idx) => (
+                <li key={`${item}-${idx}`} style={{ marginBottom: '6px' }}>{item}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="detail-card">
+            <div className="detail-card-title">聊天记录</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {(selected.messages || []).map((msg, idx) => (
+                <div
+                  key={`${msg.role}-${idx}`}
+                  style={{
+                    padding: '8px 10px',
+                    borderRadius: '10px',
+                    background: msg.role === '客户' ? '#fff7ed' : '#eff6ff',
+                    border: '1px solid #e5e7eb',
+                  }}
+                >
+                  <strong style={{ display: 'block', marginBottom: '4px' }}>{msg.role}</strong>
+                  <span>{msg.text}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}

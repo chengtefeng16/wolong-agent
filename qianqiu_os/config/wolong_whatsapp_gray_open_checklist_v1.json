@@ -1,0 +1,40 @@
+{
+  "config_name": "wolong_whatsapp_gray_open_checklist_v1",
+  "version": "2026-03-12",
+  "description": "Minimal open-condition checklist for first WhatsApp gray rollout",
+  "gray_open_enabled": false,
+  "required_conditions": {
+    "runtime_active_config_ready": true,
+    "whitelist_ready": true,
+    "audit_ready": true,
+    "delivery_result_loop_ready": true,
+    "manual_takeover_ready": true,
+    "rollback_ready": true,
+    "human_on_duty_required": true
+  },
+  "allowed_customer_count_max": 5,
+  "allowed_session_count_max": 5,
+  "allowed_channels": [
+    "whatsapp"
+  ],
+  "allowed_business_stages": [
+    "lead",
+    "contacted",
+    "negotiating"
+  ],
+  "allowed_risk_levels": [
+    "low"
+  ],
+  "allowed_emotion_states": [
+    "calm",
+    "neutral"
+  ],
+  "shutdown_triggers": [
+    "unexpected_external_send",
+    "audit_write_failed",
+    "manual_takeover_ticket_failed",
+    "high_risk_reply_detected",
+    "provider_abnormal",
+    "human_on_duty_missing"
+  ]
+}

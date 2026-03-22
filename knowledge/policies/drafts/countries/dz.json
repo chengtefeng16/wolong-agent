@@ -1,0 +1,39 @@
+{
+  "country": {
+    "name": "Algeria",
+    "iso2": "DZ",
+    "aliases": [
+      "DZ",
+      "Algerie",
+      "Algérie",
+      "الجزائر",
+      "Algeria"
+    ]
+  },
+  "policy_meta": {
+    "schema_version": "1.0",
+    "updated_at": "2026-02-15",
+    "source": "manual_seed",
+    "notes": "Example only. Replace with verified rules.",
+    "draft_generated_at": "2026-02-16 08:59:16"
+  },
+  "rules": {
+    "max_vehicle_age_years": 3,
+    "allowed_fuels": [
+      "gasoline",
+      "hybrid",
+      "electric"
+    ],
+    "blocked_fuels": [
+      "diesel"
+    ],
+    "allowed_steering": [
+      "LHD"
+    ]
+  },
+  "ev_context": {
+    "grid_reliability": "unknown",
+    "charging_infra": "unknown",
+    "ev_fit_note": "EV suitability depends on local grid and charging infrastructure. Confirm before recommending."
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "audit_type": "delegation_config_save",
+  "saved_at": "20260314_093929",
+  "operator_id": "morning_restore_operator",
+  "operator_name": "morning_restore_operator",
+  "change_reason": "restore_readonly_after_save_chain_validation",
+  "config_version": "20260314_restore_readonly",
+  "applied_preset": "L3_small_autonomy_safe",
+  "active_config_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_governance/delegation_active_config.json",
+  "rollback_snapshot_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_governance/rollback_snapshots/delegation_active_config_20260314_093929.json"
+}

@@ -1,0 +1,275 @@
+{
+  "total_regions": 4,
+  "regions": [
+    {
+      "region_pack": "central_asia",
+      "country_count": 6,
+      "audit_restricted_count": 6,
+      "cross_validation_weak_count": 6,
+      "coverage_counts": {
+        "customs": 0,
+        "tax_or_revenue": 0,
+        "transport_or_industry_or_trade": 0,
+        "official_gazette_or_law_db": 0,
+        "high_trust_industry_or_embassy": 5
+      },
+      "gap_counts": {
+        "customs": 6,
+        "tax_or_revenue": 6,
+        "transport_or_industry_or_trade": 6,
+        "official_gazette_or_law_db": 6,
+        "high_trust_industry_or_embassy": 1
+      },
+      "countries": [
+        {
+          "country_name_en": "Armenia",
+          "country_name_zh": "亚美尼亚",
+          "region_pack": "central_asia",
+          "audit_status": "audit_restricted",
+          "cross_validation_status": "weak",
+          "source_coverage": {
+            "customs": false,
+            "tax_or_revenue": false,
+            "transport_or_industry_or_trade": false,
+            "official_gazette_or_law_db": false,
+            "high_trust_industry_or_embassy": true
+          }
+        },
+        {
+          "country_name_en": "Kazakhstan",
+          "country_name_zh": "哈萨克斯坦",
+          "region_pack": "central_asia",
+          "audit_status": "audit_restricted",
+          "cross_validation_status": "weak",
+          "source_coverage": {
+            "customs": false,
+            "tax_or_revenue": false,
+            "transport_or_industry_or_trade": false,
+            "official_gazette_or_law_db": false,
+            "high_trust_industry_or_embassy": false
+          }
+        },
+        {
+          "country_name_en": "Kyrgyzstan",
+          "country_name_zh": "吉尔吉斯斯坦",
+          "region_pack": "central_asia",
+          "audit_status": "audit_restricted",
+          "cross_validation_status": "weak",
+          "source_coverage": {
+            "customs": false,
+            "tax_or_revenue": false,
+            "transport_or_industry_or_trade": false,
+            "official_gazette_or_law_db": false,
+            "high_trust_industry_or_embassy": true
+          }
+        },
+        {
+          "country_name_en": "Tajikistan",
+          "country_name_zh": "塔吉克斯坦",
+          "region_pack": "central_asia",
+          "audit_status": "audit_restricted",
+          "cross_validation_status": "weak",
+          "source_coverage": {
+            "customs": false,
+            "tax_or_revenue": false,
+            "transport_or_industry_or_trade": false,
+            "official_gazette_or_law_db": false,
+            "high_trust_industry_or_embassy": true
+          }
+        },
+        {
+          "country_name_en": "Turkmenistan",
+          "country_name_zh": "土库曼斯坦",
+          "region_pack": "central_asia",
+          "audit_status": "audit_restricted",
+          "cross_validation_status": "weak",
+          "source_coverage": {
+            "customs": false,
+            "tax_or_revenue": false,
+            "transport_or_industry_or_trade": false,
+            "official_gazette_or_law_db": false,
+            "high_trust_industry_or_embassy": true
+          }
+        },
+        {
+          "country_name_en": "Uzbekistan",
+          "country_name_zh": "乌兹别克斯坦",
+          "region_pack": "central_asia",
+          "audit_status": "audit_restricted",
+          "cross_validation_status": "weak",
+          "source_coverage": {
+            "customs": false,
+            "tax_or_revenue": false,
+            "transport_or_industry_or_trade": false,
+            "official_gazette_or_law_db": false,
+            "high_trust_industry_or_embassy": true
+          }
+        }
+      ],
+      "priority_source_gaps": [
+        "customs",
+        "official_gazette_or_law_db",
+        "tax_or_revenue",
+        "transport_or_industry_or_trade",
+        "high_trust_industry_or_embassy"
+      ]
+    },
+    {
+      "region_pack": "africa",
+      "country_count": 2,
+      "audit_restricted_count": 2,
+      "cross_validation_weak_count": 1,
+      "coverage_counts": {
+        "customs": 1,
+        "tax_or_revenue": 0,
+        "transport_or_industry_or_trade": 0,
+        "official_gazette_or_law_db": 1,
+        "high_trust_industry_or_embassy": 1
+      },
+      "gap_counts": {
+        "customs": 1,
+        "tax_or_revenue": 2,
+        "transport_or_industry_or_trade": 2,
+        "official_gazette_or_law_db": 1,
+        "high_trust_industry_or_embassy": 1
+      },
+      "countries": [
+        {
+          "country_name_en": "Algeria",
+          "country_name_zh": "阿尔及利亚",
+          "region_pack": "africa",
+          "audit_status": "audit_restricted",
+          "cross_validation_status": "weak",
+          "source_coverage": {
+            "customs": false,
+            "tax_or_revenue": false,
+            "transport_or_industry_or_trade": false,
+            "official_gazette_or_law_db": true,
+            "high_trust_industry_or_embassy": false
+          }
+        },
+        {
+          "country_name_en": "Ghana",
+          "country_name_zh": "加纳",
+          "region_pack": "africa",
+          "audit_status": "audit_restricted",
+          "cross_validation_status": "medium",
+          "source_coverage": {
+            "customs": true,
+            "tax_or_revenue": false,
+            "transport_or_industry_or_trade": false,
+            "official_gazette_or_law_db": false,
+            "high_trust_industry_or_embassy": true
+          }
+        }
+      ],
+      "priority_source_gaps": [
+        "tax_or_revenue",
+        "transport_or_industry_or_trade",
+        "customs",
+        "high_trust_industry_or_embassy",
+        "official_gazette_or_law_db"
+      ]
+    },
+    {
+      "region_pack": "middle_east",
+      "country_count": 2,
+      "audit_restricted_count": 2,
+      "cross_validation_weak_count": 1,
+      "coverage_counts": {
+        "customs": 2,
+        "tax_or_revenue": 0,
+        "transport_or_industry_or_trade": 1,
+        "official_gazette_or_law_db": 0,
+        "high_trust_industry_or_embassy": 0
+      },
+      "gap_counts": {
+        "customs": 0,
+        "tax_or_revenue": 2,
+        "transport_or_industry_or_trade": 1,
+        "official_gazette_or_law_db": 2,
+        "high_trust_industry_or_embassy": 2
+      },
+      "countries": [
+        {
+          "country_name_en": "Saudi Arabia",
+          "country_name_zh": "沙特阿拉伯",
+          "region_pack": "middle_east",
+          "audit_status": "audit_restricted",
+          "cross_validation_status": "weak",
+          "source_coverage": {
+            "customs": true,
+            "tax_or_revenue": false,
+            "transport_or_industry_or_trade": false,
+            "official_gazette_or_law_db": false,
+            "high_trust_industry_or_embassy": false
+          }
+        },
+        {
+          "country_name_en": "United Arab Emirates",
+          "country_name_zh": "阿联酋",
+          "region_pack": "middle_east",
+          "audit_status": "audit_restricted",
+          "cross_validation_status": "medium",
+          "source_coverage": {
+            "customs": true,
+            "tax_or_revenue": false,
+            "transport_or_industry_or_trade": true,
+            "official_gazette_or_law_db": false,
+            "high_trust_industry_or_embassy": false
+          }
+        }
+      ],
+      "priority_source_gaps": [
+        "high_trust_industry_or_embassy",
+        "official_gazette_or_law_db",
+        "tax_or_revenue",
+        "transport_or_industry_or_trade",
+        "customs"
+      ]
+    },
+    {
+      "region_pack": "latin_america",
+      "country_count": 1,
+      "audit_restricted_count": 1,
+      "cross_validation_weak_count": 0,
+      "coverage_counts": {
+        "customs": 1,
+        "tax_or_revenue": 0,
+        "transport_or_industry_or_trade": 0,
+        "official_gazette_or_law_db": 0,
+        "high_trust_industry_or_embassy": 1
+      },
+      "gap_counts": {
+        "customs": 0,
+        "tax_or_revenue": 1,
+        "transport_or_industry_or_trade": 1,
+        "official_gazette_or_law_db": 1,
+        "high_trust_industry_or_embassy": 0
+      },
+      "countries": [
+        {
+          "country_name_en": "Mexico",
+          "country_name_zh": "墨西哥",
+          "region_pack": "latin_america",
+          "audit_status": "audit_restricted",
+          "cross_validation_status": "medium",
+          "source_coverage": {
+            "customs": true,
+            "tax_or_revenue": false,
+            "transport_or_industry_or_trade": false,
+            "official_gazette_or_law_db": false,
+            "high_trust_industry_or_embassy": true
+          }
+        }
+      ],
+      "priority_source_gaps": [
+        "official_gazette_or_law_db",
+        "tax_or_revenue",
+        "transport_or_industry_or_trade",
+        "customs",
+        "high_trust_industry_or_embassy"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "generated_at": "2026-03-14 18:09:02",
+  "whatsapp_control": {
+    "ingress_mode": "readonly",
+    "auto_classify": true,
+    "auto_tagging": true,
+    "h5_visible": true,
+    "auto_reply": false,
+    "auto_dispatch": false
+  },
+  "delegation_policy_keys": [
+    "action_control",
+    "allowed_actions",
+    "allowed_channels",
+    "allowed_time_windows",
+    "audit_control",
+    "audit_required",
+    "business_stage",
+    "business_stage_control",
+    "business_stages_allowed",
+    "channel_control",
+    "configurable_fields",
+    "delegation_enabled",
+    "delegation_master_switch",
+    "delegation_stage",
+    "destination_country",
+    "exception_control",
+    "fallback_to_human_on_risk",
+    "human_supervision_mode",
+    "l1_whitelist_candidate",
+    "manual_review_required",
+    "next_action",
+    "permission_control",
+    "permission_level",
+    "quota_control",
+    "risk_control",
+    "risk_level",
+    "risk_levels_allowed",
+    "rollback_enabled",
+    "supervision_control",
+    "time_control"
+  ],
+  "time_logic_summary": {
+    "nightly_status": "scheduled",
+    "weekly_report_status": "scheduled",
+    "window_handoff_status": "always_required"
+  },
+  "conclusion": "调度层已具备配置调度 + 时间调度总览能力。"
+}

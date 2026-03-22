@@ -1,0 +1,13 @@
+{
+  "channel": "facebook_messenger",
+  "enabled": true,
+  "runtime_mode": "readonly",
+  "delivery_mode": "dry_run",
+  "auto_reply": false,
+  "auto_dispatch": false,
+  "page_id": "801401059731309",
+  "page_access_token": "EAATDwpBviqMBQ0elCYgDVEKebc0qk7nXZBqQbsYSS8yvZC3eERO2EvmSM51vfKBaSvvQ6ZCqLKSGM3F9sy3m6JturO9HSzSFDUlFS7MkqpNcZAZB93IZCcmMz0JxO2ZAZBZCtKZC8LyfpDjQd7OrEYmIcNbb93ZCfAw1y4S3txXbj1uTNRElIiGwHkYkEv2ZBz947vRnEZCM6fgZDZD",
+  "verify_token": "wolong_facebook_verify_20260316",
+  "webhook_path": "/webhook/facebook",
+  "notes": "先走 Facebook readonly/dry_run 观察链，不做自动回复和自动外发。"
+}

@@ -1,0 +1,9 @@
+def chat_interface(user_input, history):
+    response = run_chat(user_input)
+
+    return [
+        {"role": "user", "content": user_input},
+        {"role": "assistant", "content": response}
+    ]
+
+

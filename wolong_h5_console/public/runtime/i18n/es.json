@@ -1,0 +1,16 @@
+{
+  "runtime": {
+    "loading": "Cargando datos en vivo de runtime...",
+    "loaded": "Datos en vivo de runtime cargados"
+  },
+  "facebook": {
+    "empty": {
+      "name": "Aún no hay datos de Facebook",
+      "reason": "Mantén el webhook de Facebook en línea y espera a que los chats reales o las interacciones públicas entren en la vista de runtime.",
+      "subtitle": "Facebook · Esperando acceso a datos reales",
+      "detail": "Los datos reales de chat / feed de Facebook aún no han entrado en la vista de runtime. Mantén el webhook en línea y espera a que lleguen los datos reales.",
+      "timeline": "Esperando datos de la línea de tiempo de Facebook runtime",
+      "messages": "Esperando datos de chat / interacción de Facebook runtime"
+    }
+  }
+}

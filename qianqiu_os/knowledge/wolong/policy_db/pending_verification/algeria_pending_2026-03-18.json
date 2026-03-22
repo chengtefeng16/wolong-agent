@@ -1,0 +1,14 @@
+{
+  "country": "Algeria",
+  "date": "2026-03-18",
+  "pending_verification": {
+    "access_rules.steering_requirement": "pending_verification_in_source",
+    "tax_rules.vat_rule": "pending_verification_in_source",
+    "tax_rules.additional_tax_rule": "pending_verification_in_source"
+  },
+  "notes": [
+    "需要补充更细税费拆分来源",
+    "需要补充方向盘要求官方来源",
+    "需要补充商业进口/经销商场景官方来源"
+  ]
+}

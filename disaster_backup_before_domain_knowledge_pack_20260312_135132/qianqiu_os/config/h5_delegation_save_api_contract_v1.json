@@ -1,0 +1,82 @@
+{
+  "contract_name": "h5_delegation_save_api_contract_v1",
+  "version": "2026-03-12",
+  "description": "API contract draft for saving H5 delegation governance config",
+  "endpoint": "/api/governance/delegation/save",
+  "method": "POST",
+  "content_type": "application/json",
+  "request_body": {
+    "operator_id": "string",
+    "operator_name": "string",
+    "change_reason": "string",
+    "config_version": "string",
+    "applied_preset": "string|null",
+    "delegation_policy": {
+      "delegation_master_switch": "boolean",
+      "delegation_enabled": "boolean",
+      "delegation_stage": "string",
+      "permission_level": "string",
+      "allowed_time_windows": ["string"],
+      "allowed_channels": ["string"],
+      "allowed_actions": ["string"],
+      "risk_levels_allowed": ["string"],
+      "business_stages_allowed": ["string"],
+      "manual_review_required": "boolean",
+      "human_supervision_mode": "string",
+      "fallback_to_human_on_risk": "boolean",
+      "audit_required": "boolean",
+      "rollback_enabled": "boolean",
+      "time_control": {
+        "enabled": "boolean",
+        "allowed_time_windows": ["string"],
+        "timezone": "string",
+        "mode": "string"
+      },
+      "channel_control": {
+        "enabled": "boolean",
+        "allowed_channels": ["string"],
+        "mode": "string"
+      },
+      "action_control": {
+        "enabled": "boolean",
+        "allowed_actions": ["string"],
+        "mode": "string",
+        "customer_send_enabled": "boolean"
+      },
+      "risk_control": {
+        "enabled": "boolean",
+        "risk_levels_allowed": ["string"],
+        "mode": "string"
+      },
+      "business_stage_control": {
+        "enabled": "boolean",
+        "business_stages_allowed": ["string"],
+        "mode": "string"
+      },
+      "permission_control": {
+        "customer_send_allowed_levels": ["string"]
+      },
+      "supervision_control": {
+        "human_supervision_mode": "string",
+        "manual_review_required": "boolean",
+        "fallback_to_human_on_risk": "boolean"
+      }
+    }
+  },
+  "response_body": {
+    "success": "boolean",
+    "message": "string",
+    "saved_config_path": "string",
+    "audit_record_path": "string",
+    "rollback_snapshot_path": "string|null",
+    "applied_preset": "string|null",
+    "config_version": "string"
+  },
+  "governance_rules": [
+    "default conservative by default",
+    "whitelist first",
+    "manual review remains final safeguard",
+    "high risk delegation changes require audit record",
+    "rollback snapshot should be created before overwrite"
+  ]
+}

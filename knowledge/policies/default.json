@@ -1,0 +1,27 @@
+{
+  "meta": {
+    "schema_version": "1.0",
+    "updated_at": "2026-02-15",
+    "source": "manual_seed",
+    "notes": "Safe default policy: unknown. Do not claim compliance."
+  },
+  "country": {
+    "name": "DEFAULT",
+    "aliases": []
+  },
+  "rules": {
+    "vehicle_age_max_years": null,
+    "allowed_fuel": [],
+    "blocked_fuel": [],
+    "left_hand_drive_only": null,
+    "right_hand_drive_only": null,
+    "diesel_restrictions": {
+      "enabled": false,
+      "notes": ""
+    },
+    "notes_to_customer": [
+      "We will confirm the latest import rules for your destination before finalizing any shipment."
+    ]
+  }
+}
+

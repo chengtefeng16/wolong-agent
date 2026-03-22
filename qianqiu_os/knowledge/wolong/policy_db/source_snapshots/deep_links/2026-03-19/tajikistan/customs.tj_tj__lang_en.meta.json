@@ -1,0 +1,24 @@
+{
+  "fetched_at": "2026-03-19T00:30:28.083566+00:00",
+  "domain": "customs.tj",
+  "request_url": "https://customs.tj/TJ/?lang=EN",
+  "ok": true,
+  "status": 200,
+  "final_url": "https://customs.tj/TJ/?lang=EN",
+  "content_type": "text/html",
+  "content_length": 1446,
+  "headers": {
+    "Date": "Thu, 19 Mar 2026 00:30:26 GMT",
+    "Server": "Apache",
+    "Last-Modified": "Tue, 27 Feb 2024 02:50:35 GMT",
+    "Accept-Ranges": "bytes",
+    "Content-Length": "1446",
+    "Connection": "close",
+    "Content-Type": "text/html"
+  },
+  "error": "",
+  "fetch_mode": "fallback_unverified_ssl",
+  "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+  "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+  "body_file": "customs.tj_tj__lang_en.html"
+}

@@ -1,0 +1,28 @@
+{
+  "fetched_at": "2026-03-19T00:37:32.037935+00:00",
+  "domain": "customs.tj",
+  "request_url": "http://customs.tj/",
+  "ok": true,
+  "status": 200,
+  "final_url": "https://customs.tj/",
+  "content_type": "text/html; charset=utf-8",
+  "content_length": 252756,
+  "headers": {
+    "Date": "Thu, 19 Mar 2026 00:37:28 GMT",
+    "Server": "Apache",
+    "P3P": "CP=\"NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM\"",
+    "Expires": "Wed, 17 Aug 2005 00:00:00 GMT",
+    "Cache-Control": "no-store, no-cache, must-revalidate, post-check=0, pre-check=0",
+    "Pragma": "no-cache",
+    "Set-Cookie": "002e036977b342f24eecde88e43856eb=d3kajtr6dlocfgkhiqf5hv3v17; path=/; HttpOnly",
+    "Last-Modified": "Thu, 19 Mar 2026 00:37:29 GMT",
+    "Connection": "close",
+    "Transfer-Encoding": "chunked",
+    "Content-Type": "text/html; charset=utf-8"
+  },
+  "error": "",
+  "fetch_mode": "fallback_unverified_ssl",
+  "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+  "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+  "body_file": "customs.tj_.html"
+}

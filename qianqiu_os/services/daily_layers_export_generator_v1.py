@@ -1,0 +1,130 @@
+# ================================================================
+# Copyright (c) 2026 程特峰 (Tefeng Cheng)
+# All Rights Reserved.
+#
+# Project: AgentOS / Wolong Agent System
+# This source code is proprietary and confidential.
+# Unauthorized copying, modification, distribution or use
+# of this software, in whole or in part, is strictly prohibited.
+# ================================================================
+
+from __future__ import annotations
+
+import json
+from datetime import datetime
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parents[1]
+PROJECT_ROOT = BASE_DIR.parents[0]
+
+SRC_FILES = [
+    ("constitution_layer", PROJECT_ROOT / "PROJECT_CONSTITUTION.md", "对话宪法层"),
+    ("memo_layer", PROJECT_ROOT / "PROJECT_MEMO.md", "项目备忘层"),
+    ("check_layer", PROJECT_ROOT / "PROJECT_CHECKLIST.md", "check 层"),
+]
+
+OPTIONAL_FILES = [
+    ("time_layer", PROJECT_ROOT / "qianqiu_os" / "project_memory" / "TIME_LOGIC_EXECUTION_SUMMARY_20260314.md", "时间层"),
+]
+
+EXPORT_DIR = BASE_DIR / "runtime_exports" / "daily_layers"
+INDEX_PATH = BASE_DIR / "runtime_exports" / "export_index_latest.json"
+
+def _read_text(path: Path) -> str:
+    if not path.exists():
+        return f"# MISSING\n\n未找到文件：{path}\n"
+    return path.read_text(encoding="utf-8", errors="ignore")
+
+def _write_text(path: Path, text: str):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(text, encoding="utf-8")
+
+def _read_json(path: Path, default):
+    if not path.exists():
+        return default
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return default
+
+def _write_json(path: Path, data):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+
+def _render_pdf(md_text: str, pdf_path: Path):
+    # 复用现有 PDF 工具
+    from qianqiu_os.services.pdf_export_utils_v1 import render_markdown_to_pdf
+    pdf_path.parent.mkdir(parents=True, exist_ok=True)
+    render_markdown_to_pdf(md_text, pdf_path)
+
+def generate():
+    now = datetime.now()
+    ts = now.strftime("%Y%m%d_%H%M%S")
+
+    sections = []
+    for key, path, title in SRC_FILES + OPTIONAL_FILES:
+        body = _read_text(path)
+        sections.append({
+            "key": key,
+            "title": title,
+            "source_path": str(path),
+            "content": body,
+        })
+
+    merged_lines = [
+        "# 每日四层交付汇总",
+        "",
+        f"- generated_at: {now.strftime('%Y-%m-%d %H:%M:%S')}",
+        "",
+    ]
+
+    for sec in sections:
+        merged_lines.extend([
+            f"## {sec['title']}",
+            "",
+            f"- source_path: {sec['source_path']}",
+            "",
+            sec["content"],
+            "",
+        ])
+
+    merged_text = "\n".join(merged_lines)
+
+    md_path = EXPORT_DIR / f"daily_layers_export_{ts}.md"
+    latest_md_path = EXPORT_DIR / "daily_layers_export_latest.md"
+    pdf_path = EXPORT_DIR / f"daily_layers_export_{ts}.pdf"
+    latest_pdf_path = EXPORT_DIR / "daily_layers_export_latest.pdf"
+
+    _write_text(md_path, merged_text)
+    _write_text(latest_md_path, merged_text)
+
+    _render_pdf(merged_text, pdf_path)
+    _render_pdf(merged_text, latest_pdf_path)
+
+    index = _read_json(INDEX_PATH, {})
+    index["latest_daily_layers_export"] = {
+        "md_path": str(md_path),
+        "latest_path": str(latest_md_path),
+        "pdf_path": str(pdf_path),
+        "latest_pdf_path": str(latest_pdf_path),
+        "generated_at": now.strftime("%Y-%m-%d %H:%M:%S"),
+        "sections": [
+            {"key": sec["key"], "title": sec["title"], "source_path": sec["source_path"]}
+            for sec in sections
+        ],
+    }
+    _write_json(INDEX_PATH, index)
+
+    return {
+        "success": True,
+        "task": "daily_layers_export",
+        "export_path": str(md_path),
+        "latest_path": str(latest_md_path),
+        "pdf_path": str(pdf_path),
+        "latest_pdf_path": str(latest_pdf_path),
+        "generated_at": now.strftime("%Y-%m-%d %H:%M:%S"),
+        "section_count": len(sections),
+    }
+
+if __name__ == "__main__":
+    print(json.dumps(generate(), ensure_ascii=False, indent=2))

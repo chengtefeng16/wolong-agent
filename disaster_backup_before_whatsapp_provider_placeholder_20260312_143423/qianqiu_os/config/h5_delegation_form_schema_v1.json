@@ -1,0 +1,225 @@
+{
+  "schema_name": "h5_delegation_form_schema_v1",
+  "version": "2026-03-12",
+  "description": "Wolong AgentOS H5 delegation governance form schema v1",
+  "sections": [
+    {
+      "section_key": "delegation_master",
+      "section_title": "放权总开关区",
+      "fields": [
+        {
+          "key": "delegation_master_switch",
+          "label": "Delegation 总开关",
+          "type": "switch",
+          "default": false,
+          "bind": "delegation_policy.delegation_master_switch"
+        },
+        {
+          "key": "delegation_enabled",
+          "label": "Delegation 启用开关",
+          "type": "switch",
+          "default": false,
+          "bind": "delegation_policy.delegation_enabled"
+        },
+        {
+          "key": "delegation_stage",
+          "label": "放权阶段",
+          "type": "select",
+          "default": "manual_review_first",
+          "options": [
+            "manual_review_first",
+            "L1_whitelist_only",
+            "L2_draft_only",
+            "L3_small_autonomy",
+            "L4_full_auto_send"
+          ],
+          "bind": "delegation_policy.delegation_stage"
+        }
+      ]
+    },
+    {
+      "section_key": "permission_control",
+      "section_title": "权限层级区",
+      "fields": [
+        {
+          "key": "permission_level",
+          "label": "权限层级",
+          "type": "select",
+          "default": "L0_disabled",
+          "options": ["L0_disabled", "L1", "L2", "L3", "L4", "L5"],
+          "bind": "delegation_policy.permission_level"
+        },
+        {
+          "key": "customer_send_allowed_levels",
+          "label": "允许 customer_send 的等级",
+          "type": "multi_select",
+          "default": [],
+          "options": ["L1", "L2", "L3", "L4", "L5"],
+          "bind": "delegation_policy.permission_control.customer_send_allowed_levels"
+        }
+      ]
+    },
+    {
+      "section_key": "time_control",
+      "section_title": "时段控制区",
+      "fields": [
+        {
+          "key": "time_control_enabled",
+          "label": "启用时段控制",
+          "type": "switch",
+          "default": false,
+          "bind": "delegation_policy.time_control.enabled"
+        },
+        {
+          "key": "allowed_time_windows",
+          "label": "允许时段",
+          "type": "multi_select",
+          "default": [],
+          "options": ["always", "08:00-20:00"],
+          "bind": "delegation_policy.time_control.allowed_time_windows"
+        },
+        {
+          "key": "time_control_timezone",
+          "label": "时区",
+          "type": "select",
+          "default": "Asia/Shanghai",
+          "options": ["Asia/Shanghai"],
+          "bind": "delegation_policy.time_control.timezone"
+        }
+      ]
+    },
+    {
+      "section_key": "channel_control",
+      "section_title": "渠道控制区",
+      "fields": [
+        {
+          "key": "channel_control_enabled",
+          "label": "启用渠道控制",
+          "type": "switch",
+          "default": false,
+          "bind": "delegation_policy.channel_control.enabled"
+        },
+        {
+          "key": "allowed_channels",
+          "label": "允许渠道",
+          "type": "multi_select",
+          "default": [],
+          "options": ["wechat", "email", "whatsapp_mock", "browser", "api"],
+          "bind": "delegation_policy.channel_control.allowed_channels"
+        }
+      ]
+    },
+    {
+      "section_key": "action_control",
+      "section_title": "动作控制区",
+      "fields": [
+        {
+          "key": "action_control_enabled",
+          "label": "启用动作控制",
+          "type": "switch",
+          "default": false,
+          "bind": "delegation_policy.action_control.enabled"
+        },
+        {
+          "key": "allowed_actions",
+          "label": "允许动作",
+          "type": "multi_select",
+          "default": [],
+          "options": ["customer_send"],
+          "bind": "delegation_policy.action_control.allowed_actions"
+        },
+        {
+          "key": "customer_send_enabled",
+          "label": "允许 customer_send",
+          "type": "switch",
+          "default": false,
+          "bind": "delegation_policy.action_control.customer_send_enabled"
+        }
+      ]
+    },
+    {
+      "section_key": "risk_control",
+      "section_title": "风险控制区",
+      "fields": [
+        {
+          "key": "risk_control_enabled",
+          "label": "启用风险控制",
+          "type": "switch",
+          "default": false,
+          "bind": "delegation_policy.risk_control.enabled"
+        },
+        {
+          "key": "risk_levels_allowed",
+          "label": "允许风险等级",
+          "type": "multi_select",
+          "default": ["low"],
+          "options": ["low", "medium", "high"],
+          "bind": "delegation_policy.risk_control.risk_levels_allowed"
+        }
+      ]
+    },
+    {
+      "section_key": "business_stage_control",
+      "section_title": "业务阶段控制区",
+      "fields": [
+        {
+          "key": "business_stage_control_enabled",
+          "label": "启用业务阶段控制",
+          "type": "switch",
+          "default": false,
+          "bind": "delegation_policy.business_stage_control.enabled"
+        },
+        {
+          "key": "business_stages_allowed",
+          "label": "允许业务阶段",
+          "type": "multi_select",
+          "default": [],
+          "options": ["lead", "contacted", "negotiating", "quoted", "follow_up", "closing", "after_sales"],
+          "bind": "delegation_policy.business_stage_control.business_stages_allowed"
+        }
+      ]
+    },
+    {
+      "section_key": "supervision_audit",
+      "section_title": "人工监管与审计区",
+      "fields": [
+        {
+          "key": "manual_review_required",
+          "label": "强制人工复核",
+          "type": "switch",
+          "default": true,
+          "bind": "delegation_policy.supervision_control.manual_review_required"
+        },
+        {
+          "key": "human_supervision_mode",
+          "label": "监管模式",
+          "type": "select",
+          "default": "human_review_required",
+          "options": ["human_review_required", "delegated_with_audit"],
+          "bind": "delegation_policy.supervision_control.human_supervision_mode"
+        },
+        {
+          "key": "fallback_to_human_on_risk",
+          "label": "风险回退人工",
+          "type": "switch",
+          "default": true,
+          "bind": "delegation_policy.supervision_control.fallback_to_human_on_risk"
+        },
+        {
+          "key": "audit_required",
+          "label": "要求审计",
+          "type": "switch",
+          "default": true,
+          "bind": "delegation_policy.audit_required"
+        },
+        {
+          "key": "rollback_enabled",
+          "label": "允许回滚",
+          "type": "switch",
+          "default": true,
+          "bind": "delegation_policy.rollback_enabled"
+        }
+      ]
+    }
+  ]
+}

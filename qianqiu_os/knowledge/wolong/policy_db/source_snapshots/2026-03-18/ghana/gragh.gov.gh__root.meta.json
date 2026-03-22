@@ -1,0 +1,16 @@
+{
+  "fetched_at": "2026-03-18T13:53:51.409122+00:00",
+  "domain": "gragh.gov.gh",
+  "request_url": "https://gragh.gov.gh/",
+  "ok": false,
+  "status": 0,
+  "final_url": "https://gragh.gov.gh/",
+  "content_type": "",
+  "content_length": 0,
+  "headers": {},
+  "error": "URLError: <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1096)>",
+  "fetch_mode": "fallback_unverified_ssl",
+  "fallback_reason": "URLError: <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1096)>",
+  "security_note": "Standard and fallback SSL fetch both failed.",
+  "body_file": ""
+}

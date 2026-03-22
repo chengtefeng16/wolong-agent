@@ -1,0 +1,107 @@
+{
+  "config_name": "delegation_active_config",
+  "config_version": "20260314_frontend_sync_test",
+  "saved_at": "20260314_113028",
+  "operator_id": "frontend_sync_test",
+  "operator_name": "frontend_sync_test",
+  "change_reason": "validate_frontend_snapshot_auto_sync",
+  "applied_preset": "L3_small_autonomy_safe",
+  "delegation_policy": {
+    "delegation_master_switch": true,
+    "delegation_enabled": true,
+    "delegation_stage": "L3_small_autonomy",
+    "permission_level": "L3",
+    "allowed_time_windows": [
+      "always"
+    ],
+    "allowed_channels": [
+      "wechat",
+      "email"
+    ],
+    "allowed_actions": [
+      "customer_send"
+    ],
+    "risk_levels_allowed": [
+      "low"
+    ],
+    "business_stages_allowed": [
+      "lead",
+      "contacted",
+      "negotiating"
+    ],
+    "manual_review_required": false,
+    "human_supervision_mode": "delegated_with_audit",
+    "fallback_to_human_on_risk": true,
+    "audit_required": true,
+    "rollback_enabled": true,
+    "business_stage": null,
+    "next_action": "customer_send",
+    "risk_level": null,
+    "destination_country": null,
+    "time_control": {
+      "enabled": true,
+      "allowed_time_windows": [
+        "always"
+      ],
+      "timezone": "Asia/Shanghai",
+      "mode": "multi_window"
+    },
+    "channel_control": {
+      "enabled": true,
+      "allowed_channels": [
+        "wechat",
+        "email"
+      ],
+      "mode": "multi_select"
+    },
+    "action_control": {
+      "enabled": true,
+      "allowed_actions": [
+        "customer_send"
+      ],
+      "mode": "multi_select",
+      "customer_send_enabled": true
+    },
+    "risk_control": {
+      "enabled": true,
+      "risk_levels_allowed": [
+        "low"
+      ],
+      "mode": "multi_select"
+    },
+    "business_stage_control": {
+      "enabled": true,
+      "business_stages_allowed": [
+        "lead",
+        "contacted",
+        "negotiating"
+      ],
+      "mode": "multi_select"
+    },
+    "permission_control": {
+      "customer_send_allowed_levels": [
+        "L3",
+        "L4",
+        "L5"
+      ]
+    },
+    "supervision_control": {
+      "human_supervision_mode": "delegated_with_audit",
+      "manual_review_required": false,
+      "fallback_to_human_on_risk": true
+    },
+    "quota_control": {},
+    "exception_control": {},
+    "audit_control": {},
+    "configurable_fields": {},
+    "l1_whitelist_candidate": false
+  },
+  "whatsapp_control": {
+    "ingress_mode": "readonly",
+    "auto_classify": true,
+    "auto_tagging": true,
+    "h5_visible": true,
+    "auto_reply": false,
+    "auto_dispatch": false
+  }
+}

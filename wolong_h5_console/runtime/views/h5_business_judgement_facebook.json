@@ -1,0 +1,53 @@
+{
+  "updated_at": "2026-03-15T11:25:00+08:00",
+  "source_file": "runtime/facebook/facebook_business_judgement_v1.json",
+  "channel_type": "facebook",
+  "tenant_id": "default",
+  "account_id": "fb_page_demo_001",
+  "customer_count": 3,
+  "customers": [
+    {
+      "customer_name": "Arman",
+      "customer_type": "dealer",
+      "business_stage": "quoted",
+      "risk_level": "medium",
+      "next_best_action": "human_follow_up",
+      "handoff_recommended": true,
+      "follow_up_questions": [
+        "请确认您是展厅采购、经销商采购还是项目采购？",
+        "请确认首批数量、月度需求和目标市场国家。",
+        "请确认想要的 SUV 车型、年份范围和预算。",
+        "请确认是否接受中国境内交车价与口岸交车价两套报价。"
+      ],
+      "reason_keywords": ["6 units", "resale", "monthly", "stable supply", "SUV"]
+    },
+    {
+      "customer_name": "Bekzat",
+      "customer_type": "dealer_like",
+      "business_stage": "new",
+      "risk_level": "medium",
+      "next_best_action": "ask_requirements",
+      "handoff_recommended": true,
+      "follow_up_questions": [
+        "请确认您采购 Prado / Camry 的用途，是自用还是转售？",
+        "请确认首批准确数量与长期采购计划。",
+        "请确认目的国、预算与车型年份范围。"
+      ],
+      "reason_keywords": ["Prado", "Camry", "4-5 units"]
+    },
+    {
+      "customer_name": "Murod",
+      "customer_type": "retail",
+      "business_stage": "new",
+      "risk_level": "low",
+      "next_best_action": "ask_requirements",
+      "handoff_recommended": false,
+      "follow_up_questions": [
+        "请确认您需要哪一年份的 Camry？",
+        "请确认预算与目的国。",
+        "请确认是否接受中国境内交车报价。"
+      ],
+      "reason_keywords": ["Camry", "personal use", "1 unit"]
+    }
+  ]
+}

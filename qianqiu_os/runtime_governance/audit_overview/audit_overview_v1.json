@@ -1,0 +1,76 @@
+{
+  "generated_at": "2026-03-14 14:24:05",
+  "audit_dir": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_governance/audit_logs",
+  "total_audit_records": 13,
+  "audit_type_counts": {
+    "delegation_config_rollback": 3,
+    "delegation_config_save": 10
+  },
+  "recent_items": [
+    {
+      "audit_type": "delegation_config_save",
+      "saved_at": "20260312_105830",
+      "operator_id": "demo_operator_v2",
+      "operator_name": "demo_operator_v2",
+      "change_reason": "save_full_preset_config",
+      "_source_file": "delegation_config_save_20260312_105830.json"
+    },
+    {
+      "audit_type": "delegation_config_save",
+      "saved_at": "20260312_111200",
+      "operator_id": "api_demo_admin",
+      "operator_name": "API Demo Admin",
+      "change_reason": "api_demo_save_l3",
+      "_source_file": "delegation_config_save_20260312_111200.json"
+    },
+    {
+      "audit_type": "delegation_config_save",
+      "saved_at": "20260312_134455",
+      "operator_id": "regression_test_operator",
+      "operator_name": "regression_test_operator",
+      "change_reason": "regression_test_save",
+      "_source_file": "delegation_config_save_20260312_134455.json"
+    },
+    {
+      "audit_type": "delegation_config_save",
+      "saved_at": "20260312_135616",
+      "operator_id": "regression_test_operator",
+      "operator_name": "regression_test_operator",
+      "change_reason": "regression_test_save",
+      "_source_file": "delegation_config_save_20260312_135616.json"
+    },
+    {
+      "audit_type": "delegation_config_save",
+      "saved_at": "20260312_135952",
+      "operator_id": "regression_test_operator",
+      "operator_name": "regression_test_operator",
+      "change_reason": "regression_test_save",
+      "_source_file": "delegation_config_save_20260312_135952.json"
+    },
+    {
+      "audit_type": "delegation_config_save",
+      "saved_at": "20260314_093808",
+      "operator_id": "morning_check_operator",
+      "operator_name": "morning_check_operator",
+      "change_reason": "validate_whatsapp_control_save_chain",
+      "_source_file": "delegation_config_save_20260314_093808.json"
+    },
+    {
+      "audit_type": "delegation_config_save",
+      "saved_at": "20260314_093929",
+      "operator_id": "morning_restore_operator",
+      "operator_name": "morning_restore_operator",
+      "change_reason": "restore_readonly_after_save_chain_validation",
+      "_source_file": "delegation_config_save_20260314_093929.json"
+    },
+    {
+      "audit_type": "delegation_config_save",
+      "saved_at": "20260314_113028",
+      "operator_id": "frontend_sync_test",
+      "operator_name": "frontend_sync_test",
+      "change_reason": "validate_frontend_snapshot_auto_sync",
+      "_source_file": "delegation_config_save_20260314_113028.json"
+    }
+  ],
+  "conclusion": "反向审计总览层已具备最小汇总能力，可用于关键节点回看保存、回滚、配置变更等历史动作。"
+}

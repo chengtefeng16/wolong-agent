@@ -1,0 +1,32 @@
+{
+  "fetched_at": "2026-03-18T13:54:31.889895+00:00",
+  "domain": "arlis.am",
+  "request_url": "https://arlis.am/",
+  "ok": true,
+  "status": 200,
+  "final_url": "https://arlis.am/hy/",
+  "content_type": "text/html; charset=UTF-8",
+  "content_length": 1427349,
+  "headers": {
+    "Server": "nginx",
+    "Date": "Wed, 18 Mar 2026 13:54:30 GMT",
+    "Content-Type": "text/html; charset=UTF-8",
+    "Content-Length": "1427349",
+    "Connection": "close",
+    "Vary": "Accept-Encoding",
+    "Cache-Control": "private",
+    "Strict-Transport-Security": "max-age=31536000",
+    "X-XSS-Protection": "1; mode=block",
+    "X-Frame-Options": "DENY",
+    "X-Content-Type-Options": "nosniff",
+    "Referrer-Policy": "same-origin",
+    "Permissions-Policy": "interest-cohort=()",
+    "Cross-Origin-Opener-Policy": "same-origin",
+    "Content-Security-Policy": "default-src 'none'; connect-src 'self' https://www.google-analytics.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com/ https://www.gstatic.com/ https://www.googletagmanager.com/ https://www.google-analytics.com/analytics.js; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; form-action 'self'; base-uri 'none'; frame-src 'self' https://www.google.com; frame-ancestors 'none'; object-src 'none'"
+  },
+  "error": "",
+  "fetch_mode": "fallback_unverified_ssl",
+  "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+  "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+  "body_file": "arlis.am__root.html"
+}

@@ -1,0 +1,46 @@
+{
+  "generated_at": "2026-03-14 18:09:02",
+  "agent_count": 5,
+  "agents": [
+    {
+      "agent_name": "WolongAgent",
+      "domain": "跨境汽车贸易",
+      "status": "active_primary",
+      "depends_on": [
+        "AgentOS"
+      ]
+    },
+    {
+      "agent_name": "AgentOS",
+      "domain": "基础底座",
+      "status": "foundation_active",
+      "depends_on": []
+    },
+    {
+      "agent_name": "BuddhismAgent",
+      "domain": "佛学",
+      "status": "planned",
+      "depends_on": [
+        "AgentOS"
+      ]
+    },
+    {
+      "agent_name": "TCMAgent",
+      "domain": "中医",
+      "status": "planned",
+      "depends_on": [
+        "AgentOS"
+      ]
+    },
+    {
+      "agent_name": "LegalAgent",
+      "domain": "法律",
+      "status": "planned",
+      "depends_on": [
+        "AgentOS"
+      ]
+    }
+  ],
+  "core_strategy": "卧龙先打穿，底座后放大。",
+  "conclusion": "Agent 配置注册层已具备最小注册索引能力。"
+}

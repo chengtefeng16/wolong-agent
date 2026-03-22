@@ -1,0 +1,114 @@
+{
+  "meta": {
+    "schema_version": "9.1",
+    "data_status": "active",
+    "last_verified_at": "2026-02-16",
+    "last_checked_at": "2026-02-16",
+    "next_review_due": "2026-02-23",
+    "small_update_cycle_days": 3,
+    "major_update_cycle_days": 7,
+    "source_type": "manual_seed",
+    "confidence_level": 0.6,
+    "notes": "Initial structured draft for Russia. MUST verify against official Russian/EAEU sources before production use."
+  },
+  "country": {
+    "name": "Russia",
+    "iso2": "RU",
+    "aliases": ["Russian Federation", "Россия", "РФ", "RU"]
+  },
+  "sources": [
+    {
+      "title": "EAEU: Decision No.107 (20.12.2017) - unified customs payments for personal-use goods (incl. vehicles) (PDF copy)",
+      "type": "legal_pdf",
+      "ref": "turn5search9"
+    },
+    {
+      "title": "Rosakkreditatsiya / SBKTS related materials (reference)",
+      "type": "reference",
+      "ref": "turn4search5"
+    },
+    {
+      "title": "TR CU 018/2011 (vehicle safety technical regulation) references",
+      "type": "reference",
+      "ref": "turn4search4"
+    }
+  ],
+  "rules": {
+    "compliance": {
+      "type": "hard",
+      "status_if_fail": "block",
+      "requirements": [
+        "Vehicle must comply with EAEU technical regulation on vehicle safety (TR CU 018/2011) and related conformity procedures (EAC).",
+        "Pre-clearance verification is required before proposing final options."
+      ],
+      "fail_reasons": [
+        "Compliance certification / conformity procedures are not confirmed."
+      ],
+      "warnings": [
+        "Pre-clearance verification recommended before shipment."
+      ]
+    },
+    "age": {
+      "type": "soft",
+      "status_if_fail": "warn",
+      "params": {
+        "soft_warn_over_years": 3,
+        "soft_warn_over_years_note": "Older vehicles usually trigger higher costs / more scrutiny."
+      },
+      "warn_reasons": [
+        "Vehicle age may significantly impact import costs and clearance complexity."
+      ]
+    },
+    "fuel": {
+      "type": "soft",
+      "status_if_fail": "warn",
+      "params": {
+        "blocked_fuels": [],
+        "special_attention_fuels": ["diesel", "hybrid", "electric"]
+      },
+      "warn_reasons": [
+        "Fuel type may affect compliance, cost, and required documentation."
+      ]
+    },
+    "emissions": {
+      "type": "soft",
+      "status_if_fail": "warn",
+      "params": {
+        "min_standard_note": "Verify the required environmental class / emissions compliance during pre-clearance."
+      },
+      "warn_reasons": [
+        "Emissions/environmental class must be verified during pre-clearance."
+      ]
+    },
+    "steering": {
+      "type": "soft",
+      "status_if_fail": "warn",
+      "params": {
+        "preferred": "LHD",
+        "rhd_note": "RHD vehicles may face market/regional constraints and additional checks."
+      },
+      "warn_reasons": [
+        "Steering side may affect registration/market acceptance; confirm before shipment."
+      ]
+    },
+    "ev_infrastructure": {
+      "type": "soft",
+      "status_if_fail": "warn",
+      "params": {
+        "note": "If vehicle is EV, confirm charging standard compatibility and destination infrastructure."
+      },
+      "warn_reasons": [
+        "EV charging/infrastructure compatibility should be confirmed for the destination."
+      ]
+    }
+  },
+  "output_defaults": {
+    "notes": [
+      "Always reconfirm import rules before shipment."
+    ],
+    "warnings": [
+      "Pre-clearance verification recommended before shipment."
+    ]
+  }
+}
+

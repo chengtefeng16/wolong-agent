@@ -1,0 +1,14 @@
+{
+  "checked_at": "2026-03-14 18:09:02",
+  "requested_action": "promotion_send",
+  "promotion_master_switch": false,
+  "gray_release_enabled": true,
+  "human_final_confirmation": true,
+  "daily_limit": 20,
+  "whitelist_enabled": true,
+  "rollback_enabled": true,
+  "audit_required": true,
+  "final_decision": "blocked",
+  "reason": "promotion_master_switch_off",
+  "safe_principle": "promotion_never_bypasses_human_final_authority"
+}

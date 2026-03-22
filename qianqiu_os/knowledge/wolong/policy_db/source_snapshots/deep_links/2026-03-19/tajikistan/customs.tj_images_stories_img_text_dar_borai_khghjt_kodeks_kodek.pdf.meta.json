@@ -1,0 +1,24 @@
+{
+  "fetched_at": "2026-03-19T00:37:23.498799+00:00",
+  "domain": "customs.tj",
+  "request_url": "https://customs.tj/images/stories/img_text/Dar_borai_KHGHJT/Kodeks/Kodek.pdf",
+  "ok": true,
+  "status": 200,
+  "final_url": "https://customs.tj/images/stories/img_text/Dar_borai_KHGHJT/Kodeks/Kodek.pdf",
+  "content_type": "application/pdf",
+  "content_length": 1673579,
+  "headers": {
+    "Date": "Thu, 19 Mar 2026 00:37:20 GMT",
+    "Server": "Apache",
+    "Last-Modified": "Wed, 17 Oct 2018 08:04:51 GMT",
+    "Accept-Ranges": "bytes",
+    "Content-Length": "1673579",
+    "Connection": "close",
+    "Content-Type": "application/pdf"
+  },
+  "error": "",
+  "fetch_mode": "fallback_unverified_ssl",
+  "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+  "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+  "body_file": "customs.tj_images_stories_img_text_dar_borai_khghjt_kodeks_kodek.pdf.pdf"
+}

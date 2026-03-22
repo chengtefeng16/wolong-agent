@@ -1,0 +1,21 @@
+{
+  "country_name_en": "Mexico",
+  "audit_status": "audit_restricted",
+  "issues": [],
+  "warnings": [
+    "status_pending_verification",
+    "policy_version_batch_init"
+  ],
+  "checked_at": "2026-03-18",
+  "human_review_needed": true,
+  "source_coverage": {
+    "customs": true,
+    "tax_or_revenue": false,
+    "transport_or_industry_or_trade": false,
+    "official_gazette_or_law_db": false,
+    "high_trust_industry_or_embassy": true,
+    "soft_signals_only": false
+  },
+  "cross_validation_score": 3,
+  "cross_validation_status": "medium"
+}

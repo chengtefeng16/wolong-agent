@@ -1,0 +1,124 @@
+{
+  "version": "v0.1",
+  "items": [
+    {
+      "country_name_en": "Algeria",
+      "country_name_zh": "阿尔及利亚",
+      "language_family": "fr_ar",
+      "status": "partial_verified",
+      "sites": [
+        {"domain": "commerce.gov.dz", "dimension": "transport_or_industry_or_trade", "verified": true},
+        {"domain": "joradp.dz", "dimension": "official_gazette_or_law_db", "verified": true},
+        {"domain": "douane.gov.dz", "dimension": "customs", "verified": false},
+        {"domain": "impots.gov.dz", "dimension": "tax_or_revenue", "verified": false}
+      ]
+    },
+    {
+      "country_name_en": "Saudi Arabia",
+      "country_name_zh": "沙特阿拉伯",
+      "language_family": "ar_en",
+      "status": "verified_core",
+      "sites": [
+        {"domain": "zatca.gov.sa", "dimension": "customs", "verified": true},
+        {"domain": "zatca.gov.sa", "dimension": "tax_or_revenue", "verified": true}
+      ]
+    },
+    {
+      "country_name_en": "United Arab Emirates",
+      "country_name_zh": "阿联酋",
+      "language_family": "ar_en",
+      "status": "verified_core",
+      "sites": [
+        {"domain": "moiat.gov.ae", "dimension": "transport_or_industry_or_trade", "verified": true},
+        {"domain": "dubaicustoms.gov.ae", "dimension": "customs", "verified": false},
+        {"domain": "abudhabicustoms.gov.ae", "dimension": "customs", "verified": false}
+      ]
+    },
+    {
+      "country_name_en": "Ghana",
+      "country_name_zh": "加纳",
+      "language_family": "en",
+      "status": "verified_core",
+      "sites": [
+        {"domain": "gragh.gov.gh", "dimension": "customs", "verified": true},
+        {"domain": "gragh.gov.gh", "dimension": "tax_or_revenue", "verified": true}
+      ]
+    },
+    {
+      "country_name_en": "Mexico",
+      "country_name_zh": "墨西哥",
+      "language_family": "es",
+      "status": "verified_core",
+      "sites": [
+        {"domain": "sat.gob.mx", "dimension": "tax_or_revenue", "verified": true},
+        {"domain": "sat.gob.mx", "dimension": "customs", "verified": true},
+        {"domain": "anam.gob.mx", "dimension": "customs", "verified": false},
+        {"domain": "dof.gob.mx", "dimension": "official_gazette_or_law_db", "verified": false}
+      ]
+    },
+    {
+      "country_name_en": "Kazakhstan",
+      "country_name_zh": "哈萨克斯坦",
+      "language_family": "kk_ru",
+      "status": "verified_core",
+      "sites": [
+        {"domain": "egov.kz", "dimension": "customs", "verified": true},
+        {"domain": "adilet.zan.kz", "dimension": "official_gazette_or_law_db", "verified": true},
+        {"domain": "kgd.gov.kz", "dimension": "tax_or_revenue", "verified": false}
+      ]
+    },
+    {
+      "country_name_en": "Uzbekistan",
+      "country_name_zh": "乌兹别克斯坦",
+      "language_family": "uz_ru",
+      "status": "verified_core",
+      "sites": [
+        {"domain": "customs.uz", "dimension": "customs", "verified": true},
+        {"domain": "lex.uz", "dimension": "official_gazette_or_law_db", "verified": false},
+        {"domain": "soliq.uz", "dimension": "tax_or_revenue", "verified": false}
+      ]
+    },
+    {
+      "country_name_en": "Armenia",
+      "country_name_zh": "亚美尼亚",
+      "language_family": "hy_ru",
+      "status": "verified_core",
+      "sites": [
+        {"domain": "src.am", "dimension": "customs", "verified": true},
+        {"domain": "src.am", "dimension": "tax_or_revenue", "verified": true},
+        {"domain": "arlis.am", "dimension": "official_gazette_or_law_db", "verified": true},
+        {"domain": "new.arlis.am", "dimension": "official_gazette_or_law_db", "verified": true}
+      ]
+    },
+    {
+      "country_name_en": "Kyrgyzstan",
+      "country_name_zh": "吉尔吉斯斯坦",
+      "language_family": "ky_ru",
+      "status": "partial_verified",
+      "sites": [
+        {"domain": "customs.gov.kg", "dimension": "customs", "verified": true}
+      ]
+    },
+    {
+      "country_name_en": "Tajikistan",
+      "country_name_zh": "塔吉克斯坦",
+      "language_family": "tg_ru",
+      "status": "verified_core",
+      "sites": [
+        {"domain": "andoz.tj", "dimension": "tax_or_revenue", "verified": true},
+        {"domain": "customs.tj", "dimension": "customs", "verified": true},
+        {"domain": "adliya.tj", "dimension": "official_gazette_or_law_db", "verified": true}
+      ]
+    },
+    {
+      "country_name_en": "Turkmenistan",
+      "country_name_zh": "土库曼斯坦",
+      "language_family": "tk_ru",
+      "status": "verified_core",
+      "sites": [
+        {"domain": "customs.gov.tm", "dimension": "customs", "verified": true},
+        {"domain": "infotrade.gov.tm", "dimension": "transport_or_industry_or_trade", "verified": true}
+      ]
+    }
+  ]
+}

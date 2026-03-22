@@ -1,0 +1,29 @@
+{
+  "generated_at": "2026-03-14 18:09:02",
+  "based_on_regression": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_governance/regression/runtime_regression_result_v3.json",
+  "regression_overall_status": "passed",
+  "regression_passed_count": 17,
+  "regression_failed_count": 0,
+  "current_safe_baseline": {
+    "ingress_mode": "readonly",
+    "auto_reply": false,
+    "auto_dispatch": false
+  },
+  "trunk_status": {
+    "知识图谱层": "稳",
+    "人机协同层": "稳",
+    "预警层": "稳",
+    "自愈层": "稳",
+    "反思/check层": "稳",
+    "推广/自推广层安全骨架": "稳",
+    "反向审计总览层": "稳",
+    "时间逻辑层": "稳",
+    "方向检查机制": "稳",
+    "记忆层": "稳",
+    "调度层": "稳",
+    "推理规划层": "稳",
+    "Agent配置注册层": "稳",
+    "卧龙业务判断力层": "稳"
+  },
+  "conclusion": "以上弱相关主干与卧龙业务判断增强层在 2026-03-14 当前节点已系统性推进到稳（基于统一回归通过）。"
+}

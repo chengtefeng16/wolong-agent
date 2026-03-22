@@ -1,0 +1,22 @@
+{
+  "country_name_en": "Algeria",
+  "audit_status": "audit_restricted",
+  "issues": [],
+  "warnings": [
+    "cross_validation_weak",
+    "manual_review_required_cases_present",
+    "enforcement_uncertainty_notes_present"
+  ],
+  "checked_at": "2026-03-18",
+  "human_review_needed": true,
+  "source_coverage": {
+    "customs": false,
+    "tax_or_revenue": false,
+    "transport_or_industry_or_trade": false,
+    "official_gazette_or_law_db": true,
+    "high_trust_industry_or_embassy": false,
+    "soft_signals_only": false
+  },
+  "cross_validation_score": 2,
+  "cross_validation_status": "weak"
+}

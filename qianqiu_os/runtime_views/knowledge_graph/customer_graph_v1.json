@@ -1,0 +1,155 @@
+{
+  "graph_name": "customer_graph_v1",
+  "built_at": "2026-03-14 18:09:02",
+  "source_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_views/h5_dashboard_whatsapp.json",
+  "source_top_keys": [
+    "view_name",
+    "version",
+    "top_stats",
+    "recent_focus"
+  ],
+  "node_count": 16,
+  "edge_count": 10,
+  "nodes": [
+    {
+      "id": "customer::+77011234567",
+      "type": "customer",
+      "label": "Zhaslan",
+      "phone": "+77011234567",
+      "latest_message": "Need 8 SUVs. We can buy regularly if prices are good."
+    },
+    {
+      "id": "bucket::准车商",
+      "type": "bucket",
+      "label": "准车商"
+    },
+    {
+      "id": "message::+77011234567",
+      "type": "message",
+      "label": "Need 8 SUVs. We can buy regularly if prices are good."
+    },
+    {
+      "id": "keyword::suv",
+      "type": "keyword",
+      "label": "suv"
+    },
+    {
+      "id": "keyword::regularly",
+      "type": "keyword",
+      "label": "regularly"
+    },
+    {
+      "id": "keyword::prices",
+      "type": "keyword",
+      "label": "prices"
+    },
+    {
+      "id": "customer::+992900000001",
+      "type": "customer",
+      "label": "Bek",
+      "phone": "+992900000001",
+      "latest_message": "Need Prado and Camry, maybe 7 units."
+    },
+    {
+      "id": "bucket::疑似车商",
+      "type": "bucket",
+      "label": "疑似车商"
+    },
+    {
+      "id": "message::+992900000001",
+      "type": "message",
+      "label": "Need Prado and Camry, maybe 7 units."
+    },
+    {
+      "id": "keyword::prado",
+      "type": "keyword",
+      "label": "prado"
+    },
+    {
+      "id": "keyword::camry",
+      "type": "keyword",
+      "label": "camry"
+    },
+    {
+      "id": "keyword::units",
+      "type": "keyword",
+      "label": "units"
+    },
+    {
+      "id": "stat::准车商",
+      "type": "stat",
+      "label": "准车商",
+      "count": 1
+    },
+    {
+      "id": "stat::疑似车商",
+      "type": "stat",
+      "label": "疑似车商",
+      "count": 1
+    },
+    {
+      "id": "stat::个人客户",
+      "type": "stat",
+      "label": "个人客户",
+      "count": 1
+    },
+    {
+      "id": "stat::无效沟通",
+      "type": "stat",
+      "label": "无效沟通",
+      "count": 0
+    }
+  ],
+  "edges": [
+    {
+      "source": "customer::+77011234567",
+      "target": "bucket::准车商",
+      "relation": "belongs_to_bucket"
+    },
+    {
+      "source": "customer::+77011234567",
+      "target": "message::+77011234567",
+      "relation": "has_latest_message"
+    },
+    {
+      "source": "customer::+77011234567",
+      "target": "keyword::suv",
+      "relation": "mentions_keyword"
+    },
+    {
+      "source": "customer::+77011234567",
+      "target": "keyword::regularly",
+      "relation": "mentions_keyword"
+    },
+    {
+      "source": "customer::+77011234567",
+      "target": "keyword::prices",
+      "relation": "mentions_keyword"
+    },
+    {
+      "source": "customer::+992900000001",
+      "target": "bucket::疑似车商",
+      "relation": "belongs_to_bucket"
+    },
+    {
+      "source": "customer::+992900000001",
+      "target": "message::+992900000001",
+      "relation": "has_latest_message"
+    },
+    {
+      "source": "customer::+992900000001",
+      "target": "keyword::prado",
+      "relation": "mentions_keyword"
+    },
+    {
+      "source": "customer::+992900000001",
+      "target": "keyword::camry",
+      "relation": "mentions_keyword"
+    },
+    {
+      "source": "customer::+992900000001",
+      "target": "keyword::units",
+      "relation": "mentions_keyword"
+    }
+  ]
+}

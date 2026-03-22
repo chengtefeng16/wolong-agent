@@ -1,0 +1,10 @@
+{
+  "audit_type": "delegation_config_rollback",
+  "rolled_back_at": "20260312_135952",
+  "operator_id": "rollback_regression_operator",
+  "operator_name": "rollback_regression_operator",
+  "change_reason": "regression_rollback_check",
+  "restored_from_snapshot": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_governance/rollback_snapshots/delegation_active_config_20260312_135952.json",
+  "active_config_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_governance/delegation_active_config.json",
+  "pre_rollback_backup_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_governance/rollback_snapshots/delegation_active_config_pre_rollback_20260312_135952.json"
+}

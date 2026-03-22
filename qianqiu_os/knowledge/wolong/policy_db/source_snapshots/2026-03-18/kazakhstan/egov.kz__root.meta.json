@@ -1,0 +1,33 @@
+{
+  "fetched_at": "2026-03-18T13:54:02.120341+00:00",
+  "domain": "egov.kz",
+  "request_url": "https://egov.kz/",
+  "ok": true,
+  "status": 200,
+  "final_url": "https://egov.kz/cms/kk",
+  "content_type": "text/html; charset=utf-8",
+  "content_length": 84394,
+  "headers": {
+    "Server": "nginx",
+    "Date": "Wed, 18 Mar 2026 13:54:01 GMT",
+    "Content-Type": "text/html; charset=utf-8",
+    "Connection": "close",
+    "Expires": "Sun, 19 Nov 1978 05:00:00 GMT",
+    "Cache-Control": "no-cache, must-revalidate",
+    "X-Content-Type-Options": "nosniff",
+    "Content-Language": "kk",
+    "X-Frame-Options": "SAMEORIGIN",
+    "Set-Cookie": "cookiesession1=678B76ADE41B27578C6A99A077E160C8;Expires=Thu, 18 Mar 2027 13:54:01 GMT;Path=/;HttpOnly",
+    "Vary": "Accept-Encoding",
+    "Age": "0",
+    "Accept-Ranges": "bytes",
+    "Strict-Transport-Security": "max-age=15768000",
+    "Permissions-Policy": "interest-cohort=(),geolocation=(),midi=(),sync-xhr=(),microphone=(),camera=(),magnetometer=(),gyroscope=(),fullscreen=(self),payment=()",
+    "content-length": "84394"
+  },
+  "error": "",
+  "fetch_mode": "fallback_unverified_ssl",
+  "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+  "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+  "body_file": "egov.kz__root.html"
+}

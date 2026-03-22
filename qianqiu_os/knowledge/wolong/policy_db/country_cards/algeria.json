@@ -1,0 +1,197 @@
+{
+  "country_code": "DZ",
+  "country_name_en": "Algeria",
+  "country_name_zh": "阿尔及利亚",
+  "region_pack": "africa",
+  "status": "restricted",
+  "policy_version": "v0.2-deep-fetch-patch-merged",
+  "confidence_level": "high",
+  "last_checked_at": "2026-03-18",
+  "next_small_update_due": "2026-03-21",
+  "next_major_update_due": "2026-03-25",
+  "source_records": [
+    {
+      "source_id": "dz_official_2023_decret_23_74",
+      "source_type": "official_pdf",
+      "source_level": "A",
+      "title": "Décret exécutif n° 23-74 du 20 février 2023",
+      "language": "fr",
+      "status": "structured_v1",
+      "notes": "样板卡来源"
+    },
+    {
+      "source_type": "deep_fetch_snapshot",
+      "source_url": "https://commerce.gov.dz/avis/profil/importateur",
+      "body_file": "commerce.gov.dz_avis_profil_importateur.html",
+      "content_type": "text/html; charset=UTF-8",
+      "status": "pending_verification"
+    },
+    {
+      "source_type": "deep_fetch_snapshot",
+      "source_url": "https://commerce.gov.dz/listing-des-autorites-de-regulation",
+      "body_file": "commerce.gov.dz_listing-des-autorites-de-regulation.html",
+      "content_type": "text/html; charset=UTF-8",
+      "status": "pending_verification"
+    }
+  ],
+  "eligibility_scope": {
+    "applicable_person_type": "resident_individual_only",
+    "usage_scope": "personal_use_only",
+    "frequency_limit": "one_import_every_3_years"
+  },
+  "access_rules": {
+    "used_vehicle_import_allowed": true,
+    "allowed_vehicle_types": [
+      "tourism_vehicle_electric",
+      "tourism_vehicle_petrol",
+      "tourism_vehicle_hybrid",
+      "light_utility_vehicle_electric",
+      "light_utility_vehicle_petrol",
+      "light_utility_vehicle_hybrid",
+      "van",
+      "small_van",
+      "pickup_under_3_5_tons"
+    ],
+    "max_vehicle_age_years": 3,
+    "steering_requirement": "pending_verification_in_source",
+    "fuel_type_rules": [
+      "electric",
+      "petrol",
+      "hybrid_petrol_electric"
+    ],
+    "emission_rules": [
+      "must_meet_regulatory_safety_and_environmental_requirements"
+    ],
+    "certification_rules": [
+      "conformity_expertise_report_required"
+    ],
+    "special_restrictions": [
+      "resident_individual_only",
+      "personal_use_only",
+      "temporary_tourist_entry_excluded"
+    ]
+  },
+  "tax_rules": {
+    "tariff_rule": "duties_and_taxes_payable_under_applicable_legislation",
+    "vat_rule": "pending_verification_in_source",
+    "additional_tax_rule": "pending_verification_in_source",
+    "fee_notes": [
+      "clearance for release into consumption is subject to payment of duties and taxes due"
+    ],
+    "currency_notes": [
+      "used vehicle imports by resident individuals are made using their own foreign currency"
+    ]
+  },
+  "customs_and_documents": {
+    "required_documents": [
+      "copy_of_identity_document_or_resident_card",
+      "residence_certificate",
+      "foreign_vehicle_registration_or_equivalent",
+      "proof_of_transfer_of_ownership_invoice_and_or_sale_contract",
+      "document_less_than_3_months_old_proving_vehicle_good_working_condition",
+      "conformity_expertise_report_from_approved_expert"
+    ],
+    "customs_clearance_requirements": [
+      "clearance_file_submitted_at_entry_or_competent_customs_office",
+      "temporary_customs_passage_title_valid_for_one_month_non_extendable_before_release"
+    ],
+    "inspection_requirements": [
+      "vehicle_must_be_in_good_working_condition",
+      "vehicle_must_not_have_major_or_critical_defects"
+    ],
+    "compliance_report_requirements": [
+      "approved_mines_ministry_expert_conformity_report"
+    ],
+    "foreign_exchange_requirements": [
+      "resident_individual_uses_own_foreign_currency"
+    ]
+  },
+  "logistics_and_delivery": {
+    "common_ports_or_border_points": [],
+    "logistics_constraints": [
+      "temporary_admission_title_valid_for_one_month_and_not_extendable"
+    ],
+    "transport_risk_notes": [
+      "late_or_incomplete_customs_file_may_delay_release_into_consumption"
+    ]
+  },
+  "risk_and_review": {
+    "risk_flags": [
+      "resident_individual_scope_only",
+      "personal_use_only",
+      "three_year_vehicle_age_limit",
+      "one_import_every_three_years",
+      "own_foreign_currency_requirement",
+      "non_conformity_may_trigger_reexport"
+    ],
+    "manual_review_required_cases": [
+      "vehicle_type_classification_unclear",
+      "fuel_type_not_explicitly_listed",
+      "tax_breakdown_needed_for_customer_quote",
+      "diplomatic_or_consular_transfer_case",
+      "steering_requirement_not_explicit_in_current_source"
+    ],
+    "enforcement_uncertainty_notes": [
+      "exact_tax_component_breakdown_not_specified_in_current_uploaded_source",
+      "steering_side_requirement_not_explicitly_stated_in_current_uploaded_source"
+    ],
+    "operational_warnings": [
+      "do_not_treat_as_dealer_import_rule",
+      "do_not_extrapolate_beyond_resident_individual_personal_use_scope_without_additional_source_validation"
+    ]
+  },
+  "output_support": {
+    "internal_summary_template": "Algeria currently allows certain used passenger and light utility vehicles for resident individuals only, for personal use, with a 3-year age limit and once-every-3-years frequency limit; duties/taxes apply and own foreign currency is required.",
+    "customer_safe_explanation_template": "For Algeria, the current rule in this source is limited to resident individuals importing eligible used vehicles for personal use, subject to age limits, required documents, applicable duties and taxes, and conformity checks.",
+    "high_risk_warning_template": "Please note that this rule source is not a blanket dealer-import approval. Cases outside resident individual personal-use scope should be manually reviewed."
+  },
+  "pending_tasks": [
+    "补充更细的税费拆分来源",
+    "补充是否存在方向盘要求的官方来源",
+    "补充经销商/贸易商场景是否适用的官方来源",
+    "补充 Algeria 区域包索引文件",
+    "为三天小更新准备来源监测清单",
+    "为七天大更新准备国家卡复核清单"
+  ],
+  "audit_status": "audit_restricted",
+  "audit_summary": {
+    "issues": [],
+    "warnings": [
+      "cross_validation_weak",
+      "manual_review_required_cases_present",
+      "enforcement_uncertainty_notes_present"
+    ],
+    "human_review_needed": true,
+    "source_coverage": {
+      "customs": false,
+      "tax_or_revenue": false,
+      "transport_or_industry_or_trade": false,
+      "official_gazette_or_law_db": true,
+      "high_trust_industry_or_embassy": false,
+      "soft_signals_only": false
+    },
+    "cross_validation_score": 2,
+    "cross_validation_status": "weak"
+  },
+  "audit_last_checked_at": "2026-03-19",
+  "source_validation_summary": {
+    "cross_validation_status": "weak",
+    "cross_validation_score": 2,
+    "issues": [],
+    "warnings": []
+  },
+  "last_deep_extract_at": "2026-03-19",
+  "deep_fetch_summary": {
+    "evidence_count": 2,
+    "text_source_count": 2,
+    "merged_country_mode": true,
+    "import_signal_count": 2,
+    "tax_signal_count": 1,
+    "legal_signal_count": 2
+  },
+  "policy_signals": {
+    "used_vehicle_import_allowed": "signal_detected",
+    "tax_rules_present": true,
+    "legal_basis_present": true
+  }
+}

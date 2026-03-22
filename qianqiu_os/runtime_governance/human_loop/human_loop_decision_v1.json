@@ -1,0 +1,19 @@
+{
+  "checked_at": "2026-03-14 18:09:02",
+  "source": "whatsapp",
+  "requested_action": "customer_send",
+  "risk_level": "medium",
+  "business_stage": "negotiating",
+  "whatsapp_control": {
+    "ingress_mode": "readonly",
+    "auto_classify": true,
+    "auto_tagging": true,
+    "h5_visible": true,
+    "auto_reply": false,
+    "auto_dispatch": false
+  },
+  "human_confirmation_required": true,
+  "final_decision": "human_decide",
+  "reason": "business_stage_negotiating_requires_human_confirmation",
+  "human_final_authority": true
+}

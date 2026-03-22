@@ -1,0 +1,16 @@
+{
+  "runtime": {
+    "loading": "正在读取 runtime 真源...",
+    "loaded": "已读取 runtime 真源"
+  },
+  "facebook": {
+    "empty": {
+      "name": "Facebook 暂无数据",
+      "reason": "请保持 Facebook webhook 在线，并等待真实聊天或公开互动进入。",
+      "subtitle": "Facebook · 等待真实数据接入",
+      "detail": "当前 Facebook 真实聊天 / Feed 数据尚未进入 runtime view，请保持 webhook 在线并等待真实数据进入。",
+      "timeline": "等待 Facebook runtime 时间线数据",
+      "messages": "等待 Facebook runtime 聊天 / 互动数据"
+    }
+  }
+}

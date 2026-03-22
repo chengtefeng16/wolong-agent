@@ -1,0 +1,35 @@
+{
+  "greeting_form": {
+    "stage": "L4_destination_probe",
+    "reply": {
+      "en": "Hi, thank you for reaching out and filling in the form. We are a used car export company based in China.",
+      "zh": "你好，感谢你填写表单并联系我。我们是一家位于中国的二手车出口公司。",
+      "ar": "مرحبًا، شكرًا لتواصلك ولتعبئة النموذج. نحن شركة تصدير سيارات مستعملة مقرها في الصين.",
+      "es": "Hola, gracias por tu mensaje y por completar el formulario. Somos una empresa de exportación de autos usados con sede en China.",
+      "fr": "Bonjour, merci pour votre message et pour avoir rempli le formulaire. Nous sommes une société d’exportation de voitures d’occasion basée en Chine.",
+      "ru": "Здравствуйте, спасибо за ваше сообщение и за заполнение формы. Мы — компания по экспорту подержанных автомобилей из Китая."
+    },
+    "next_prompt": {
+      "en": "May I know which country or city you plan to import the vehicles to?",
+      "zh": "方便告诉我，您计划把车辆出口到哪个国家或城市吗？",
+      "ar": "هل يمكنني معرفة الدولة أو المدينة التي تخطط لاستيراد السيارات إليها؟",
+      "es": "¿Podría decirme a qué país o ciudad planea importar los vehículos?",
+      "fr": "Pourriez-vous m’indiquer vers quel pays ou quelle ville vous souhaitez importer les véhicules ?",
+      "ru": "Не могли бы вы сообщить, в какую страну или город вы планируете импортировать автомобили?"
+    }
+  }
+}
+
+  "ask_location": {
+    "stage": "L2_company_background",
+    "reply": {
+      "en": "We are based in China and specialize in exporting used vehicles to Africa and the Middle East.",
+      "zh": "我们位于中国，专注于向非洲和中东市场出口二手车。",
+      "ar": "نحن مقرنا في الصين ونتخصص في تصدير السيارات المستعملة إلى أفريقيا والشرق الأوسط.",
+      "es": "Estamos ubicados en China y nos especializamos en exportar vehículos usados a África y Medio Oriente.",
+      "fr": "Nous sommes basés en Chine et spécialisés dans l’exportation de véhicules d’occasion vers l’Afrique et le Moyen-Orient.",
+      "ru": "Мы находимся в Китае и специализируемся на экспорте подержанных автомобилей в Африку и на Ближний Восток."
+    }
+  }
+}
+

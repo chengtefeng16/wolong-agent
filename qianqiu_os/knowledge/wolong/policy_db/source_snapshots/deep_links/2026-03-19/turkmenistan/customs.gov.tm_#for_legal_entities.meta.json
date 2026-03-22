@@ -1,0 +1,30 @@
+{
+  "fetched_at": "2026-03-19T00:37:37.103346+00:00",
+  "domain": "customs.gov.tm",
+  "request_url": "https://customs.gov.tm/#for_legal_entities",
+  "ok": true,
+  "status": 200,
+  "final_url": "https://customs.gov.tm/#for_legal_entities",
+  "content_type": "text/html; charset=UTF-8",
+  "content_length": 105465,
+  "headers": {
+    "Server": "nginx",
+    "Date": "Thu, 19 Mar 2026 00:43:52 GMT",
+    "Content-Type": "text/html; charset=UTF-8",
+    "Transfer-Encoding": "chunked",
+    "Connection": "close",
+    "Cache-Control": "private, must-revalidate",
+    "pragma": "no-cache",
+    "expires": "-1",
+    "X-Generated-Date": "2026-03-19 05:17:48",
+    "X-Frame-Options": "SAMEORIGIN",
+    "X-XSS-Protection": "1; mode=block",
+    "X-Content-Type-Options": "nosniff",
+    "Alt-Svc": "h3=\":443\"; ma=86400"
+  },
+  "error": "",
+  "fetch_mode": "fallback_unverified_ssl",
+  "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1096)>",
+  "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+  "body_file": "customs.gov.tm_#for_legal_entities.html"
+}

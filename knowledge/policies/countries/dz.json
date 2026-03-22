@@ -1,0 +1,74 @@
+{
+  "schema_version": "9.1",
+  "country": {
+    "name": "Algeria",
+    "iso2": "DZ",
+    "aliases": ["Algerie", "الجزائر"]
+  },
+
+  "meta": {
+    "data_status": "active",
+    "last_verified_at": "2026-02-16",
+    "last_checked_at": "2026-02-16",
+    "next_review_due": "2026-02-23",
+    "small_update_cycle_days": 3,
+    "major_update_cycle_days": 7,
+    "source_type": "manual_seed",
+    "confidence_level": 0.6,
+    "notes": "Initial structured draft. Must verify against official Algerian customs publications."
+  },
+
+  "vehicle_rules": {
+    "used_vehicle_allowed": true,
+    "max_vehicle_age_years": 3,
+    "age_reference": "manufacture_year",
+
+    "steering": {
+      "allowed": ["LHD"],
+      "blocked": ["RHD"]
+    },
+
+    "fuel": {
+      "allowed": ["gasoline"],
+      "blocked": ["diesel"],
+      "notes": "Diesel imports restricted under current interpretation. Requires reconfirmation."
+    },
+
+    "emission_standard": {
+      "minimum_required": "Euro 5",
+      "enforced": false,
+      "notes": "Emission enforcement unclear. Needs official confirmation."
+    }
+  },
+
+  "ev_policy": {
+    "allowed": true,
+    "battery_age_limit_years": 5,
+    "special_tariff_rate_percent": 5,
+    "charging_infrastructure_level": "low",
+    "grid_stability_level": "medium",
+    "notes": "EV policy evolving. Infrastructure still developing."
+  },
+
+  "hybrid_policy": {
+    "allowed": true,
+    "treated_as": "gasoline_category",
+    "notes": "Hybrid vehicles treated similarly to gasoline vehicles unless updated."
+  },
+
+  "commercial_risk_flags": {
+    "policy_volatility_level": "medium",
+    "recent_import_suspension": false,
+    "requires_pre_clearance_check": true,
+    "notes": "Always reconfirm before shipment due to frequent regulatory adjustments."
+  },
+
+  "audit_log": [
+    {
+      "date": "2026-02-16",
+      "action": "L9.1 structure upgrade",
+      "by": "system_init"
+    }
+  ]
+}
+

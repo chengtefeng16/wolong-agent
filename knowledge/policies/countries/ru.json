@@ -1,0 +1,124 @@
+{
+  "country": {
+    "name": "Russia",
+    "iso2": "RU",
+    "aliases": ["Russian Federation", "Россия", "РФ", "RU", "ru"]
+  },
+
+  "schema_version": "9.2",
+  "data_status": "active",
+  "enforcement_mode": "soft",
+
+  "policy_meta": {
+    "last_verified_at": "2026-02-18",
+    "last_checked_at": "2026-02-18",
+    "next_review_due": "2025-01-05",
+    "small_update_cycle_days": 3,
+    "major_update_cycle_days": 7,
+    "source_type": "manual_structured_base",
+    "confidence_level": 0.7,
+    "notes": [
+      "Structured commercial-import baseline template.",
+      "Focus: dealer-oriented import scenario.",
+      "Soft mode = risk warning first; strict mode = hard block."
+    ]
+  },
+
+  "import_path": {
+    "allowed_for_commercial_import": true,
+    "allowed_for_individual_import": true,
+    "primary_focus": "commercial_dealer",
+    "notes": [
+      "Commercial import requires full conformity documentation.",
+      "Individual import may use simplified taxation scheme depending on vehicle specs.",
+      "Dealer import subject to higher recycling fee coefficients."
+    ]
+  },
+
+  "policy_environment": {
+    "trend": "tightening",
+    "risk_level": "medium_to_high",
+    "major_pressure_point": "recycling_fee",
+    "notes": [
+      "Recycling fee reforms significantly impact import cost.",
+      "Grey import channels under increased scrutiny.",
+      "Certification compliance increasingly enforced."
+    ]
+  },
+
+  "rules": {
+
+    "age": {
+      "status_if_fail": "warn",
+      "params": {
+        "soft_warn_over_years": 3,
+        "hard_block_over_years": null
+      }
+    },
+
+    "fuel": {
+      "status_if_fail": "warn",
+      "params": {
+        "blocked_fuels": [],
+        "special_attention_fuels": ["diesel"]
+      }
+    },
+
+    "emission": {
+      "status_if_fail": "warn",
+      "params": {
+        "minimum_standard": "Euro-5",
+        "allow_unknown_but_warn": true
+      }
+    },
+
+    "steering": {
+      "status_if_fail": "warn",
+      "params": {
+        "allowed": ["LHD", "RHD"],
+        "special_attention": ["RHD"]
+      }
+    },
+
+    "certification": {
+      "status_if_fail": "warn",
+      "params": {
+        "requires_sbkts": true,
+        "requires_epts": true,
+        "may_require_era_glonass": true
+      }
+    },
+
+    "ev_grid_risk": {
+      "status_if_fail": "warn",
+      "params": {
+        "enable": true
+      }
+    }
+  },
+
+"legal_basis": [
+  {
+    "topic": "Technical Regulation",
+    "reference": "EAEU TR CU 018/2011",
+    "description": "Vehicle safety conformity framework",
+    "source_url": "https://example.com",
+    "last_checked": "2026-02-18"
+  },
+  {
+    "topic": "Recycling Fee",
+    "reference": "RF Government Decree – utilization fee reform 2025",
+    "description": "Recycling fee coefficient adjustments",
+    "source_url": "https://example.com",
+    "last_checked": "2026-02-18"
+  },
+  {
+    "topic": "Customs Tariff",
+    "reference": "EAEU Unified Customs Tariff (HS 8703)",
+    "description": "Import duty structure reference",
+    "source_url": "https://example.com",
+    "last_checked": "2026-02-18"
+  }
+]
+}
+

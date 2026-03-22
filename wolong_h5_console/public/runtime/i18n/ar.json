@@ -1,0 +1,16 @@
+{
+  "runtime": {
+    "loading": "جارٍ تحميل بيانات runtime الحية...",
+    "loaded": "تم تحميل بيانات runtime الحية"
+  },
+  "facebook": {
+    "empty": {
+      "name": "لا توجد بيانات Facebook بعد",
+      "reason": "يرجى إبقاء Facebook webhook متصلاً والانتظار حتى تصل المحادثات الحقيقية أو التفاعلات العامة إلى عرض runtime.",
+      "subtitle": "Facebook · في انتظار وصول البيانات الحقيقية",
+      "detail": "لم تدخل بعد بيانات دردشات / Feed الحقيقية الخاصة بـ Facebook إلى عرض runtime. يرجى إبقاء webhook متصلاً وانتظار وصول البيانات الحقيقية.",
+      "timeline": "في انتظار بيانات الخط الزمني لـ Facebook runtime",
+      "messages": "في انتظار بيانات محادثات / تفاعلات Facebook runtime"
+    }
+  }
+}

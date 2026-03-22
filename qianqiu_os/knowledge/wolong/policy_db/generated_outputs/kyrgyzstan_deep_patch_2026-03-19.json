@@ -1,0 +1,49 @@
+{
+  "policy_version": "v0.2-deep-fetch-patch-merged",
+  "last_deep_extract_at": "2026-03-19",
+  "source_evidence": [
+    {
+      "url": "https://customs.gov.kg/#",
+      "body_file": "customs.gov.kg_#.html",
+      "content_type": "text/html;charset=utf-8",
+      "score": 1,
+      "keyword_hits": [
+        "customs"
+      ],
+      "fetch_mode": "fallback_unverified_ssl"
+    },
+    {
+      "url": "https://customs.gov.kg/site/ky/master/_/service/customskg/react4xp/shared.css",
+      "body_file": "customs.gov.kg_site_ky_master___service_customskg_react4xp_shared.css.txt",
+      "content_type": "text/css",
+      "score": 1,
+      "keyword_hits": [
+        "customs"
+      ],
+      "fetch_mode": "fallback_unverified_ssl"
+    },
+    {
+      "url": "https://customs.gov.kg/site/ky/master/_/service/customskg/react4xp/site/layouts/section/section.css",
+      "body_file": "customs.gov.kg_site_ky_master___service_customskg_react4xp_site_layouts_section_section.css.txt",
+      "content_type": "text/css",
+      "score": 1,
+      "keyword_hits": [
+        "customs"
+      ],
+      "fetch_mode": "fallback_unverified_ssl"
+    }
+  ],
+  "deep_fetch_summary": {
+    "evidence_count": 3,
+    "text_source_count": 3,
+    "merged_country_mode": true,
+    "import_signal_count": 3,
+    "tax_signal_count": 3,
+    "legal_signal_count": 1
+  },
+  "policy_signals": {
+    "used_vehicle_import_allowed": "signal_detected",
+    "tax_rules_present": true,
+    "legal_basis_present": true
+  }
+}

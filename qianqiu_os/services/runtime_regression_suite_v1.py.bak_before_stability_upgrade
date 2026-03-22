@@ -1,0 +1,140 @@
+import json
+import sys
+from datetime import datetime
+from pathlib import Path
+
+CURRENT_FILE = Path(__file__).resolve()
+PROJECT_ROOT = CURRENT_FILE.parents[2]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from qianqiu_os.services.runtime_alert_guard_v1 import RuntimeAlertGuardV1
+from qianqiu_os.services.runtime_self_heal_guard_v1 import RuntimeSelfHealGuardV1
+from qianqiu_os.services.runtime_reflection_check_v1 import RuntimeReflectionCheckV1
+from qianqiu_os.services.runtime_human_loop_guard_v1 import RuntimeHumanLoopGuardV1
+from qianqiu_os.services.runtime_knowledge_graph_v1 import RuntimeKnowledgeGraphV1
+
+BASE_DIR = Path(__file__).resolve().parents[1]
+ACTIVE_CONFIG_PATH = BASE_DIR / "runtime_governance" / "delegation_active_config.json"
+PREVIEW_FILE_PATH = BASE_DIR / "services" / "h5_delegation_active_config_preview_v1.py"
+REGRESSION_OUTPUT_PATH = BASE_DIR / "runtime_governance" / "regression" / "runtime_regression_result_v1.json"
+
+
+class RuntimeRegressionSuiteV1:
+    def _now_str(self):
+        return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    def _read_json(self, path: Path):
+        if not path.exists():
+            return None
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            return None
+
+    def _write_json(self, path: Path, data: dict):
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+
+    def run(self):
+        checks = []
+
+        active_config = self._read_json(ACTIVE_CONFIG_PATH)
+        checks.append({
+            "name": "active_config_exists",
+            "passed": active_config is not None,
+            "detail": "delegation_active_config.json exists" if active_config is not None else "delegation_active_config.json missing",
+        })
+
+        whatsapp_control = (active_config or {}).get("whatsapp_control", {}) or {}
+        checks.append({
+            "name": "whatsapp_control_exists",
+            "passed": bool(whatsapp_control),
+            "detail": "whatsapp_control found" if whatsapp_control else "whatsapp_control missing",
+        })
+
+        checks.append({
+            "name": "readonly_baseline",
+            "passed": whatsapp_control.get("ingress_mode") == "readonly" and whatsapp_control.get("auto_reply") is False and whatsapp_control.get("auto_dispatch") is False,
+            "detail": {
+                "ingress_mode": whatsapp_control.get("ingress_mode"),
+                "auto_reply": whatsapp_control.get("auto_reply"),
+                "auto_dispatch": whatsapp_control.get("auto_dispatch"),
+            },
+        })
+
+        checks.append({
+            "name": "preview_module_exists",
+            "passed": PREVIEW_FILE_PATH.exists(),
+            "detail": str(PREVIEW_FILE_PATH),
+        })
+
+        alert_result = RuntimeAlertGuardV1().evaluate()
+        checks.append({
+            "name": "alert_guard_healthy",
+            "passed": alert_result.get("overall_status") == "healthy",
+            "detail": alert_result.get("overall_status"),
+        })
+
+        self_heal_result = RuntimeSelfHealGuardV1().run(auto_apply=False)
+        checks.append({
+            "name": "self_heal_runs",
+            "passed": isinstance(self_heal_result, dict),
+            "detail": self_heal_result.get("final_whatsapp_control", {}),
+        })
+
+        reflection_result = RuntimeReflectionCheckV1().run()
+        checks.append({
+            "name": "reflection_check_runs",
+            "passed": isinstance(reflection_result, dict) and bool(reflection_result.get("reflection_notes")),
+            "detail": reflection_result.get("reflection_notes", []),
+        })
+
+        human_loop_result = RuntimeHumanLoopGuardV1().evaluate({
+            "requested_action": "customer_send",
+            "risk_level": "medium",
+            "business_stage": "negotiating",
+            "source": "whatsapp",
+        })
+        checks.append({
+            "name": "human_loop_keeps_human_authority",
+            "passed": human_loop_result.get("human_final_authority") is True and human_loop_result.get("human_confirmation_required") is True,
+            "detail": {
+                "final_decision": human_loop_result.get("final_decision"),
+                "reason": human_loop_result.get("reason"),
+            },
+        })
+
+        knowledge_graph_result = RuntimeKnowledgeGraphV1().build_graph()
+        checks.append({
+            "name": "knowledge_graph_not_empty",
+            "passed": knowledge_graph_result.get("node_count", 0) > 0 and knowledge_graph_result.get("edge_count", 0) > 0,
+            "detail": {
+                "node_count": knowledge_graph_result.get("node_count"),
+                "edge_count": knowledge_graph_result.get("edge_count"),
+            },
+        })
+
+        passed_count = len([c for c in checks if c["passed"]])
+        failed_count = len(checks) - passed_count
+
+        overall_status = "passed" if failed_count == 0 else "failed"
+
+        result = {
+            "checked_at": self._now_str(),
+            "suite_name": "runtime_regression_suite_v1",
+            "overall_status": overall_status,
+            "passed_count": passed_count,
+            "failed_count": failed_count,
+            "checks": checks,
+        }
+
+        self._write_json(REGRESSION_OUTPUT_PATH, result)
+        return result
+
+
+if __name__ == "__main__":
+    suite = RuntimeRegressionSuiteV1()
+    print(json.dumps(suite.run(), ensure_ascii=False, indent=2))

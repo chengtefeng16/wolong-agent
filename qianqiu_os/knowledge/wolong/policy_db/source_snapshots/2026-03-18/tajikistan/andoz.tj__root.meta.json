@@ -1,0 +1,28 @@
+{
+  "fetched_at": "2026-03-18T13:54:54.046167+00:00",
+  "domain": "andoz.tj",
+  "request_url": "https://andoz.tj/",
+  "ok": true,
+  "status": 200,
+  "final_url": "https://andoz.tj/",
+  "content_type": "text/html; charset=utf-8",
+  "content_length": 131926,
+  "headers": {
+    "Server": "nginx",
+    "Date": "Wed, 18 Mar 2026 13:45:37 GMT",
+    "Content-Type": "text/html; charset=utf-8",
+    "Transfer-Encoding": "chunked",
+    "Connection": "close",
+    "Cache-Control": "no-cache, no-store",
+    "Pragma": "no-cache",
+    "Strict-Transport-Security": "max-age=15768000",
+    "Set-Cookie": ".AspNetCore.Antiforgery.TEck4vaLGGY=CfDJ8E9KPCm02lxOhYwR5H-EpzOvpugP6DkX_RR4YayckPVQDzQAy0JRJ5b_6nInHbvEZyrlihYAFQa-Gz3KUMSO1DaGObtrvSc2uEXLDmNuUhNoZuC6vtemmP8hijdKRwaV4TIp2fHuJ0fKJEh2La47INk; path=/; samesite=strict; httponly",
+    "X-Frame-Options": "SAMEORIGIN",
+    "X-Powered-By": "ASP.NET"
+  },
+  "error": "",
+  "fetch_mode": "fallback_unverified_ssl",
+  "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+  "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+  "body_file": "andoz.tj__root.html"
+}

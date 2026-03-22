@@ -1,0 +1,9 @@
+{
+  "request_name": "h5_delegation_rollback_request_example_v1",
+  "version": "2026-03-12",
+  "description": "Example payload for H5 frontend rollback delegation config",
+  "snapshot_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_governance/rollback_snapshots/delegation_active_config_20260312_111200.json",
+  "operator_id": "h5_admin_001",
+  "operator_name": "H5 Admin Demo",
+  "change_reason": "rollback_to_known_good_l3_snapshot"
+}

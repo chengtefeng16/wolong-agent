@@ -1,0 +1,25 @@
+{
+  "fetched_at": "2026-03-18T13:54:48.916619+00:00",
+  "domain": "customs.gov.kg",
+  "request_url": "https://customs.gov.kg/",
+  "ok": true,
+  "status": 200,
+  "final_url": "https://customs.gov.kg/site/ky/master/customskg",
+  "content_type": "text/html;charset=utf-8",
+  "content_length": 454162,
+  "headers": {
+    "Server": "nginx/1.24.0 (Ubuntu)",
+    "Date": "Wed, 18 Mar 2026 13:54:46 GMT",
+    "Content-Type": "text/html;charset=utf-8",
+    "Content-Length": "454162",
+    "Connection": "close",
+    "X-Frame-Options": "SAMEORIGIN",
+    "content-security-policy": "default-src * data: mediastream: blob: filesystem: about: ws: wss: 'unsafe-eval' 'wasm-unsafe-eval' 'unsafe-inline'; \t\t\tscript-src * data: blob: 'unsafe-inline' 'unsafe-eval'; \t\t\tscript-src-elem * data: blob: 'unsafe-inline' 'unsafe-eval'; \t\t\tconnect-src * data: blob: 'unsafe-inline'; \t\t\timg-src * data: blob: 'unsafe-inline'; \t\t\tmedia-src * data: blob: 'unsafe-inline'; \t\t\tframe-src * data: blob: ; \t\t\tstyle-src * data: blob: 'unsafe-inline'; \t\t\tfont-src * data: blob: 'unsafe-inline'; \t\t\tframe-ancestors * data: blob:; \t\t",
+    "Vary": "Accept-Encoding"
+  },
+  "error": "",
+  "fetch_mode": "fallback_unverified_ssl",
+  "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+  "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+  "body_file": "customs.gov.kg__root.html"
+}

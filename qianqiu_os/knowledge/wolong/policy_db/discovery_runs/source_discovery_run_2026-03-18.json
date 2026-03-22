@@ -1,0 +1,362 @@
+{
+  "run_id": "source_discovery_run_2026-03-18",
+  "run_time": "2026-03-18",
+  "next_small_update_due": "2026-03-21",
+  "next_major_update_due": "2026-03-25",
+  "total_countries": 11,
+  "ready_countries": 11,
+  "pending_countries": 0,
+  "targets": [
+    {
+      "country_name_en": "Algeria",
+      "country_name_zh": "阿尔及利亚",
+      "language_family": "fr_ar",
+      "whitelist_status": "partial_verified",
+      "verified_site_count": 2,
+      "pending_site_count": 2,
+      "priority_dimensions": [
+        "official_gazette_or_law_db",
+        "transport_or_industry_or_trade"
+      ],
+      "verified_sites": [
+        {
+          "domain": "commerce.gov.dz",
+          "dimension": "transport_or_industry_or_trade",
+          "verified": true
+        },
+        {
+          "domain": "joradp.dz",
+          "dimension": "official_gazette_or_law_db",
+          "verified": true
+        }
+      ],
+      "pending_sites": [
+        {
+          "domain": "douane.gov.dz",
+          "dimension": "customs",
+          "verified": false
+        },
+        {
+          "domain": "impots.gov.dz",
+          "dimension": "tax_or_revenue",
+          "verified": false
+        }
+      ],
+      "discovery_ready": true
+    },
+    {
+      "country_name_en": "Saudi Arabia",
+      "country_name_zh": "沙特阿拉伯",
+      "language_family": "ar_en",
+      "whitelist_status": "verified_core",
+      "verified_site_count": 2,
+      "pending_site_count": 0,
+      "priority_dimensions": [
+        "customs",
+        "tax_or_revenue"
+      ],
+      "verified_sites": [
+        {
+          "domain": "zatca.gov.sa",
+          "dimension": "customs",
+          "verified": true
+        },
+        {
+          "domain": "zatca.gov.sa",
+          "dimension": "tax_or_revenue",
+          "verified": true
+        }
+      ],
+      "pending_sites": [],
+      "discovery_ready": true
+    },
+    {
+      "country_name_en": "United Arab Emirates",
+      "country_name_zh": "阿联酋",
+      "language_family": "ar_en",
+      "whitelist_status": "verified_core",
+      "verified_site_count": 1,
+      "pending_site_count": 2,
+      "priority_dimensions": [
+        "transport_or_industry_or_trade"
+      ],
+      "verified_sites": [
+        {
+          "domain": "moiat.gov.ae",
+          "dimension": "transport_or_industry_or_trade",
+          "verified": true
+        }
+      ],
+      "pending_sites": [
+        {
+          "domain": "dubaicustoms.gov.ae",
+          "dimension": "customs",
+          "verified": false
+        },
+        {
+          "domain": "abudhabicustoms.gov.ae",
+          "dimension": "customs",
+          "verified": false
+        }
+      ],
+      "discovery_ready": true
+    },
+    {
+      "country_name_en": "Ghana",
+      "country_name_zh": "加纳",
+      "language_family": "en",
+      "whitelist_status": "verified_core",
+      "verified_site_count": 2,
+      "pending_site_count": 0,
+      "priority_dimensions": [
+        "customs",
+        "tax_or_revenue"
+      ],
+      "verified_sites": [
+        {
+          "domain": "gragh.gov.gh",
+          "dimension": "customs",
+          "verified": true
+        },
+        {
+          "domain": "gragh.gov.gh",
+          "dimension": "tax_or_revenue",
+          "verified": true
+        }
+      ],
+      "pending_sites": [],
+      "discovery_ready": true
+    },
+    {
+      "country_name_en": "Mexico",
+      "country_name_zh": "墨西哥",
+      "language_family": "es",
+      "whitelist_status": "verified_core",
+      "verified_site_count": 2,
+      "pending_site_count": 2,
+      "priority_dimensions": [
+        "customs",
+        "tax_or_revenue"
+      ],
+      "verified_sites": [
+        {
+          "domain": "sat.gob.mx",
+          "dimension": "tax_or_revenue",
+          "verified": true
+        },
+        {
+          "domain": "sat.gob.mx",
+          "dimension": "customs",
+          "verified": true
+        }
+      ],
+      "pending_sites": [
+        {
+          "domain": "anam.gob.mx",
+          "dimension": "customs",
+          "verified": false
+        },
+        {
+          "domain": "dof.gob.mx",
+          "dimension": "official_gazette_or_law_db",
+          "verified": false
+        }
+      ],
+      "discovery_ready": true
+    },
+    {
+      "country_name_en": "Kazakhstan",
+      "country_name_zh": "哈萨克斯坦",
+      "language_family": "kk_ru",
+      "whitelist_status": "verified_core",
+      "verified_site_count": 2,
+      "pending_site_count": 1,
+      "priority_dimensions": [
+        "customs",
+        "official_gazette_or_law_db"
+      ],
+      "verified_sites": [
+        {
+          "domain": "egov.kz",
+          "dimension": "customs",
+          "verified": true
+        },
+        {
+          "domain": "adilet.zan.kz",
+          "dimension": "official_gazette_or_law_db",
+          "verified": true
+        }
+      ],
+      "pending_sites": [
+        {
+          "domain": "kgd.gov.kz",
+          "dimension": "tax_or_revenue",
+          "verified": false
+        }
+      ],
+      "discovery_ready": true
+    },
+    {
+      "country_name_en": "Uzbekistan",
+      "country_name_zh": "乌兹别克斯坦",
+      "language_family": "uz_ru",
+      "whitelist_status": "verified_core",
+      "verified_site_count": 1,
+      "pending_site_count": 2,
+      "priority_dimensions": [
+        "customs"
+      ],
+      "verified_sites": [
+        {
+          "domain": "customs.uz",
+          "dimension": "customs",
+          "verified": true
+        }
+      ],
+      "pending_sites": [
+        {
+          "domain": "lex.uz",
+          "dimension": "official_gazette_or_law_db",
+          "verified": false
+        },
+        {
+          "domain": "soliq.uz",
+          "dimension": "tax_or_revenue",
+          "verified": false
+        }
+      ],
+      "discovery_ready": true
+    },
+    {
+      "country_name_en": "Armenia",
+      "country_name_zh": "亚美尼亚",
+      "language_family": "hy_ru",
+      "whitelist_status": "verified_core",
+      "verified_site_count": 4,
+      "pending_site_count": 0,
+      "priority_dimensions": [
+        "customs",
+        "tax_or_revenue",
+        "official_gazette_or_law_db"
+      ],
+      "verified_sites": [
+        {
+          "domain": "src.am",
+          "dimension": "customs",
+          "verified": true
+        },
+        {
+          "domain": "src.am",
+          "dimension": "tax_or_revenue",
+          "verified": true
+        },
+        {
+          "domain": "arlis.am",
+          "dimension": "official_gazette_or_law_db",
+          "verified": true
+        },
+        {
+          "domain": "new.arlis.am",
+          "dimension": "official_gazette_or_law_db",
+          "verified": true
+        }
+      ],
+      "pending_sites": [],
+      "discovery_ready": true
+    },
+    {
+      "country_name_en": "Kyrgyzstan",
+      "country_name_zh": "吉尔吉斯斯坦",
+      "language_family": "ky_ru",
+      "whitelist_status": "partial_verified",
+      "verified_site_count": 1,
+      "pending_site_count": 0,
+      "priority_dimensions": [
+        "customs"
+      ],
+      "verified_sites": [
+        {
+          "domain": "customs.gov.kg",
+          "dimension": "customs",
+          "verified": true
+        }
+      ],
+      "pending_sites": [],
+      "discovery_ready": true
+    },
+    {
+      "country_name_en": "Tajikistan",
+      "country_name_zh": "塔吉克斯坦",
+      "language_family": "tg_ru",
+      "whitelist_status": "verified_core",
+      "verified_site_count": 3,
+      "pending_site_count": 0,
+      "priority_dimensions": [
+        "customs",
+        "tax_or_revenue",
+        "official_gazette_or_law_db"
+      ],
+      "verified_sites": [
+        {
+          "domain": "andoz.tj",
+          "dimension": "tax_or_revenue",
+          "verified": true
+        },
+        {
+          "domain": "customs.tj",
+          "dimension": "customs",
+          "verified": true
+        },
+        {
+          "domain": "adliya.tj",
+          "dimension": "official_gazette_or_law_db",
+          "verified": true
+        }
+      ],
+      "pending_sites": [],
+      "discovery_ready": true
+    },
+    {
+      "country_name_en": "Turkmenistan",
+      "country_name_zh": "土库曼斯坦",
+      "language_family": "tk_ru",
+      "whitelist_status": "verified_core",
+      "verified_site_count": 2,
+      "pending_site_count": 0,
+      "priority_dimensions": [
+        "customs",
+        "transport_or_industry_or_trade"
+      ],
+      "verified_sites": [
+        {
+          "domain": "customs.gov.tm",
+          "dimension": "customs",
+          "verified": true
+        },
+        {
+          "domain": "infotrade.gov.tm",
+          "dimension": "transport_or_industry_or_trade",
+          "verified": true
+        }
+      ],
+      "pending_sites": [],
+      "discovery_ready": true
+    }
+  ],
+  "summary": {
+    "ready_country_names": [
+      "Algeria",
+      "Saudi Arabia",
+      "United Arab Emirates",
+      "Ghana",
+      "Mexico",
+      "Kazakhstan",
+      "Uzbekistan",
+      "Armenia",
+      "Kyrgyzstan",
+      "Tajikistan",
+      "Turkmenistan"
+    ],
+    "pending_country_names": []
+  }
+}

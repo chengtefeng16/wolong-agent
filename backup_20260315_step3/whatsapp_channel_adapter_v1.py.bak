@@ -1,0 +1,173 @@
+from pathlib import Path
+import json
+
+from qianqiu_os.services.whatsapp_provider_client_v1 import WhatsAppProviderClientV1
+
+
+class WhatsAppChannelAdapterV1:
+    def __init__(self, config_path=None):
+        if config_path is None:
+            config_path = Path(__file__).resolve().parents[1] / "config" / "real_channel_adapter_config_v1.json"
+        self.config_path = Path(config_path)
+        self.config = self._load_config()
+        self.provider_client = WhatsAppProviderClientV1()
+
+    def _load_config(self):
+        if not self.config_path.exists():
+            return {}
+        with open(self.config_path, "r", encoding="utf-8") as f:
+            return json.load(f)
+
+    def _runtime_active_config_path(self):
+        return Path(__file__).resolve().parents[1] / "runtime_governance" / "delegation_active_config.json"
+
+    def _load_whatsapp_control(self):
+        path = self._runtime_active_config_path()
+        default_cfg = {
+            "ingress_mode": "readonly",
+            "auto_classify": True,
+            "auto_tagging": True,
+            "h5_visible": True,
+            "auto_reply": False,
+            "auto_dispatch": False,
+        }
+        if not path.exists():
+            return default_cfg
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            cfg = data.get("whatsapp_control", {}) or {}
+            default_cfg.update(cfg)
+            return default_cfg
+        except Exception:
+            return default_cfg
+
+    def send(self, payload):
+        payload = payload or {}
+        send_text = payload.get("send_text")
+        customer_id = payload.get("customer_id")
+        session_id = payload.get("session_id")
+
+        if not send_text:
+            return self._build_result(
+                success=False,
+                delivery_status="failed",
+                error_code="invalid_payload",
+                error_message="send_text is required",
+                retryable=False,
+                fallback_action="human_review",
+            )
+
+        if not customer_id and not session_id:
+            return self._build_result(
+                success=False,
+                delivery_status="failed",
+                error_code="invalid_payload",
+                error_message="customer_id or session_id is required",
+                retryable=False,
+                fallback_action="human_review",
+            )
+
+        if not self.config.get("enabled", False):
+            return self._build_result(
+                success=False,
+                delivery_status="pending_manual",
+                error_code="adapter_disabled",
+                error_message="real channel adapter is disabled",
+                retryable=False,
+                fallback_action="human_review",
+            )
+
+        channel_cfg = self._find_whatsapp_config()
+        if not channel_cfg:
+            return self._build_result(
+                success=False,
+                delivery_status="blocked",
+                error_code="channel_not_supported",
+                error_message="whatsapp channel config not found",
+                retryable=False,
+                fallback_action="human_review",
+            )
+
+        if not channel_cfg.get("enabled", False):
+            return self._build_result(
+                success=False,
+                delivery_status="pending_manual",
+                error_code="channel_disabled",
+                error_message="whatsapp adapter is disabled",
+                retryable=False,
+                fallback_action="human_review",
+            )
+
+        whatsapp_control = self._load_whatsapp_control()
+
+        if whatsapp_control.get("ingress_mode", "readonly") == "off":
+            return self._build_result(
+                success=False,
+                delivery_status="blocked",
+                error_code="whatsapp_ingress_off",
+                error_message="whatsapp ingress is turned off by runtime control",
+                retryable=False,
+                fallback_action="human_review",
+            )
+
+        if not whatsapp_control.get("auto_reply", False):
+            return self._build_result(
+                success=False,
+                delivery_status="pending_manual",
+                error_code="whatsapp_auto_reply_disabled",
+                error_message="whatsapp auto reply is disabled by runtime control",
+                retryable=False,
+                fallback_action="human_review",
+            )
+
+        provider_result = self.provider_client.send_message(payload)
+
+        return self._build_result(
+            success=provider_result.get("success", False),
+            delivery_status=provider_result.get("delivery_status"),
+            provider_message_id=provider_result.get("provider_message_id"),
+            error_code=provider_result.get("error_code"),
+            error_message=provider_result.get("error_message"),
+            retryable=provider_result.get("retryable", False),
+            fallback_action=provider_result.get("fallback_action"),
+        )
+
+    def _find_whatsapp_config(self):
+        for item in self.config.get("supported_channels", []):
+            if item.get("channel") == "whatsapp":
+                return item
+        return None
+
+    def _build_result(
+        self,
+        success,
+        delivery_status,
+        provider_message_id=None,
+        error_code=None,
+        error_message=None,
+        retryable=False,
+        fallback_action=None,
+    ):
+        return {
+            "success": success,
+            "channel": "whatsapp",
+            "delivery_status": delivery_status,
+            "provider_message_id": provider_message_id,
+            "error_code": error_code,
+            "error_message": error_message,
+            "retryable": retryable,
+            "fallback_action": fallback_action,
+        }
+
+
+if __name__ == "__main__":
+    adapter = WhatsAppChannelAdapterV1()
+    result = adapter.send(
+        {
+            "customer_id": "cust_demo_001",
+            "session_id": "wa_session_demo_001",
+            "send_text": "Hello from WhatsApp adapter skeleton."
+        }
+    )
+    print(json.dumps(result, ensure_ascii=False, indent=2))

@@ -1,0 +1,24 @@
+{
+  "country": {
+    "name": "Ghana",
+    "iso2": "GH",
+    "aliases": ["GH", "Ghana"]
+  },
+  "policy_meta": {
+    "schema_version": "1.0",
+    "updated_at": "2026-02-15",
+    "source": "manual_seed",
+    "notes": "Example only. Replace with verified rules."
+  },
+  "rules": {
+    "max_vehicle_age_years": 10,
+    "allowed_fuels": ["gasoline", "diesel", "hybrid", "electric"],
+    "blocked_fuels": [],
+    "allowed_steering": ["LHD", "RHD"]
+  },
+  "ev_context": {
+    "grid_reliability": "unknown",
+    "charging_infra": "unknown",
+    "ev_fit_note": "EV suitability depends on local grid and charging infrastructure. Confirm before recommending."
+  }
+}

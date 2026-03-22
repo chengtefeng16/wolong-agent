@@ -1,0 +1,11 @@
+{
+  "audit_type": "delegation_config_save",
+  "saved_at": "20260312_135616",
+  "operator_id": "regression_test_operator",
+  "operator_name": "regression_test_operator",
+  "change_reason": "regression_test_save",
+  "config_version": "20260312_135616",
+  "applied_preset": "L3_small_autonomy_safe",
+  "active_config_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_governance/delegation_active_config.json",
+  "rollback_snapshot_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_governance/rollback_snapshots/delegation_active_config_20260312_135616.json"
+}

@@ -1,0 +1,140 @@
+# ================================================================
+# Copyright (c) 2026 程特峰 (Tefeng Cheng)
+# All Rights Reserved.
+#
+# Project: AgentOS / Wolong Agent System
+# This source code is proprietary and confidential.
+# Unauthorized copying, modification, distribution or use
+# of this software, in whole or in part, is strictly prohibited.
+# ================================================================
+
+from __future__ import annotations
+
+import argparse
+import importlib
+import json
+import time
+from datetime import datetime
+from pathlib import Path
+from zoneinfo import ZoneInfo
+
+BASE_DIR = Path(__file__).resolve().parents[1]
+CONFIG_PATH = BASE_DIR / "config" / "schedule_tasks_config_v1.json"
+LOG_PATH = BASE_DIR / "runtime_schedule" / "execution_log.json"
+INDEX_PATH = BASE_DIR / "runtime_exports" / "export_index_latest.json"
+
+def _read_json(path: Path, default):
+    if not path.exists():
+        return default
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return default
+
+def _write_json(path: Path, data):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+
+def _load_config():
+    cfg = _read_json(CONFIG_PATH, {})
+    if not isinstance(cfg, dict):
+        cfg = {}
+    return cfg
+
+def _now(tz_name: str):
+    return datetime.now(ZoneInfo(tz_name))
+
+def _task_nominal_key(task: dict, now: datetime) -> str:
+    return f"{task.get('task_id','unknown')}::{now.strftime('%Y-%m-%d')}"
+
+def _already_executed(task_id: str, time_key: str) -> bool:
+    log = _read_json(LOG_PATH, {})
+    return bool(log.get(task_id, {}).get(time_key))
+
+def _mark_execution(task_id: str, time_key: str, result: dict):
+    log = _read_json(LOG_PATH, {})
+    if not isinstance(log, dict):
+        log = {}
+    if task_id not in log:
+        log[task_id] = {}
+    log[task_id][time_key] = result
+    _write_json(LOG_PATH, log)
+
+def _task_due(task: dict, now: datetime) -> bool:
+    if not task.get("enabled", False):
+        return False
+
+    st = task.get("schedule_type")
+    th = int(task.get("hour", -1))
+    tm = int(task.get("minute", -1))
+
+    if st == "daily":
+        target_passed = (now.hour > th) or (now.hour == th and now.minute >= tm)
+        return target_passed
+
+    if st == "weekly":
+        if int(task.get("weekday", -1)) != now.weekday():
+            return False
+        target_passed = (now.hour > th) or (now.hour == th and now.minute >= tm)
+        return target_passed
+
+    return False
+
+def _run_generator(generator_name: str):
+    import sys
+    services_dir = BASE_DIR / "services"
+    if str(services_dir) not in sys.path:
+        sys.path.insert(0, str(services_dir))
+    module = importlib.import_module(generator_name)
+    result = module.generate()
+    return result
+
+def run_once(force_all: bool = False):
+    cfg = _load_config()
+    tz_name = cfg.get("timezone", "Asia/Shanghai")
+    now = _now(tz_name)
+
+    results = []
+    for task in cfg.get("tasks", []):
+        task_id = task.get("task_id", "unknown_task")
+        nominal_key = _task_nominal_key(task, now)
+
+        if not force_all:
+            if not _task_due(task, now):
+                continue
+            if _already_executed(task_id, nominal_key):
+                continue
+
+        result = _run_generator(task["generator"])
+        _mark_execution(task_id, nominal_key, result)
+        results.append({
+            "task_id": task_id,
+            "nominal_key": nominal_key,
+            "result": result
+        })
+
+    return {
+        "success": True,
+        "now": now.strftime("%Y-%m-%d %H:%M:%S"),
+        "timezone": tz_name,
+        "executed_count": len(results),
+        "results": results
+    }
+
+def run_loop(interval_seconds: int = 30):
+    while True:
+        result = run_once(force_all=False)
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        time.sleep(interval_seconds)
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--force-all", action="store_true", help="立即强制执行全部任务一次")
+    parser.add_argument("--loop", action="store_true", help="常驻循环运行")
+    parser.add_argument("--interval", type=int, default=30, help="循环模式下轮询秒数")
+    args = parser.parse_args()
+
+    if args.loop:
+        run_loop(interval_seconds=args.interval)
+    else:
+        print(json.dumps(run_once(force_all=args.force_all), ensure_ascii=False, indent=2))

@@ -1,0 +1,32 @@
+{
+  "fetched_at": "2026-03-19T00:32:13.745228+00:00",
+  "domain": "customs.uz",
+  "request_url": "http://customs.uz/css/mix/one.css?version=1773842052",
+  "ok": true,
+  "status": 200,
+  "final_url": "https://customs.uz/css/mix/one.css?version=1773842052",
+  "content_type": "text/css",
+  "content_length": 87198,
+  "headers": {
+    "Server": "nginx",
+    "Date": "Thu, 19 Mar 2026 00:32:12 GMT",
+    "Content-Type": "text/css",
+    "Content-Length": "87198",
+    "Connection": "close",
+    "Vary": "Accept-Encoding",
+    "Last-Modified": "Wed, 04 Mar 2026 11:25:37 GMT",
+    "ETag": "\"1549e-64c31143e7820\"",
+    "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+    "X-Frame-Options": "SAMEORIGIN",
+    "X-Content-Type-Options": "nosniff",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "Cache-Control": "public, max-age=604800",
+    "X-Cache": "MISS",
+    "Accept-Ranges": "bytes"
+  },
+  "error": "",
+  "fetch_mode": "fallback_unverified_ssl",
+  "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1096)>",
+  "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+  "body_file": "customs.uz_css_mix_one.css_version_1773842052.txt"
+}

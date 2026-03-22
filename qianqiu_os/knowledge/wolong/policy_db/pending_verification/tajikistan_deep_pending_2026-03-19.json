@@ -1,0 +1,118 @@
+{
+  "country_code": "TJ",
+  "country_name_en": "Tajikistan",
+  "country_name_zh": "塔吉克斯坦",
+  "region_pack": "central_asia",
+  "status": "pending_verification",
+  "policy_version": "v0.2-deep-fetch-patch-merged",
+  "confidence_level": "medium",
+  "last_checked_at": "2026-03-18",
+  "next_small_update_due": "2026-03-21",
+  "next_major_update_due": "2026-03-25",
+  "source_records": [
+    {
+      "source_id": "tj_import_rules_initial_v1",
+      "source_type": "official_or_high_trust_web",
+      "source_level": "B",
+      "title": "Tajikistan import rules initial source",
+      "language": "tg",
+      "status": "discovered",
+      "notes": "待进一步结构化"
+    },
+    {
+      "source_type": "deep_fetch_snapshot",
+      "source_url": "https://andoz.tj/ForTaxpayer/DeclarationsNew",
+      "body_file": "andoz.tj_fortaxpayer_declarationsnew.html",
+      "content_type": "text/html; charset=utf-8",
+      "status": "pending_verification"
+    },
+    {
+      "source_type": "deep_fetch_snapshot",
+      "source_url": "https://andoz.tj/ForTaxpayer/DeclarationsOld",
+      "body_file": "andoz.tj_fortaxpayer_declarationsold.html",
+      "content_type": "text/html; charset=utf-8",
+      "status": "pending_verification"
+    },
+    {
+      "source_type": "deep_fetch_snapshot",
+      "source_url": "https://andoz.tj/ForTaxpayer",
+      "body_file": "andoz.tj_fortaxpayer.html",
+      "content_type": "text/html; charset=utf-8",
+      "status": "pending_verification"
+    },
+    {
+      "source_type": "deep_fetch_snapshot",
+      "source_url": "https://customs.tj/images/stories/img_text/Dar_borai_KHGHJT/Kodeks/Kodek.pdf",
+      "body_file": "customs.tj_images_stories_img_text_dar_borai_khghjt_kodeks_kodek.pdf.pdf",
+      "content_type": "application/pdf",
+      "status": "pending_verification"
+    },
+    {
+      "source_type": "deep_fetch_snapshot",
+      "source_url": "http://customs.tj/",
+      "body_file": "customs.tj_.html",
+      "content_type": "text/html; charset=utf-8",
+      "status": "pending_verification"
+    },
+    {
+      "source_type": "deep_fetch_snapshot",
+      "source_url": "http://infoportal.customs.tj",
+      "body_file": "infoportal.customs.tj.html",
+      "content_type": "text/html;charset=utf-8",
+      "status": "pending_verification"
+    }
+  ],
+  "eligibility_scope": {},
+  "access_rules": {},
+  "tax_rules": {},
+  "customs_and_documents": {},
+  "logistics_and_delivery": {},
+  "risk_and_review": {},
+  "output_support": {
+    "customer_safe_explanation_template": "Initial source discovered. Further structured verification is still required before using as a final customer-facing rule."
+  },
+  "pending_tasks": [],
+  "audit_status": "audit_pass_with_warning",
+  "audit_summary": {
+    "issues": [],
+    "warnings": [
+      "cross_validation_weak",
+      "status_pending_verification",
+      "policy_version_batch_init"
+    ],
+    "human_review_needed": true,
+    "source_coverage": {
+      "customs": false,
+      "tax_or_revenue": false,
+      "transport_or_industry_or_trade": false,
+      "official_gazette_or_law_db": false,
+      "high_trust_industry_or_embassy": true,
+      "soft_signals_only": false
+    },
+    "cross_validation_score": 2,
+    "cross_validation_status": "weak"
+  },
+  "audit_last_checked_at": "2026-03-19",
+  "source_validation_summary": {
+    "cross_validation_status": "strong",
+    "cross_validation_score": 16,
+    "issues": [],
+    "warnings": [
+      "tax_rules_not_detected"
+    ]
+  },
+  "last_deep_extract_at": "2026-03-19",
+  "deep_fetch_summary": {
+    "evidence_count": 6,
+    "text_source_count": 5,
+    "merged_country_mode": true,
+    "import_signal_count": 2,
+    "tax_signal_count": 1,
+    "legal_signal_count": 3
+  },
+  "policy_signals": {
+    "used_vehicle_import_allowed": "signal_detected",
+    "tax_rules_present": true,
+    "legal_basis_present": true
+  }
+}

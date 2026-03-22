@@ -1,0 +1,25 @@
+{
+  "fetched_at": "2026-03-18T13:54:09.364173+00:00",
+  "domain": "adilet.zan.kz",
+  "request_url": "https://adilet.zan.kz/",
+  "ok": true,
+  "status": 200,
+  "final_url": "https://adilet.zan.kz/kaz/",
+  "content_type": "text/html;charset=UTF-8",
+  "content_length": 78105,
+  "headers": {
+    "Server": "nginx/1.18.0",
+    "Date": "Wed, 18 Mar 2026 13:54:08 GMT",
+    "Content-Type": "text/html;charset=UTF-8",
+    "Transfer-Encoding": "chunked",
+    "Connection": "close",
+    "Set-Cookie": "rememberMe=e8836055-cd86-4664-8b54-4e67e4adce28; Max-Age=315360000; Expires=Sat, 15-Mar-2036 13:54:08 GMT; Path=/",
+    "Last-Modified": "Wednesday, 18-Mar-2026 13:54:08 GMT",
+    "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0"
+  },
+  "error": "",
+  "fetch_mode": "fallback_unverified_ssl",
+  "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+  "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+  "body_file": "adilet.zan.kz__root.html"
+}

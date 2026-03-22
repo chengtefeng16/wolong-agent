@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+
+    <link rel="icon" href="/public/lib/icon/favicon.ico" />
+
+    <link rel="stylesheet" href="/public/css/normalize.css" />
+
+    <link
+      rel="stylesheet"
+      href="/public/lib/fonts/font-awesome.css"
+    />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+		<link rel="modulepreload" href="/_app/immutable/entry/start.7eef8c2e.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/scheduler.dd7b8fdc.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/singletons.13b31043.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/index.43241ff5.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/paths.bc571c09.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/control.4a24504b.js">
+		<link rel="modulepreload" href="/_app/immutable/entry/app.325d0224.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/index.06fe1483.js">
+  </head>
+  <body data-sveltekit-preload-data="hover" id="body">
+    <div class="sv-container-portal">
+			<script>
+				{
+					__sveltekit_1hhjmre = {
+						base: "",
+						env: {}
+					};
+
+					const element = document.currentScript.parentElement;
+
+					Promise.all([
+						import("/_app/immutable/entry/start.7eef8c2e.js"),
+						import("/_app/immutable/entry/app.325d0224.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element);
+					});
+				}
+			</script>
+		</div>
+  </body>
+</html>

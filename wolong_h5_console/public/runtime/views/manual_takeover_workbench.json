@@ -1,0 +1,60 @@
+{
+  "generated_at": "2026-03-15 22:13:00",
+  "workbench_name": "manual_takeover_workbench_latest",
+  "count": 3,
+  "level_counts": {
+    "high": 0,
+    "medium": 3,
+    "low": 0
+  },
+  "items": [
+    {
+      "ticket_id": "takeover_20260315_205228_989733",
+      "source": "manual_takeover_ticket",
+      "customer_id": "cust_demo_001",
+      "customer_name": "cust_demo_001",
+      "country": "",
+      "bucket": "",
+      "priority": "medium",
+      "business_stage": "待补充阶段",
+      "summary": "",
+      "next_action": "建议人工查看并继续推进。",
+      "takeover_reason": "adapter_disabled",
+      "takeover_status": "waiting_human_takeover",
+      "created_at": "2026-03-15 20:52:28",
+      "alert_count": 1
+    },
+    {
+      "ticket_id": "virtual_takeover_customer_demo_001",
+      "source": "profile_needs_human_review",
+      "customer_id": "customer_demo_001",
+      "customer_name": "Demo Buyer",
+      "country": "Kazakhstan",
+      "bucket": "疑似车商",
+      "priority": "medium",
+      "business_stage": "已进入报价准备",
+      "summary": "客户关注车型：prado, camry；提到数量：5；目的地：kazakhstan；条件关键词：used；客户已出现价格/预算相关信号",
+      "next_action": "建议人工尽快报价，并确认车况、年份、付款方式与物流路线。",
+      "takeover_reason": "needs_human_review",
+      "takeover_status": "waiting_human_takeover",
+      "created_at": "2026-03-15 21:07:49",
+      "alert_count": 2
+    },
+    {
+      "ticket_id": "takeover_20260312_142443",
+      "source": "manual_takeover_ticket",
+      "customer_id": "cust_demo_001",
+      "customer_name": "cust_demo_001",
+      "country": "",
+      "bucket": "",
+      "priority": "medium",
+      "business_stage": "待补充阶段",
+      "summary": "",
+      "next_action": "建议人工查看并继续推进。",
+      "takeover_reason": "waiting_human_takeover",
+      "takeover_status": "waiting_human_takeover",
+      "created_at": "20260312_142443",
+      "alert_count": 1
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "fetched_at": "2026-03-19T00:29:14.891631+00:00",
+  "domain": "customs.gov.kg",
+  "request_url": "https://customs.gov.kg/site/ky/master/_/service/customskg/react4xp/site/parts/link/link.css",
+  "ok": true,
+  "status": 200,
+  "final_url": "https://customs.gov.kg/site/ky/master/_/service/customskg/react4xp/site/parts/link/link.css",
+  "content_type": "text/css",
+  "content_length": 763,
+  "headers": {
+    "Server": "nginx/1.24.0 (Ubuntu)",
+    "Date": "Thu, 19 Mar 2026 00:29:14 GMT",
+    "Content-Type": "text/css",
+    "Content-Length": "763",
+    "Connection": "close",
+    "X-Frame-Options": "SAMEORIGIN",
+    "Cache-Control": "no-cache",
+    "ETag": "\"906928f070705b25\"",
+    "Vary": "Accept-Encoding"
+  },
+  "error": "",
+  "fetch_mode": "fallback_unverified_ssl",
+  "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+  "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+  "body_file": "customs.gov.kg_site_ky_master___service_customskg_react4xp_site_parts_link_link.css.txt"
+}

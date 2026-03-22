@@ -1,0 +1,21 @@
+{
+  "fetched_at": "2026-03-19T00:35:30.248382+00:00",
+  "domain": "commerce.gov.dz",
+  "request_url": "http://www.commerce.gov.dz/avis/collection/avis-douverture-de-licence-dimportation",
+  "ok": false,
+  "status": 503,
+  "final_url": "http://www.commerce.gov.dz/avis/collection/avis-douverture-de-licence-dimportation",
+  "content_type": "",
+  "content_length": 0,
+  "headers": {
+    "Date": "Thu Mar 19 00:35:30 2026 GMT",
+    "Content-Length": "2544",
+    "Connection": "close",
+    "Content-Type": "text/html"
+  },
+  "error": "HTTPError: HTTP Error 503: Service Unavailable",
+  "fetch_mode": "fallback_unverified_ssl",
+  "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+  "security_note": "Standard and fallback SSL fetch both failed.",
+  "body_file": ""
+}

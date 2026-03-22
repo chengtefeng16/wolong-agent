@@ -1,0 +1,37 @@
+{
+  "generated_at": "2026-03-15 21:13:01",
+  "alert_name": "runtime_alerts_latest",
+  "count": 3,
+  "level_counts": {
+    "high": 1,
+    "medium": 2,
+    "low": 0
+  },
+  "items": [
+    {
+      "type": "manual_review_required",
+      "level": "medium",
+      "title": "需要人工接管",
+      "message": "Demo Buyer 当前需要人工查看。摘要：客户关注车型：prado, camry；提到数量：5；目的地：kazakhstan；条件关键词：used；客户已出现价格/预算相关信号",
+      "customer_id": "customer_demo_001",
+      "created_at": "2026-03-15 21:07:49"
+    },
+    {
+      "type": "quote_ready",
+      "level": "medium",
+      "title": "客户已进入报价准备",
+      "message": "Demo Buyer 已进入报价准备阶段，建议尽快报价。",
+      "customer_id": "customer_demo_001",
+      "created_at": "2026-03-15 21:07:49"
+    },
+    {
+      "type": "delivery_blocked",
+      "level": "high",
+      "title": "外发被治理层拦截",
+      "message": "客户 cust_demo_001 的外发被拦截，原因：adapter_disabled",
+      "customer_id": "cust_demo_001",
+      "session_id": "wa_session_demo_001",
+      "created_at": "2026-03-15 20:52:28"
+    }
+  ]
+}

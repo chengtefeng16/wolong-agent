@@ -1,0 +1,155 @@
+# ================================================================
+# Copyright (c) 2026 程特峰 (Tefeng Cheng)
+# All Rights Reserved.
+#
+# Project: AgentOS / Wolong Agent System
+# This source code is proprietary and confidential.
+# Unauthorized copying, modification, distribution or use
+# of this software, in whole or in part, is strictly prohibited.
+# ================================================================
+
+from __future__ import annotations
+
+import json
+from datetime import datetime, timedelta
+from pathlib import Path
+from zoneinfo import ZoneInfo
+
+from qianqiu_os.services.pdf_export_utils_v1 import render_markdown_to_pdf
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+BASE_DIR = Path(__file__).resolve().parents[1]
+TZ = ZoneInfo("Asia/Shanghai")
+
+EXPORT_DIR = BASE_DIR / "runtime_exports" / "weekly"
+INDEX_PATH = BASE_DIR / "runtime_exports" / "export_index_latest.json"
+
+WHATSAPP_VIEW = BASE_DIR / "runtime_views" / "h5_dashboard_whatsapp.json"
+FACEBOOK_VIEW = BASE_DIR / "runtime_views" / "h5_dashboard_facebook.json"
+FACEBOOK_FEED_VIEW = BASE_DIR / "runtime_views" / "h5_dashboard_facebook_feed.json"
+
+
+def _now():
+    return datetime.now(TZ)
+
+
+def _read_json(path: Path, default):
+    if not path.exists():
+        return default
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return default
+
+
+def _recent_wolong_files(days: int = 7) -> list[str]:
+    cutoff = _now() - timedelta(days=days)
+    targets = []
+    for rel in ["wolong_h5_console/src", "qianqiu_os/runtime_views", "qianqiu_os/services"]:
+        p = PROJECT_ROOT / rel
+        if p.exists():
+            for f in p.rglob("*"):
+                if f.is_file() and datetime.fromtimestamp(f.stat().st_mtime).astimezone(TZ) >= cutoff:
+                    targets.append(f)
+    targets.sort(key=lambda x: x.stat().st_mtime, reverse=True)
+    return [str(x.relative_to(PROJECT_ROOT)) for x in targets[:30]]
+
+
+def _runtime_summary() -> dict:
+    wa = _read_json(WHATSAPP_VIEW, {})
+    fb = _read_json(FACEBOOK_VIEW, {})
+    fb_feed = _read_json(FACEBOOK_FEED_VIEW, {})
+    return {
+        "whatsapp_customer_count": wa.get("customer_count", 0),
+        "whatsapp_stats": wa.get("stats", {}),
+        "facebook_customer_count": fb.get("customer_count", 0),
+        "facebook_stats": fb.get("stats", {}),
+        "facebook_feed_customer_count": fb_feed.get("customer_count", 0),
+        "facebook_feed_stats": fb_feed.get("stats", {})
+    }
+
+
+def _update_index(md_path: Path, pdf_path: Path):
+    data = _read_json(INDEX_PATH, {})
+    if not isinstance(data, dict):
+        data = {}
+    data["latest_wolong_weekly_report"] = {
+        "md_path": str(md_path),
+        "pdf_path": str(pdf_path),
+        "generated_at": _now().strftime("%Y-%m-%d %H:%M:%S")
+    }
+    INDEX_PATH.parent.mkdir(parents=True, exist_ok=True)
+    INDEX_PATH.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def generate() -> dict:
+    now = _now()
+    EXPORT_DIR.mkdir(parents=True, exist_ok=True)
+    recent = _recent_wolong_files()
+    runtime = _runtime_summary()
+
+    content = f"""# 卧龙Agent 当前进展总表（周更）
+
+生成时间：{now.strftime("%Y-%m-%d %H:%M:%S")}
+时区：Asia/Shanghai
+
+## 一、本周新增 / 改进（按最近7天文件变动归集）
+""" + "\n".join([f"- {x}" for x in recent]) + f"""
+
+## 二、运行态摘要
+- WhatsApp 客户数：{runtime['whatsapp_customer_count']}
+- WhatsApp 统计：{json.dumps(runtime['whatsapp_stats'], ensure_ascii=False)}
+- Facebook 私信客户数：{runtime['facebook_customer_count']}
+- Facebook 私信统计：{json.dumps(runtime['facebook_stats'], ensure_ascii=False)}
+- Facebook Feed 观察数：{runtime['facebook_feed_customer_count']}
+- Facebook Feed 统计：{json.dumps(runtime['facebook_feed_stats'], ensure_ascii=False)}
+
+## 三、卧龙主干层
+- H5 观察层
+- 客户总览层
+- 客户详情层
+- 预警层
+- 手动接管层
+- 多渠道切换层
+- 时间层 / 交付层
+- 多语言层（待补）
+
+## 四、未完成项（人工继续补充）
+- Facebook / WhatsApp 真联动稳定性继续压实
+- H5 多渠道详情切换继续清理
+- 新客户提醒 / 标签闪动继续实测
+- 多语言选择层进入 H5 主干
+
+## 五、下周计划（人工继续补充）
+- 继续补渠道真接入
+- 继续补交付型时间层联动验证
+- 继续补多语言能力
+"""
+
+    md_out = EXPORT_DIR / f"wolong_weekly_report_{now.strftime('%Y%m%d_%H%M%S')}.md"
+    md_out.write_text(content, encoding="utf-8")
+
+    latest_md = EXPORT_DIR / "wolong_weekly_report_latest.md"
+    latest_md.write_text(content, encoding="utf-8")
+
+    pdf_out = EXPORT_DIR / f"wolong_weekly_report_{now.strftime('%Y%m%d_%H%M%S')}.pdf"
+    render_markdown_to_pdf(content, pdf_out, title="卧龙Agent 当前进展总表（周更）")
+
+    latest_pdf = EXPORT_DIR / "wolong_weekly_report_latest.pdf"
+    render_markdown_to_pdf(content, latest_pdf, title="卧龙Agent 当前进展总表（周更）")
+
+    _update_index(md_out, pdf_out)
+
+    return {
+        "success": True,
+        "task": "weekly_wolong_report",
+        "export_path": str(md_out),
+        "latest_path": str(latest_md),
+        "pdf_path": str(pdf_out),
+        "latest_pdf_path": str(latest_pdf),
+        "generated_at": now.strftime("%Y-%m-%d %H:%M:%S")
+    }
+
+
+if __name__ == "__main__":
+    print(json.dumps(generate(), ensure_ascii=False, indent=2))

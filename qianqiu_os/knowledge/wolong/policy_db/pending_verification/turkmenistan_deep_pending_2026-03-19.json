@@ -1,0 +1,104 @@
+{
+  "country_code": "TM",
+  "country_name_en": "Turkmenistan",
+  "country_name_zh": "土库曼斯坦",
+  "region_pack": "central_asia",
+  "status": "pending_verification",
+  "policy_version": "v0.2-deep-fetch-patch-merged",
+  "confidence_level": "medium",
+  "last_checked_at": "2026-03-18",
+  "next_small_update_due": "2026-03-21",
+  "next_major_update_due": "2026-03-25",
+  "source_records": [
+    {
+      "source_id": "tm_import_rules_initial_v1",
+      "source_type": "official_or_high_trust_web",
+      "source_level": "B",
+      "title": "Turkmenistan import rules initial source",
+      "language": "tk",
+      "status": "discovered",
+      "notes": "待进一步结构化"
+    },
+    {
+      "source_type": "deep_fetch_snapshot",
+      "source_url": "https://customs.gov.tm/#for_legal_entities",
+      "body_file": "customs.gov.tm_#for_legal_entities.html",
+      "content_type": "text/html; charset=UTF-8",
+      "status": "pending_verification"
+    },
+    {
+      "source_type": "deep_fetch_snapshot",
+      "source_url": "https://customs.gov.tm/customs-info/for-legal-entities",
+      "body_file": "customs.gov.tm_customs-info_for-legal-entities.html",
+      "content_type": "text/html; charset=UTF-8",
+      "status": "pending_verification"
+    },
+    {
+      "source_type": "deep_fetch_snapshot",
+      "source_url": "https://customs.gov.tm/export-import/brokers",
+      "body_file": "customs.gov.tm_export-import_brokers.html",
+      "content_type": "text/html; charset=UTF-8",
+      "status": "pending_verification"
+    },
+    {
+      "source_type": "deep_fetch_snapshot",
+      "source_url": "https://infotrade.gov.tm/Laws?l=tk",
+      "body_file": "infotrade.gov.tm_laws_l_tk.html",
+      "content_type": "text/html; charset=utf-8",
+      "status": "pending_verification"
+    }
+  ],
+  "eligibility_scope": {},
+  "access_rules": {},
+  "tax_rules": {},
+  "customs_and_documents": {},
+  "logistics_and_delivery": {},
+  "risk_and_review": {},
+  "output_support": {
+    "customer_safe_explanation_template": "Initial source discovered. Further structured verification is still required before using as a final customer-facing rule."
+  },
+  "pending_tasks": [],
+  "audit_status": "audit_pass_with_warning",
+  "audit_summary": {
+    "issues": [],
+    "warnings": [
+      "cross_validation_weak",
+      "status_pending_verification",
+      "policy_version_batch_init"
+    ],
+    "human_review_needed": true,
+    "source_coverage": {
+      "customs": false,
+      "tax_or_revenue": false,
+      "transport_or_industry_or_trade": false,
+      "official_gazette_or_law_db": false,
+      "high_trust_industry_or_embassy": true,
+      "soft_signals_only": false
+    },
+    "cross_validation_score": 2,
+    "cross_validation_status": "weak"
+  },
+  "audit_last_checked_at": "2026-03-19",
+  "source_validation_summary": {
+    "cross_validation_status": "strong",
+    "cross_validation_score": 10,
+    "issues": [],
+    "warnings": [
+      "tax_rules_not_detected"
+    ]
+  },
+  "last_deep_extract_at": "2026-03-19",
+  "deep_fetch_summary": {
+    "evidence_count": 4,
+    "text_source_count": 4,
+    "merged_country_mode": true,
+    "import_signal_count": 2,
+    "tax_signal_count": 0,
+    "legal_signal_count": 2
+  },
+  "policy_signals": {
+    "used_vehicle_import_allowed": "signal_detected",
+    "tax_rules_present": false,
+    "legal_basis_present": true
+  }
+}

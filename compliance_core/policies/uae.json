@@ -1,0 +1,173 @@
+{
+  "metadata": {
+    "country": "United Arab Emirates",
+    "regulation_version": "2026.01",
+    "issuing_authority": "UAE Federal Customs Authority",
+    "jurisdiction": "Federal",
+    "effective_date": "2026-01-01",
+    "last_review_date": "2026-02-01",
+    "review_cycle": "90 days",
+    "data_confidence_level": "official"
+  },
+
+  "allowed_import": {
+    "value": {
+      "used_vehicles_allowed": true
+    },
+    "sources": [
+      {
+        "title": "UAE Federal Customs - Vehicle Import Regulations",
+        "url": "https://www.fca.gov.ae",
+        "issuing_authority": "Federal Customs Authority",
+        "mandatory": true,
+        "waiver_possible": false,
+        "penalty_description": "Vehicle denied entry if not compliant",
+        "last_checked": "2026-03-01"
+      }
+    ]
+  },
+
+  "vehicle_age_limit": {
+    "value": {
+      "max_age": 5
+    },
+    "sources": [
+      {
+        "title": "UAE RTA Used Vehicle Import Age Policy",
+        "url": "https://www.rta.ae",
+        "issuing_authority": "RTA",
+        "mandatory": true,
+        "waiver_possible": true,
+        "penalty_description": "Vehicle may fail registration",
+        "last_checked": "2026-03-01"
+      }
+    ]
+  },
+
+  "steering_requirement": {
+    "value": {
+      "allowed": ["LHD"]
+    },
+    "sources": [
+      {
+        "title": "UAE Steering Compliance Standard",
+        "url": "https://www.esma.gov.ae",
+        "issuing_authority": "ESMA",
+        "mandatory": true,
+        "waiver_possible": false,
+        "penalty_description": "Registration rejected",
+        "last_checked": "2026-03-01"
+      }
+    ]
+  },
+
+  "emission_requirement": {
+    "value": {
+      "standard": "GCC"
+    },
+    "sources": [
+      {
+        "title": "GCC Vehicle Emission Standards",
+        "url": "https://www.gcc-sg.org",
+        "issuing_authority": "GCC Standardization Organization",
+        "mandatory": true,
+        "waiver_possible": false,
+        "penalty_description": "Customs clearance denied",
+        "last_checked": "2026-03-01"
+      }
+    ]
+  },
+
+  "fuel_policy": {
+    "value": {
+      "allowed_fuel_types": ["Petrol", "Diesel", "Hybrid", "Electric"]
+    },
+    "sources": [
+      {
+        "title": "UAE Import Fuel Compliance Policy",
+        "url": "https://www.fca.gov.ae",
+        "issuing_authority": "Federal Customs Authority",
+        "mandatory": true,
+        "waiver_possible": false,
+        "penalty_description": "Import blocked",
+        "last_checked": "2026-03-01"
+      }
+    ]
+  },
+
+  "engine_displacement_policy": {
+    "value": {
+      "max_displacement": null
+    },
+    "sources": []
+  },
+
+  "prohibited_vehicle_policy": {
+    "value": {
+      "accident_vehicle_allowed": false,
+      "flood_vehicle_allowed": false
+    },
+    "sources": [
+      {
+        "title": "UAE Accident and Flood Vehicle Ban",
+        "url": "https://www.rta.ae",
+        "issuing_authority": "RTA",
+        "mandatory": true,
+        "waiver_possible": false,
+        "penalty_description": "Permanent import ban",
+        "last_checked": "2026-03-01"
+      }
+    ]
+  },
+
+  "certification_policy": {
+    "value": {
+      "gcc_required": true
+    },
+    "sources": [
+      {
+        "title": "UAE Vehicle Certification Requirement",
+        "url": "https://www.esma.gov.ae",
+        "issuing_authority": "ESMA",
+        "mandatory": true,
+        "waiver_possible": false,
+        "penalty_description": "Vehicle cannot be registered",
+        "last_checked": "2026-03-01"
+      }
+    ]
+  },
+
+  "tax_policy": {
+    "value": {
+      "customs_duty_percent": 5,
+      "vat_percent": 5
+    },
+    "sources": [
+      {
+        "title": "UAE Customs Duty and VAT on Vehicles",
+        "url": "https://tax.gov.ae",
+        "issuing_authority": "Federal Tax Authority",
+        "mandatory": true,
+        "waiver_possible": false,
+        "penalty_description": "Additional financial penalties",
+        "last_checked": "2026-03-01"
+      }
+    ]
+  },
+
+  "usage_policy": {
+    "value": {
+      "personal_use_allowed": true,
+      "commercial_use_allowed": true
+    },
+    "sources": []
+  },
+
+  "port_policy": {
+    "value": {
+      "inspection_required": true
+    },
+    "sources": []
+  }
+}
+

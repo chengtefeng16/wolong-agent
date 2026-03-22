@@ -1,0 +1,19 @@
+{
+  "phone": "+70000000000",
+  "customer_name": "Demo Customer",
+  "country": "哈萨克斯坦",
+  "channel": "whatsapp",
+  "bucket": "疑似车商",
+  "destination": "",
+  "crm_status": "pending_export",
+  "summary": "客户有批量采购意图，需要人工继续判断。",
+  "wants": [],
+  "conditions": [],
+  "messages": [
+    {
+      "role": "customer",
+      "text": "Need Prado and Camry, maybe 5 units.",
+      "time": "2026-03-15 20:49:44"
+    }
+  ]
+}

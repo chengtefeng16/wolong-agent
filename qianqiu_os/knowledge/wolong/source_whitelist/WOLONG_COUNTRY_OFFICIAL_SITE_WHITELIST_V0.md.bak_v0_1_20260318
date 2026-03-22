@@ -1,0 +1,159 @@
+# 卧龙 Agent 国家级官方站点白名单（V0）
+
+## 说明
+本白名单用于国家政策法规 source discovery。
+原则：
+- 仅优先纳入已核过的官方站点
+- 未核稳的国家先标记 pending_verification
+- 后续继续补 customs / tax / law_db / trade / transport 各维度
+
+---
+
+## Algeria / 阿尔及利亚
+- language_family: fr_ar
+- status: partial_verified
+
+### verified
+- commerce.gov.dz
+  - 类型：trade / commerce ministry
+  - 备注：阿尔及利亚商务部门官方站点
+- joradp.dz
+  - 类型：official_gazette_or_law_db
+  - 备注：优先作为官方公报 / 法令来源（待补具体常用入口）
+- douane.gov.dz
+  - 类型：customs
+  - 备注：待进一步补常用车辆进口入口页
+- impots.gov.dz
+  - 类型：tax_or_revenue
+  - 备注：待进一步补常用税费说明入口页
+
+---
+
+## Saudi Arabia / 沙特阿拉伯
+- language_family: ar_en
+- status: verified_core
+
+### verified
+- zatca.gov.sa
+  - 类型：customs / tax_or_revenue
+  - 备注：车辆进口个人服务、关务与税务核心官方站点
+
+---
+
+## United Arab Emirates / 阿联酋
+- language_family: ar_en
+- status: verified_core
+
+### verified
+- moiat.gov.ae
+  - 类型：transport_or_industry_or_trade / vehicle regulatory guidance
+  - 备注：进口二手车相关服务与咨询入口
+- dubaicustoms.gov.ae
+  - 类型：customs
+  - 备注：Dubai Customs 官方域名，后续补具体车辆进口入口
+- abudhabicustoms.gov.ae
+  - 类型：customs
+  - 备注：Abu Dhabi Customs 官方域名，后续补具体入口
+
+---
+
+## Ghana / 加纳
+- language_family: en
+- status: verified_core
+
+### verified
+- gragh.gov.gh
+  - 类型：customs / tax_or_revenue
+  - 备注：Ghana Revenue Authority 官方域名，Customs Division 属其体系
+
+---
+
+## Mexico / 墨西哥
+- language_family: es
+- status: verified_core
+
+### verified
+- sat.gob.mx
+  - 类型：tax_or_revenue / customs
+  - 备注：SAT 官方域名，含外贸/海关相关 trámites 与规则入口
+- anam.gob.mx
+  - 类型：customs
+  - 备注：Agencia Nacional de Aduanas de México，后续补具体车辆进口入口
+- dof.gob.mx
+  - 类型：official_gazette_or_law_db
+  - 备注：Diario Oficial de la Federación
+
+---
+
+## Kazakhstan / 哈萨克斯坦
+- language_family: kk_ru
+- status: verified_core
+
+### verified
+- egov.kz
+  - 类型：customs / state service portal
+  - 备注：可查车辆报关/车辆声明等政务入口
+- adilet.zan.kz
+  - 类型：official_gazette_or_law_db
+  - 备注：官方法律信息系统
+- kgd.gov.kz
+  - 类型：tax_or_revenue / customs
+  - 备注：State Revenue Committee 域名，后续补具体车辆进口入口
+
+---
+
+## Uzbekistan / 乌兹别克斯坦
+- language_family: uz_ru
+- status: verified_core
+
+### verified
+- customs.uz
+  - 类型：customs
+  - 备注：国家海关委员会官方域名（当前可见 old.customs.uz）
+- lex.uz
+  - 类型：official_gazette_or_law_db
+  - 备注：官方法律数据库
+- soliq.uz
+  - 类型：tax_or_revenue
+  - 备注：税务系统域名，后续补具体入口
+
+---
+
+## Armenia / 亚美尼亚
+- language_family: hy_ru
+- status: pending_verification
+
+### pending
+- customs / revenue / legal portal
+  - 备注：待核稳官方域名后再写入白名单
+
+---
+
+## Kyrgyzstan / 吉尔吉斯斯坦
+- language_family: ky_ru
+- status: pending_verification
+
+### pending
+- customs / tax / legal portal
+  - 备注：待核稳官方域名后再写入白名单
+
+---
+
+## Tajikistan / 塔吉克斯坦
+- language_family: tg_ru
+- status: pending_verification
+
+### pending
+- customs / tax / legal portal
+  - 备注：待核稳官方域名后再写入白名单
+
+---
+
+## Turkmenistan / 土库曼斯坦
+- language_family: tk_ru
+- status: pending_verification
+
+### pending
+- customs / tax / legal portal
+  - 备注：待核稳官方域名后再写入白名单
+

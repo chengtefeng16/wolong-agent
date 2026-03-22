@@ -1,0 +1,102 @@
+from __future__ import annotations
+
+import json
+from datetime import datetime
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parents[1]
+PROJECT_ROOT = BASE_DIR.parents[0]
+
+SRC_FILES = [
+    ("constitution_layer", PROJECT_ROOT / "PROJECT_CONSTITUTION.md", "对话宪法层"),
+    ("memo_layer", PROJECT_ROOT / "PROJECT_MEMO.md", "项目备忘层"),
+    ("check_layer", PROJECT_ROOT / "PROJECT_CHECKLIST.md", "check 层"),
+]
+
+OPTIONAL_FILES = [
+    ("time_layer", PROJECT_ROOT / "qianqiu_os" / "project_memory" / "TIME_LOGIC_EXECUTION_SUMMARY_20260314.md", "时间层"),
+]
+
+EXPORT_DIR = BASE_DIR / "runtime_exports" / "daily_layers"
+INDEX_PATH = BASE_DIR / "runtime_exports" / "export_index_latest.json"
+
+def _read_text(path: Path) -> str:
+    if not path.exists():
+        return f"# MISSING\n\n未找到文件：{path}\n"
+    return path.read_text(encoding="utf-8", errors="ignore")
+
+def _write_text(path: Path, text: str):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(text, encoding="utf-8")
+
+def _read_json(path: Path, default):
+    if not path.exists():
+        return default
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return default
+
+def _write_json(path: Path, data):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+
+def generate():
+    now = datetime.now()
+    ts = now.strftime("%Y%m%d_%H%M%S")
+
+    sections = []
+    for key, path, title in SRC_FILES + OPTIONAL_FILES:
+        body = _read_text(path)
+        sections.append({
+            "key": key,
+            "title": title,
+            "source_path": str(path),
+            "content": body,
+        })
+
+    merged_lines = [
+        "# 每日四层交付汇总",
+        "",
+        f"- generated_at: {now.strftime('%Y-%m-%d %H:%M:%S')}",
+        "",
+    ]
+
+    for sec in sections:
+        merged_lines.extend([
+            f"## {sec['title']}",
+            "",
+            f"- source_path: {sec['source_path']}",
+            "",
+            sec["content"],
+            "",
+        ])
+
+    md_path = EXPORT_DIR / f"daily_layers_export_{ts}.md"
+    latest_md_path = EXPORT_DIR / "daily_layers_export_latest.md"
+    _write_text(md_path, "\n".join(merged_lines))
+    _write_text(latest_md_path, "\n".join(merged_lines))
+
+    index = _read_json(INDEX_PATH, {})
+    index["latest_daily_layers_export"] = {
+        "md_path": str(md_path),
+        "latest_path": str(latest_md_path),
+        "generated_at": now.strftime("%Y-%m-%d %H:%M:%S"),
+        "sections": [
+            {"key": sec["key"], "title": sec["title"], "source_path": sec["source_path"]}
+            for sec in sections
+        ],
+    }
+    _write_json(INDEX_PATH, index)
+
+    return {
+        "success": True,
+        "task": "daily_layers_export",
+        "export_path": str(md_path),
+        "latest_path": str(latest_md_path),
+        "generated_at": now.strftime("%Y-%m-%d %H:%M:%S"),
+        "section_count": len(sections),
+    }
+
+if __name__ == "__main__":
+    print(json.dumps(generate(), ensure_ascii=False, indent=2))

@@ -1,0 +1,16 @@
+{
+  "logged_at": "2026-03-15 20:52:28",
+  "customer_id": "cust_demo_001",
+  "session_id": "wa_session_demo_001",
+  "send_text": "Hello from WhatsApp adapter.",
+  "result": {
+    "success": false,
+    "channel": "whatsapp",
+    "delivery_status": "pending_manual",
+    "provider_message_id": null,
+    "error_code": "adapter_disabled",
+    "error_message": "real channel adapter is disabled",
+    "retryable": false,
+    "fallback_action": "human_review"
+  }
+}

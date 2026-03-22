@@ -1,0 +1,39 @@
+{
+  "meta": {
+    "schema_version": "1.0",
+    "updated_at": "2026-02-15",
+    "source": "manual_seed",
+    "notes": "Example only. Replace with verified rules."
+  },
+  "country": {
+    "name": "Algeria",
+    "aliases": [
+      "DZ",
+      "Algerie",
+      "الجزائر"
+    ]
+  },
+  "rules": {
+    "vehicle_age_max_years": 3,
+    "allowed_fuel": [
+      "gasoline",
+      "hybrid",
+      "electric"
+    ],
+    "blocked_fuel": [
+      "diesel"
+    ],
+    "left_hand_drive_only": true,
+    "right_hand_drive_only": false,
+    "diesel_restrictions": {
+      "enabled": true,
+      "notes": "Diesel is commonly restricted in some cases (example rule). Verify before quoting."
+    },
+    "notes_to_customer": [
+      "We will double-check Algeria import requirements (age/fuel/other) before proposing final options."
+    ]
+  },
+  "policy_meta": {
+    "draft_generated_at": "2026-02-16 08:59:16"
+  }
+}

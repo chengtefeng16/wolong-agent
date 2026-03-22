@@ -1,0 +1,23 @@
+{
+  "country_file": "turkmenistan.json",
+  "audit_status": "audit_pass_with_warning",
+  "cross_validation_status": "strong",
+  "cross_validation_score": 10,
+  "issues": [],
+  "warnings": [
+    "tax_rules_not_detected"
+  ],
+  "audit_last_checked_at": "2026-03-19",
+  "deep_fetch_summary": {
+    "evidence_count": 1,
+    "text_source_count": 1,
+    "import_signal_count": 1,
+    "tax_signal_count": 0,
+    "legal_signal_count": 2
+  },
+  "policy_signals": {
+    "used_vehicle_import_allowed": "signal_detected",
+    "tax_rules_present": false,
+    "legal_basis_present": true
+  }
+}

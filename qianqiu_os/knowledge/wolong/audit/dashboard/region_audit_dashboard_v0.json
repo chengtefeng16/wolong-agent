@@ -1,0 +1,233 @@
+{
+  "total_regions": 4,
+  "regions": [
+    {
+      "region_pack": "africa",
+      "country_count": 2,
+      "human_review_needed_count": 2,
+      "audit_status_counts": {
+        "audit_restricted": 2
+      },
+      "cross_validation_counts": {
+        "weak": 1,
+        "medium": 1
+      },
+      "total_source_count": 2,
+      "avg_cross_validation_score": 2.5,
+      "max_issues_count": 0,
+      "max_warnings_count": 3,
+      "countries": [
+        {
+          "country_name_en": "Algeria",
+          "country_name_zh": "阿尔及利亚",
+          "region_pack": "africa",
+          "audit_status": "audit_restricted",
+          "human_review_needed": true,
+          "cross_validation_status": "weak",
+          "cross_validation_score": 2,
+          "issues_count": 0,
+          "warnings_count": 3,
+          "source_count": 1,
+          "next_small_update_due": "2026-03-21",
+          "next_major_update_due": "2026-03-25"
+        },
+        {
+          "country_name_en": "Ghana",
+          "country_name_zh": "加纳",
+          "region_pack": "africa",
+          "audit_status": "audit_restricted",
+          "human_review_needed": true,
+          "cross_validation_status": "medium",
+          "cross_validation_score": 3,
+          "issues_count": 0,
+          "warnings_count": 2,
+          "source_count": 1,
+          "next_small_update_due": "2026-03-21",
+          "next_major_update_due": "2026-03-25"
+        }
+      ],
+      "region_priority": "P1"
+    },
+    {
+      "region_pack": "central_asia",
+      "country_count": 6,
+      "human_review_needed_count": 6,
+      "audit_status_counts": {
+        "audit_restricted": 6
+      },
+      "cross_validation_counts": {
+        "weak": 6
+      },
+      "total_source_count": 6,
+      "avg_cross_validation_score": 1.83,
+      "max_issues_count": 0,
+      "max_warnings_count": 3,
+      "countries": [
+        {
+          "country_name_en": "Armenia",
+          "country_name_zh": "亚美尼亚",
+          "region_pack": "central_asia",
+          "audit_status": "audit_restricted",
+          "human_review_needed": true,
+          "cross_validation_status": "weak",
+          "cross_validation_score": 2,
+          "issues_count": 0,
+          "warnings_count": 3,
+          "source_count": 1,
+          "next_small_update_due": "2026-03-21",
+          "next_major_update_due": "2026-03-25"
+        },
+        {
+          "country_name_en": "Kazakhstan",
+          "country_name_zh": "哈萨克斯坦",
+          "region_pack": "central_asia",
+          "audit_status": "audit_restricted",
+          "human_review_needed": true,
+          "cross_validation_status": "weak",
+          "cross_validation_score": 1,
+          "issues_count": 0,
+          "warnings_count": 3,
+          "source_count": 1,
+          "next_small_update_due": "2026-03-21",
+          "next_major_update_due": "2026-03-25"
+        },
+        {
+          "country_name_en": "Kyrgyzstan",
+          "country_name_zh": "吉尔吉斯斯坦",
+          "region_pack": "central_asia",
+          "audit_status": "audit_restricted",
+          "human_review_needed": true,
+          "cross_validation_status": "weak",
+          "cross_validation_score": 2,
+          "issues_count": 0,
+          "warnings_count": 3,
+          "source_count": 1,
+          "next_small_update_due": "2026-03-21",
+          "next_major_update_due": "2026-03-25"
+        },
+        {
+          "country_name_en": "Tajikistan",
+          "country_name_zh": "塔吉克斯坦",
+          "region_pack": "central_asia",
+          "audit_status": "audit_restricted",
+          "human_review_needed": true,
+          "cross_validation_status": "weak",
+          "cross_validation_score": 2,
+          "issues_count": 0,
+          "warnings_count": 3,
+          "source_count": 1,
+          "next_small_update_due": "2026-03-21",
+          "next_major_update_due": "2026-03-25"
+        },
+        {
+          "country_name_en": "Turkmenistan",
+          "country_name_zh": "土库曼斯坦",
+          "region_pack": "central_asia",
+          "audit_status": "audit_restricted",
+          "human_review_needed": true,
+          "cross_validation_status": "weak",
+          "cross_validation_score": 2,
+          "issues_count": 0,
+          "warnings_count": 3,
+          "source_count": 1,
+          "next_small_update_due": "2026-03-21",
+          "next_major_update_due": "2026-03-25"
+        },
+        {
+          "country_name_en": "Uzbekistan",
+          "country_name_zh": "乌兹别克斯坦",
+          "region_pack": "central_asia",
+          "audit_status": "audit_restricted",
+          "human_review_needed": true,
+          "cross_validation_status": "weak",
+          "cross_validation_score": 2,
+          "issues_count": 0,
+          "warnings_count": 3,
+          "source_count": 1,
+          "next_small_update_due": "2026-03-21",
+          "next_major_update_due": "2026-03-25"
+        }
+      ],
+      "region_priority": "P1"
+    },
+    {
+      "region_pack": "latin_america",
+      "country_count": 1,
+      "human_review_needed_count": 1,
+      "audit_status_counts": {
+        "audit_restricted": 1
+      },
+      "cross_validation_counts": {
+        "medium": 1
+      },
+      "total_source_count": 1,
+      "avg_cross_validation_score": 3.0,
+      "max_issues_count": 0,
+      "max_warnings_count": 2,
+      "countries": [
+        {
+          "country_name_en": "Mexico",
+          "country_name_zh": "墨西哥",
+          "region_pack": "latin_america",
+          "audit_status": "audit_restricted",
+          "human_review_needed": true,
+          "cross_validation_status": "medium",
+          "cross_validation_score": 3,
+          "issues_count": 0,
+          "warnings_count": 2,
+          "source_count": 1,
+          "next_small_update_due": "2026-03-21",
+          "next_major_update_due": "2026-03-25"
+        }
+      ],
+      "region_priority": "P1"
+    },
+    {
+      "region_pack": "middle_east",
+      "country_count": 2,
+      "human_review_needed_count": 2,
+      "audit_status_counts": {
+        "audit_restricted": 2
+      },
+      "cross_validation_counts": {
+        "weak": 1,
+        "medium": 1
+      },
+      "total_source_count": 2,
+      "avg_cross_validation_score": 2.5,
+      "max_issues_count": 0,
+      "max_warnings_count": 3,
+      "countries": [
+        {
+          "country_name_en": "Saudi Arabia",
+          "country_name_zh": "沙特阿拉伯",
+          "region_pack": "middle_east",
+          "audit_status": "audit_restricted",
+          "human_review_needed": true,
+          "cross_validation_status": "weak",
+          "cross_validation_score": 2,
+          "issues_count": 0,
+          "warnings_count": 3,
+          "source_count": 1,
+          "next_small_update_due": "2026-03-21",
+          "next_major_update_due": "2026-03-25"
+        },
+        {
+          "country_name_en": "United Arab Emirates",
+          "country_name_zh": "阿联酋",
+          "region_pack": "middle_east",
+          "audit_status": "audit_restricted",
+          "human_review_needed": true,
+          "cross_validation_status": "medium",
+          "cross_validation_score": 3,
+          "issues_count": 0,
+          "warnings_count": 2,
+          "source_count": 1,
+          "next_small_update_due": "2026-03-21",
+          "next_major_update_due": "2026-03-25"
+        }
+      ],
+      "region_priority": "P1"
+    }
+  ]
+}

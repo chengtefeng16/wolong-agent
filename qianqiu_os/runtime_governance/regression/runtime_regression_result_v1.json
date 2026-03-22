@@ -1,0 +1,165 @@
+{
+  "checked_at": "2026-03-15 21:23:39",
+  "suite_name": "runtime_regression_suite_v1",
+  "overall_status": "passed",
+  "passed_count": 23,
+  "failed_count": 0,
+  "checks": [
+    {
+      "name": "active_config_exists",
+      "passed": true,
+      "detail": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_governance/delegation_active_config.json"
+    },
+    {
+      "name": "whatsapp_control_exists",
+      "passed": true,
+      "detail": "whatsapp_control found"
+    },
+    {
+      "name": "readonly_baseline",
+      "passed": true,
+      "detail": {
+        "ingress_mode": "readonly",
+        "auto_reply": false,
+        "auto_dispatch": false
+      }
+    },
+    {
+      "name": "preview_module_exists",
+      "passed": true,
+      "detail": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/services/h5_delegation_active_config_preview_v1.py"
+    },
+    {
+      "name": "runtime_index_exists",
+      "passed": true,
+      "detail": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_sessions/whatsapp/conversation_index.json"
+    },
+    {
+      "name": "runtime_views_sync_runs",
+      "passed": true,
+      "detail": {
+        "success": true,
+        "dashboard_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_views/h5_dashboard_whatsapp.json",
+        "control_snapshot_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_views/whatsapp_control_snapshot.json",
+        "customer_count": 4
+      }
+    },
+    {
+      "name": "dashboard_exists",
+      "passed": true,
+      "detail": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_views/h5_dashboard_whatsapp.json"
+    },
+    {
+      "name": "control_snapshot_exists",
+      "passed": true,
+      "detail": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_views/whatsapp_control_snapshot.json"
+    },
+    {
+      "name": "control_snapshot_matches_active_config",
+      "passed": true,
+      "detail": {
+        "active": {
+          "ingress_mode": "readonly",
+          "auto_classify": true,
+          "auto_tagging": true,
+          "h5_visible": true,
+          "auto_reply": false,
+          "auto_dispatch": false
+        },
+        "snapshot": {
+          "ingress_mode": "readonly",
+          "auto_classify": true,
+          "auto_tagging": true,
+          "h5_visible": true,
+          "auto_reply": false,
+          "auto_dispatch": false
+        }
+      }
+    },
+    {
+      "name": "dashboard_has_runtime_customers",
+      "passed": true,
+      "detail": {
+        "customer_count": 4
+      }
+    },
+    {
+      "name": "delivery_logs_dir_exists",
+      "passed": true,
+      "detail": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_governance/delivery_logs"
+    },
+    {
+      "name": "manual_takeover_dir_exists",
+      "passed": true,
+      "detail": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_governance/manual_takeover_tickets"
+    },
+    {
+      "name": "customer_memory_exists",
+      "passed": true,
+      "detail": {
+        "memory_profile_count": 1
+      }
+    },
+    {
+      "name": "crm_export_exists",
+      "passed": true,
+      "detail": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/crm/crm_export_latest.json"
+    },
+    {
+      "name": "crm_export_has_items",
+      "passed": true,
+      "detail": {
+        "crm_export_count": 1
+      }
+    },
+    {
+      "name": "alert_latest_exists",
+      "passed": true,
+      "detail": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_alerts/runtime_alerts_latest.json"
+    },
+    {
+      "name": "alert_latest_has_items",
+      "passed": true,
+      "detail": {
+        "alert_count": 3
+      }
+    },
+    {
+      "name": "reflection_latest_exists",
+      "passed": true,
+      "detail": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_learning/reflection/reflection_learning_latest.json"
+    },
+    {
+      "name": "reflection_has_learning_points",
+      "passed": true,
+      "detail": {
+        "learning_count": 4
+      }
+    },
+    {
+      "name": "self_healing_latest_exists",
+      "passed": true,
+      "detail": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_healing/self_healing_latest.json"
+    },
+    {
+      "name": "self_healing_has_actions",
+      "passed": true,
+      "detail": {
+        "action_count": 5
+      }
+    },
+    {
+      "name": "knowledge_graph_latest_exists",
+      "passed": true,
+      "detail": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_knowledge/knowledge_graph_latest.json"
+    },
+    {
+      "name": "knowledge_graph_has_nodes_and_edges",
+      "passed": true,
+      "detail": {
+        "node_count": 6,
+        "edge_count": 5
+      }
+    }
+  ]
+}

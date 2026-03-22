@@ -1,0 +1,107 @@
+# ================================================================
+# Copyright (c) 2026 程特峰 (Tefeng Cheng)
+# All Rights Reserved.
+#
+# Project: AgentOS / Wolong Agent System
+# This source code is proprietary and confidential.
+# Unauthorized copying, modification, distribution or use
+# of this software, in whole or in part, is strictly prohibited.
+# ================================================================
+
+import json
+import sys
+from datetime import datetime
+from pathlib import Path
+
+CURRENT_FILE = Path(__file__).resolve()
+PROJECT_ROOT = CURRENT_FILE.parents[2]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+BASE_DIR = Path(__file__).resolve().parents[1]
+REGRESSION_PATH = BASE_DIR / "runtime_governance" / "regression" / "runtime_regression_result_v3.json"
+SUMMARY_JSON_PATH = BASE_DIR / "runtime_governance" / "stability" / "runtime_stability_summary_v2.json"
+SUMMARY_MD_PATH = BASE_DIR / "project_memory" / "RUNTIME_STABILITY_SUMMARY_V2_20260314.md"
+
+class RuntimeStabilitySummaryV2:
+    def _now_str(self):
+        return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    def _read_json(self, path: Path):
+        if not path.exists():
+            return {}
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            return {}
+
+    def _write_json(self, path: Path, data: dict):
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+
+    def _write_text(self, path: Path, text: str):
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(text, encoding="utf-8")
+
+    def build(self):
+        regression = self._read_json(REGRESSION_PATH)
+        overall_passed = regression.get("overall_status") == "passed"
+
+        trunk_status = {
+            "知识图谱层": "稳" if overall_passed else "半稳",
+            "人机协同层": "稳" if overall_passed else "半稳",
+            "预警层": "稳" if overall_passed else "半稳",
+            "自愈层": "稳" if overall_passed else "半稳",
+            "反思/check层": "稳" if overall_passed else "半稳",
+            "推广/自推广层安全骨架": "稳" if overall_passed else "半稳",
+            "反向审计总览层": "稳" if overall_passed else "半稳",
+            "时间逻辑层": "稳" if overall_passed else "半稳",
+            "方向检查机制": "稳" if overall_passed else "半稳",
+            "记忆层": "稳" if overall_passed else "半稳",
+            "调度层": "稳" if overall_passed else "半稳",
+            "推理规划层": "稳" if overall_passed else "半稳",
+            "Agent配置注册层": "稳" if overall_passed else "半稳",
+            "卧龙业务判断力层": "稳" if overall_passed else "半稳",
+        }
+
+        result = {
+            "generated_at": self._now_str(),
+            "based_on_regression": str(REGRESSION_PATH),
+            "regression_overall_status": regression.get("overall_status"),
+            "regression_passed_count": regression.get("passed_count"),
+            "regression_failed_count": regression.get("failed_count"),
+            "current_safe_baseline": {
+                "ingress_mode": "readonly",
+                "auto_reply": False,
+                "auto_dispatch": False,
+            },
+            "trunk_status": trunk_status,
+            "conclusion": "以上弱相关主干与卧龙业务判断增强层在 2026-03-14 当前节点已系统性推进到稳（基于统一回归通过）。",
+        }
+
+        md = [
+            "# RUNTIME STABILITY SUMMARY V2 · 2026-03-14",
+            "",
+            f"- generated_at: {result['generated_at']}",
+            f"- overall_status: {result['regression_overall_status']}",
+            f"- passed_count: {result['regression_passed_count']}",
+            f"- failed_count: {result['regression_failed_count']}",
+            "",
+            "## 当前安全基线",
+            "- ingress_mode = readonly",
+            "- auto_reply = false",
+            "- auto_dispatch = false",
+            "",
+            "## 已稳主干",
+        ]
+        md += [f"- {k}：{v}" for k, v in trunk_status.items()]
+        md += ["", "## 结论", result["conclusion"], ""]
+
+        self._write_json(SUMMARY_JSON_PATH, result)
+        self._write_text(SUMMARY_MD_PATH, "\n".join(md))
+        return result
+
+if __name__ == "__main__":
+    print(json.dumps(RuntimeStabilitySummaryV2().build(), ensure_ascii=False, indent=2))

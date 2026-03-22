@@ -1,0 +1,2067 @@
+{
+  "run_id": "site_search_run_2026-03-19",
+  "run_time": "2026-03-19",
+  "snapshot_date": "2026-03-18",
+  "site_count": 15,
+  "total_candidate_links": 1588,
+  "total_keyword_hit_links": 447,
+  "results": [
+    {
+      "country_slug": "algeria",
+      "domain": "commerce.gov.dz",
+      "html_file": "commerce.gov.dz__root.html",
+      "meta_file": "commerce.gov.dz__root.meta.json",
+      "candidate_link_count": 186,
+      "keyword_hit_link_count": 13,
+      "top_links": [
+        {
+          "url": "http://www.commerce.gov.dz/avis/collection/avis-douverture-de-licence-dimportation",
+          "path": "/avis/collection/avis-douverture-de-licence-dimportation",
+          "keyword_hits": [
+            "import"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://commerce.gov.dz/avis/profil/importateur",
+          "path": "/avis/profil/importateur",
+          "keyword_hits": [
+            "import"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://commerce.gov.dz/listing-des-autorites-de-regulation",
+          "path": "/listing-des-autorites-de-regulation",
+          "keyword_hits": [
+            "regulation"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://commerce.gov.dz/organigramme-du-ministere-du-commerce-interieur-et-de-la-regulation-de-marche-national",
+          "path": "/organigramme-du-ministere-du-commerce-interieur-et-de-la-regulation-de-marche-national",
+          "keyword_hits": [
+            "regulation"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://commerce.gov.dz/reseau-de-distribution",
+          "path": "/reseau-de-distribution",
+          "keyword_hits": [
+            "tribut"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://commerce.gov.dz/rubriques/autorisation-preabale-a-la-fabrication-et-a-l-importation-des-produits-cosmetiques",
+          "path": "/rubriques/autorisation-preabale-a-la-fabrication-et-a-l-importation-des-produits-cosmetiques",
+          "keyword_hits": [
+            "import"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://commerce.gov.dz/rubriques/autorisation-preabale-a-la-fabrication-et-a-l-importation-des-produits-toxiques",
+          "path": "/rubriques/autorisation-preabale-a-la-fabrication-et-a-l-importation-des-produits-toxiques",
+          "keyword_hits": [
+            "import"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://commerce.gov.dz/rubriques/distribution",
+          "path": "/rubriques/distribution",
+          "keyword_hits": [
+            "tribut"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://commerce.gov.dz/rubriques/licences-d-importation-et-d-exportations",
+          "path": "/rubriques/licences-d-importation-et-d-exportations",
+          "keyword_hits": [
+            "import"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://commerce.gov.dz/slider/madame-amel-abdelatif-accompagnee-du-ministre-bielorusse-de-la-reglementation-anti-monopole-et-de-la-regulation-du-commerce-m-artur-karpovich-a-supervise-l-ouverture-du-forum-economique-algero-bielorusse",
+          "path": "/slider/madame-amel-abdelatif-accompagnee-du-ministre-bielorusse-de-la-reglementation-anti-monopole-et-de-la-regulation-du-commerce-m-artur-karpovich-a-supervise-l-ouverture-du-forum-economique-algero-bielorusse",
+          "keyword_hits": [
+            "regulation"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://commerce.gov.dz/suivi-du-lpc-production-et-distribution",
+          "path": "/suivi-du-lpc-production-et-distribution",
+          "keyword_hits": [
+            "tribut"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://import.commerce.gov.dz",
+          "path": "/",
+          "keyword_hits": [
+            "import"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://www.commerce.gov.dz/ar/rubriques/profil-importateur",
+          "path": "/ar/rubriques/profil-importateur",
+          "keyword_hits": [
+            "import"
+          ],
+          "score": 1
+        },
+        {
+          "url": "http://webmail.commerce.gov.dz",
+          "path": "/",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "http://www.algex.dz/",
+          "path": "/",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "http://www.caci.dz/ar/Pages/Accueil.aspx#openModal",
+          "path": "/ar/Pages/Accueil.aspx",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "http://www.cacqe.dz/",
+          "path": "/",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "http://www.cnrc.org.dz/ar",
+          "path": "/ar",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "http://www.commerce.gov.dz/avis/profil/exportateur",
+          "path": "/avis/profil/exportateur",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "http://www.commerce.gov.dz/avis/profil/operateur-economique",
+          "path": "/avis/profil/operateur-economique",
+          "keyword_hits": [],
+          "score": 0
+        }
+      ]
+    },
+    {
+      "country_slug": "algeria",
+      "domain": "joradp.dz",
+      "html_file": "joradp.dz__root.html",
+      "meta_file": "joradp.dz__root.meta.json",
+      "candidate_link_count": 2,
+      "keyword_hit_link_count": 0,
+      "top_links": [
+        {
+          "url": "https://joradp.dz/IMG/sgg.ico",
+          "path": "/IMG/sgg.ico",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://www.joradp.dz/HAR/Index.htm",
+          "path": "/HAR/Index.htm",
+          "keyword_hits": [],
+          "score": 0
+        }
+      ]
+    },
+    {
+      "country_slug": "armenia",
+      "domain": "arlis.am",
+      "html_file": "arlis.am__root.html",
+      "meta_file": "arlis.am__root.meta.json",
+      "candidate_link_count": 62,
+      "keyword_hit_link_count": 3,
+      "top_links": [
+        {
+          "url": "http://www.datalex.am/",
+          "path": "/",
+          "keyword_hits": [
+            "lex"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://wiselaw.am/",
+          "path": "/",
+          "keyword_hits": [
+            "law"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://www.finlex.am/",
+          "path": "/",
+          "keyword_hits": [
+            "lex"
+          ],
+          "score": 1
+        },
+        {
+          "url": "http://www.eaeunion.org/",
+          "path": "/",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "http://www.parliament.am/",
+          "path": "/",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://arlis.am/en/",
+          "path": "/en/",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://arlis.am/hy/",
+          "path": "/hy/",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://arlis.am/hy/about",
+          "path": "/hy/about",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://arlis.am/hy/account/login",
+          "path": "/hy/account/login",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://arlis.am/hy/acts/143723/latest",
+          "path": "/hy/acts/143723/latest",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://arlis.am/hy/acts/145009/latest",
+          "path": "/hy/acts/145009/latest",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://arlis.am/hy/acts/152139/latest",
+          "path": "/hy/acts/152139/latest",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://arlis.am/hy/acts/20/latest",
+          "path": "/hy/acts/20/latest",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://arlis.am/hy/acts/21354/latest",
+          "path": "/hy/acts/21354/latest",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://arlis.am/hy/acts/222508/latest",
+          "path": "/hy/acts/222508/latest",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://arlis.am/hy/acts/222512/latest",
+          "path": "/hy/acts/222512/latest",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://arlis.am/hy/acts/222514/latest",
+          "path": "/hy/acts/222514/latest",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://arlis.am/hy/acts/222515/latest",
+          "path": "/hy/acts/222515/latest",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://arlis.am/hy/acts/222516/latest",
+          "path": "/hy/acts/222516/latest",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://arlis.am/hy/acts/222517/latest",
+          "path": "/hy/acts/222517/latest",
+          "keyword_hits": [],
+          "score": 0
+        }
+      ]
+    },
+    {
+      "country_slug": "armenia",
+      "domain": "src.am",
+      "html_file": "src.am__root.html",
+      "meta_file": "src.am__root.meta.json",
+      "candidate_link_count": 110,
+      "keyword_hit_link_count": 2,
+      "top_links": [
+        {
+          "url": "https://src.am/am/legal",
+          "path": "/am/legal",
+          "keyword_hits": [
+            "legal"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://src.am/am/showDeclarationsPage/207",
+          "path": "/am/showDeclarationsPage/207",
+          "keyword_hits": [
+            "declaration"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://azdararir.am",
+          "path": "/",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://fonts.googleapis.com/css?family=Nunito",
+          "path": "/css",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://fonts.gstatic.com",
+          "path": "/",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://instagram.com/src_armenia?igshid=YmMyMTA2M2Y",
+          "path": "/src_armenia",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://src.am/am",
+          "path": "/am",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://src.am/am/contactPage/21",
+          "path": "/am/contactPage/21",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://src.am/am/ensuringSecurity/260",
+          "path": "/am/ensuringSecurity/260",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://src.am/am/getMenusContents/122",
+          "path": "/am/getMenusContents/122",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://src.am/am/getMenusContents/126",
+          "path": "/am/getMenusContents/126",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://src.am/am/getMenusContents/2007",
+          "path": "/am/getMenusContents/2007",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://src.am/am/getMenusContents/2013",
+          "path": "/am/getMenusContents/2013",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://src.am/am/getMenusContents/2015",
+          "path": "/am/getMenusContents/2015",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://src.am/am/getMenusContents/2017",
+          "path": "/am/getMenusContents/2017",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://src.am/am/getMenusContents/2018",
+          "path": "/am/getMenusContents/2018",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://src.am/am/getMenusContents/2019",
+          "path": "/am/getMenusContents/2019",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://src.am/am/getMenusContents/2020",
+          "path": "/am/getMenusContents/2020",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://src.am/am/getMenusContents/2025",
+          "path": "/am/getMenusContents/2025",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://src.am/am/getMenusContents/2030",
+          "path": "/am/getMenusContents/2030",
+          "keyword_hits": [],
+          "score": 0
+        }
+      ]
+    },
+    {
+      "country_slug": "kazakhstan",
+      "domain": "adilet.zan.kz",
+      "html_file": "adilet.zan.kz__root.html",
+      "meta_file": "adilet.zan.kz__root.meta.json",
+      "candidate_link_count": 306,
+      "keyword_hit_link_count": 1,
+      "top_links": [
+        {
+          "url": "https://adilet.zan.kz/kaz/histlawkz",
+          "path": "/kaz/histlawkz",
+          "keyword_hits": [
+            "law"
+          ],
+          "score": 1
+        },
+        {
+          "url": "http://www.adilet.gov.kz/kk",
+          "path": "/kk",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "http://www.adilet.gov.kz/ru",
+          "path": "/ru",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://adilet.zan.kz/#",
+          "path": "/",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://adilet.zan.kz/#header",
+          "path": "/",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://adilet.zan.kz/eng",
+          "path": "/eng",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://adilet.zan.kz/kaz",
+          "path": "/kaz",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://adilet.zan.kz/kaz/account",
+          "path": "/kaz/account",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://adilet.zan.kz/kaz/advertising",
+          "path": "/kaz/advertising",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://adilet.zan.kz/kaz/docs/G25CJ00402M",
+          "path": "/kaz/docs/G25CJ00402M",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://adilet.zan.kz/kaz/docs/G25UO00167A",
+          "path": "/kaz/docs/G25UO00167A",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://adilet.zan.kz/kaz/docs/G26NB00145A",
+          "path": "/kaz/docs/G26NB00145A",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://adilet.zan.kz/kaz/docs/G26UO00002A",
+          "path": "/kaz/docs/G26UO00002A",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://adilet.zan.kz/kaz/docs/K1400000226",
+          "path": "/kaz/docs/K1400000226",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://adilet.zan.kz/kaz/docs/K1400000231",
+          "path": "/kaz/docs/K1400000231",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://adilet.zan.kz/kaz/docs/K1400000235",
+          "path": "/kaz/docs/K1400000235",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://adilet.zan.kz/kaz/docs/K1500000375",
+          "path": "/kaz/docs/K1500000375",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://adilet.zan.kz/kaz/docs/K1500000377",
+          "path": "/kaz/docs/K1500000377",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://adilet.zan.kz/kaz/docs/K1500000414",
+          "path": "/kaz/docs/K1500000414",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://adilet.zan.kz/kaz/docs/K1700000120",
+          "path": "/kaz/docs/K1700000120",
+          "keyword_hits": [],
+          "score": 0
+        }
+      ]
+    },
+    {
+      "country_slug": "kazakhstan",
+      "domain": "egov.kz",
+      "html_file": "egov.kz__root.html",
+      "meta_file": "egov.kz__root.meta.json",
+      "candidate_link_count": 201,
+      "keyword_hit_link_count": 4,
+      "top_links": [
+        {
+          "url": "https://egov.kz/cms/kk/categories/bus_tax",
+          "path": "/cms/kk/categories/bus_tax",
+          "keyword_hits": [
+            "tax"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://egov.kz/cms/kk/information/help/tax_code",
+          "path": "/cms/kk/information/help/tax_code",
+          "keyword_hits": [
+            "tax"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://egov.kz/cms/kk/law",
+          "path": "/cms/kk/law",
+          "keyword_hits": [
+            "law"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://egov.kz/cms/kk/services/vehicle/pass_vip_number",
+          "path": "/cms/kk/services/vehicle/pass_vip_number",
+          "keyword_hits": [
+            "vehicle"
+          ],
+          "score": 1
+        },
+        {
+          "url": "http://1414.egov.kz/",
+          "path": "/",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "http://1414.egov.kz/kz",
+          "path": "/kz",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "http://egov.kz/cms/kk/articles/Politika-konfidencialnosti",
+          "path": "/cms/kk/articles/Politika-konfidencialnosti",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "http://idp.egov.kz/idp/r?ts=ELICENSE&url=https://elicense.kz",
+          "path": "/idp/r",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "http://idp.egov.kz/idp/r?ts=VS&url=http://office.sud.kz/new/",
+          "path": "/idp/r",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "http://pki.gov.kz/help/index.html",
+          "path": "/help/index.html",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "http://pki.gov.kz/index.php/kz/ncalayer",
+          "path": "/index.php/kz/ncalayer",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "http://vk.com/egovkz",
+          "path": "/egovkz",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "http://zan.gov.kz/client/",
+          "path": "/client/",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "http://zero.kz/?s=60995",
+          "path": "/",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://aisoip.adilet.gov.kz/debtors",
+          "path": "/debtors",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://appgallery.huawei.com/app/C103005905",
+          "path": "/app/C103005905",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://apps.apple.com/kz/app/egov-mobile/id1476128386",
+          "path": "/kz/app/egov-mobile/id1476128386",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://astanahub.com/ru/l/gup-grant-programs",
+          "path": "/ru/l/gup-grant-programs",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://bot.nitec.kz/static/widget/app.css",
+          "path": "/static/widget/app.css",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://cabinet.kgd.gov.kz/knp/main/index",
+          "path": "/knp/main/index",
+          "keyword_hits": [],
+          "score": 0
+        }
+      ]
+    },
+    {
+      "country_slug": "kyrgyzstan",
+      "domain": "customs.gov.kg",
+      "html_file": "customs.gov.kg__root.html",
+      "meta_file": "customs.gov.kg__root.meta.json",
+      "candidate_link_count": 23,
+      "keyword_hit_link_count": 22,
+      "top_links": [
+        {
+          "url": "https://customs.gov.kg/#",
+          "path": "/",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.gov.kg/site/ky/master/_/service/customskg/react4xp/shared.css",
+          "path": "/site/ky/master/_/service/customskg/react4xp/shared.css",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.gov.kg/site/ky/master/_/service/customskg/react4xp/site/layouts/section/section.css",
+          "path": "/site/ky/master/_/service/customskg/react4xp/site/layouts/section/section.css",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.gov.kg/site/ky/master/_/service/customskg/react4xp/site/parts/article/article.css",
+          "path": "/site/ky/master/_/service/customskg/react4xp/site/parts/article/article.css",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.gov.kg/site/ky/master/_/service/customskg/react4xp/site/parts/banner/banner.css",
+          "path": "/site/ky/master/_/service/customskg/react4xp/site/parts/banner/banner.css",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.gov.kg/site/ky/master/_/service/customskg/react4xp/site/parts/last-news/last-news.css",
+          "path": "/site/ky/master/_/service/customskg/react4xp/site/parts/last-news/last-news.css",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.gov.kg/site/ky/master/_/service/customskg/react4xp/site/parts/link/link.css",
+          "path": "/site/ky/master/_/service/customskg/react4xp/site/parts/link/link.css",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.gov.kg/site/ky/master/_/service/customskg/react4xp/site/parts/map/map.css",
+          "path": "/site/ky/master/_/service/customskg/react4xp/site/parts/map/map.css",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.gov.kg/site/ky/master/_/service/customskg/react4xp/site/parts/quotas/quotas.css",
+          "path": "/site/ky/master/_/service/customskg/react4xp/site/parts/quotas/quotas.css",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.gov.kg/site/ky/master/_/service/customskg/react4xp/vendors.css",
+          "path": "/site/ky/master/_/service/customskg/react4xp/vendors.css",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.gov.kg/site/ky/master/customskg/error404/_/image/50f69464-2cb1-4ad8-ac01-85b682e240c4:4a2c31bd6917fbc01430dfb35ecdf4d2c1512b2b/width-720/gts-logo.png",
+          "path": "/site/ky/master/customskg/error404/_/image/50f69464-2cb1-4ad8-ac01-85b682e240c4:4a2c31bd6917fbc01430dfb35ecdf4d2c1512b2b/width-720/gts-logo.png",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.gov.kg/site/ky/master/customskg/news/bazhy-kyzmatynyn-kinologdoru-vedomstvolor-aralyk-meldeshte-ch-altyn-zhana-bir-kmsh-medal-zheip-alyshty",
+          "path": "/site/ky/master/customskg/news/bazhy-kyzmatynyn-kinologdoru-vedomstvolor-aralyk-meldeshte-ch-altyn-zhana-bir-kmsh-medal-zheip-alyshty",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.gov.kg/site/ky/master/customskg/news/kulaktandyruu-talapkerlerdi-bashtapky-kesiptik-dajardoo-kurstaryna-zhnt-zhnnd",
+          "path": "/site/ky/master/customskg/news/kulaktandyruu-talapkerlerdi-bashtapky-kesiptik-dajardoo-kurstaryna-zhnt-zhnnd",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.gov.kg/site/ky/master/customskg/news/kyrgyz-respublikasynyn-finansy-ministrligine-karashtuu-mamlekettik-bazhy-kyzmatynyn-2024-zhyldyn-4-oktjabryndagy-35-10-438-bazhy-ishi-chjrsnd-yjgarym-ukuktuu-mamlekettik-organdyn-kadrlar-rezervin-tz-ehrezhelerin-bekit-zhnnd-bujrugu-menen-bekitilgen-dene-tarbija-dajardygy-bojuncha-normativderi",
+          "path": "/site/ky/master/customskg/news/kyrgyz-respublikasynyn-finansy-ministrligine-karashtuu-mamlekettik-bazhy-kyzmatynyn-2024-zhyldyn-4-oktjabryndagy-35-10-438-bazhy-ishi-chjrsnd-yjgarym-ukuktuu-mamlekettik-organdyn-kadrlar-rezervin-tz-ehrezhelerin-bekit-zhnnd-bujrugu-menen-bekitilgen-dene-tarbija-dajardygy-bojuncha-normativderi",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.gov.kg/site/ky/master/customskg/news/kyrgyzstan-menen-azerbajzhandyn-bazhy-kyzmattary-sanariptik-chechimder-zhaatyndagy-kyzmattashtykty-keejtd",
+          "path": "/site/ky/master/customskg/news/kyrgyzstan-menen-azerbajzhandyn-bazhy-kyzmattary-sanariptik-chechimder-zhaatyndagy-kyzmattashtykty-keejtd",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.gov.kg/site/ky/master/customskg/news/mamlekettik-bazhy-kyzmaty-rossija-federacijasynyn-rossija-bazhy-akademijasyna-zhana-anyn-filialdaryna-2026-2027-okuu-zhyldarga-kyrgyz-respublikasy-chn-berilgen-kvotalardyn-cheginde-talapkerler-chn-kabyl-aluunu-zharyjalajt",
+          "path": "/site/ky/master/customskg/news/mamlekettik-bazhy-kyzmaty-rossija-federacijasynyn-rossija-bazhy-akademijasyna-zhana-anyn-filialdaryna-2026-2027-okuu-zhyldarga-kyrgyz-respublikasy-chn-berilgen-kvotalardyn-cheginde-talapkerler-chn-kabyl-aluunu-zharyjalajt",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.gov.kg/site/ky/master/customskg/news/mamlekettik-bazhy-kyzmatynyn-borborduk-apparatynda-uluttuk-dem--djnlk-bijiktik-uguzholu-bojuncha-lekcija-tt",
+          "path": "/site/ky/master/customskg/news/mamlekettik-bazhy-kyzmatynyn-borborduk-apparatynda-uluttuk-dem--djnlk-bijiktik-uguzholu-bojuncha-lekcija-tt",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.gov.kg/site/ky/master/customskg/news/mbknyn-kadrdyk-rezervine-talapkerler-chn-z-aldyncha-okuu-chn-testtik-suroolor-zhana-adabijattardyn-tizmesi-16.09.2025-zh",
+          "path": "/site/ky/master/customskg/news/mbknyn-kadrdyk-rezervine-talapkerler-chn-z-aldyncha-okuu-chn-testtik-suroolor-zhana-adabijattardyn-tizmesi-16.09.2025-zh",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.gov.kg/site/ky/master/customskg/news/ministrler-kabinetinin-tragasy-torugart-tkr-punktun-modernizacijaloo-plandary-menen-taanyshty",
+          "path": "/site/ky/master/customskg/news/ministrler-kabinetinin-tragasy-torugart-tkr-punktun-modernizacijaloo-plandary-menen-taanyshty",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.gov.kg/site/ky/master/customskg/traganyn-kajryluusu",
+          "path": "/site/ky/master/customskg/traganyn-kajryluusu",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        }
+      ]
+    },
+    {
+      "country_slug": "mexico",
+      "domain": "sat.gob.mx",
+      "html_file": "sat.gob.mx__root.html",
+      "meta_file": "sat.gob.mx__root.meta.json",
+      "candidate_link_count": 11,
+      "keyword_hit_link_count": 0,
+      "top_links": [
+        {
+          "url": "https://sat.gob.mx/_app/immutable/chunks/control.4a24504b.js",
+          "path": "/_app/immutable/chunks/control.4a24504b.js",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://sat.gob.mx/_app/immutable/chunks/index.06fe1483.js",
+          "path": "/_app/immutable/chunks/index.06fe1483.js",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://sat.gob.mx/_app/immutable/chunks/index.43241ff5.js",
+          "path": "/_app/immutable/chunks/index.43241ff5.js",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://sat.gob.mx/_app/immutable/chunks/paths.bc571c09.js",
+          "path": "/_app/immutable/chunks/paths.bc571c09.js",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://sat.gob.mx/_app/immutable/chunks/scheduler.dd7b8fdc.js",
+          "path": "/_app/immutable/chunks/scheduler.dd7b8fdc.js",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://sat.gob.mx/_app/immutable/chunks/singletons.13b31043.js",
+          "path": "/_app/immutable/chunks/singletons.13b31043.js",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://sat.gob.mx/_app/immutable/entry/app.325d0224.js",
+          "path": "/_app/immutable/entry/app.325d0224.js",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://sat.gob.mx/_app/immutable/entry/start.7eef8c2e.js",
+          "path": "/_app/immutable/entry/start.7eef8c2e.js",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://sat.gob.mx/public/css/normalize.css",
+          "path": "/public/css/normalize.css",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://sat.gob.mx/public/lib/fonts/font-awesome.css",
+          "path": "/public/lib/fonts/font-awesome.css",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://sat.gob.mx/public/lib/icon/favicon.ico",
+          "path": "/public/lib/icon/favicon.ico",
+          "keyword_hits": [],
+          "score": 0
+        }
+      ]
+    },
+    {
+      "country_slug": "saudi_arabia",
+      "domain": "zatca.gov.sa",
+      "html_file": "zatca.gov.sa__root.html",
+      "meta_file": "zatca.gov.sa__root.meta.json",
+      "candidate_link_count": 29,
+      "keyword_hit_link_count": 0,
+      "top_links": [
+        {
+          "url": "https://apps.apple.com/sa/app/zatca/id1517289036",
+          "path": "/sa/app/zatca/id1517289036",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://chatbot.zatca.gov.sa/maker/videocall/ar/index_videocall.html",
+          "path": "/maker/videocall/ar/index_videocall.html",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://play.google.com/store/apps/details?id=com.gazt.egazt",
+          "path": "/store/apps/details",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://raqmi.dga.gov.sa/platforms/platforms/f409ac24-8d98-4725-8736-0af491931212/platform-license",
+          "path": "/platforms/platforms/f409ac24-8d98-4725-8736-0af491931212/platform-license",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://twitter.com/zatca_sa",
+          "path": "/zatca_sa",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://www.instagram.com/zatca_sa/",
+          "path": "/zatca_sa/",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://www.linkedin.com/company/zatca_sa/",
+          "path": "/company/zatca_sa/",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://www.vision2030.gov.sa/ar/",
+          "path": "/ar/",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://www.youtube.com/zatcasa",
+          "path": "/zatcasa",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://zatca.gov.sa/",
+          "path": "/",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://zatca.gov.sa/#",
+          "path": "/",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://zatca.gov.sa/_layouts/15/ZATCA/Design/css/main.css?v=9",
+          "path": "/_layouts/15/ZATCA/Design/css/main.css",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://zatca.gov.sa/_layouts/15/ZATCA/Design/images/favicons/apple-touch-icon.png",
+          "path": "/_layouts/15/ZATCA/Design/images/favicons/apple-touch-icon.png",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://zatca.gov.sa/_layouts/15/ZATCA/Design/images/favicons/favicon-16x16.png",
+          "path": "/_layouts/15/ZATCA/Design/images/favicons/favicon-16x16.png",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://zatca.gov.sa/_layouts/15/ZATCA/Design/images/favicons/favicon-32x32.png",
+          "path": "/_layouts/15/ZATCA/Design/images/favicons/favicon-32x32.png",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://zatca.gov.sa/_layouts/15/ZATCA/Design/images/favicons/favicon.ico",
+          "path": "/_layouts/15/ZATCA/Design/images/favicons/favicon.ico",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://zatca.gov.sa/_layouts/15/ZATCA/Design/images/favicons/safari-pinned-tab.svg",
+          "path": "/_layouts/15/ZATCA/Design/images/favicons/safari-pinned-tab.svg",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://zatca.gov.sa/_layouts/15/ZATCA/Design/vendor/bootstrap.css?v=5",
+          "path": "/_layouts/15/ZATCA/Design/vendor/bootstrap.css",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://zatca.gov.sa/_layouts/15/ZATCA/Design/vendor/slick/slick.css",
+          "path": "/_layouts/15/ZATCA/Design/vendor/slick/slick.css",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://zatca.gov.sa/ar/AboutUs/ZATCAApps/",
+          "path": "/ar/AboutUs/ZATCAApps/",
+          "keyword_hits": [],
+          "score": 0
+        }
+      ]
+    },
+    {
+      "country_slug": "tajikistan",
+      "domain": "andoz.tj",
+      "html_file": "andoz.tj__root.html",
+      "meta_file": "andoz.tj__root.meta.json",
+      "candidate_link_count": 103,
+      "keyword_hit_link_count": 46,
+      "top_links": [
+        {
+          "url": "https://andoz.tj/ForTaxpayer/DeclarationsNew",
+          "path": "/ForTaxpayer/DeclarationsNew",
+          "keyword_hits": [
+            "tax",
+            "declaration"
+          ],
+          "score": 2
+        },
+        {
+          "url": "https://andoz.tj/ForTaxpayer/DeclarationsOld",
+          "path": "/ForTaxpayer/DeclarationsOld",
+          "keyword_hits": [
+            "tax",
+            "declaration"
+          ],
+          "score": 2
+        },
+        {
+          "url": "https://andoz.tj/ForTaxpayer",
+          "path": "/ForTaxpayer",
+          "keyword_hits": [
+            "tax"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://andoz.tj/ForTaxpayer/Appeals",
+          "path": "/ForTaxpayer/Appeals",
+          "keyword_hits": [
+            "tax"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://andoz.tj/ForTaxpayer/CivilCervants",
+          "path": "/ForTaxpayer/CivilCervants",
+          "keyword_hits": [
+            "tax"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://andoz.tj/ForTaxpayer/Clarifications",
+          "path": "/ForTaxpayer/Clarifications",
+          "keyword_hits": [
+            "tax"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://andoz.tj/ForTaxpayer/ForeignEServiceProviders",
+          "path": "/ForTaxpayer/ForeignEServiceProviders",
+          "keyword_hits": [
+            "tax"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://andoz.tj/ForTaxpayer/Handbook",
+          "path": "/ForTaxpayer/Handbook",
+          "keyword_hits": [
+            "tax"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://andoz.tj/ForTaxpayer/Index",
+          "path": "/ForTaxpayer/Index",
+          "keyword_hits": [
+            "tax"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://andoz.tj/ForTaxpayer/InstructionsNew",
+          "path": "/ForTaxpayer/InstructionsNew",
+          "keyword_hits": [
+            "tax"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://andoz.tj/ForTaxpayer/InstructionsOld",
+          "path": "/ForTaxpayer/InstructionsOld",
+          "keyword_hits": [
+            "tax"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://andoz.tj/ForTaxpayer/OtherAgencies",
+          "path": "/ForTaxpayer/OtherAgencies",
+          "keyword_hits": [
+            "tax"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://andoz.tj/ForTaxpayer/RateOurServices",
+          "path": "/ForTaxpayer/RateOurServices",
+          "keyword_hits": [
+            "tax"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://andoz.tj/ForTaxpayer/StandartiYagona2024",
+          "path": "/ForTaxpayer/StandartiYagona2024",
+          "keyword_hits": [
+            "tax"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://andoz.tj/ForTaxpayer/TaxCalendar",
+          "path": "/ForTaxpayer/TaxCalendar",
+          "keyword_hits": [
+            "tax"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://andoz.tj/ForTaxpayer/TaxRates",
+          "path": "/ForTaxpayer/TaxRates",
+          "keyword_hits": [
+            "tax"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://andoz.tj/ForTaxpayer/TaxpayersActivity",
+          "path": "/ForTaxpayer/TaxpayersActivity",
+          "keyword_hits": [
+            "tax"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://andoz.tj/ForTaxpayer/UnifiedStateRegister",
+          "path": "/ForTaxpayer/UnifiedStateRegister",
+          "keyword_hits": [
+            "tax"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://andoz.tj/ForTaxpayer/VisitStatistics",
+          "path": "/ForTaxpayer/VisitStatistics",
+          "keyword_hits": [
+            "tax"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://andoz.tj/ForTaxpayer/ePayment",
+          "path": "/ForTaxpayer/ePayment",
+          "keyword_hits": [
+            "tax"
+          ],
+          "score": 1
+        }
+      ]
+    },
+    {
+      "country_slug": "tajikistan",
+      "domain": "customs.tj",
+      "html_file": "customs.tj__root.html",
+      "meta_file": "customs.tj__root.meta.json",
+      "candidate_link_count": 284,
+      "keyword_hit_link_count": 272,
+      "top_links": [
+        {
+          "url": "https://customs.tj/images/stories/img_text/Dar_borai_KHGHJT/Kodeks/Kodek.pdf",
+          "path": "/images/stories/img_text/Dar_borai_KHGHJT/Kodeks/Kodek.pdf",
+          "keyword_hits": [
+            "customs",
+            "kodeks"
+          ],
+          "score": 2
+        },
+        {
+          "url": "http://customs.tj/",
+          "path": "/",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "http://infoportal.customs.tj",
+          "path": "/",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.tj/",
+          "path": "/",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.tj/#",
+          "path": "/",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.tj//media/com_acymailing/css/module_default.css?v=",
+          "path": "//media/com_acymailing/css/module_default.css",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.tj/TJ/?lang=EN",
+          "path": "/TJ/",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.tj/images/Blok_Tajikistan/4-strategiya/1e/2 (10).jpg",
+          "path": "/images/Blok_Tajikistan/4-strategiya/1e/2 (10).jpg",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.tj/images/Blok_Tajikistan/4-strategiya/1e/2 (11).jpg",
+          "path": "/images/Blok_Tajikistan/4-strategiya/1e/2 (11).jpg",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.tj/images/Blok_Tajikistan/4-strategiya/1e/2 (12).jpg",
+          "path": "/images/Blok_Tajikistan/4-strategiya/1e/2 (12).jpg",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.tj/images/Blok_Tajikistan/4-strategiya/1e/2 (13).jpg",
+          "path": "/images/Blok_Tajikistan/4-strategiya/1e/2 (13).jpg",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.tj/images/Blok_Tajikistan/4-strategiya/1e/2 (14).jpg",
+          "path": "/images/Blok_Tajikistan/4-strategiya/1e/2 (14).jpg",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.tj/images/Blok_Tajikistan/4-strategiya/1e/2 (15).jpg",
+          "path": "/images/Blok_Tajikistan/4-strategiya/1e/2 (15).jpg",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.tj/images/Blok_Tajikistan/4-strategiya/1e/2 (16).jpg",
+          "path": "/images/Blok_Tajikistan/4-strategiya/1e/2 (16).jpg",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.tj/images/Blok_Tajikistan/4-strategiya/1e/2 (17).jpg",
+          "path": "/images/Blok_Tajikistan/4-strategiya/1e/2 (17).jpg",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.tj/images/Blok_Tajikistan/4-strategiya/1e/2 (18).jpg",
+          "path": "/images/Blok_Tajikistan/4-strategiya/1e/2 (18).jpg",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.tj/images/Blok_Tajikistan/4-strategiya/1e/2 (19).jpg",
+          "path": "/images/Blok_Tajikistan/4-strategiya/1e/2 (19).jpg",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.tj/images/Blok_Tajikistan/4-strategiya/1e/2 (2).jpg",
+          "path": "/images/Blok_Tajikistan/4-strategiya/1e/2 (2).jpg",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.tj/images/Blok_Tajikistan/4-strategiya/1e/2 (20).jpg",
+          "path": "/images/Blok_Tajikistan/4-strategiya/1e/2 (20).jpg",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.tj/images/Blok_Tajikistan/4-strategiya/1e/2 (21).jpg",
+          "path": "/images/Blok_Tajikistan/4-strategiya/1e/2 (21).jpg",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        }
+      ]
+    },
+    {
+      "country_slug": "turkmenistan",
+      "domain": "customs.gov.tm",
+      "html_file": "customs.gov.tm__root.html",
+      "meta_file": "customs.gov.tm__root.meta.json",
+      "candidate_link_count": 74,
+      "keyword_hit_link_count": 59,
+      "top_links": [
+        {
+          "url": "https://customs.gov.tm/#for_legal_entities",
+          "path": "/",
+          "keyword_hits": [
+            "customs",
+            "legal"
+          ],
+          "score": 2
+        },
+        {
+          "url": "https://customs.gov.tm/customs-info/for-legal-entities",
+          "path": "/customs-info/for-legal-entities",
+          "keyword_hits": [
+            "customs",
+            "legal"
+          ],
+          "score": 2
+        },
+        {
+          "url": "https://customs.gov.tm/export-import/brokers",
+          "path": "/export-import/brokers",
+          "keyword_hits": [
+            "import",
+            "customs"
+          ],
+          "score": 2
+        },
+        {
+          "url": "https://customs.gov.tm/export-import/faq",
+          "path": "/export-import/faq",
+          "keyword_hits": [
+            "import",
+            "customs"
+          ],
+          "score": 2
+        },
+        {
+          "url": "https://customs.gov.tm/export-import/list-of-documents-for-export",
+          "path": "/export-import/list-of-documents-for-export",
+          "keyword_hits": [
+            "import",
+            "customs"
+          ],
+          "score": 2
+        },
+        {
+          "url": "https://customs.gov.tm/export-import/list-of-offices",
+          "path": "/export-import/list-of-offices",
+          "keyword_hits": [
+            "import",
+            "customs"
+          ],
+          "score": 2
+        },
+        {
+          "url": "https://customs.gov.tm/pages/customs-laws",
+          "path": "/pages/customs-laws",
+          "keyword_hits": [
+            "customs",
+            "law"
+          ],
+          "score": 2
+        },
+        {
+          "url": "https://customs.gov.tm/pages/duty-free-shopkeepers",
+          "path": "/pages/duty-free-shopkeepers",
+          "keyword_hits": [
+            "customs",
+            "duty"
+          ],
+          "score": 2
+        },
+        {
+          "url": "https://customs.gov.tm/pages/import-customs-offices",
+          "path": "/pages/import-customs-offices",
+          "keyword_hits": [
+            "import",
+            "customs"
+          ],
+          "score": 2
+        },
+        {
+          "url": "https://customs.gov.tm/tariff-calc/export",
+          "path": "/tariff-calc/export",
+          "keyword_hits": [
+            "customs",
+            "tariff"
+          ],
+          "score": 2
+        },
+        {
+          "url": "https://customs.gov.tm",
+          "path": "/",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.gov.tm/#",
+          "path": "/",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.gov.tm/#customs_fees",
+          "path": "/",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.gov.tm/#for_individuals",
+          "path": "/",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.gov.tm/apple-touch-icon.png",
+          "path": "/apple-touch-icon.png",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.gov.tm/articles/announcements",
+          "path": "/articles/announcements",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.gov.tm/articles/tourism",
+          "path": "/articles/tourism",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.gov.tm/contact",
+          "path": "/contact",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.gov.tm/contact-form",
+          "path": "/contact-form",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.gov.tm/customs-info/customs-control",
+          "path": "/customs-info/customs-control",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        }
+      ]
+    },
+    {
+      "country_slug": "turkmenistan",
+      "domain": "infotrade.gov.tm",
+      "html_file": "infotrade.gov.tm__root.html",
+      "meta_file": "infotrade.gov.tm__root.meta.json",
+      "candidate_link_count": 54,
+      "keyword_hit_link_count": 1,
+      "top_links": [
+        {
+          "url": "https://infotrade.gov.tm/Laws?l=tk",
+          "path": "/Laws",
+          "keyword_hits": [
+            "law"
+          ],
+          "score": 1
+        },
+        {
+          "url": "http://creativecommons.org/licenses/by-sa/4.0/",
+          "path": "/licenses/by-sa/4.0/",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://ajax.aspnetcdn.com/ajax/bootstrap/3.4.1/css/bootstrap.min.css",
+          "path": "/ajax/bootstrap/3.4.1/css/bootstrap.min.css",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://browser-update.org/update-browser.html#3.1.6",
+          "path": "/update-browser.html",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/components/dropdown.min.css",
+          "path": "/npm/semantic-ui@2.4.2/dist/components/dropdown.min.css",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/components/icon.min.css",
+          "path": "/npm/semantic-ui@2.4.2/dist/components/icon.min.css",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/components/message.min.css",
+          "path": "/npm/semantic-ui@2.4.2/dist/components/message.min.css",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/components/transition.min.css",
+          "path": "/npm/semantic-ui@2.4.2/dist/components/transition.min.css",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css",
+          "path": "/ui/1.14.1/themes/base/jquery-ui.css",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://fonts.googleapis.com/css?family=Lato",
+          "path": "/css",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800",
+          "path": "/css",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&subset=latin-ext",
+          "path": "/css",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://fonts.googleapis.com/icon?family=Material+Icons",
+          "path": "/icon",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://infotrade.gov.tm/",
+          "path": "/",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://infotrade.gov.tm/#",
+          "path": "/",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://infotrade.gov.tm/?l=en",
+          "path": "/",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://infotrade.gov.tm/?l=ru",
+          "path": "/",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://infotrade.gov.tm/?l=tk",
+          "path": "/",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://infotrade.gov.tm/Contacts?l=tk",
+          "path": "/Contacts",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://infotrade.gov.tm/Procedures?l=tk",
+          "path": "/Procedures",
+          "keyword_hits": [],
+          "score": 0
+        }
+      ]
+    },
+    {
+      "country_slug": "united_arab_emirates",
+      "domain": "moiat.gov.ae",
+      "html_file": "moiat.gov.ae__root.html",
+      "meta_file": "moiat.gov.ae__root.meta.json",
+      "candidate_link_count": 122,
+      "keyword_hit_link_count": 4,
+      "top_links": [
+        {
+          "url": "https://moiat.gov.ae/ar/about-us/laws-and-legislation",
+          "path": "/ar/about-us/laws-and-legislation",
+          "keyword_hits": [
+            "law"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://moiat.gov.ae/ar/digital-participation/consultations/advisory-national-metrology-capabilitiestechnical-regulations-for-air-quality-measurement",
+          "path": "/ar/digital-participation/consultations/advisory-national-metrology-capabilitiestechnical-regulations-for-air-quality-measurement",
+          "keyword_hits": [
+            "regulation"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://moiat.gov.ae/ar/digital-participation/consultations/advisory-note-registering-items-for-customs-exemption",
+          "path": "/ar/digital-participation/consultations/advisory-note-registering-items-for-customs-exemption",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://moiat.gov.ae/ar/digital-participation/consultations/legal-measurement-tools",
+          "path": "/ar/digital-participation/consultations/legal-measurement-tools",
+          "keyword_hits": [
+            "legal"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://171.ae/ar/",
+          "path": "/ar/",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://api.whatsapp.com/send/?phone=97147771777&text&type=phone_num",
+          "path": "/send/",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://apps.apple.com/ae/app/moiat/id1578178231",
+          "path": "/ae/app/moiat/id1578178231",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://awards.miite.ae/ar",
+          "path": "/ar",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://careers.moiat.gov.ae/default.aspx",
+          "path": "/default.aspx",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://conformityhub.moiat.gov.ae/home",
+          "path": "/home",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://icv.moiat.gov.ae/",
+          "path": "/",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://miite.ae",
+          "path": "/",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://moiat.gov.ae/#",
+          "path": "/",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://moiat.gov.ae/-/media/site/moiat/document/achievement/moiat-achievement-report-2023-ar.ashx",
+          "path": "/-/media/site/moiat/document/achievement/moiat-achievement-report-2023-ar.ashx",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://moiat.gov.ae/-/media/site/moiat/navigation/main/incentives.ashx",
+          "path": "/-/media/site/moiat/navigation/main/incentives.ashx",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://moiat.gov.ae/-/media/site/moiat/navigation/main/servicepakcages.ashx",
+          "path": "/-/media/site/moiat/navigation/main/servicepakcages.ashx",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://moiat.gov.ae/-/media/site/moiat/navigation/moiatexecutive-industrial-investment-guide-v12-4webhr.ashx",
+          "path": "/-/media/site/moiat/navigation/moiatexecutive-industrial-investment-guide-v12-4webhr.ashx",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://moiat.gov.ae/-/media/site/moiat/programs/itti/industrypulse.ashx",
+          "path": "/-/media/site/moiat/programs/itti/industrypulse.ashx",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://moiat.gov.ae/-/media/site/moiat/programs/itti/ittiusecaseguide.ashx",
+          "path": "/-/media/site/moiat/programs/itti/ittiusecaseguide.ashx",
+          "keyword_hits": [],
+          "score": 0
+        },
+        {
+          "url": "https://moiat.gov.ae/Resources/css/style.css",
+          "path": "/Resources/css/style.css",
+          "keyword_hits": [],
+          "score": 0
+        }
+      ]
+    },
+    {
+      "country_slug": "uzbekistan",
+      "domain": "customs.uz",
+      "html_file": "customs.uz__root.html",
+      "meta_file": "customs.uz__root.meta.json",
+      "candidate_link_count": 21,
+      "keyword_hit_link_count": 20,
+      "top_links": [
+        {
+          "url": "http://customs.uz",
+          "path": "/",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "http://customs.uz/css/bootstrap-theme.min.css",
+          "path": "/css/bootstrap-theme.min.css",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "http://customs.uz/css/bootstrap.min.css",
+          "path": "/css/bootstrap.min.css",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "http://customs.uz/css/bootstrap5.1.min.css",
+          "path": "/css/bootstrap5.1.min.css",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "http://customs.uz/css/font-awesome.min.css",
+          "path": "/css/font-awesome.min.css",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "http://customs.uz/css/mix/app.css",
+          "path": "/css/mix/app.css",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "http://customs.uz/css/mix/one.css?version=1773842052",
+          "path": "/css/mix/one.css",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "http://customs.uz/css/owl-carousel/owl.carousel.css",
+          "path": "/css/owl-carousel/owl.carousel.css",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "http://customs.uz/css/owl-carousel/owl.theme.default.css",
+          "path": "/css/owl-carousel/owl.theme.default.css",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "http://customs.uz/css/responsive.css?version=1773842052",
+          "path": "/css/responsive.css",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "http://customs.uz/css/slick-theme.css",
+          "path": "/css/slick-theme.css",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "http://customs.uz/css/slick.css?version=1773842052",
+          "path": "/css/slick.css",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "http://customs.uz/vendors/animate/animate.min.css",
+          "path": "/vendors/animate/animate.min.css",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "http://customs.uz/vendors/camera-slider/camera.css?version=1773842052",
+          "path": "/vendors/camera-slider/camera.css",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://chat.customs.uz/widget/style.css",
+          "path": "/widget/style.css",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.uz/css/all.css",
+          "path": "/css/all.css",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.uz/css/fullpage.css",
+          "path": "/css/fullpage.css",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.uz/css/style.css?version=1773842052",
+          "path": "/css/style.css",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.uz/vendors/image-dropdown/dd.css",
+          "path": "/vendors/image-dropdown/dd.css",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        },
+        {
+          "url": "https://customs.uz/vendors/owl-carousel/css/owl.carousel.css?version=1773842052",
+          "path": "/vendors/owl-carousel/css/owl.carousel.css",
+          "keyword_hits": [
+            "customs"
+          ],
+          "score": 1
+        }
+      ]
+    }
+  ]
+}\n

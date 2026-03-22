@@ -1,0 +1,15 @@
+{
+  "config_name": "delegation_active_config",
+  "config_version": "20260312_104410",
+  "saved_at": "20260312_104410",
+  "operator_id": "demo_operator",
+  "operator_name": "demo_operator",
+  "change_reason": "demo_save",
+  "applied_preset": "L3_small_autonomy_safe",
+  "delegation_policy": {
+    "delegation_master_switch": true,
+    "delegation_enabled": true,
+    "delegation_stage": "L3_small_autonomy",
+    "permission_level": "L3"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "fetched_at": "2026-03-18T13:53:54.254638+00:00",
+  "domain": "sat.gob.mx",
+  "request_url": "https://sat.gob.mx/",
+  "ok": true,
+  "status": 200,
+  "final_url": "https://sat.gob.mx/",
+  "content_type": "text/html",
+  "content_length": 1508,
+  "headers": {
+    "Content-Type": "text/html",
+    "Transfer-Encoding": "chunked",
+    "Connection": "close",
+    "Date": "Tue, 17 Mar 2026 18:59:25 GMT",
+    "Server": "nginx",
+    "Last-Modified": "Thu, 12 Mar 2026 16:53:55 GMT",
+    "ETag": "\"69b2efa3-5e4\"",
+    "Accept-Ranges": "bytes",
+    "Cache-Control": "no-cache",
+    "Via": "1.1 wwwnp.sat.gob.mx (Access Gateway-ag-B197ACEF4D3639C2-140667298), 1.1 689115ff2de1803f311819422d2bbc9e.cloudfront.net (CloudFront)",
+    "Vary": "Accept-Encoding",
+    "X-Cache": "Hit from cloudfront",
+    "X-Amz-Cf-Pop": "IAD61-P2",
+    "Alt-Svc": "h3=\":443\"; ma=86400",
+    "X-Amz-Cf-Id": "vYzZfDr8hRgzHFil2y5cTlsC2iKnJTXB-fgCvm6t7YevdpM2lnIAfQ==",
+    "Age": "68069"
+  },
+  "error": "",
+  "fetch_mode": "fallback_unverified_ssl",
+  "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1096)>",
+  "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+  "body_file": "sat.gob.mx__root.html"
+}

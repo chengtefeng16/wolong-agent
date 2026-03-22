@@ -1,0 +1,148 @@
+import json
+import sys
+from datetime import datetime
+from pathlib import Path
+
+CURRENT_FILE = Path(__file__).resolve()
+PROJECT_ROOT = CURRENT_FILE.parents[2]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+BASE_DIR = Path(__file__).resolve().parents[1]
+WHATSAPP_VIEW_PATH = BASE_DIR / "runtime_views" / "h5_dashboard_whatsapp.json"
+GRAPH_OUTPUT_PATH = BASE_DIR / "runtime_views" / "knowledge_graph" / "customer_graph_v1.json"
+
+
+class RuntimeKnowledgeGraphV1:
+    def _now_str(self):
+        return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    def _read_json(self, path: Path):
+        if not path.exists():
+            return None
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            return None
+
+    def _write_json(self, path: Path, data: dict):
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+
+    def _safe_list(self, value):
+        return value if isinstance(value, list) else []
+
+    def build_graph(self):
+        source = self._read_json(WHATSAPP_VIEW_PATH) or {}
+        raw_items = (
+            source.get("customers")
+            or source.get("items")
+            or source.get("records")
+            or source.get("conversations")
+            or source.get("list")
+            or []
+        )
+
+        nodes = []
+        edges = []
+        seen_nodes = set()
+
+        def add_node(node_id, node_type, label, extra=None):
+            if not node_id or node_id in seen_nodes:
+                return
+            seen_nodes.add(node_id)
+            node = {
+                "id": node_id,
+                "type": node_type,
+                "label": label,
+            }
+            if extra:
+                node.update(extra)
+            nodes.append(node)
+
+        def add_edge(source_id, target_id, relation):
+            if not source_id or not target_id:
+                return
+            edges.append({
+                "source": source_id,
+                "target": target_id,
+                "relation": relation,
+            })
+
+        for idx, item in enumerate(raw_items):
+            if not isinstance(item, dict):
+                continue
+
+            customer_id = str(
+                item.get("id")
+                or item.get("customer_id")
+                or item.get("phone")
+                or f"customer_{idx+1}"
+            )
+            customer_name = item.get("name") or item.get("customer_name") or customer_id
+            country = item.get("country") or item.get("destination_country") or "未知"
+            channel = item.get("channel") or "WhatsApp"
+            category = item.get("category") or item.get("customer_type") or "待判断"
+            risk_level = item.get("risk_level") or "unknown"
+            intent_type = item.get("intent_type") or "unknown"
+            keywords = self._safe_list(item.get("keywords"))
+            tags = self._safe_list(item.get("tags"))
+
+            customer_node = f"customer::{customer_id}"
+            country_node = f"country::{country}"
+            channel_node = f"channel::{channel}"
+            category_node = f"category::{category}"
+            risk_node = f"risk::{risk_level}"
+            intent_node = f"intent::{intent_type}"
+
+            add_node(customer_node, "customer", customer_name, {
+                "customer_id": customer_id,
+                "phone": item.get("phone"),
+            })
+            add_node(country_node, "country", country)
+            add_node(channel_node, "channel", channel)
+            add_node(category_node, "category", category)
+            add_node(risk_node, "risk", risk_level)
+            add_node(intent_node, "intent", intent_type)
+
+            add_edge(customer_node, country_node, "from_country")
+            add_edge(customer_node, channel_node, "via_channel")
+            add_edge(customer_node, category_node, "belongs_to_category")
+            add_edge(customer_node, risk_node, "has_risk_level")
+            add_edge(customer_node, intent_node, "has_intent")
+
+            for kw in keywords:
+                kw = str(kw).strip()
+                if not kw:
+                    continue
+                kw_node = f"keyword::{kw}"
+                add_node(kw_node, "keyword", kw)
+                add_edge(customer_node, kw_node, "mentions_keyword")
+
+            for tag in tags:
+                tag = str(tag).strip()
+                if not tag:
+                    continue
+                tag_node = f"tag::{tag}"
+                add_node(tag_node, "tag", tag)
+                add_edge(customer_node, tag_node, "has_tag")
+
+        result = {
+            "graph_name": "customer_graph_v1",
+            "built_at": self._now_str(),
+            "source_path": str(WHATSAPP_VIEW_PATH),
+            "node_count": len(nodes),
+            "edge_count": len(edges),
+            "nodes": nodes,
+            "edges": edges,
+        }
+
+        self._write_json(GRAPH_OUTPUT_PATH, result)
+        return result
+
+
+if __name__ == "__main__":
+    builder = RuntimeKnowledgeGraphV1()
+    print(json.dumps(builder.build_graph(), ensure_ascii=False, indent=2))

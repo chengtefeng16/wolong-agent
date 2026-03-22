@@ -1,0 +1,28 @@
+{
+  "fetched_at": "2026-03-19T00:27:57.935832+00:00",
+  "domain": "commerce.gov.dz",
+  "request_url": "https://commerce.gov.dz/rubriques/autorisation-preabale-a-la-fabrication-et-a-l-importation-des-produits-toxiques",
+  "ok": true,
+  "status": 200,
+  "final_url": "https://commerce.gov.dz/rubriques/autorisation-preabale-a-la-fabrication-et-a-l-importation-des-produits-toxiques",
+  "content_type": "text/html; charset=UTF-8",
+  "content_length": 70392,
+  "headers": {
+    "Date": "Thu, 19 Mar 2026 00:27:56 GMT",
+    "Server": "Apache",
+    "Cache-Control": "no-cache",
+    "Set-Cookie": "cookiesession1=678A3F28E9BC2B9B2DC5AB9446BE5228;Expires=Fri, 19 Mar 2027 00:27:57 GMT;Path=/;HttpOnly",
+    "Connection": "close",
+    "Content-Type": "text/html; charset=UTF-8",
+    "X-Content-Type-Options": "nosniff",
+    "X-XSS-Protection": "1; mode=block",
+    "Referrer-Policy": "origin-when-cross-origin",
+    "X-Frame-Options": "ALLOW-FROM https://invest.gov.dz/",
+    "content-length": "70392"
+  },
+  "error": "",
+  "fetch_mode": "fallback_unverified_ssl",
+  "fallback_reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1096)>",
+  "security_note": "Fetched via unverified SSL fallback; content should be treated as fetched_with_warning.",
+  "body_file": "commerce.gov.dz_rubriques_autorisation-preabale-a-la-fabrication-et-a-l-importation-des-produits-toxiques.html"
+}
