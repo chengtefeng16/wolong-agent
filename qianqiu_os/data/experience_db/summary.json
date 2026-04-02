@@ -1,0 +1,27 @@
+{
+  "total_entries": 1,
+  "approved_count": 1,
+  "modified_count": 0,
+  "by_category": {
+    "疑似车商": 1
+  },
+  "by_country": {
+    "乌干达": 1
+  },
+  "keyword_freq": {
+    "suv": 1,
+    "hybrid": 1
+  },
+  "approval_rate": 1.0,
+  "last_updated": "2026-04-02 12:05:08",
+  "top_keywords": [
+    {
+      "keyword": "suv",
+      "count": 1
+    },
+    {
+      "keyword": "hybrid",
+      "count": 1
+    }
+  ]
+}

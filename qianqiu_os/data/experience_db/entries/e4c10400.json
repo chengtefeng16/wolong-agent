@@ -1,0 +1,19 @@
+{
+  "id": "e4c10400",
+  "timestamp": "2026-04-02 12:05:08",
+  "customer_msg": "Interested in hybrid SUVs, maybe Harrier or RAV4. Can you export to Kampala?",
+  "ai_suggested": "Hello Grace,\n\n很高兴您对我们的混合动力SUV感兴趣！Harrier",
+  "human_approved": true,
+  "human_modified": false,
+  "final_reply": "Hello Grace,\n\n很高兴您对我们的混合动力SUV感兴趣！Harrier",
+  "category": "疑似车商",
+  "country": "乌干达",
+  "outcome": "sent",
+  "quality_score": null,
+  "keywords": [
+    "suv",
+    "hybrid"
+  ],
+  "task_id": "4f4c7d12",
+  "llm_source": "gemini"
+}

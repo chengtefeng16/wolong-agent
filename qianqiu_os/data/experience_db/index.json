@@ -1,0 +1,16 @@
+{
+  "entries": [
+    {
+      "id": "e4c10400",
+      "timestamp": "2026-04-02 12:05:08",
+      "human_approved": true,
+      "category": "疑似车商",
+      "country": "乌干达",
+      "keywords": [
+        "suv",
+        "hybrid"
+      ],
+      "outcome": "sent"
+    }
+  ]
+}
