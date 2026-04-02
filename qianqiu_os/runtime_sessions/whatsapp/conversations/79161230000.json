@@ -1,0 +1,24 @@
+{
+  "phone": "+79161230000",
+  "customer_name": "Ivan Petrov",
+  "country": "俄罗斯",
+  "channel": "whatsapp",
+  "bucket": "待判断",
+  "summary": "I want a family sedan, budget around USD 15000.",
+  "crm_status": "unknown",
+  "messages": [
+    {
+      "role": "customer",
+      "text": "I want a family sedan, budget around USD 15000.",
+      "time": "2026-04-02 07:26:31",
+      "timestamp": "2026-04-02 07:26:31"
+    },
+    {
+      "role": "customer",
+      "text": "Want one family sedan for personal use, budget $18000. What do you recommend?",
+      "time": "2026-04-02 09:14:13",
+      "timestamp": "2026-04-02 09:14:13"
+    }
+  ],
+  "last_updated": "2026-04-02 09:14:13"
+}

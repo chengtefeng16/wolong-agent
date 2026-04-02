@@ -1,12 +1,12 @@
-# ================================================================
-# Copyright (c) 2026 程特峰 (Tefeng Cheng)
-# All Rights Reserved.
-#
-# Project: AgentOS / Wolong Agent System
-# This source code is proprietary and confidential.
-# Unauthorized copying, modification, distribution or use
-# of this software, in whole or in part, is strictly prohibited.
-# ================================================================
+/* ================================================================
+ * Copyright (c) 2026 程特峰 (Tefeng Cheng)
+ * All Rights Reserved.
+ *
+ * Project: AgentOS / Wolong Agent System
+ * This source code is proprietary and confidential.
+ * Unauthorized copying, modification, distribution or use
+ * of this software, in whole or in part, is strictly prohibited.
+ * ================================================================ */
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import './index.css'
@@ -219,6 +219,23 @@ export default function App() {
   const [autoReply, setAutoReply] = useState(false)
   const [autoDispatch, setAutoDispatch] = useState(false)
   const [newCustomerCount, setNewCustomerCount] = useState(0)
+
+  // ── 发消息面板 ──
+  const [sendPanelOpen, setSendPanelOpen] = useState(false)
+  const [sendForm, setSendForm] = useState({ phone: '', name: '', country: '', message: '' })
+  const [sendStatus, setSendStatus] = useState(null) // null | 'sending' | 'ok' | 'err'
+  const [sendErrMsg, setSendErrMsg] = useState('')
+
+  // ── AI建议回复面板 ──
+  const [aiReplyEnabled, setAiReplyEnabled] = useState(true)    // 主开关：默认开启
+  const [aiAutoSend, setAiAutoSend] = useState(false)           // 子开关：允许AI自动发
+  const [aiReplyText, setAiReplyText] = useState('')            // 当前AI建议文本
+  const [aiReplyLoading, setAiReplyLoading] = useState(false)
+  const [aiReplyStatus, setAiReplyStatus] = useState(null)      // null | 'approved' | 'sent' | 'err'
+  const [aiTaskId, setAiTaskId] = useState(null)                // 当前 AI 建议的 task_id（用于回传闭环）
+  const [aiOriginalSuggestion, setAiOriginalSuggestion] = useState('')  // AI 原始建议（用于判断是否被修改）
+  const [aiExpCount, setAiExpCount] = useState(0)               // 注入的经验数量
+  const [aiSource, setAiSource] = useState('')                  // AI 来源（gemini / claude / rule_fallback）
   const knownIdsRef = useRef(new Set())
   const flashTimerRef = useRef(null)
   const flashToggleRef = useRef(false)
@@ -379,6 +396,20 @@ export default function App() {
     return () => window.removeEventListener('focus', handleFocus)
   }, [])
 
+  // ── 切换客户时自动获取 AI 建议回复 ──
+  const aiReplyEnabledRef = useRef(aiReplyEnabled)
+  useEffect(() => { aiReplyEnabledRef.current = aiReplyEnabled }, [aiReplyEnabled])
+
+  useEffect(() => {
+    if (!aiReplyEnabledRef.current || !selectedId) return
+    setAiReplyText('')
+    setAiReplyStatus(null)
+    setAiTaskId(null)
+    setAiSource('')
+    // 延迟 400ms 等待 selected 数据稳定后再请求
+    const t = setTimeout(handleFetchAiReply, 400) // eslint-disable-line react-hooks/exhaustive-deps
+    return () => clearTimeout(t)
+  }, [selectedId]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const isFacebookEmptyView = activeChannel === 'Facebook' && customers.length === 0
   const channelEmptyState = isFacebookEmptyView
@@ -402,6 +433,139 @@ export default function App() {
 
   const emergencyStop = () => {
     window.alert('当前按钮只做展示。真实止水动作请走 AgentOS 后端治理配置链。')
+  }
+
+  // ── 发送测试消息 ──
+  async function handleSendMessage() {
+    if (!sendForm.message.trim()) { setSendErrMsg('消息内容不能为空'); return }
+    if (!sendForm.phone.trim()) { setSendErrMsg('电话号码不能为空'); return }
+    setSendErrMsg('')
+    setSendStatus('sending')
+    try {
+      const resp = await fetch('/api/send_message', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(sendForm),
+      })
+      const data = await resp.json()
+      if (data.success) {
+        setSendStatus('ok')
+        setSendForm((f) => ({ ...f, message: '' }))
+        setTimeout(() => setSendStatus(null), 3000)
+      } else {
+        setSendStatus('err')
+        setSendErrMsg(data.error || '发送失败')
+      }
+    } catch {
+      setSendStatus('err')
+      setSendErrMsg('无法连接到后端 API，请确认 api_server.py 已启动（端口 8765）')
+    }
+  }
+
+  // ── 获取AI建议回复（走闭环管理器）──
+  async function handleFetchAiReply() {
+    if (!selected || !selected.id || selected.id === 'fallback_1') return
+    setAiReplyLoading(true)
+    setAiReplyStatus(null)
+    setAiTaskId(null)
+    try {
+      const resp = await fetch('/api/ai_reply', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          phone: selected.phone,
+          customer_name: selected.name,
+          country: selected.country,
+          category: selected.category,
+          last_message: selected.messages?.slice(-1)?.[0]?.text || selected.message || '',
+          conversation_history: selected.messages || [],
+          auto_send: aiAutoSend,
+        }),
+      })
+      const data = await resp.json()
+      if (data.suggested_reply) {
+        setAiReplyText(data.suggested_reply)
+        setAiOriginalSuggestion(data.suggested_reply)
+        setAiTaskId(data.task_id || null)
+        setAiExpCount(data.experience_count || 0)
+        setAiSource(data.generated_by || '')
+      } else {
+        setAiReplyText('（AI暂时无法生成建议，请人工回复）')
+      }
+    } catch {
+      setAiReplyText('（连接后端失败，请确认 api_server.py 已启动）')
+    }
+    setAiReplyLoading(false)
+  }
+
+  // ── 人工采纳/修改AI回复 → 回传闭环 ──
+  async function handleApproveAiReply() {
+    if (!aiReplyText.trim()) return
+    setAiReplyStatus('sending')
+    const humanModified = aiReplyText !== aiOriginalSuggestion
+    const humanApproved = !humanModified  // 未修改 = 完全采纳
+
+    try {
+      // 1. 发送消息到 runtime
+      const sendResp = await fetch('/api/send_message', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          phone: selected.phone,
+          name: selected.name,
+          country: selected.country,
+          message: aiReplyText,
+          role: 'agent',
+        }),
+      })
+      const sendData = await sendResp.json()
+
+      // 2. 回传闭环（记录人类决策到经验库）
+      if (aiTaskId) {
+        await fetch('/api/approve_reply', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            task_id: aiTaskId,
+            final_reply: aiReplyText,
+            human_approved: humanApproved,
+            customer_msg: selected.messages?.slice(-1)?.[0]?.text || selected.message || '',
+            ai_suggested: aiOriginalSuggestion,
+            category: selected.category,
+            country: selected.country,
+            outcome: 'sent',
+          }),
+        }).catch(() => {})  // 回传失败不影响主流程
+      }
+
+      setAiReplyStatus(sendData.success ? 'sent' : 'err')
+      if (sendData.success) {
+        setTimeout(() => { setAiReplyStatus(null); setAiReplyText(''); setAiTaskId(null) }, 3000)
+      }
+    } catch {
+      setAiReplyStatus('err')
+    }
+  }
+
+  // ── 忽略AI建议（记录到经验库：未采纳）──
+  async function handleIgnoreAiReply() {
+    if (aiTaskId) {
+      await fetch('/api/approve_reply', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          task_id: aiTaskId,
+          final_reply: '',
+          human_approved: false,
+          outcome: 'ignored',
+          category: selected.category,
+          country: selected.country,
+        }),
+      }).catch(() => {})
+    }
+    setAiReplyText('')
+    setAiTaskId(null)
+    setAiReplyStatus(null)
   }
 
   return (
@@ -543,6 +707,96 @@ export default function App() {
         </div>
       )}
 
+      {/* ═══ 人工测试发消息面板 ═══ */}
+      <div style={{ background: '#fff', border: '1px solid #d7dde7', borderRadius: '12px', padding: '10px 12px', marginBottom: '10px', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap' }}>
+          <div>
+            <div style={{ fontSize: '15px', fontWeight: 700 }}>人工测试发消息</div>
+            <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '2px' }}>
+              开启后可模拟客户消息进入系统（H5 将在 8 秒内自动刷新）
+            </div>
+          </div>
+          {/* 主开关 */}
+          <button
+            onClick={() => { setSendPanelOpen((v) => !v); setSendStatus(null); setSendErrMsg('') }}
+            style={{
+              padding: '6px 16px', borderRadius: '999px', fontWeight: 700, fontSize: '13px', cursor: 'pointer',
+              border: sendPanelOpen ? '1px solid #16a34a' : '1px solid #d1d5db',
+              background: sendPanelOpen ? '#dcfce7' : '#f3f4f6',
+              color: sendPanelOpen ? '#15803d' : '#374151',
+            }}
+          >
+            {sendPanelOpen ? '● 人工输入 已开启' : '○ 人工输入 已关闭'}
+          </button>
+        </div>
+
+        {sendPanelOpen && (
+          <div style={{ marginTop: '12px', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px', alignItems: 'end' }}>
+            <div>
+              <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '4px' }}>电话号码 *</div>
+              <input
+                value={sendForm.phone}
+                onChange={(e) => setSendForm((f) => ({ ...f, phone: e.target.value }))}
+                placeholder="+8613900000000"
+                style={{ width: '100%', padding: '6px 8px', border: '1px solid #d1d5db', borderRadius: '8px', fontSize: '13px', boxSizing: 'border-box' }}
+              />
+            </div>
+            <div>
+              <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '4px' }}>客户名</div>
+              <input
+                value={sendForm.name}
+                onChange={(e) => setSendForm((f) => ({ ...f, name: e.target.value }))}
+                placeholder="Ahmad"
+                style={{ width: '100%', padding: '6px 8px', border: '1px solid #d1d5db', borderRadius: '8px', fontSize: '13px', boxSizing: 'border-box' }}
+              />
+            </div>
+            <div>
+              <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '4px' }}>目标国家</div>
+              <input
+                value={sendForm.country}
+                onChange={(e) => setSendForm((f) => ({ ...f, country: e.target.value }))}
+                placeholder="阿联酋"
+                style={{ width: '100%', padding: '6px 8px', border: '1px solid #d1d5db', borderRadius: '8px', fontSize: '13px', boxSizing: 'border-box' }}
+              />
+            </div>
+            <div style={{ gridColumn: '1 / -1' }}>
+              <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '4px' }}>消息内容 *</div>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <input
+                  value={sendForm.message}
+                  onChange={(e) => setSendForm((f) => ({ ...f, message: e.target.value }))}
+                  onKeyDown={(e) => { if (e.key === 'Enter') handleSendMessage() }}
+                  placeholder="I need 10 SUVs for resale..."
+                  style={{ flex: 1, padding: '6px 8px', border: '1px solid #d1d5db', borderRadius: '8px', fontSize: '13px' }}
+                />
+                <button
+                  onClick={handleSendMessage}
+                  disabled={sendStatus === 'sending'}
+                  style={{
+                    padding: '6px 16px', borderRadius: '8px', fontWeight: 700, fontSize: '13px', cursor: 'pointer',
+                    border: '1px solid #2563eb', background: sendStatus === 'sending' ? '#93c5fd' : '#2563eb',
+                    color: '#fff', whiteSpace: 'nowrap',
+                  }}
+                >
+                  {sendStatus === 'sending' ? '发送中...' : '发送'}
+                </button>
+              </div>
+            </div>
+            {sendErrMsg && (
+              <div style={{ gridColumn: '1 / -1', fontSize: '12px', color: '#dc2626', background: '#fef2f2', borderRadius: '8px', padding: '6px 10px' }}>
+                ⚠ {sendErrMsg}
+              </div>
+            )}
+            {sendStatus === 'ok' && (
+              <div style={{ gridColumn: '1 / -1', fontSize: '12px', color: '#16a34a', background: '#f0fdf4', borderRadius: '8px', padding: '6px 10px' }}>
+                ✓ 消息已写入 runtime，H5 将在 8 秒内自动刷新显示。
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* ═══ WhatsApp 水龙头开关 ═══ */}
       <div style={{ background: '#fff', border: '1px solid #d7dde7', borderRadius: '12px', padding: '10px 12px', marginBottom: '10px', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap', marginBottom: '8px' }}>
           <div>
@@ -754,6 +1008,153 @@ export default function App() {
                 </div>
               )}
             </div>
+          </div>
+
+          {/* ═══ AI建议回复面板 ═══ */}
+          <div style={{ marginTop: '14px', border: '1px solid #dbeafe', borderRadius: '12px', padding: '12px', background: '#f8fbff' }}>
+            {/* 标题行 + 主开关 */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', marginBottom: '10px', flexWrap: 'wrap' }}>
+              <div>
+                <div style={{ fontSize: '14px', fontWeight: 800, color: '#1d4ed8' }}>AI 建议回复</div>
+                <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '2px' }}>
+                  AI 生成建议 → 人类审核 → 决定是否发送
+                </div>
+              </div>
+              <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
+                {/* 子开关：允许AI自动发 */}
+                {aiReplyEnabled && (
+                  <button
+                    onClick={() => setAiAutoSend((v) => !v)}
+                    style={{
+                      padding: '4px 12px', borderRadius: '999px', fontSize: '11px', fontWeight: 700, cursor: 'pointer',
+                      border: aiAutoSend ? '1px solid #dc2626' : '1px solid #d1d5db',
+                      background: aiAutoSend ? '#fef2f2' : '#f3f4f6',
+                      color: aiAutoSend ? '#dc2626' : '#6b7280',
+                    }}
+                  >
+                    {aiAutoSend ? '⚡ AI可自动发（高风险，谨慎）' : '○ AI建议模式（人类审核）'}
+                  </button>
+                )}
+                {/* 主开关 */}
+                <button
+                  onClick={() => { setAiReplyEnabled((v) => !v); setAiReplyText(''); setAiReplyStatus(null) }}
+                  style={{
+                    padding: '4px 12px', borderRadius: '999px', fontSize: '12px', fontWeight: 700, cursor: 'pointer',
+                    border: aiReplyEnabled ? '1px solid #2563eb' : '1px solid #d1d5db',
+                    background: aiReplyEnabled ? '#eff6ff' : '#f3f4f6',
+                    color: aiReplyEnabled ? '#1d4ed8' : '#6b7280',
+                  }}
+                >
+                  {aiReplyEnabled ? '● AI建议 已开启' : '○ AI建议 已关闭'}
+                </button>
+              </div>
+            </div>
+
+            {aiReplyEnabled && (
+              <div>
+                {/* 获取AI建议按钮 + 来源标签 */}
+                <div style={{ display: 'flex', gap: '8px', marginBottom: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
+                  <button
+                    onClick={handleFetchAiReply}
+                    disabled={aiReplyLoading || isFacebookEmptyView || !selected.messages?.length}
+                    style={{
+                      padding: '6px 14px', borderRadius: '8px', fontSize: '12px', fontWeight: 700, cursor: 'pointer',
+                      border: '1px solid #2563eb', background: '#2563eb', color: '#fff',
+                      opacity: (aiReplyLoading || isFacebookEmptyView || !selected.messages?.length) ? 0.5 : 1,
+                    }}
+                  >
+                    {aiReplyLoading ? '⏳ 生成中...' : '🤖 重新生成'}
+                  </button>
+                  {aiReplyText && (
+                    <button
+                      onClick={() => { setAiReplyText(''); setAiReplyStatus(null) }}
+                      style={{ padding: '6px 12px', borderRadius: '8px', fontSize: '12px', cursor: 'pointer', border: '1px solid #d1d5db', background: '#fff', color: '#374151' }}
+                    >
+                      清空
+                    </button>
+                  )}
+                  {/* AI 来源标签 */}
+                  {aiSource && (
+                    <span style={{
+                      fontSize: '11px', padding: '2px 8px', borderRadius: '999px', fontWeight: 600,
+                      background: aiSource === 'gemini' ? '#f0fdf4' : aiSource === 'claude' ? '#eff6ff' : '#fef9c3',
+                      color: aiSource === 'gemini' ? '#16a34a' : aiSource === 'claude' ? '#2563eb' : '#92400e',
+                      border: aiSource === 'gemini' ? '1px solid #bbf7d0' : aiSource === 'claude' ? '1px solid #bfdbfe' : '1px solid #fde68a',
+                    }}>
+                      {aiSource === 'gemini' ? '✦ Gemini 2.5 Flash'
+                        : aiSource === 'claude' ? '◆ Claude'
+                        : '≈ 规则模板'}
+                      {aiExpCount > 0 && ` · ${aiExpCount}条经验`}
+                    </span>
+                  )}
+                  {aiReplyLoading && !aiSource && (
+                    <span style={{ fontSize: '11px', color: '#6b7280' }}>正在调用 Gemini...</span>
+                  )}
+                </div>
+
+                {/* AI建议内容 */}
+                {aiReplyText && (
+                  <div>
+                    <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '6px' }}>
+                      AI 建议回复内容（可修改后发送）：
+                    </div>
+                    <textarea
+                      value={aiReplyText}
+                      onChange={(e) => setAiReplyText(e.target.value)}
+                      rows={3}
+                      style={{
+                        width: '100%', padding: '8px', border: '1px solid #bfdbfe', borderRadius: '8px',
+                        fontSize: '13px', lineHeight: 1.7, background: '#fff', boxSizing: 'border-box',
+                        resize: 'vertical',
+                      }}
+                    />
+
+                    {/* 操作按钮 */}
+                    <div style={{ display: 'flex', gap: '8px', marginTop: '8px', flexWrap: 'wrap' }}>
+                      <button
+                        onClick={handleApproveAiReply}
+                        disabled={aiReplyStatus === 'sending'}
+                        style={{
+                          padding: '6px 14px', borderRadius: '8px', fontSize: '12px', fontWeight: 700, cursor: 'pointer',
+                          border: '1px solid #16a34a', background: '#16a34a', color: '#fff',
+                          opacity: aiReplyStatus === 'sending' ? 0.6 : 1,
+                        }}
+                      >
+                        {aiReplyStatus === 'sending' ? '发送中...' : '✓ 采纳并发送'}
+                      </button>
+                      <button
+                        onClick={() => { setAiReplyText(''); setAiReplyStatus(null) }}
+                        style={{ padding: '6px 12px', borderRadius: '8px', fontSize: '12px', cursor: 'pointer', border: '1px solid #d1d5db', background: '#fff', color: '#6b7280' }}
+                      >
+                        忽略
+                      </button>
+                      {aiAutoSend && (
+                        <div style={{ fontSize: '11px', color: '#dc2626', display: 'flex', alignItems: 'center' }}>
+                          ⚠ AI自动发已开启，采纳后将直接写入 runtime
+                        </div>
+                      )}
+                    </div>
+
+                    {aiReplyStatus === 'sent' && (
+                      <div style={{ marginTop: '8px', fontSize: '12px', color: '#16a34a', background: '#f0fdf4', borderRadius: '8px', padding: '6px 10px' }}>
+                        ✓ AI回复已发送，H5 将在 8 秒内刷新。
+                      </div>
+                    )}
+                    {aiReplyStatus === 'err' && (
+                      <div style={{ marginTop: '8px', fontSize: '12px', color: '#dc2626', background: '#fef2f2', borderRadius: '8px', padding: '6px 10px' }}>
+                        ⚠ 发送失败，请检查后端 API 是否在线。
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {!aiReplyText && !aiReplyLoading && (
+                  <div style={{ fontSize: '12px', color: '#9ca3af' }}>
+                    切换客户时自动生成建议 · 由 Gemini 2.5 Flash 驱动 · 修改后再决定是否发送
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>

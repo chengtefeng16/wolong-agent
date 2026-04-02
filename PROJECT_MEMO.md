@@ -1210,3 +1210,58 @@ All Rights Reserved.
 Project: AgentOS / Wolong Agent System
 This source code / document is proprietary and confidential.
 Unauthorized copying, modification, distribution or use, in whole or in part, is strictly prohibited.
+
+---
+
+## 执行记录（2026-04-01 / H5 + 后端 + 同步链 全部跑通）
+
+### 本轮修复内容
+1. 修复 `wolong_h5_console/vite.config.js` — Python `#` 注释头改为 JS `/* */` 注释
+2. 修复 `wolong_h5_console/src/main.jsx` — 同上
+3. 修复 `wolong_h5_console/src/App.jsx` — 同上
+4. 修复 `wolong_h5_console/src/i18n_runtime.js` — 同上
+5. 修复 `main.py` — `mport os` → `import os`，`om memory_store` → `from memory_store`
+
+### 本轮新增内容
+- `scripts/sync_runtime_to_h5.py` — 后端 runtime_views → H5 public/runtime/views/ 同步脚本
+- `scripts/api_server.py` — 后端 API 服务器（Python 标准库，端口 8765）
+- `scripts/start_wolong.sh` — 一键启动脚本
+
+### 验证结果
+- ✅ `npm run build` 构建成功
+- ✅ `npm run dev` 启动成功，H5 正常服务页面
+- ✅ H5 能读到 WhatsApp 4 位客户数据
+- ✅ H5 能读到 Facebook 客户数据
+- ✅ 后端 `python3 -m qianqiu_os.app` 运行完整
+- ✅ `scripts/sync_runtime_to_h5.py` 单次同步成功（6 个文件）
+- ✅ `scripts/api_server.py` 启动并响应 /api/status
+
+### 当前启动方式（正式口径）
+```bash
+# 在项目根目录执行
+./scripts/start_wolong.sh
+# 然后用浏览器打开 http://localhost:5173
+```
+
+或分开启动：
+```bash
+# 终端1：H5 前端
+cd wolong_h5_console && npm run dev
+
+# 终端2：后端 API + 同步
+python3 scripts/api_server.py &
+python3 scripts/sync_runtime_to_h5.py --watch
+```
+
+### 测试发送消息（curl）
+```bash
+curl -X POST http://localhost:8765/api/send_message \
+     -H 'Content-Type: application/json' \
+     -d '{"phone":"+1234567890","name":"Ahmad","message":"I need 10 SUVs for resale in UAE","country":"阿联酋"}'
+```
+
+### 当前卡点（下一步要做的）
+1. **千秋OS 大框架完善** — 统一入口、壳层、状态机正式接入
+2. **H5 添加测试发消息面板** — 让 H5 界面里直接能输入测试消息
+3. **WhatsApp 真实接入** — 等 Meta 复审通过后接入
+4. **卧龙 Agent AI 回复** — 当前 WolongManager 是规则引擎，需要接入 LLM 真实回复生成

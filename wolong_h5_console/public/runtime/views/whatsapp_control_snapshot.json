@@ -1,5 +1,5 @@
 {
-  "ingress_mode": "readonly",
+  "ingress_mode": "manual",
   "auto_classify": true,
   "auto_tagging": true,
   "h5_visible": true,

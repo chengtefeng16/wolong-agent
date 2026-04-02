@@ -1,0 +1,18 @@
+{
+  "phone": "+77011234567",
+  "customer_name": "Zhaslan",
+  "country": "哈萨克斯坦",
+  "channel": "whatsapp",
+  "bucket": "待判断",
+  "summary": "Hi, I need 10 SUVs this month, we are a dealer here.",
+  "crm_status": "unknown",
+  "messages": [
+    {
+      "role": "customer",
+      "text": "Hi, I need 10 SUVs this month, we are a dealer here.",
+      "time": "2026-04-02 07:26:30",
+      "timestamp": "2026-04-02 07:26:30"
+    }
+  ],
+  "last_updated": "2026-04-02 07:26:30"
+}

@@ -4,48 +4,70 @@
   "source": "runtime_sessions/whatsapp",
   "items": [
     {
-      "phone": "+77011234567",
-      "customer_name": "Zhaslan",
-      "country": "哈萨克斯坦",
+      "phone": "+256704100001",
+      "customer_name": "Grace Nambi",
+      "country": "乌干达",
       "channel": "whatsapp",
-      "bucket": "准车商",
-      "latest_message": "Need 8 SUVs. We can buy regularly if prices are good.",
-      "last_message_time": "2026-03-12 09:12:00",
+      "bucket": "待判断",
+      "latest_message": "Interested in hybrid SUVs, maybe Harrier or RAV4. Can you export to Kampala?",
+      "last_message_time": "2026-04-02 09:14:14",
       "needs_human_review": false,
-      "crm_status": "pending_export"
+      "crm_status": "unknown"
     },
     {
-      "phone": "+992900000001",
-      "customer_name": "Bek",
+      "phone": "+260977200001",
+      "customer_name": "Mulenga Banda",
+      "country": "赞比亚",
+      "channel": "whatsapp",
+      "bucket": "待判断",
+      "latest_message": "Need 5 Toyota Hilux pickup trucks for our business in Lusaka. Whats your best price?",
+      "last_message_time": "2026-04-02 09:14:14",
+      "needs_human_review": false,
+      "crm_status": "unknown"
+    },
+    {
+      "phone": "+8613800001234",
+      "customer_name": "Ahmad Raza",
+      "country": "巴基斯坦",
+      "channel": "whatsapp",
+      "bucket": "待判断",
+      "latest_message": "We import 25-30 cars per month, mostly Corolla & Yaris. Are you a direct supplier?",
+      "last_message_time": "2026-04-02 09:14:13",
+      "needs_human_review": false,
+      "crm_status": "unknown"
+    },
+    {
+      "phone": "+992900111222",
+      "customer_name": "Bek Yusupov",
       "country": "塔吉克斯坦",
       "channel": "whatsapp",
-      "bucket": "疑似车商",
-      "latest_message": "Need Prado and Camry, maybe 7 units.",
-      "last_message_time": "2026-03-12 12:05:00",
-      "needs_human_review": true,
-      "crm_status": "pending_export"
+      "bucket": "待判断",
+      "latest_message": "I need Camry 2022-2024, white or silver, about 7 units. Do you have stock?",
+      "last_message_time": "2026-04-02 09:14:13",
+      "needs_human_review": false,
+      "crm_status": "unknown"
+    },
+    {
+      "phone": "+77011112233",
+      "customer_name": "Zhaslan Abenov",
+      "country": "哈萨克斯坦",
+      "channel": "whatsapp",
+      "bucket": "待判断",
+      "latest_message": "Hi! We are a dealership in Almaty. Need 15 Prado units for Q2. Can you quote FOB?",
+      "last_message_time": "2026-04-02 09:14:12",
+      "needs_human_review": false,
+      "crm_status": "unknown"
     },
     {
       "phone": "+79161230000",
-      "customer_name": "Ivan",
+      "customer_name": "Ivan Petrov",
       "country": "俄罗斯",
       "channel": "whatsapp",
-      "bucket": "个人客户",
-      "latest_message": "I need one family car, not for resale.",
-      "last_message_time": "2026-03-12 10:02:00",
+      "bucket": "待判断",
+      "latest_message": "Want one family sedan for personal use, budget $18000. What do you recommend?",
+      "last_message_time": "2026-04-02 09:14:13",
       "needs_human_review": false,
-      "crm_status": "not_ready"
-    },
-    {
-      "phone": "+70000000000",
-      "customer_name": "Demo Customer",
-      "country": "哈萨克斯坦",
-      "channel": "whatsapp",
-      "bucket": "疑似车商",
-      "latest_message": "Need Prado and Camry, maybe 5 units.",
-      "last_message_time": "2026-03-15 20:49:44",
-      "needs_human_review": true,
-      "crm_status": "pending_export"
+      "crm_status": "unknown"
     }
   ]
 }

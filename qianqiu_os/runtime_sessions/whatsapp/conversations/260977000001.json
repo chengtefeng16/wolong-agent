@@ -1,0 +1,18 @@
+{
+  "phone": "+260977000001",
+  "customer_name": "Mulenga",
+  "country": "赞比亚",
+  "channel": "whatsapp",
+  "bucket": "待判断",
+  "summary": "I want Toyota Hilux, 5 units for my dealership in Lusaka.",
+  "crm_status": "unknown",
+  "messages": [
+    {
+      "role": "customer",
+      "text": "I want Toyota Hilux, 5 units for my dealership in Lusaka.",
+      "time": "2026-04-02 07:31:43",
+      "timestamp": "2026-04-02 07:31:43"
+    }
+  ],
+  "last_updated": "2026-04-02 07:31:43"
+}

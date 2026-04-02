@@ -1,0 +1,24 @@
+{
+  "phone": "+8613900001234",
+  "customer_name": "Ahmad",
+  "country": "巴基斯坦",
+  "channel": "whatsapp",
+  "bucket": "待判断",
+  "summary": "We buy 20-30 used cars per month. Mostly Toyota Corolla. Are you supplier?",
+  "crm_status": "unknown",
+  "messages": [
+    {
+      "role": "customer",
+      "text": "We buy 20-30 used cars per month. Mostly Toyota Corolla. Are you supplier?",
+      "time": "2026-04-02 07:26:31",
+      "timestamp": "2026-04-02 07:26:31"
+    },
+    {
+      "role": "customer",
+      "text": "We buy 20-30 used cars per month. Mostly Toyota Corolla. Are you supplier?",
+      "time": "2026-04-02 07:30:54",
+      "timestamp": "2026-04-02 07:30:54"
+    }
+  ],
+  "last_updated": "2026-04-02 07:30:54"
+}

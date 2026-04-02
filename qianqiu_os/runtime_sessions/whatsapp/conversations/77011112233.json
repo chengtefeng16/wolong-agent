@@ -1,0 +1,18 @@
+{
+  "phone": "+77011112233",
+  "customer_name": "Zhaslan Abenov",
+  "country": "哈萨克斯坦",
+  "channel": "whatsapp",
+  "bucket": "待判断",
+  "summary": "Hi! We are a dealership in Almaty. Need 15 Prado units for Q2. Can you quote FOB",
+  "crm_status": "unknown",
+  "messages": [
+    {
+      "role": "customer",
+      "text": "Hi! We are a dealership in Almaty. Need 15 Prado units for Q2. Can you quote FOB?",
+      "time": "2026-04-02 09:14:12",
+      "timestamp": "2026-04-02 09:14:12"
+    }
+  ],
+  "last_updated": "2026-04-02 09:14:12"
+}
