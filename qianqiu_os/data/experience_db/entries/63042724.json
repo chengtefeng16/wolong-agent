@@ -1,0 +1,16 @@
+{
+  "id": "63042724",
+  "timestamp": "2026-04-02 16:05:02",
+  "customer_msg": "",
+  "ai_suggested": "",
+  "human_approved": true,
+  "human_modified": true,
+  "final_reply": "你好！我们可以安排10辆埃尔法出口哈萨克斯坦，请提供详细规格要求。",
+  "category": "",
+  "country": "",
+  "outcome": "approved",
+  "quality_score": null,
+  "keywords": [],
+  "task_id": "mock_test_001",
+  "llm_source": "unknown"
+}

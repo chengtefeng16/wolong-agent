@@ -1,26 +1,44 @@
 {
-  "total_entries": 1,
-  "approved_count": 1,
-  "modified_count": 0,
+  "total_entries": 16,
+  "approved_count": 16,
+  "modified_count": 4,
   "by_category": {
-    "疑似车商": 1
+    "疑似车商": 12,
+    "": 4
   },
   "by_country": {
-    "乌干达": 1
+    "乌干达": 2,
+    "": 4,
+    "未知": 10
   },
   "keyword_freq": {
-    "suv": 1,
-    "hybrid": 1
+    "suv": 2,
+    "hybrid": 1,
+    "hello": 1,
+    "vehicle": 1,
+    "hi": 2
   },
   "approval_rate": 1.0,
-  "last_updated": "2026-04-02 12:05:08",
+  "last_updated": "2026-04-04 13:43:21",
   "top_keywords": [
     {
       "keyword": "suv",
-      "count": 1
+      "count": 2
+    },
+    {
+      "keyword": "hi",
+      "count": 2
     },
     {
       "keyword": "hybrid",
+      "count": 1
+    },
+    {
+      "keyword": "hello",
+      "count": 1
+    },
+    {
+      "keyword": "vehicle",
       "count": 1
     }
   ]

@@ -1,0 +1,16 @@
+{
+  "id": "9c5f2746",
+  "timestamp": "2026-04-02 21:16:56",
+  "customer_msg": "你好，我是真实用户，测试消息接收是否正常。我想进口10辆丰田埃尔法到哈萨克斯坦。",
+  "ai_suggested": "您好！消息接收正常，很高兴为您服务。\n\n非常感谢您",
+  "human_approved": true,
+  "human_modified": false,
+  "final_reply": "您好！消息接收正常，很高兴为您服务。\n\n非常感谢您",
+  "category": "疑似车商",
+  "country": "未知",
+  "outcome": "sent",
+  "quality_score": null,
+  "keywords": [],
+  "task_id": "8246d731",
+  "llm_source": "gemini"
+}

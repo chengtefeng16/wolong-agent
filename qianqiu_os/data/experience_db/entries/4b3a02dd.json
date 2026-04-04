@@ -1,0 +1,18 @@
+{
+  "id": "4b3a02dd",
+  "timestamp": "2026-04-04 13:43:20",
+  "customer_msg": "this is a text message",
+  "ai_suggested": "Hi test user name! Welcome to Wolong Auto Export. We specialize in vehicle exports to 未知. How can we assist you today?",
+  "human_approved": true,
+  "human_modified": false,
+  "final_reply": "Hi test user name! Welcome to Wolong Auto Export. We specialize in vehicle exports to 未知. How can we assist you today?",
+  "category": "疑似车商",
+  "country": "未知",
+  "outcome": "sent",
+  "quality_score": null,
+  "keywords": [
+    "hi"
+  ],
+  "task_id": "a747f3c6",
+  "llm_source": "rule_fallback"
+}

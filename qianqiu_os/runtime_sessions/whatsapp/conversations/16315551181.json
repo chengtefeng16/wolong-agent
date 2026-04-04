@@ -1,0 +1,30 @@
+{
+  "phone": "+16315551181",
+  "customer_name": "test user name",
+  "country": "未知",
+  "channel": "whatsapp",
+  "bucket": "待判断",
+  "summary": "this is a text message",
+  "crm_status": "unknown",
+  "messages": [
+    {
+      "role": "customer",
+      "text": "this is a text message",
+      "time": "2026-04-04 13:04:30",
+      "timestamp": "2026-04-04 13:04:30"
+    },
+    {
+      "role": "customer",
+      "text": "Hi test user name! Welcome to Wolong Auto Export. We specialize in vehicle exports to 未知. How can we assist you today?",
+      "time": "2026-04-04 13:43:20",
+      "timestamp": "2026-04-04 13:43:20"
+    },
+    {
+      "role": "customer",
+      "text": "Hi test user name! Welcome to Wolong Auto Export. We specialize in vehicle exports to 未知. How can we assist you today?",
+      "time": "2026-04-04 13:43:21",
+      "timestamp": "2026-04-04 13:43:21"
+    }
+  ],
+  "last_updated": "2026-04-04 13:43:21"
+}

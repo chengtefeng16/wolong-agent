@@ -1,0 +1,16 @@
+{
+  "id": "b535e53f",
+  "timestamp": "2026-04-04 12:16:32",
+  "customer_msg": "您好 Test User 测试用户！很高兴您联系卧龙汽车",
+  "ai_suggested": "Hi Test User 测试用户! Welcome to Wolong Auto Export. We specialize in vehicle exports to 未知. How can we assist you today?",
+  "human_approved": true,
+  "human_modified": false,
+  "final_reply": "Hi Test User 测试用户! Welcome to Wolong Auto Export. We specialize in vehicle exports to 未知. How can we assist you today?",
+  "category": "疑似车商",
+  "country": "未知",
+  "outcome": "sent",
+  "quality_score": null,
+  "keywords": [],
+  "task_id": "586ba46b",
+  "llm_source": "rule_fallback"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "f5f7c6f5",
+  "timestamp": "2026-04-02 22:35:53",
+  "customer_msg": "",
+  "ai_suggested": "",
+  "human_approved": true,
+  "human_modified": true,
+  "final_reply": "您好！很高兴为您服务。\n\n请问您具体想了解",
+  "category": "",
+  "country": "",
+  "outcome": "sent",
+  "quality_score": null,
+  "keywords": [],
+  "task_id": "f31a811b",
+  "llm_source": "unknown"
+}

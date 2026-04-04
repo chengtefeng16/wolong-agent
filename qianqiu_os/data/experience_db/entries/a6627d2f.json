@@ -1,0 +1,16 @@
+{
+  "id": "a6627d2f",
+  "timestamp": "2026-04-02 22:35:51",
+  "customer_msg": "您好！很高兴为您服务。\n\n关于二手车出口",
+  "ai_suggested": "您好！很高兴为您服务。\n\n请问您具体想了解",
+  "human_approved": true,
+  "human_modified": false,
+  "final_reply": "您好！很高兴为您服务。\n\n请问您具体想了解",
+  "category": "疑似车商",
+  "country": "未知",
+  "outcome": "sent",
+  "quality_score": null,
+  "keywords": [],
+  "task_id": "f31a811b",
+  "llm_source": "gemini"
+}

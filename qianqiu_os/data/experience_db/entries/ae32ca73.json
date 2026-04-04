@@ -1,0 +1,16 @@
+{
+  "id": "ae32ca73",
+  "timestamp": "2026-04-04 13:43:21",
+  "customer_msg": "",
+  "ai_suggested": "",
+  "human_approved": true,
+  "human_modified": true,
+  "final_reply": "Hi test user name! Welcome to Wolong Auto Export. We specialize in vehicle exports to 未知. How can we assist you today?",
+  "category": "",
+  "country": "",
+  "outcome": "sent",
+  "quality_score": null,
+  "keywords": [],
+  "task_id": "a747f3c6",
+  "llm_source": "unknown"
+}
