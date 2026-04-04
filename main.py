@@ -8,10 +8,10 @@
 # of this software, in whole or in part, is strictly prohibited.
 # ================================================================
 
-mport os
+import os
 from google import genai
 from pathlib import Path
-om memory_store import load_history, append_message
+from memory_store import load_history, append_message
 
 API_KEY = os.getenv("GEMINI_API_KEY")
 if not API_KEY:

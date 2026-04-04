@@ -90,6 +90,42 @@
       "pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_20260321_180010.pdf",
       "latest_pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_latest.pdf",
       "generated_at": "2026-03-21 18:00:10"
+    },
+    "2026-03-22 18:00": {
+      "success": true,
+      "task": "nightly_checkpoint",
+      "export_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_20260322_180005.md",
+      "latest_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_latest.md",
+      "pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_20260322_180005.pdf",
+      "latest_pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_latest.pdf",
+      "generated_at": "2026-03-22 18:00:05"
+    },
+    "2026-03-23 18:00": {
+      "success": true,
+      "task": "nightly_checkpoint",
+      "export_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_20260323_180007.md",
+      "latest_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_latest.md",
+      "pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_20260323_180007.pdf",
+      "latest_pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_latest.pdf",
+      "generated_at": "2026-03-23 18:00:07"
+    },
+    "2026-03-24 18:00": {
+      "success": true,
+      "task": "nightly_checkpoint",
+      "export_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_20260324_180002.md",
+      "latest_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_latest.md",
+      "pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_20260324_180002.pdf",
+      "latest_pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_latest.pdf",
+      "generated_at": "2026-03-24 18:00:02"
+    },
+    "2026-03-25 18:00": {
+      "success": true,
+      "task": "nightly_checkpoint",
+      "export_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_20260325_180009.md",
+      "latest_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_latest.md",
+      "pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_20260325_180009.pdf",
+      "latest_pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/nightly/nightly_checkpoint_latest.pdf",
+      "generated_at": "2026-03-25 18:00:09"
     }
   },
   "weekly_agentos_report": {
@@ -219,6 +255,46 @@
       "pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/daily_layers/daily_layers_export_20260321_180009.pdf",
       "latest_pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/daily_layers/daily_layers_export_latest.pdf",
       "generated_at": "2026-03-21 18:00:09",
+      "section_count": 4
+    },
+    "2026-03-22 18:00": {
+      "success": true,
+      "task": "daily_layers_export",
+      "export_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/daily_layers/daily_layers_export_20260322_180004.md",
+      "latest_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/daily_layers/daily_layers_export_latest.md",
+      "pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/daily_layers/daily_layers_export_20260322_180004.pdf",
+      "latest_pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/daily_layers/daily_layers_export_latest.pdf",
+      "generated_at": "2026-03-22 18:00:04",
+      "section_count": 4
+    },
+    "2026-03-23 18:00": {
+      "success": true,
+      "task": "daily_layers_export",
+      "export_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/daily_layers/daily_layers_export_20260323_180006.md",
+      "latest_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/daily_layers/daily_layers_export_latest.md",
+      "pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/daily_layers/daily_layers_export_20260323_180006.pdf",
+      "latest_pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/daily_layers/daily_layers_export_latest.pdf",
+      "generated_at": "2026-03-23 18:00:06",
+      "section_count": 4
+    },
+    "2026-03-24 18:00": {
+      "success": true,
+      "task": "daily_layers_export",
+      "export_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/daily_layers/daily_layers_export_20260324_180001.md",
+      "latest_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/daily_layers/daily_layers_export_latest.md",
+      "pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/daily_layers/daily_layers_export_20260324_180001.pdf",
+      "latest_pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/daily_layers/daily_layers_export_latest.pdf",
+      "generated_at": "2026-03-24 18:00:01",
+      "section_count": 4
+    },
+    "2026-03-25 18:00": {
+      "success": true,
+      "task": "daily_layers_export",
+      "export_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/daily_layers/daily_layers_export_20260325_180009.md",
+      "latest_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/daily_layers/daily_layers_export_latest.md",
+      "pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/daily_layers/daily_layers_export_20260325_180009.pdf",
+      "latest_pdf_path": "/Users/cheng/autogen_gemini_gui_test/qianqiu_os/runtime_exports/daily_layers/daily_layers_export_latest.pdf",
+      "generated_at": "2026-03-25 18:00:09",
       "section_count": 4
     }
   }
