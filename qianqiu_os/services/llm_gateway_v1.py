@@ -67,6 +67,19 @@ CLASSIFY_SYSTEM_PROMPT = """你是「卧龙 Agent」的智能分类引擎。
 
 GEMINI_MODEL = "gemini-2.5-flash"
 
+# 政策/法规类关键词 → 触发联网搜索模式
+_POLICY_KEYWORDS = [
+    "政策", "法规", "规定", "限制", "禁止", "能不能", "可以进", "能进", "允许",
+    "年份", "车龄", "关税", "手续", "清关", "进口要求", "排放", "标准",
+    "2020", "2021", "2022", "2023", "2024", "2025",
+    "policy", "regulation", "import", "ban", "restriction", "age limit",
+]
+
+def _needs_search(message: str) -> bool:
+    """判断消息是否需要联网搜索（政策/法规/年份限制等实时信息）"""
+    msg_lower = message.lower()
+    return any(kw in msg_lower for kw in _POLICY_KEYWORDS)
+
 
 def _load_gemini_key() -> Optional[str]:
     """从 config.py 或环境变量读取 GEMINI_API_KEY"""
@@ -88,10 +101,12 @@ def _load_gemini_key() -> Optional[str]:
 
 
 def _call_gemini_rest(api_key: str, prompt: str, system: str,
-                      max_tokens: int, temperature: float) -> Dict[str, Any]:
+                      max_tokens: int, temperature: float,
+                      enable_search: bool = False) -> Dict[str, Any]:
     """
     直接用 urllib 调用 Gemini REST API。
     绕过 httpx / google-genai SDK，避免系统代理截断响应的问题。
+    enable_search=True → 启用 Google Search grounding（用于政策/法规实时查询）
     """
     import urllib.request
     import ssl
@@ -100,15 +115,29 @@ def _call_gemini_rest(api_key: str, prompt: str, system: str,
         f"https://generativelanguage.googleapis.com/v1beta/models/"
         f"gemini-2.5-flash:generateContent?key={api_key}"
     )
+
+    if enable_search:
+        # 搜索模式：保留少量 thinking 帮助整合搜索结果，提高 token 上限
+        gen_config = {
+            "maxOutputTokens": max(max_tokens, 1200),
+            "temperature": temperature,
+            "thinkingConfig": {"thinkingBudget": 512},
+        }
+    else:
+        # 普通对话模式：关闭 thinking，token 全给输出
+        gen_config = {
+            "maxOutputTokens": max(max_tokens, 800),
+            "temperature": temperature,
+            "thinkingConfig": {"thinkingBudget": 0},
+        }
+
     payload = {
         "system_instruction": {"parts": [{"text": system}]},
         "contents": [{"parts": [{"text": prompt}]}],
-        "generationConfig": {
-            "maxOutputTokens": max(max_tokens, 800),  # 2.5-flash 是 thinking 模型，需要更大额度
-            "temperature": temperature,
-            "thinkingConfig": {"thinkingBudget": 0},  # 关闭 thinking，把 token 全给输出
-        },
+        "generationConfig": gen_config,
     }
+    if enable_search:
+        payload["tools"] = [{"googleSearch": {}}]
     data = json.dumps(payload, ensure_ascii=False).encode("utf-8")
     req = urllib.request.Request(
         url, data=data,
@@ -163,6 +192,7 @@ def call_llm(
     max_tokens: int = 600,
     temperature: float = 0.7,
     model: str = GEMINI_MODEL,
+    enable_search: bool = False,
 ) -> Dict[str, Any]:
     """
     统一 LLM 调用入口。优先 Gemini，其次 Claude，最后规则兜底。
@@ -172,8 +202,11 @@ def call_llm(
     gemini_client, gemini_err = _load_gemini_client()
     if gemini_client is not None:
         api_key = _load_gemini_key()
-        result = _call_gemini_rest(api_key, prompt, system, max_tokens, temperature)
+        result = _call_gemini_rest(api_key, prompt, system, max_tokens, temperature,
+                                   enable_search=enable_search)
         if result["text"]:
+            if enable_search:
+                result["source"] = "gemini+search"
             return result
         gemini_err = result.get("error", "gemini REST 调用失败")
         print(f"[LLM][Gemini ERROR] {gemini_err}", flush=True)
@@ -256,7 +289,13 @@ def generate_reply(
 - 简洁自然，不超过100字
 - 直接给出回复内容，不加任何说明或前缀标注"""
 
-    result = call_llm(prompt, system=WOLONG_SYSTEM_PROMPT, max_tokens=400)
+    # 政策/年份/法规类问题 → 启用 Google Search 联网搜索
+    use_search = _needs_search(last_message)
+    if use_search:
+        print(f"[LLM] 检测到政策类查询，启用联网搜索: {last_message[:40]}", flush=True)
+
+    result = call_llm(prompt, system=WOLONG_SYSTEM_PROMPT, max_tokens=400,
+                      enable_search=use_search)
 
     if result["text"]:
         return {

@@ -397,6 +397,22 @@ export default function App() {
     return () => window.removeEventListener('focus', handleFocus)
   }, [])
 
+  // ── 当前选中客户有新的预生成建议时，自动刷新 AI 建议框 ──
+  const pendingReplyKey = selected?.pending_ai_reply?.generated_at
+  useEffect(() => {
+    if (!pendingReplyKey || !selected?.pending_ai_reply?.text) return
+    const pending = selected.pending_ai_reply
+    // 只在文本真正变化时更新（避免重复覆盖用户正在编辑的内容）
+    if (pending.text !== aiOriginalSuggestion) {
+      setAiReplyText(pending.text)
+      setAiOriginalSuggestion(pending.text)
+      setAiSource(pending.source || 'gemini')
+      setAiReplyStatus(null)
+      if (!aiReplyEnabled) setAiReplyEnabled(true)
+      console.log('[AI] 新消息预生成建议已自动填入:', pending.source)
+    }
+  }, [pendingReplyKey]) // eslint-disable-line react-hooks/exhaustive-deps
+
   // ── 切换客户时自动获取 AI 建议回复 ──
   const aiReplyEnabledRef = useRef(aiReplyEnabled)
   useEffect(() => { aiReplyEnabledRef.current = aiReplyEnabled }, [aiReplyEnabled])
