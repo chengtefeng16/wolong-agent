@@ -1,0 +1,19 @@
+{
+  "id": "db3e781a",
+  "timestamp": "2026-04-03 15:18:04",
+  "customer_msg": "Hi Test User 测试用户! Welcome to Wolong Auto Export. We specialize in vehicle exports to 未知. How can we assist you today?",
+  "ai_suggested": "您好 Test User 测试用户！很高兴您联系卧龙汽车",
+  "human_approved": true,
+  "human_modified": false,
+  "final_reply": "您好 Test User 测试用户！很高兴您联系卧龙汽车",
+  "category": "疑似车商",
+  "country": "未知",
+  "outcome": "sent",
+  "quality_score": null,
+  "keywords": [
+    "vehicle",
+    "hi"
+  ],
+  "task_id": "36026761",
+  "llm_source": "gemini"
+}

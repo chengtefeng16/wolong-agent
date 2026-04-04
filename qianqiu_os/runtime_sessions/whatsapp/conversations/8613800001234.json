@@ -1,0 +1,18 @@
+{
+  "phone": "+8613800001234",
+  "customer_name": "Ahmad Raza",
+  "country": "巴基斯坦",
+  "channel": "whatsapp",
+  "bucket": "待判断",
+  "summary": "We import 25-30 cars per month, mostly Corolla & Yaris. Are you a direct supplie",
+  "crm_status": "unknown",
+  "messages": [
+    {
+      "role": "customer",
+      "text": "We import 25-30 cars per month, mostly Corolla & Yaris. Are you a direct supplier?",
+      "time": "2026-04-02 09:14:13",
+      "timestamp": "2026-04-02 09:14:13"
+    }
+  ],
+  "last_updated": "2026-04-02 09:14:13"
+}

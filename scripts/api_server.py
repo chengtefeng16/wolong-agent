@@ -571,6 +571,18 @@ class WolongAPIHandler(BaseHTTPRequestHandler):
         if path == "/webhook":
             result = handle_whatsapp_webhook(body)
             self._send_json(result)
+            # 收到消息后自动同步到 H5（两步：重建视图 + 拷贝到 public）
+            if result.get("processed", 0) > 0:
+                try:
+                    from qianqiu_os.services.runtime_whatsapp_h5_sync_v1 import sync as rebuild_dashboard
+                    rebuild_dashboard()
+                except Exception as e:
+                    print(f"[webhook] dashboard重建失败: {e}")
+                if SYNC_AVAILABLE:
+                    try:
+                        sync_once()
+                    except Exception as e:
+                        print(f"[webhook] 文件同步失败: {e}")
             return
 
         if path == "/api/sync":

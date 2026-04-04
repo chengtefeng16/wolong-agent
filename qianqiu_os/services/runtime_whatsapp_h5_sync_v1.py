@@ -91,7 +91,10 @@ def _normalize_messages(messages: Any) -> List[Dict[str, Any]]:
 
 def _build_customer_card(index_item: Dict[str, Any], seq: int) -> Dict[str, Any]:
     phone = index_item.get("phone", f"unknown_{seq}")
+    # 兼容带+和不带+的文件名
     conv_path = CONVERSATIONS_DIR / f"{phone}.json"
+    if not conv_path.exists():
+        conv_path = CONVERSATIONS_DIR / f"{phone.lstrip('+')}.json"
     conv = _read_json(conv_path, {})
 
     bucket = conv.get("bucket") or index_item.get("bucket") or "待判断"

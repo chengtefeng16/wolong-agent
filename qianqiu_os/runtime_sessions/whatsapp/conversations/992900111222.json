@@ -1,0 +1,18 @@
+{
+  "phone": "+992900111222",
+  "customer_name": "Bek Yusupov",
+  "country": "塔吉克斯坦",
+  "channel": "whatsapp",
+  "bucket": "待判断",
+  "summary": "I need Camry 2022-2024, white or silver, about 7 units. Do you have stock?",
+  "crm_status": "unknown",
+  "messages": [
+    {
+      "role": "customer",
+      "text": "I need Camry 2022-2024, white or silver, about 7 units. Do you have stock?",
+      "time": "2026-04-02 09:14:13",
+      "timestamp": "2026-04-02 09:14:13"
+    }
+  ],
+  "last_updated": "2026-04-02 09:14:13"
+}

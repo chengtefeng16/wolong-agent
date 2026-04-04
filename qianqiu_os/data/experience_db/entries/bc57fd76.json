@@ -1,0 +1,16 @@
+{
+  "id": "bc57fd76",
+  "timestamp": "2026-04-02 22:16:37",
+  "customer_msg": "您好，我想了解一下二手车出口的流程？",
+  "ai_suggested": "您好！很高兴为您服务。\n\n关于二手车出口",
+  "human_approved": true,
+  "human_modified": false,
+  "final_reply": "您好！很高兴为您服务。\n\n关于二手车出口",
+  "category": "疑似车商",
+  "country": "未知",
+  "outcome": "sent",
+  "quality_score": null,
+  "keywords": [],
+  "task_id": "2deb2de0",
+  "llm_source": "gemini"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "91234274",
+  "timestamp": "2026-04-02 21:59:09",
+  "customer_msg": "您好！消息接收正常，很高兴为您服务。\n\n非常感谢您",
+  "ai_suggested": "您好！很高兴为您服务。\n\n请问您对哪些车型感兴趣",
+  "human_approved": true,
+  "human_modified": false,
+  "final_reply": "您好！很高兴为您服务。\n\n请问您对哪些车型感兴趣",
+  "category": "疑似车商",
+  "country": "未知",
+  "outcome": "sent",
+  "quality_score": null,
+  "keywords": [],
+  "task_id": "aeb472c7",
+  "llm_source": "gemini"
+}

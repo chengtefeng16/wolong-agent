@@ -1,0 +1,30 @@
+{
+  "phone": "+256704100001",
+  "customer_name": "Grace Nambi",
+  "country": "乌干达",
+  "channel": "whatsapp",
+  "bucket": "待判断",
+  "summary": "Interested in hybrid SUVs, maybe Harrier or RAV4. Can you export to Kampala?",
+  "crm_status": "unknown",
+  "messages": [
+    {
+      "role": "customer",
+      "text": "Interested in hybrid SUVs, maybe Harrier or RAV4. Can you export to Kampala?",
+      "time": "2026-04-02 09:14:14",
+      "timestamp": "2026-04-02 09:14:14"
+    },
+    {
+      "role": "customer",
+      "text": "Hello Grace,\n\n很高兴您对我们的混合动力SUV感兴趣！Harrier",
+      "time": "2026-04-02 12:05:08",
+      "timestamp": "2026-04-02 12:05:08"
+    },
+    {
+      "role": "customer",
+      "text": "Hello Grace,\n\n很高兴您对我们的混合动力SUV感兴趣！Har",
+      "time": "2026-04-02 13:22:43",
+      "timestamp": "2026-04-02 13:22:43"
+    }
+  ],
+  "last_updated": "2026-04-02 13:22:43"
+}

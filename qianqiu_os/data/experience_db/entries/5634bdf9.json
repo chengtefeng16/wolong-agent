@@ -1,0 +1,16 @@
+{
+  "id": "5634bdf9",
+  "timestamp": "2026-04-04 12:24:32",
+  "customer_msg": "我又给你发了一条信息，但是没看到",
+  "ai_suggested": "Hi 坤越通测试, thank you for reaching out! Please share your vehicle requirements for 未知 (model, quantity, budget) and we'll respond right away.",
+  "human_approved": true,
+  "human_modified": false,
+  "final_reply": "Hi 坤越通测试, thank you for reaching out! Please share your vehicle requirements for 未知 (model, quantity, budget) and we'll respond right away.",
+  "category": "疑似车商",
+  "country": "未知",
+  "outcome": "sent",
+  "quality_score": null,
+  "keywords": [],
+  "task_id": "3b5584ba",
+  "llm_source": "rule_fallback"
+}

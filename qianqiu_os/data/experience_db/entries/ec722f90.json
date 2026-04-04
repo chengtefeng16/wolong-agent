@@ -1,0 +1,19 @@
+{
+  "id": "ec722f90",
+  "timestamp": "2026-04-02 13:22:43",
+  "customer_msg": "Hello Grace,\n\n很高兴您对我们的混合动力SUV感兴趣！Harrier",
+  "ai_suggested": "Hello Grace,\n\n很高兴您对我们的混合动力SUV感兴趣！Har",
+  "human_approved": true,
+  "human_modified": false,
+  "final_reply": "Hello Grace,\n\n很高兴您对我们的混合动力SUV感兴趣！Har",
+  "category": "疑似车商",
+  "country": "乌干达",
+  "outcome": "sent",
+  "quality_score": null,
+  "keywords": [
+    "suv",
+    "hello"
+  ],
+  "task_id": "5310ae56",
+  "llm_source": "gemini"
+}

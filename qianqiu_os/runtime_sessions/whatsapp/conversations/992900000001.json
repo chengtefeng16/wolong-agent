@@ -1,0 +1,18 @@
+{
+  "phone": "+992900000001",
+  "customer_name": "Bek",
+  "country": "塔吉克斯坦",
+  "channel": "whatsapp",
+  "bucket": "待判断",
+  "summary": "Still interested in Prado and Camry, 7 units. Can you quote?",
+  "crm_status": "unknown",
+  "messages": [
+    {
+      "role": "customer",
+      "text": "Still interested in Prado and Camry, 7 units. Can you quote?",
+      "time": "2026-04-02 07:26:30",
+      "timestamp": "2026-04-02 07:26:30"
+    }
+  ],
+  "last_updated": "2026-04-02 07:26:30"
+}
