@@ -46,6 +46,19 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 import os
 
+# ── 自动加载 .env 文件（优先级低于已有环境变量）──
+_env_file = PROJECT_ROOT / ".env"
+if _env_file.exists():
+    with open(_env_file) as _f:
+        for _line in _f:
+            _line = _line.strip()
+            if _line and not _line.startswith("#") and "=" in _line:
+                _key, _val = _line.split("=", 1)
+                _key = _key.strip()
+                _val = _val.strip().strip('"').strip("'")
+                if _key and _key not in os.environ:   # 环境变量优先
+                    os.environ[_key] = _val
+
 # ── WhatsApp Cloud API 配置（全部走环境变量，不写死）──
 WHATSAPP_VERIFY_TOKEN   = os.getenv("WHATSAPP_VERIFY_TOKEN",   "wolong_webhook_token")
 WHATSAPP_ACCESS_TOKEN   = os.getenv("WHATSAPP_ACCESS_TOKEN",   "")   # 有值 → 真实发送；空 → dry_run

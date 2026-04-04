@@ -38,6 +38,30 @@ echo " 卧龙 Agent 系统启动（Gemini API 已启用）"
 echo " 项目根目录: $PROJECT_ROOT"
 echo "================================================================"
 
+# ── 加载 .env 环境变量（已有环境变量优先，不覆盖）──
+if [ -f "$PROJECT_ROOT/.env" ]; then
+    while IFS='=' read -r key val; do
+        # 跳过注释和空行
+        [[ "$key" =~ ^[[:space:]]*# ]] && continue
+        [[ -z "$key" ]] && continue
+        # 去掉首尾空格和引号
+        key="${key//[[:space:]]/}"
+        val="${val#"${val%%[! ]*}"}"   # ltrim
+        val="${val%"${val##*[! ]}"}"   # rtrim
+        val="${val#\'}" ; val="${val%\'}"
+        val="${val#\"}" ; val="${val%\"}"
+        # 只在未设置时导出
+        if [ -n "$key" ] && [ -z "${!key}" ]; then
+            export "$key=$val"
+        fi
+    done < "$PROJECT_ROOT/.env"
+    echo "[env] ✅ 已加载 .env 配置"
+    echo "[env]   WHATSAPP_ACCESS_TOKEN: ${WHATSAPP_ACCESS_TOKEN:0:20}...（已隐藏）"
+else
+    echo "[env] ⚠️  未找到 .env 文件，请在项目根目录创建 .env"
+fi
+echo ""
+
 # 检查 node_modules
 if [ ! -d "$H5_DIR/node_modules" ]; then
     echo "[H5] 安装前端依赖..."
