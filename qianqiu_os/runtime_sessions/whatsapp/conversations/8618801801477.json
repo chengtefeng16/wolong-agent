@@ -1,0 +1,78 @@
+{
+  "phone": "+8618801801477",
+  "customer_name": "坤越通国际贸易",
+  "country": "",
+  "channel": "whatsapp",
+  "bucket": "待判断",
+  "summary": "您好，我想了解一下二手车出口的流程？",
+  "crm_status": "unknown",
+  "messages": [
+    {
+      "role": "customer",
+      "text": "您好，我想了解一下二手车出口的流程？",
+      "time": "2026-04-02 22:00:04",
+      "timestamp": "2026-04-02 22:00:04"
+    },
+    {
+      "role": "customer",
+      "text": "您好！很高兴为您服务。\n\n关于二手车出口",
+      "time": "2026-04-02 22:16:37",
+      "timestamp": "2026-04-02 22:16:37"
+    },
+    {
+      "role": "customer",
+      "text": "您好！很高兴为您服务。\n\n请问您具体想了解",
+      "time": "2026-04-02 22:35:51",
+      "timestamp": "2026-04-02 22:35:51"
+    },
+    {
+      "role": "customer",
+      "text": "您好！很高兴为您服务。\n\n请问您具体想了解",
+      "time": "2026-04-02 22:35:51",
+      "timestamp": "2026-04-02 22:35:51"
+    },
+    {
+      "role": "customer",
+      "text": "您好！很高兴为您服务。\n\n请问您具体想了解",
+      "time": "2026-04-02 22:35:53",
+      "timestamp": "2026-04-02 22:35:53"
+    },
+    {
+      "role": "customer",
+      "text": "Hi Test User 测试用户! Welcome to Wolong Auto Export. We specialize in vehicle exports to 未知. How can we assist you today?",
+      "time": "2026-04-03 09:35:44",
+      "timestamp": "2026-04-03 09:35:44"
+    },
+    {
+      "role": "customer",
+      "text": "您好 Test User 测试用户！很高兴您联系卧龙汽车",
+      "time": "2026-04-03 15:18:04",
+      "timestamp": "2026-04-03 15:18:04"
+    },
+    {
+      "role": "customer",
+      "text": "Hi Test User 测试用户! Welcome to Wolong Auto Export. We specialize in vehicle exports to 未知. How can we assist you today?",
+      "time": "2026-04-04 12:16:32",
+      "timestamp": "2026-04-04 12:16:32"
+    },
+    {
+      "role": "customer",
+      "text": "现在能不能测试？",
+      "time": "2026-04-04 15:28:39",
+      "timestamp": "2026-04-04 15:28:39"
+    },
+    {
+      "role": "customer",
+      "text": "我问你能不能测试，不是现在无法测试",
+      "time": "2026-04-04 15:29:00",
+      "timestamp": "2026-04-04 15:29:00"
+    },
+    {
+      "role": "customer",
+      "text": "我想要100台英菲尼迪加奔驰",
+      "time": "2026-04-04 15:29:37",
+      "timestamp": "2026-04-04 15:29:37"
+    }
+  ],
+  "last_updated": "2026-04-04 15:29:37"
+}

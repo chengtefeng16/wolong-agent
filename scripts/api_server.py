@@ -44,9 +44,15 @@ from urllib.parse import urlparse, parse_qs
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
-# WhatsApp Webhook 验证 Token（从环境变量读取，默认值用于测试）
 import os
-WHATSAPP_VERIFY_TOKEN = os.getenv("WHATSAPP_VERIFY_TOKEN", "wolong_webhook_token")
+
+# ── WhatsApp Cloud API 配置（全部走环境变量，不写死）──
+WHATSAPP_VERIFY_TOKEN   = os.getenv("WHATSAPP_VERIFY_TOKEN",   "wolong_webhook_token")
+WHATSAPP_ACCESS_TOKEN   = os.getenv("WHATSAPP_ACCESS_TOKEN",   "")   # 有值 → 真实发送；空 → dry_run
+WHATSAPP_PHONE_NUMBER_ID = os.getenv("WHATSAPP_PHONE_NUMBER_ID", "1116512831537320")
+WHATSAPP_API_VERSION    = os.getenv("WHATSAPP_API_VERSION",    "v19.0")
+WA_MODE = "real" if WHATSAPP_ACCESS_TOKEN else "mock"          # 显示在 /api/status
+
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
@@ -250,6 +256,12 @@ def handle_approve_reply(body: dict) -> dict:
     if not task_id:
         return {"success": False, "error": "缺少 task_id"}
 
+    # ── 真实发送（token 有了就自动走真实；否则 dry_run）──
+    send_result = {}
+    to_phone = body.get("phone", "")
+    if human_approved and final_reply and to_phone:
+        send_result = wa_send_message(to_phone, final_reply)
+
     if CLOSED_LOOP_AVAILABLE:
         mgr = get_closed_loop_manager()
         result = mgr.record_human_decision(
@@ -259,7 +271,7 @@ def handle_approve_reply(body: dict) -> dict:
             outcome=outcome,
             quality_score=quality_score,
         )
-        return {"success": True, **result}
+        return {"success": True, "wa_send": send_result, **result}
     elif EXP_AVAILABLE:
         # 降级：直接存经验
         from qianqiu_os.services.experience_store_v1 import save_experience
@@ -275,6 +287,89 @@ def handle_approve_reply(body: dict) -> dict:
         return {"success": True, "entry_id": entry_id, "stored": True}
     else:
         return {"success": False, "error": "经验库未就绪"}
+
+
+def wa_send_message(to_phone: str, text: str) -> dict:
+    """
+    向客户发送 WhatsApp 消息。
+    - WHATSAPP_ACCESS_TOKEN 已配置 → 调用 WhatsApp Cloud API 真实发送
+    - 未配置 → dry_run 模式，仅打印日志，不实际发送
+
+    to_phone 格式：+8613122101699 或 8613122101699（自动处理 + 前缀）
+    """
+    import urllib.request
+
+    phone_digits = to_phone.lstrip("+")
+
+    if not WHATSAPP_ACCESS_TOKEN:
+        print(f"[WA][dry_run] 模拟发送给 {to_phone}: {text[:80]}")
+        return {"mode": "dry_run", "to": to_phone, "sent": False,
+                "note": "设置 WHATSAPP_ACCESS_TOKEN 环境变量后切换为真实发送"}
+
+    url = f"https://graph.facebook.com/{WHATSAPP_API_VERSION}/{WHATSAPP_PHONE_NUMBER_ID}/messages"
+    payload_bytes = json.dumps({
+        "messaging_product": "whatsapp",
+        "to": phone_digits,
+        "type": "text",
+        "text": {"body": text},
+    }, ensure_ascii=False).encode("utf-8")
+
+    req = urllib.request.Request(
+        url,
+        data=payload_bytes,
+        headers={
+            "Authorization": f"Bearer {WHATSAPP_ACCESS_TOKEN}",
+            "Content-Type": "application/json",
+        },
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            result = json.loads(resp.read().decode("utf-8"))
+            print(f"[WA][real] 已发送给 {to_phone}: {text[:60]} → {result}")
+            return {"mode": "real", "to": to_phone, "sent": True, "api_response": result}
+    except Exception as e:
+        print(f"[WA][real] 发送失败 {to_phone}: {e}")
+        return {"mode": "real", "to": to_phone, "sent": False, "error": str(e)}
+
+
+def handle_mock_incoming(body: dict) -> dict:
+    """
+    模拟一条入站 WhatsApp 消息（用于测试，不依赖真实 WhatsApp）。
+    构造与真实 Webhook 相同的 payload 结构，走同一条处理链路。
+    """
+    phone = body.get("phone", "+8613122101699")
+    name  = body.get("name",  "测试客户")
+    text  = body.get("message", "Hello, I want to buy 5 Toyota Corollas.")
+
+    wa_id = phone.lstrip("+")
+    fake_webhook = {
+        "object": "whatsapp_business_account",
+        "entry": [{
+            "id": "818930777978337",
+            "changes": [{
+                "value": {
+                    "messaging_product": "whatsapp",
+                    "metadata": {
+                        "display_phone_number": "+8613122101699",
+                        "phone_number_id": WHATSAPP_PHONE_NUMBER_ID,
+                    },
+                    "contacts": [{"profile": {"name": name}, "wa_id": wa_id}],
+                    "messages": [{
+                        "from": wa_id,
+                        "id": f"mock_{int(time.time())}",
+                        "timestamp": str(int(time.time())),
+                        "text": {"body": text},
+                        "type": "text",
+                    }],
+                },
+                "field": "messages",
+            }],
+        }],
+    }
+    result = handle_whatsapp_webhook(fake_webhook)
+    result["mock"] = True
+    return result
 
 
 def handle_whatsapp_webhook(payload: dict) -> dict:
@@ -433,6 +528,8 @@ class WolongAPIHandler(BaseHTTPRequestHandler):
                 "time": time.strftime("%Y-%m-%d %H:%M:%S"),
                 "sync_available": SYNC_AVAILABLE,
                 "closed_loop": loop_status,
+                "wa_mode": WA_MODE,
+                "wa_phone_number_id": WHATSAPP_PHONE_NUMBER_ID,
             })
 
         elif path == "/api/experience/summary":
@@ -474,6 +571,18 @@ class WolongAPIHandler(BaseHTTPRequestHandler):
         if path == "/webhook":
             result = handle_whatsapp_webhook(body)
             self._send_json(result)
+            # 收到消息后自动同步到 H5（两步：重建视图 + 拷贝到 public）
+            if result.get("processed", 0) > 0:
+                try:
+                    from qianqiu_os.services.runtime_whatsapp_h5_sync_v1 import sync as rebuild_dashboard
+                    rebuild_dashboard()
+                except Exception as e:
+                    print(f"[webhook] dashboard重建失败: {e}")
+                if SYNC_AVAILABLE:
+                    try:
+                        sync_once()
+                    except Exception as e:
+                        print(f"[webhook] 文件同步失败: {e}")
             return
 
         if path == "/api/sync":
@@ -499,6 +608,11 @@ class WolongAPIHandler(BaseHTTPRequestHandler):
             result = handle_reflection(body)
             self._send_json(result)
 
+        elif path == "/api/mock_incoming":
+            # 模拟一条入站 WhatsApp 消息（不依赖真实 WhatsApp，走完整处理链路）
+            result = handle_mock_incoming(body)
+            self._send_json(result)
+
         else:
             self._send_json({"error": f"未知路径: {path}"}, 404)
 
@@ -513,14 +627,23 @@ def main():
 
     server = HTTPServer(("0.0.0.0", port), WolongAPIHandler)
     print(f"[API] 卧龙 Agent 后端 API 服务器已启动: http://localhost:{port}")
-    print(f"[API] 测试接口:")
-    print(f"[API]   GET  http://localhost:{port}/api/status")
-    print(f"[API]   POST http://localhost:{port}/api/sync")
-    print(f"[API]   POST http://localhost:{port}/api/send_message")
+    print(f"[API] WhatsApp 模式: {'🟢 真实发送 (WHATSAPP_ACCESS_TOKEN 已配置)' if WA_MODE == 'real' else '🟡 dry_run/mock (未配置 WHATSAPP_ACCESS_TOKEN)'}")
+    print(f"[API] Phone Number ID: {WHATSAPP_PHONE_NUMBER_ID}")
+    print(f"[API]")
+    print(f"[API] 主要接口:")
+    print(f"[API]   GET  /api/status              系统状态（含 wa_mode）")
+    print(f"[API]   POST /api/mock_incoming        模拟入站消息（Mock 测试用）")
+    print(f"[API]   POST /api/ai_reply             获取 AI 建议回复")
+    print(f"[API]   POST /api/approve_reply        采纳并发送（dry_run 或真实）")
     print(f"[API] WhatsApp Webhook:")
-    print(f"[API]   GET  http://localhost:{port}/webhook  (Meta 验证)")
-    print(f"[API]   POST http://localhost:{port}/webhook  (接收真实消息)")
-    print(f"[API]   验证 Token: {WHATSAPP_VERIFY_TOKEN}  (可通过 WHATSAPP_VERIFY_TOKEN 环境变量覆盖)")
+    print(f"[API]   GET  /webhook                  Meta 验证（verify_token={WHATSAPP_VERIFY_TOKEN}）")
+    print(f"[API]   POST /webhook                  接收真实消息")
+    print(f"[API]")
+    print(f"[API] 切换真实发送:")
+    print(f"[API]   export WHATSAPP_ACCESS_TOKEN=<your_token>")
+    print(f"[API]   export WHATSAPP_PHONE_NUMBER_ID=1116512831537320")
+    print(f"[API]   重启服务器即可")
+    print(f"[API]")
     print(f"[API] 按 Ctrl+C 停止...")
 
     try:

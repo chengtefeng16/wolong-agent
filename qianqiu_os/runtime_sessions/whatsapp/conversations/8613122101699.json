@@ -1,0 +1,60 @@
+{
+  "phone": "+8613122101699",
+  "customer_name": "坤越通测试",
+  "country": "未知",
+  "channel": "whatsapp",
+  "bucket": "待判断",
+  "summary": "你好，我是真实用户，测试消息接收是否正常。我想进口10辆丰田埃尔法到哈萨克斯坦。",
+  "crm_status": "unknown",
+  "messages": [
+    {
+      "role": "customer",
+      "text": "你好，我是真实用户，测试消息接收是否正常。我想进口10辆丰田埃尔法到哈萨克斯坦。",
+      "time": "2026-04-02 16:04:58",
+      "timestamp": "2026-04-02 16:04:58"
+    },
+    {
+      "role": "customer",
+      "text": "您好！消息接收正常，很高兴为您服务。\n\n非常感谢您",
+      "time": "2026-04-02 21:16:56",
+      "timestamp": "2026-04-02 21:16:56"
+    },
+    {
+      "role": "customer",
+      "text": "您好！很高兴为您服务。\n\n请问您对哪些车型感兴趣",
+      "time": "2026-04-02 21:59:09",
+      "timestamp": "2026-04-02 21:59:09"
+    },
+    {
+      "role": "customer",
+      "text": "现在能不能收到？能不能收到测试一下？",
+      "time": "2026-04-04 12:03:58",
+      "timestamp": "2026-04-04 12:03:58"
+    },
+    {
+      "role": "customer",
+      "text": "我又给你发了一条信息，但是没看到",
+      "time": "2026-04-04 12:17:46",
+      "timestamp": "2026-04-04 12:17:46"
+    },
+    {
+      "role": "customer",
+      "text": "Hi 坤越通测试, thank you for reaching out! Please share your vehicle requirements for 未知 (model, quantity, budget) and we'll respond right away.",
+      "time": "2026-04-04 12:24:32",
+      "timestamp": "2026-04-04 12:24:32"
+    },
+    {
+      "role": "customer",
+      "text": "修复测试消息",
+      "time": "2026-04-04 12:31:05",
+      "timestamp": "2026-04-04 12:31:05"
+    },
+    {
+      "role": "customer",
+      "text": "Hi 坤越通测试, thank you for reaching out! Please share your vehicle requirements for 未知 (model, quantity, budget) and we'll respond right away.",
+      "time": "2026-04-04 12:41:15",
+      "timestamp": "2026-04-04 12:41:15"
+    }
+  ],
+  "last_updated": "2026-04-04 12:41:15"
+}

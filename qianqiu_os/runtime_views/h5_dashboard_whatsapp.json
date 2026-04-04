@@ -3,19 +3,231 @@
   "source": "runtime_sessions/whatsapp",
   "customers": [
     {
+      "id": "+16315551181",
+      "name": "test user name",
+      "category": "待判断",
+      "country": "未知",
+      "channel": "whatsapp",
+      "time": "2026-04-04 13:43:21",
+      "message": "Hi test user name! Welcome to Wolong Auto Export. We specialize in vehicle exports to 未知. How can we assist you today?",
+      "keywords": [],
+      "reason": "this is a text message",
+      "tags": [],
+      "phone": "+16315551181",
+      "timeline": [
+        "2026-04-04 13:04:30 客户：this is a text message",
+        "2026-04-04 13:43:20 客户：Hi test user name! Welcome to Wolong Auto Export. We specialize in vehicle exports to 未知. How can we assist you today?",
+        "2026-04-04 13:43:21 客户：Hi test user name! Welcome to Wolong Auto Export. We specialize in vehicle exports to 未知. How can we assist you today?"
+      ],
+      "messages": [
+        {
+          "role": "客户",
+          "text": "this is a text message",
+          "time": "2026-04-04 13:04:30"
+        },
+        {
+          "role": "客户",
+          "text": "Hi test user name! Welcome to Wolong Auto Export. We specialize in vehicle exports to 未知. How can we assist you today?",
+          "time": "2026-04-04 13:43:20"
+        },
+        {
+          "role": "客户",
+          "text": "Hi test user name! Welcome to Wolong Auto Export. We specialize in vehicle exports to 未知. How can we assist you today?",
+          "time": "2026-04-04 13:43:21"
+        }
+      ],
+      "crm_status": "unknown",
+      "needs_human_review": false,
+      "destination": ""
+    },
+    {
+      "id": "+8618801801477",
+      "name": "坤越通国际贸易",
+      "category": "待判断",
+      "country": "未知",
+      "channel": "whatsapp",
+      "time": "2026-04-04 15:29:37",
+      "message": "我想要100台英菲尼迪加奔驰",
+      "keywords": [],
+      "reason": "您好，我想了解一下二手车出口的流程？",
+      "tags": [],
+      "phone": "+8618801801477",
+      "timeline": [
+        "2026-04-02 22:00:04 客户：您好，我想了解一下二手车出口的流程？",
+        "2026-04-02 22:16:37 客户：您好！很高兴为您服务。\n\n关于二手车出口",
+        "2026-04-02 22:35:51 客户：您好！很高兴为您服务。\n\n请问您具体想了解",
+        "2026-04-02 22:35:51 客户：您好！很高兴为您服务。\n\n请问您具体想了解",
+        "2026-04-02 22:35:53 客户：您好！很高兴为您服务。\n\n请问您具体想了解",
+        "2026-04-03 09:35:44 客户：Hi Test User 测试用户! Welcome to Wolong Auto Export. We specialize in vehicle exports to 未知. How can we assist you today?",
+        "2026-04-03 15:18:04 客户：您好 Test User 测试用户！很高兴您联系卧龙汽车",
+        "2026-04-04 12:16:32 客户：Hi Test User 测试用户! Welcome to Wolong Auto Export. We specialize in vehicle exports to 未知. How can we assist you today?",
+        "2026-04-04 15:28:39 客户：现在能不能测试？",
+        "2026-04-04 15:29:00 客户：我问你能不能测试，不是现在无法测试",
+        "2026-04-04 15:29:37 客户：我想要100台英菲尼迪加奔驰"
+      ],
+      "messages": [
+        {
+          "role": "客户",
+          "text": "您好，我想了解一下二手车出口的流程？",
+          "time": "2026-04-02 22:00:04"
+        },
+        {
+          "role": "客户",
+          "text": "您好！很高兴为您服务。\n\n关于二手车出口",
+          "time": "2026-04-02 22:16:37"
+        },
+        {
+          "role": "客户",
+          "text": "您好！很高兴为您服务。\n\n请问您具体想了解",
+          "time": "2026-04-02 22:35:51"
+        },
+        {
+          "role": "客户",
+          "text": "您好！很高兴为您服务。\n\n请问您具体想了解",
+          "time": "2026-04-02 22:35:51"
+        },
+        {
+          "role": "客户",
+          "text": "您好！很高兴为您服务。\n\n请问您具体想了解",
+          "time": "2026-04-02 22:35:53"
+        },
+        {
+          "role": "客户",
+          "text": "Hi Test User 测试用户! Welcome to Wolong Auto Export. We specialize in vehicle exports to 未知. How can we assist you today?",
+          "time": "2026-04-03 09:35:44"
+        },
+        {
+          "role": "客户",
+          "text": "您好 Test User 测试用户！很高兴您联系卧龙汽车",
+          "time": "2026-04-03 15:18:04"
+        },
+        {
+          "role": "客户",
+          "text": "Hi Test User 测试用户! Welcome to Wolong Auto Export. We specialize in vehicle exports to 未知. How can we assist you today?",
+          "time": "2026-04-04 12:16:32"
+        },
+        {
+          "role": "客户",
+          "text": "现在能不能测试？",
+          "time": "2026-04-04 15:28:39"
+        },
+        {
+          "role": "客户",
+          "text": "我问你能不能测试，不是现在无法测试",
+          "time": "2026-04-04 15:29:00"
+        },
+        {
+          "role": "客户",
+          "text": "我想要100台英菲尼迪加奔驰",
+          "time": "2026-04-04 15:29:37"
+        }
+      ],
+      "crm_status": "unknown",
+      "needs_human_review": false,
+      "destination": ""
+    },
+    {
+      "id": "+8613122101699",
+      "name": "坤越通测试",
+      "category": "待判断",
+      "country": "未知",
+      "channel": "whatsapp",
+      "time": "2026-04-04 12:41:15",
+      "message": "Hi 坤越通测试, thank you for reaching out! Please share your vehicle requirements for 未知 (model, quantity, budget) and we'll respond right away.",
+      "keywords": [],
+      "reason": "你好，我是真实用户，测试消息接收是否正常。我想进口10辆丰田埃尔法到哈萨克斯坦。",
+      "tags": [],
+      "phone": "+8613122101699",
+      "timeline": [
+        "2026-04-02 16:04:58 客户：你好，我是真实用户，测试消息接收是否正常。我想进口10辆丰田埃尔法到哈萨克斯坦。",
+        "2026-04-02 21:16:56 客户：您好！消息接收正常，很高兴为您服务。\n\n非常感谢您",
+        "2026-04-02 21:59:09 客户：您好！很高兴为您服务。\n\n请问您对哪些车型感兴趣",
+        "2026-04-04 12:03:58 客户：现在能不能收到？能不能收到测试一下？",
+        "2026-04-04 12:17:46 客户：我又给你发了一条信息，但是没看到",
+        "2026-04-04 12:24:32 客户：Hi 坤越通测试, thank you for reaching out! Please share your vehicle requirements for 未知 (model, quantity, budget) and we'll respond right away.",
+        "2026-04-04 12:31:05 客户：修复测试消息",
+        "2026-04-04 12:41:15 客户：Hi 坤越通测试, thank you for reaching out! Please share your vehicle requirements for 未知 (model, quantity, budget) and we'll respond right away."
+      ],
+      "messages": [
+        {
+          "role": "客户",
+          "text": "你好，我是真实用户，测试消息接收是否正常。我想进口10辆丰田埃尔法到哈萨克斯坦。",
+          "time": "2026-04-02 16:04:58"
+        },
+        {
+          "role": "客户",
+          "text": "您好！消息接收正常，很高兴为您服务。\n\n非常感谢您",
+          "time": "2026-04-02 21:16:56"
+        },
+        {
+          "role": "客户",
+          "text": "您好！很高兴为您服务。\n\n请问您对哪些车型感兴趣",
+          "time": "2026-04-02 21:59:09"
+        },
+        {
+          "role": "客户",
+          "text": "现在能不能收到？能不能收到测试一下？",
+          "time": "2026-04-04 12:03:58"
+        },
+        {
+          "role": "客户",
+          "text": "我又给你发了一条信息，但是没看到",
+          "time": "2026-04-04 12:17:46"
+        },
+        {
+          "role": "客户",
+          "text": "Hi 坤越通测试, thank you for reaching out! Please share your vehicle requirements for 未知 (model, quantity, budget) and we'll respond right away.",
+          "time": "2026-04-04 12:24:32"
+        },
+        {
+          "role": "客户",
+          "text": "修复测试消息",
+          "time": "2026-04-04 12:31:05"
+        },
+        {
+          "role": "客户",
+          "text": "Hi 坤越通测试, thank you for reaching out! Please share your vehicle requirements for 未知 (model, quantity, budget) and we'll respond right away.",
+          "time": "2026-04-04 12:41:15"
+        }
+      ],
+      "crm_status": "unknown",
+      "needs_human_review": false,
+      "destination": ""
+    },
+    {
       "id": "+256704100001",
       "name": "Grace Nambi",
       "category": "待判断",
       "country": "乌干达",
       "channel": "whatsapp",
-      "time": "2026-04-02 12:05:08",
-      "message": "Hello Grace,\n\n很高兴您对我们的混合动力SUV感兴趣！Harrier",
+      "time": "2026-04-02 13:22:43",
+      "message": "Hello Grace,\n\n很高兴您对我们的混合动力SUV感兴趣！Har",
       "keywords": [],
-      "reason": "Hello Grace,\n\n很高兴您对我们的混合动力SUV感兴趣！Harrier",
+      "reason": "Interested in hybrid SUVs, maybe Harrier or RAV4. Can you export to Kampala?",
       "tags": [],
       "phone": "+256704100001",
-      "timeline": [],
-      "messages": [],
+      "timeline": [
+        "2026-04-02 09:14:14 客户：Interested in hybrid SUVs, maybe Harrier or RAV4. Can you export to Kampala?",
+        "2026-04-02 12:05:08 客户：Hello Grace,\n\n很高兴您对我们的混合动力SUV感兴趣！Harrier",
+        "2026-04-02 13:22:43 客户：Hello Grace,\n\n很高兴您对我们的混合动力SUV感兴趣！Har"
+      ],
+      "messages": [
+        {
+          "role": "客户",
+          "text": "Interested in hybrid SUVs, maybe Harrier or RAV4. Can you export to Kampala?",
+          "time": "2026-04-02 09:14:14"
+        },
+        {
+          "role": "客户",
+          "text": "Hello Grace,\n\n很高兴您对我们的混合动力SUV感兴趣！Harrier",
+          "time": "2026-04-02 12:05:08"
+        },
+        {
+          "role": "客户",
+          "text": "Hello Grace,\n\n很高兴您对我们的混合动力SUV感兴趣！Har",
+          "time": "2026-04-02 13:22:43"
+        }
+      ],
       "crm_status": "unknown",
       "needs_human_review": false,
       "destination": ""
@@ -29,11 +241,19 @@
       "time": "2026-04-02 09:14:14",
       "message": "Need 5 Toyota Hilux pickup trucks for our business in Lusaka. Whats your best price?",
       "keywords": [],
-      "reason": "Need 5 Toyota Hilux pickup trucks for our business in Lusaka. Whats your best price?",
+      "reason": "Need 5 Toyota Hilux pickup trucks for our business in Lusaka. Whats your best pr",
       "tags": [],
       "phone": "+260977200001",
-      "timeline": [],
-      "messages": [],
+      "timeline": [
+        "2026-04-02 09:14:14 客户：Need 5 Toyota Hilux pickup trucks for our business in Lusaka. Whats your best price?"
+      ],
+      "messages": [
+        {
+          "role": "客户",
+          "text": "Need 5 Toyota Hilux pickup trucks for our business in Lusaka. Whats your best price?",
+          "time": "2026-04-02 09:14:14"
+        }
+      ],
       "crm_status": "unknown",
       "needs_human_review": false,
       "destination": ""
@@ -47,11 +267,19 @@
       "time": "2026-04-02 09:14:13",
       "message": "We import 25-30 cars per month, mostly Corolla & Yaris. Are you a direct supplier?",
       "keywords": [],
-      "reason": "We import 25-30 cars per month, mostly Corolla & Yaris. Are you a direct supplier?",
+      "reason": "We import 25-30 cars per month, mostly Corolla & Yaris. Are you a direct supplie",
       "tags": [],
       "phone": "+8613800001234",
-      "timeline": [],
-      "messages": [],
+      "timeline": [
+        "2026-04-02 09:14:13 客户：We import 25-30 cars per month, mostly Corolla & Yaris. Are you a direct supplier?"
+      ],
+      "messages": [
+        {
+          "role": "客户",
+          "text": "We import 25-30 cars per month, mostly Corolla & Yaris. Are you a direct supplier?",
+          "time": "2026-04-02 09:14:13"
+        }
+      ],
       "crm_status": "unknown",
       "needs_human_review": false,
       "destination": ""
@@ -68,8 +296,16 @@
       "reason": "I need Camry 2022-2024, white or silver, about 7 units. Do you have stock?",
       "tags": [],
       "phone": "+992900111222",
-      "timeline": [],
-      "messages": [],
+      "timeline": [
+        "2026-04-02 09:14:13 客户：I need Camry 2022-2024, white or silver, about 7 units. Do you have stock?"
+      ],
+      "messages": [
+        {
+          "role": "客户",
+          "text": "I need Camry 2022-2024, white or silver, about 7 units. Do you have stock?",
+          "time": "2026-04-02 09:14:13"
+        }
+      ],
       "crm_status": "unknown",
       "needs_human_review": false,
       "destination": ""
@@ -83,11 +319,19 @@
       "time": "2026-04-02 09:14:12",
       "message": "Hi! We are a dealership in Almaty. Need 15 Prado units for Q2. Can you quote FOB?",
       "keywords": [],
-      "reason": "Hi! We are a dealership in Almaty. Need 15 Prado units for Q2. Can you quote FOB?",
+      "reason": "Hi! We are a dealership in Almaty. Need 15 Prado units for Q2. Can you quote FOB",
       "tags": [],
       "phone": "+77011112233",
-      "timeline": [],
-      "messages": [],
+      "timeline": [
+        "2026-04-02 09:14:12 客户：Hi! We are a dealership in Almaty. Need 15 Prado units for Q2. Can you quote FOB?"
+      ],
+      "messages": [
+        {
+          "role": "客户",
+          "text": "Hi! We are a dealership in Almaty. Need 15 Prado units for Q2. Can you quote FOB?",
+          "time": "2026-04-02 09:14:12"
+        }
+      ],
       "crm_status": "unknown",
       "needs_human_review": false,
       "destination": ""
@@ -140,7 +384,7 @@
     "准车商": 0,
     "疑似车商": 0,
     "个人客户": 1,
-    "沟通无效": 5
+    "沟通无效": 8
   },
-  "customer_count": 6
+  "customer_count": 9
 }

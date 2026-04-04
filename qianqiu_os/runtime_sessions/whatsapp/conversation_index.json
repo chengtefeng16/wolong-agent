@@ -4,13 +4,46 @@
   "source": "runtime_sessions/whatsapp",
   "items": [
     {
+      "phone": "+16315551181",
+      "customer_name": "test user name",
+      "country": "未知",
+      "channel": "whatsapp",
+      "bucket": "待判断",
+      "latest_message": "Hi test user name! Welcome to Wolong Auto Export. We specialize in vehicle exports to 未知. How can we assist you today?",
+      "last_message_time": "2026-04-04 13:43:21",
+      "needs_human_review": false,
+      "crm_status": "unknown"
+    },
+    {
+      "phone": "+8618801801477",
+      "customer_name": "坤越通国际贸易",
+      "country": "",
+      "channel": "whatsapp",
+      "bucket": "待判断",
+      "latest_message": "我想要100台英菲尼迪加奔驰",
+      "last_message_time": "2026-04-04 15:29:37",
+      "needs_human_review": false,
+      "crm_status": "unknown"
+    },
+    {
+      "phone": "+8613122101699",
+      "customer_name": "坤越通测试",
+      "country": "未知",
+      "channel": "whatsapp",
+      "bucket": "待判断",
+      "latest_message": "Hi 坤越通测试, thank you for reaching out! Please share your vehicle requirements for 未知 (model, quantity, budget) and we'll respond right away.",
+      "last_message_time": "2026-04-04 12:41:15",
+      "needs_human_review": false,
+      "crm_status": "unknown"
+    },
+    {
       "phone": "+256704100001",
       "customer_name": "Grace Nambi",
       "country": "乌干达",
       "channel": "whatsapp",
       "bucket": "待判断",
-      "latest_message": "Hello Grace,\n\n很高兴您对我们的混合动力SUV感兴趣！Harrier",
-      "last_message_time": "2026-04-02 12:05:08",
+      "latest_message": "Hello Grace,\n\n很高兴您对我们的混合动力SUV感兴趣！Har",
+      "last_message_time": "2026-04-02 13:22:43",
       "needs_human_review": false,
       "crm_status": "unknown"
     },

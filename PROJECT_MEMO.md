@@ -11,6 +11,61 @@ document, in whole or in part, is strictly prohibited.
 # PROJECT_MEMO
 
 
+## [2026-04-04] 里程碑：WhatsApp 全链路打通 ✅
+
+### 核心突破
+- **全链路首次验证成功**：真实 WhatsApp 消息 → ngrok Webhook → api_server.py → H5 实时显示，端到端完整打通。
+- **根因定位**：WABA（`2817262535309287`）从未订阅本 App（`subscribed_apps` 为空），导致 Meta 不向 Webhook 推送真实消息。仅靠 Meta 开发者控制台"发送到服务器"按钮可绕过此限制，真实用户消息则完全静默。
+
+### 今日三个关键修复
+
+**1. WABA 订阅激活（最关键）**
+- 问题：`GET /2817262535309287/subscribed_apps` 返回空数组 `[]`
+- 修复：`POST /2817262535309287/subscribed_apps`（System User Token），返回 `{"success": true}`
+- 效果：此后真实 WhatsApp 消息立即开始触发 Webhook
+
+**2. H5 同步两步流程修复（api_server.py）**
+- 问题：webhook 收到消息后只调用 `sync_once()`（文件拷贝），未调用 `rebuild_dashboard()`（从 session 重建 JSON）
+- 修复：在 webhook handler 中增加 `rebuild_dashboard()` 调用，先重建再拷贝
+- 关键代码：
+  ```python
+  from qianqiu_os.services.runtime_whatsapp_h5_sync_v1 import sync as rebuild_dashboard
+  rebuild_dashboard()  # 先重建
+  sync_once()          # 再拷贝到 H5 public
+  ```
+
+**3. 电话号码格式兼容（runtime_whatsapp_h5_sync_v1.py）**
+- 问题：index 存储 `+8613122101699`（带 +），但 conversation 文件名为 `8613122101699.json`（不带 +）
+- 修复：先查带 + 路径，不存在则 `phone.lstrip('+')` 再查
+
+### 公网 Webhook 方案：ngrok 永久隧道
+- **永久 URL**：`https://porter-unsimultaneous-nonopprobriously.ngrok-free.dev/webhook`
+- **放弃 Cloudflare Named Tunnel**：zcarmy.com 使用阿里云 NS（hichina），CNAME 到 cfargotunnel.com 在公网不可解析。不换 NS 则 Cloudflare Tunnel 无法使用。
+- **ngrok 代理问题**：系统代理 `127.0.0.1:40009` 会阻断 ngrok 连接，启动需 `env -u http_proxy -u https_proxy -u HTTP_PROXY -u HTTPS_PROXY -u ALL_PROXY -u all_proxy ngrok http 8765 --url=...`
+- **start_wolong.sh 已更新**：增加 WABA 订阅激活步骤，每次启动自动确保 Meta 订阅有效。
+
+### 当前系统配置（2026-04-04 归档）
+| 配置项 | 值 |
+|--------|-----|
+| WABA ID | `2817262535309287` |
+| Phone Number ID | `1116512831537320` |
+| App ID | `941216881630307` |
+| Webhook URL | `https://porter-unsimultaneous-nonopprobriously.ngrok-free.dev/webhook` |
+| Verify Token | `wolong_webhook_token` |
+| ngrok Domain | `porter-unsimultaneous-nonopprobriously.ngrok-free.dev` |
+| Python Runtime | `.venv_delivery/bin/python3` |
+
+### 验证通过的消息记录
+- 16315551181（坤越通测试）：测试消息，12:17:46 成功入库并显示
+- 8618801801477（坤越通国际贸易）：真实消息"我想要100台英菲尼迪加奔驰"，15:29:37 成功显示
+
+### 下一步
+- 接入 Gemini AI 对入库消息自动分类（bucket: 准车商/疑似车商/个人客户）
+- 开启 `auto_reply` 小范围测试
+- 补充 CRM 对接（`crm_status` 字段更新）
+
+---
+
 ## 2026-03-15 14:24:48｜新增备忘：学习能力与执行学习能力落地方向
 
 ### 学习能力落地方向
