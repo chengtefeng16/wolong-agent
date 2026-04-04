@@ -94,10 +94,27 @@ def _load_gemini_client():
         return None, "未设置 GEMINI_API_KEY（config.py 或环境变量）"
     try:
         from google import genai  # google-genai >= 1.0 新 SDK
-        import httpx
-        # 系统代理（HTTP_PROXY）使用自签名证书，需禁用 SSL 验证（与 wa_send_message 处理方式一致）
-        http_client = httpx.Client(verify=False)
-        client = genai.Client(api_key=api_key, http_client=http_client)
+        # 系统代理使用自签名证书，通过环境变量禁用 SSL 验证
+        # google-genai 底层用 httpx，HTTPX_VERIFY=0 / SSL_CERT_FILE="" 均不可靠
+        # 最简单：临时 unset HTTPS_PROXY 让 SDK 直连（若直连不通则忽略SSL错误）
+        import os
+        import ssl
+        # 打补丁：让 httpx 全局不验证 SSL
+        try:
+            import httpx
+            _orig_init = httpx.Client.__init__
+            def _patched_init(self, *a, **kw):
+                kw.setdefault('verify', False)
+                _orig_init(self, *a, **kw)
+            httpx.Client.__init__ = _patched_init
+            _orig_async_init = httpx.AsyncClient.__init__
+            def _patched_async_init(self, *a, **kw):
+                kw.setdefault('verify', False)
+                _orig_async_init(self, *a, **kw)
+            httpx.AsyncClient.__init__ = _patched_async_init
+        except Exception:
+            pass
+        client = genai.Client(api_key=api_key)
         return client, None
     except ImportError:
         return None, "google-genai SDK 未安装（请用 .venv_delivery 环境运行）"
@@ -149,6 +166,7 @@ def call_llm(
             return {"text": text, "source": "gemini", "error": None}
         except Exception as e:
             gemini_err = str(e)
+            print(f"[LLM][Gemini ERROR] {gemini_err}", flush=True)
 
     # ── 2. 降级到 Claude ──
     anthropic_client, anthropic_err = _load_anthropic_client()

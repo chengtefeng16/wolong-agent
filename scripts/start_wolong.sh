@@ -25,11 +25,21 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 H5_DIR="$PROJECT_ROOT/wolong_h5_console"
 
-# ── Python 环境：优先 .venv_delivery（含 google-genai / Gemini SDK）──
-VENV_PYTHON="$PROJECT_ROOT/.venv_delivery/bin/python3"
-if [ ! -f "$VENV_PYTHON" ]; then
+# ── Python 环境：按优先级查找含 google-genai 的 Python ──
+VENV_PYTHON=""
+# 1. 优先用项目内 .venv_delivery
+if [ -f "$PROJECT_ROOT/.venv_delivery/bin/python3" ]; then
+    VENV_PYTHON="$PROJECT_ROOT/.venv_delivery/bin/python3"
+# 2. 备用：gemini_min venv（含 google-genai 1.61.0）
+elif [ -f "/Users/cheng/gemini_min/venv/bin/python3" ]; then
+    VENV_PYTHON="/Users/cheng/gemini_min/venv/bin/python3"
+# 3. autogen_gemini_gui venv
+elif [ -f "/Users/cheng/autogen_gemini_gui/venv/bin/python3" ]; then
+    VENV_PYTHON="/Users/cheng/autogen_gemini_gui/venv/bin/python3"
+# 4. 最终回退系统 python3（无 Gemini SDK）
+else
     VENV_PYTHON="$(which python3)"
-    echo "[WARNING] .venv_delivery 未找到，使用系统 python3: $VENV_PYTHON"
+    echo "[WARNING] 未找到含 google-genai 的 venv，Gemini AI 回复将不可用"
 fi
 echo "[Python] 使用: $VENV_PYTHON"
 
