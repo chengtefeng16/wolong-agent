@@ -94,7 +94,10 @@ def _load_gemini_client():
         return None, "未设置 GEMINI_API_KEY（config.py 或环境变量）"
     try:
         from google import genai  # google-genai >= 1.0 新 SDK
-        client = genai.Client(api_key=api_key)
+        import httpx
+        # 系统代理（HTTP_PROXY）使用自签名证书，需禁用 SSL 验证（与 wa_send_message 处理方式一致）
+        http_client = httpx.Client(verify=False)
+        client = genai.Client(api_key=api_key, http_client=http_client)
         return client, None
     except ImportError:
         return None, "google-genai SDK 未安装（请用 .venv_delivery 环境运行）"

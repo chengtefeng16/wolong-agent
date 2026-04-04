@@ -117,16 +117,26 @@ def _write_json(path: Path, data):
 
 def handle_send_message(body: dict) -> dict:
     """
-    把测试消息写入 runtime_sessions，然后触发 H5 sync 生成器。
-    这模拟了真实 WhatsApp 消息进入系统的流程。
+    把消息写入 runtime_sessions，然后触发 H5 sync 生成器。
+    role='agent'  → 我方回复：先真实发 WhatsApp，再存入对话记录
+    role='customer'（默认）→ 模拟入站消息，写入对话记录
     """
     phone = body.get("phone", "+0000000000")
     name = body.get("name", "测试客户")
     message_text = body.get("message", "")
     country = body.get("country", "未知")
+    role = body.get("role", "customer")   # 'agent' or 'customer'
 
     if not message_text:
         return {"success": False, "error": "message 不能为空"}
+
+    # ── 若为我方回复，先真实发送 WhatsApp ──
+    wa_result = {}
+    if role == "agent":
+        wa_result = wa_send_message(phone, message_text)
+        if not wa_result.get("sent") and wa_result.get("mode") != "dry_run":
+            # 发送失败时仍继续写入本地记录，但在返回值里标记
+            pass
 
     now = time.strftime("%Y-%m-%d %H:%M:%S")
 
@@ -138,7 +148,7 @@ def handle_send_message(body: dict) -> dict:
     existing_conv = _read_json(conv_path, {})
     messages = existing_conv.get("messages", [])
     messages.append({
-        "role": "customer",
+        "role": role,        # 保留真实 role（agent / customer）
         "text": message_text,
         "time": now,
         "timestamp": now,
@@ -190,13 +200,17 @@ def handle_send_message(body: dict) -> dict:
     if SYNC_AVAILABLE:
         sync_once()
 
-    return {
+    result = {
         "success": True,
         "phone": phone,
         "message": message_text,
+        "role": role,
         "written_at": now,
         "note": "消息已写入 runtime_sessions，H5 将在下次轮询时更新",
     }
+    if role == "agent":
+        result["wa_send"] = wa_result
+    return result
 
 
 def handle_ai_reply(body: dict) -> dict:
