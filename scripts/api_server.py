@@ -336,8 +336,16 @@ def wa_send_message(to_phone: str, text: str) -> dict:
         },
         method="POST",
     )
+    # 系统代理（HTTP_PROXY）使用自签名证书，Python ssl 默认不信任。
+    # 使用 ssl 不验证上下文 + 保持系统代理，与 curl 行为一致。
+    import ssl
+    ssl_ctx = ssl.create_default_context()
+    ssl_ctx.check_hostname = False
+    ssl_ctx.verify_mode = ssl.CERT_NONE
+    https_handler = urllib.request.HTTPSHandler(context=ssl_ctx)
+    opener = urllib.request.build_opener(https_handler)
     try:
-        with urllib.request.urlopen(req, timeout=10) as resp:
+        with opener.open(req, timeout=15) as resp:
             result = json.loads(resp.read().decode("utf-8"))
             print(f"[WA][real] 已发送给 {to_phone}: {text[:60]} → {result}")
             return {"mode": "real", "to": to_phone, "sent": True, "api_response": result}
