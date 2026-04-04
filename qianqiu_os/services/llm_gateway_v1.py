@@ -87,39 +87,59 @@ def _load_gemini_key() -> Optional[str]:
     return os.getenv("GEMINI_API_KEY") or None
 
 
+def _call_gemini_rest(api_key: str, prompt: str, system: str,
+                      max_tokens: int, temperature: float) -> Dict[str, Any]:
+    """
+    直接用 urllib 调用 Gemini REST API。
+    绕过 httpx / google-genai SDK，避免系统代理截断响应的问题。
+    """
+    import urllib.request
+    import ssl
+
+    url = (
+        f"https://generativelanguage.googleapis.com/v1beta/models/"
+        f"gemini-2.5-flash:generateContent?key={api_key}"
+    )
+    payload = {
+        "system_instruction": {"parts": [{"text": system}]},
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {
+            "maxOutputTokens": max(max_tokens, 800),  # 2.5-flash 是 thinking 模型，需要更大额度
+            "temperature": temperature,
+            "thinkingConfig": {"thinkingBudget": 0},  # 关闭 thinking，把 token 全给输出
+        },
+    }
+    data = json.dumps(payload, ensure_ascii=False).encode("utf-8")
+    req = urllib.request.Request(
+        url, data=data,
+        headers={"Content-Type": "application/json"},
+        method="POST",
+    )
+    # 系统代理有自签名证书 → 禁用 SSL 验证（与 wa_send_message 一致）
+    ssl_ctx = ssl.create_default_context()
+    ssl_ctx.check_hostname = False
+    ssl_ctx.verify_mode = ssl.CERT_NONE
+    opener = urllib.request.build_opener(urllib.request.HTTPSHandler(context=ssl_ctx))
+    try:
+        with opener.open(req, timeout=30) as resp:
+            body = json.loads(resp.read().decode("utf-8"))
+            text = (
+                body.get("candidates", [{}])[0]
+                    .get("content", {})
+                    .get("parts", [{}])[0]
+                    .get("text", "")
+            )
+            return {"text": text, "source": "gemini", "error": None}
+    except Exception as e:
+        return {"text": None, "source": "api_error", "error": str(e)}
+
+
 def _load_gemini_client():
-    """懒加载 google-genai client，失败时返回 (None, error_msg)"""
+    """懒加载 google-genai client（备用，主路径改用 _call_gemini_rest）"""
     api_key = _load_gemini_key()
     if not api_key:
-        return None, "未设置 GEMINI_API_KEY（config.py 或环境变量）"
-    try:
-        from google import genai  # google-genai >= 1.0 新 SDK
-        # 系统代理使用自签名证书，通过环境变量禁用 SSL 验证
-        # google-genai 底层用 httpx，HTTPX_VERIFY=0 / SSL_CERT_FILE="" 均不可靠
-        # 最简单：临时 unset HTTPS_PROXY 让 SDK 直连（若直连不通则忽略SSL错误）
-        import os
-        import ssl
-        # 打补丁：让 httpx 全局不验证 SSL
-        try:
-            import httpx
-            _orig_init = httpx.Client.__init__
-            def _patched_init(self, *a, **kw):
-                kw.setdefault('verify', False)
-                _orig_init(self, *a, **kw)
-            httpx.Client.__init__ = _patched_init
-            _orig_async_init = httpx.AsyncClient.__init__
-            def _patched_async_init(self, *a, **kw):
-                kw.setdefault('verify', False)
-                _orig_async_init(self, *a, **kw)
-            httpx.AsyncClient.__init__ = _patched_async_init
-        except Exception:
-            pass
-        client = genai.Client(api_key=api_key)
-        return client, None
-    except ImportError:
-        return None, "google-genai SDK 未安装（请用 .venv_delivery 环境运行）"
-    except Exception as e:
-        return None, str(e)
+        return None, "未设置 GEMINI_API_KEY"
+    return True, None   # 有 key 即视为可用，实际调用走 _call_gemini_rest
 
 
 def _load_anthropic_client():
@@ -148,25 +168,15 @@ def call_llm(
     统一 LLM 调用入口。优先 Gemini，其次 Claude，最后规则兜底。
     返回: {"text": str, "source": "gemini"|"claude"|"no_key"|"api_error", "error": str|None}
     """
-    # ── 1. 尝试 Gemini ──
+    # ── 1. 尝试 Gemini（走 urllib REST，绕过 httpx/代理截断问题）──
     gemini_client, gemini_err = _load_gemini_client()
     if gemini_client is not None:
-        try:
-            from google.genai import types as genai_types
-            resp = gemini_client.models.generate_content(
-                model=model,
-                contents=prompt,
-                config=genai_types.GenerateContentConfig(
-                    system_instruction=system,
-                    max_output_tokens=max_tokens,
-                    temperature=temperature,
-                ),
-            )
-            text = resp.text or ""
-            return {"text": text, "source": "gemini", "error": None}
-        except Exception as e:
-            gemini_err = str(e)
-            print(f"[LLM][Gemini ERROR] {gemini_err}", flush=True)
+        api_key = _load_gemini_key()
+        result = _call_gemini_rest(api_key, prompt, system, max_tokens, temperature)
+        if result["text"]:
+            return result
+        gemini_err = result.get("error", "gemini REST 调用失败")
+        print(f"[LLM][Gemini ERROR] {gemini_err}", flush=True)
 
     # ── 2. 降级到 Claude ──
     anthropic_client, anthropic_err = _load_anthropic_client()
@@ -222,19 +232,29 @@ def generate_reply(
                 f"  效果：{ex.get('outcome','positive')}\n"
             )
 
-    prompt = f"""客户信息：
-- 姓名：{customer_name}
-- 国家/地区：{country}
+    # 有对话历史时是"进行中的对话"，直接回应内容，不加"您好，[名字]！"前缀
+    is_ongoing = bool(history_text)
+    reply_instruction = (
+        "这是一段正在进行中的对话。请直接针对客户最新消息给出回复，"
+        "不要再重复'您好'或客户名称作为开头，自然地延续对话。"
+        if is_ongoing else
+        "这是与新客户的第一次对话，可以礼貌问候后直接引导到车辆需求。"
+    )
+
+    prompt = f"""客户背景：
 - 客户类型：{category}
+- 目标市场：{country}
 
-最近对话记录：
-{history_text or '（无历史记录）'}
+{"对话记录：" + chr(10) + history_text if is_ongoing else "（首次接触）"}
 
-客户最新消息：
-「{last_message}」
+客户最新消息：「{last_message}」
 {experience_text}
 
-请生成一段专业、自然的回复。直接给出回复内容，不要加说明。"""
+{reply_instruction}
+回复要求：
+- 必须围绕跨境二手车出口业务
+- 简洁自然，不超过100字
+- 直接给出回复内容，不加任何说明或前缀标注"""
 
     result = call_llm(prompt, system=WOLONG_SYSTEM_PROMPT, max_tokens=400)
 

@@ -100,6 +100,7 @@ function mapIndexItemToCustomer(item, conversation, index) {
     crm_status: conv.crm_status || item.crm_status || 'unknown',
     needs_human_review: Boolean(item.needs_human_review),
     destination: conv.destination || '',
+    pending_ai_reply: conv.pending_ai_reply || item.pending_ai_reply || null,
   }
 }
 
@@ -401,13 +402,27 @@ export default function App() {
   useEffect(() => { aiReplyEnabledRef.current = aiReplyEnabled }, [aiReplyEnabled])
 
   useEffect(() => {
-    if (!aiReplyEnabledRef.current || !selectedId) return
+    if (!selectedId) return
     setAiReplyText('')
     setAiReplyStatus(null)
     setAiTaskId(null)
     setAiSource('')
-    // 延迟 400ms 等待 selected 数据稳定后再请求
-    const t = setTimeout(handleFetchAiReply, 400) // eslint-disable-line react-hooks/exhaustive-deps
+
+    const t = setTimeout(() => {
+      // 优先使用后台预生成的 AI 建议（webhook 收到消息后自动生成）
+      const pending = selected?.pending_ai_reply
+      if (pending?.text) {
+        setAiReplyText(pending.text)
+        setAiOriginalSuggestion(pending.text)
+        setAiSource(pending.source || 'gemini')
+        if (!aiReplyEnabledRef.current) setAiReplyEnabled(true)
+        return
+      }
+      // 无预生成建议时，若 AI 面板已开启则主动请求
+      if (aiReplyEnabledRef.current) {
+        handleFetchAiReply() // eslint-disable-line react-hooks/exhaustive-deps
+      }
+    }, 400)
     return () => clearTimeout(t)
   }, [selectedId]) // eslint-disable-line react-hooks/exhaustive-deps
 

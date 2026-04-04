@@ -477,6 +477,31 @@ def handle_whatsapp_webhook(payload: dict) -> dict:
 
                 if result.get("success"):
                     processed.append({"phone": phone, "message": message_text[:60]})
+                    # ── 后台自动生成 AI 建议，存入对话 JSON ──
+                    def _auto_generate_ai(phone=phone, customer_name=customer_name,
+                                          message_text=message_text):
+                        try:
+                            from qianqiu_os.services.llm_gateway_v1 import generate_reply
+                            safe_phone = phone.replace("+", "").replace(" ", "_")
+                            conv_path = CONVERSATIONS_DIR / f"{safe_phone}.json"
+                            conv = _read_json(conv_path, {})
+                            history = conv.get("messages", [])
+                            country = conv.get("country", "")
+                            category = conv.get("bucket", "疑似车商")
+                            r = generate_reply(customer_name, country, category,
+                                               message_text, history)
+                            if r.get("suggested_reply"):
+                                conv["pending_ai_reply"] = {
+                                    "text": r["suggested_reply"],
+                                    "source": r.get("source", "unknown"),
+                                    "generated_at": time.strftime("%Y-%m-%d %H:%M:%S"),
+                                }
+                                _write_json(conv_path, conv)
+                                print(f"[AI-Auto] 已为 {phone} 预生成建议回复 ({r.get('source')})")
+                        except Exception as e:
+                            print(f"[AI-Auto] 预生成失败 {phone}: {e}")
+                    import threading
+                    threading.Thread(target=_auto_generate_ai, daemon=True).start()
                 else:
                     errors.append({"phone": phone, "error": result.get("error", "unknown")})
 

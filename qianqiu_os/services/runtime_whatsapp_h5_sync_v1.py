@@ -124,6 +124,7 @@ def _build_customer_card(index_item: Dict[str, Any], seq: int) -> Dict[str, Any]
         "crm_status": conv.get("crm_status") or index_item.get("crm_status") or "unknown",
         "needs_human_review": bool(index_item.get("needs_human_review", False)),
         "destination": conv.get("destination") or "",
+        "pending_ai_reply": conv.get("pending_ai_reply") or None,
     }
 
 
