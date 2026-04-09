@@ -1,0 +1,16 @@
+{
+  "id": "2c8b8082",
+  "timestamp": "2026-04-09 07:57:16",
+  "customer_msg": "坤越通国际贸易您好，感谢联系我们！请告诉我们您对未知市场的车辆需求（车型、数量、预算），我们会立即回复您。",
+  "ai_suggested": "坤越通国际贸易您好！欢迎来到卧龙汽车出口。我们专注于向未知出口二手车。请问有什么可以帮助您的？",
+  "human_approved": true,
+  "human_modified": false,
+  "final_reply": "坤越通国际贸易您好！欢迎来到卧龙汽车出口。我们专注于向未知出口二手车。请问有什么可以帮助您的？",
+  "category": "疑似车商",
+  "country": "未知",
+  "outcome": "sent",
+  "quality_score": null,
+  "keywords": [],
+  "task_id": "16631fd1",
+  "llm_source": "rule_fallback"
+}

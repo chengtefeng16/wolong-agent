@@ -46,6 +46,19 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 import os
 
+# ── 自动加载 .env 文件（优先级低于已有环境变量）──
+_env_file = PROJECT_ROOT / ".env"
+if _env_file.exists():
+    with open(_env_file) as _f:
+        for _line in _f:
+            _line = _line.strip()
+            if _line and not _line.startswith("#") and "=" in _line:
+                _key, _val = _line.split("=", 1)
+                _key = _key.strip()
+                _val = _val.strip().strip('"').strip("'")
+                if _key and _key not in os.environ:   # 环境变量优先
+                    os.environ[_key] = _val
+
 # ── WhatsApp Cloud API 配置（全部走环境变量，不写死）──
 WHATSAPP_VERIFY_TOKEN   = os.getenv("WHATSAPP_VERIFY_TOKEN",   "wolong_webhook_token")
 WHATSAPP_ACCESS_TOKEN   = os.getenv("WHATSAPP_ACCESS_TOKEN",   "")   # 有值 → 真实发送；空 → dry_run
@@ -104,16 +117,26 @@ def _write_json(path: Path, data):
 
 def handle_send_message(body: dict) -> dict:
     """
-    把测试消息写入 runtime_sessions，然后触发 H5 sync 生成器。
-    这模拟了真实 WhatsApp 消息进入系统的流程。
+    把消息写入 runtime_sessions，然后触发 H5 sync 生成器。
+    role='agent'  → 我方回复：先真实发 WhatsApp，再存入对话记录
+    role='customer'（默认）→ 模拟入站消息，写入对话记录
     """
     phone = body.get("phone", "+0000000000")
     name = body.get("name", "测试客户")
     message_text = body.get("message", "")
     country = body.get("country", "未知")
+    role = body.get("role", "customer")   # 'agent' or 'customer'
 
     if not message_text:
         return {"success": False, "error": "message 不能为空"}
+
+    # ── 若为我方回复，先真实发送 WhatsApp ──
+    wa_result = {}
+    if role == "agent":
+        wa_result = wa_send_message(phone, message_text)
+        if not wa_result.get("sent") and wa_result.get("mode") != "dry_run":
+            # 发送失败时仍继续写入本地记录，但在返回值里标记
+            pass
 
     now = time.strftime("%Y-%m-%d %H:%M:%S")
 
@@ -125,7 +148,7 @@ def handle_send_message(body: dict) -> dict:
     existing_conv = _read_json(conv_path, {})
     messages = existing_conv.get("messages", [])
     messages.append({
-        "role": "customer",
+        "role": role,        # 保留真实 role（agent / customer）
         "text": message_text,
         "time": now,
         "timestamp": now,
@@ -177,13 +200,17 @@ def handle_send_message(body: dict) -> dict:
     if SYNC_AVAILABLE:
         sync_once()
 
-    return {
+    result = {
         "success": True,
         "phone": phone,
         "message": message_text,
+        "role": role,
         "written_at": now,
         "note": "消息已写入 runtime_sessions，H5 将在下次轮询时更新",
     }
+    if role == "agent":
+        result["wa_send"] = wa_result
+    return result
 
 
 def handle_ai_reply(body: dict) -> dict:
@@ -323,8 +350,16 @@ def wa_send_message(to_phone: str, text: str) -> dict:
         },
         method="POST",
     )
+    # 系统代理（HTTP_PROXY）使用自签名证书，Python ssl 默认不信任。
+    # 使用 ssl 不验证上下文 + 保持系统代理，与 curl 行为一致。
+    import ssl
+    ssl_ctx = ssl.create_default_context()
+    ssl_ctx.check_hostname = False
+    ssl_ctx.verify_mode = ssl.CERT_NONE
+    https_handler = urllib.request.HTTPSHandler(context=ssl_ctx)
+    opener = urllib.request.build_opener(https_handler)
     try:
-        with urllib.request.urlopen(req, timeout=10) as resp:
+        with opener.open(req, timeout=15) as resp:
             result = json.loads(resp.read().decode("utf-8"))
             print(f"[WA][real] 已发送给 {to_phone}: {text[:60]} → {result}")
             return {"mode": "real", "to": to_phone, "sent": True, "api_response": result}
@@ -442,6 +477,31 @@ def handle_whatsapp_webhook(payload: dict) -> dict:
 
                 if result.get("success"):
                     processed.append({"phone": phone, "message": message_text[:60]})
+                    # ── 后台自动生成 AI 建议，存入对话 JSON ──
+                    def _auto_generate_ai(phone=phone, customer_name=customer_name,
+                                          message_text=message_text):
+                        try:
+                            from qianqiu_os.services.llm_gateway_v1 import generate_reply
+                            safe_phone = phone.replace("+", "").replace(" ", "_")
+                            conv_path = CONVERSATIONS_DIR / f"{safe_phone}.json"
+                            conv = _read_json(conv_path, {})
+                            history = conv.get("messages", [])
+                            country = conv.get("country", "")
+                            category = conv.get("bucket", "疑似车商")
+                            r = generate_reply(customer_name, country, category,
+                                               message_text, history)
+                            if r.get("suggested_reply"):
+                                conv["pending_ai_reply"] = {
+                                    "text": r["suggested_reply"],
+                                    "source": r.get("source", "unknown"),
+                                    "generated_at": time.strftime("%Y-%m-%d %H:%M:%S"),
+                                }
+                                _write_json(conv_path, conv)
+                                print(f"[AI-Auto] 已为 {phone} 预生成建议回复 ({r.get('source')})")
+                        except Exception as e:
+                            print(f"[AI-Auto] 预生成失败 {phone}: {e}")
+                    import threading
+                    threading.Thread(target=_auto_generate_ai, daemon=True).start()
                 else:
                     errors.append({"phone": phone, "error": result.get("error", "unknown")})
 

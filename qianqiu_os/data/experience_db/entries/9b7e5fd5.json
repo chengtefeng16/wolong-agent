@@ -1,0 +1,18 @@
+{
+  "id": "9b7e5fd5",
+  "timestamp": "2026-04-09 13:09:52",
+  "customer_msg": "Я хотел бы узнать цену и подробную информацию о Toyota Land Cruiser Prado.",
+  "ai_suggested": "请告知您对普拉多的具体需求，包括年份、配置、数量和目标国家，以便我们为您提供准确的报价和详细信息。",
+  "human_approved": true,
+  "human_modified": false,
+  "final_reply": "请告知您对普拉多的具体需求，包括年份、配置、数量和目标国家，以便我们为您提供准确的报价和详细信息。",
+  "category": "个人客户",
+  "country": "未知",
+  "outcome": "sent",
+  "quality_score": null,
+  "keywords": [
+    "toyota"
+  ],
+  "task_id": "8fdd63d5",
+  "llm_source": "gemini"
+}

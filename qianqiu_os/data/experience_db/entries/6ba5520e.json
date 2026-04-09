@@ -1,0 +1,16 @@
+{
+  "id": "6ba5520e",
+  "timestamp": "2026-04-09 13:54:57",
+  "customer_msg": "لماذا لا تستطيع الإجابة على سؤالي؟",
+  "ai_suggested": "نعتذر عن التأخير. السيارة مضمونة لمدة سنة أو 20 ألف كيلومتر، أيهما يأتي أولاً.",
+  "human_approved": true,
+  "human_modified": false,
+  "final_reply": "نعتذر عن التأخير. السيارة مضمونة لمدة سنة أو 20 ألف كيلومتر، أيهما يأتي أولاً.",
+  "category": "疑似车商",
+  "country": "未知",
+  "outcome": "sent",
+  "quality_score": null,
+  "keywords": [],
+  "task_id": "8cb14dfd",
+  "llm_source": "gemini"
+}

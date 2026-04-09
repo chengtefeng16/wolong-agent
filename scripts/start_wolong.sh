@@ -25,11 +25,21 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 H5_DIR="$PROJECT_ROOT/wolong_h5_console"
 
-# ── Python 环境：优先 .venv_delivery（含 google-genai / Gemini SDK）──
-VENV_PYTHON="$PROJECT_ROOT/.venv_delivery/bin/python3"
-if [ ! -f "$VENV_PYTHON" ]; then
+# ── Python 环境：按优先级查找含 google-genai 的 Python ──
+VENV_PYTHON=""
+# 1. 优先用项目内 .venv_delivery
+if [ -f "$PROJECT_ROOT/.venv_delivery/bin/python3" ]; then
+    VENV_PYTHON="$PROJECT_ROOT/.venv_delivery/bin/python3"
+# 2. 备用：gemini_min venv（含 google-genai 1.61.0）
+elif [ -f "/Users/cheng/gemini_min/venv/bin/python3" ]; then
+    VENV_PYTHON="/Users/cheng/gemini_min/venv/bin/python3"
+# 3. autogen_gemini_gui venv
+elif [ -f "/Users/cheng/autogen_gemini_gui/venv/bin/python3" ]; then
+    VENV_PYTHON="/Users/cheng/autogen_gemini_gui/venv/bin/python3"
+# 4. 最终回退系统 python3（无 Gemini SDK）
+else
     VENV_PYTHON="$(which python3)"
-    echo "[WARNING] .venv_delivery 未找到，使用系统 python3: $VENV_PYTHON"
+    echo "[WARNING] 未找到含 google-genai 的 venv，Gemini AI 回复将不可用"
 fi
 echo "[Python] 使用: $VENV_PYTHON"
 
@@ -37,6 +47,30 @@ echo "================================================================"
 echo " 卧龙 Agent 系统启动（Gemini API 已启用）"
 echo " 项目根目录: $PROJECT_ROOT"
 echo "================================================================"
+
+# ── 加载 .env 环境变量（已有环境变量优先，不覆盖）──
+if [ -f "$PROJECT_ROOT/.env" ]; then
+    while IFS='=' read -r key val; do
+        # 跳过注释和空行
+        [[ "$key" =~ ^[[:space:]]*# ]] && continue
+        [[ -z "$key" ]] && continue
+        # 去掉首尾空格和引号
+        key="${key//[[:space:]]/}"
+        val="${val#"${val%%[! ]*}"}"   # ltrim
+        val="${val%"${val##*[! ]}"}"   # rtrim
+        val="${val#\'}" ; val="${val%\'}"
+        val="${val#\"}" ; val="${val%\"}"
+        # 只在未设置时导出
+        if [ -n "$key" ] && [ -z "${!key}" ]; then
+            export "$key=$val"
+        fi
+    done < "$PROJECT_ROOT/.env"
+    echo "[env] ✅ 已加载 .env 配置"
+    echo "[env]   WHATSAPP_ACCESS_TOKEN: ${WHATSAPP_ACCESS_TOKEN:0:20}...（已隐藏）"
+else
+    echo "[env] ⚠️  未找到 .env 文件，请在项目根目录创建 .env"
+fi
+echo ""
 
 # 检查 node_modules
 if [ ! -d "$H5_DIR/node_modules" ]; then

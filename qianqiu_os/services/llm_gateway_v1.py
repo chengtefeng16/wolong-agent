@@ -27,20 +27,30 @@ from typing import Any, Dict, List, Optional
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 # ── 系统宪法/角色定义 ──
-WOLONG_SYSTEM_PROMPT = """你是「卧龙 Agent」，一个专注于跨境二手车出口业务的智能客服助理。
+WOLONG_SYSTEM_PROMPT = """你是一名专业的国际二手车销售经理，代表出口商与全球客户沟通，目标是提高成交率。
 
-你的核心职责：
-1. 准确判断客户意图（是否为车商/个人/询价/询政策）
-2. 用专业、友好的语气回复客户
-3. 收集关键信息：目标国家、车型、数量、预算
-4. 对不同国家客户使用合适的语言风格
-5. 对准车商保持主动推进成交的节奏
+【语言规则 - 最高优先级】
+识别客户最新一条消息的语言，用同一种语言回复：
+- 客户写俄语 → 用俄语回复
+- 客户写英语 → 用英语回复
+- 客户写阿拉伯语 → 用阿拉伯语回复
+- 客户写中文 → 用中文回复
+- 跟随客户当前这条消息的语言即可，不需要纠结历史记录
 
-回复原则：
-- 简洁有力，不废话
-- 专业但不冷漠
-- 主动引导客户提供更多信息
-- 如果是批量采购意图，保持热情跟进节奏
+【沟通风格】
+- 用真实销售人员的语气：自然、友好、专业，可以说"当然可以"、"没问题"、"我来帮您说明"
+- 避免机械、模板化、AI感强的表达，禁止低质量回复
+- 整个对话只在第一条消息问候一次，之后直接进入内容
+
+【商务规则 - 必须具体】
+- 质保：1年或2万公里（以先到为准），覆盖发动机、变速箱等核心部件
+- 定金：30%
+- 支付方式：T/T银行转账 或 Alibaba Trade Assurance（禁止说"安全平台"等模糊表达）
+- 涉及付款时必须降低顾虑：提及验车、视频、文件等
+
+【以成交为导向】
+- 不能只回答问题，要主动引导：询问车型、数量、预算，引导下一步（报价、视频、发票）
+- 每次回复3–6句话，简洁但包含完整关键信息
 
 你服务的市场：中亚、中东、非洲、拉美的二手车进口商/车商/个人买家。
 """
@@ -67,6 +77,19 @@ CLASSIFY_SYSTEM_PROMPT = """你是「卧龙 Agent」的智能分类引擎。
 
 GEMINI_MODEL = "gemini-2.5-flash"
 
+# 政策/法规类关键词 → 触发联网搜索模式
+_POLICY_KEYWORDS = [
+    "政策", "法规", "规定", "限制", "禁止", "能不能", "可以进", "能进", "允许",
+    "年份", "车龄", "关税", "手续", "清关", "进口要求", "排放", "标准",
+    "2020", "2021", "2022", "2023", "2024", "2025",
+    "policy", "regulation", "import", "ban", "restriction", "age limit",
+]
+
+def _needs_search(message: str) -> bool:
+    """判断消息是否需要联网搜索（政策/法规/年份限制等实时信息）"""
+    msg_lower = message.lower()
+    return any(kw in msg_lower for kw in _POLICY_KEYWORDS)
+
 
 def _load_gemini_key() -> Optional[str]:
     """从 config.py 或环境变量读取 GEMINI_API_KEY"""
@@ -87,19 +110,74 @@ def _load_gemini_key() -> Optional[str]:
     return os.getenv("GEMINI_API_KEY") or None
 
 
+def _call_gemini_rest(api_key: str, prompt: str, system: str,
+                      max_tokens: int, temperature: float,
+                      enable_search: bool = False) -> Dict[str, Any]:
+    """
+    直接用 urllib 调用 Gemini REST API。
+    绕过 httpx / google-genai SDK，避免系统代理截断响应的问题。
+    enable_search=True → 启用 Google Search grounding（用于政策/法规实时查询）
+    """
+    import urllib.request
+    import ssl
+
+    url = (
+        f"https://generativelanguage.googleapis.com/v1beta/models/"
+        f"gemini-2.5-flash:generateContent?key={api_key}"
+    )
+
+    if enable_search:
+        # 搜索模式：不加 thinkingConfig（与 googleSearch tool 冲突）
+        gen_config = {
+            "maxOutputTokens": max(max_tokens, 1200),
+            "temperature": temperature,
+        }
+    else:
+        # 普通对话模式：关闭 thinking，token 全给输出
+        gen_config = {
+            "maxOutputTokens": max(max_tokens, 800),
+            "temperature": temperature,
+            "thinkingConfig": {"thinkingBudget": 0},
+        }
+
+    payload = {
+        "system_instruction": {"parts": [{"text": system}]},
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": gen_config,
+    }
+    if enable_search:
+        payload["tools"] = [{"googleSearch": {}}]
+    data = json.dumps(payload, ensure_ascii=False).encode("utf-8")
+    req = urllib.request.Request(
+        url, data=data,
+        headers={"Content-Type": "application/json"},
+        method="POST",
+    )
+    # 系统代理有自签名证书 → 禁用 SSL 验证（与 wa_send_message 一致）
+    ssl_ctx = ssl.create_default_context()
+    ssl_ctx.check_hostname = False
+    ssl_ctx.verify_mode = ssl.CERT_NONE
+    opener = urllib.request.build_opener(urllib.request.HTTPSHandler(context=ssl_ctx))
+    try:
+        with opener.open(req, timeout=30) as resp:
+            body = json.loads(resp.read().decode("utf-8"))
+            text = (
+                body.get("candidates", [{}])[0]
+                    .get("content", {})
+                    .get("parts", [{}])[0]
+                    .get("text", "")
+            )
+            return {"text": text, "source": "gemini", "error": None}
+    except Exception as e:
+        return {"text": None, "source": "api_error", "error": str(e)}
+
+
 def _load_gemini_client():
-    """懒加载 google-genai client，失败时返回 (None, error_msg)"""
+    """懒加载 google-genai client（备用，主路径改用 _call_gemini_rest）"""
     api_key = _load_gemini_key()
     if not api_key:
-        return None, "未设置 GEMINI_API_KEY（config.py 或环境变量）"
-    try:
-        from google import genai  # google-genai >= 1.0 新 SDK
-        client = genai.Client(api_key=api_key)
-        return client, None
-    except ImportError:
-        return None, "google-genai SDK 未安装（请用 .venv_delivery 环境运行）"
-    except Exception as e:
-        return None, str(e)
+        return None, "未设置 GEMINI_API_KEY"
+    return True, None   # 有 key 即视为可用，实际调用走 _call_gemini_rest
 
 
 def _load_anthropic_client():
@@ -123,29 +201,24 @@ def call_llm(
     max_tokens: int = 600,
     temperature: float = 0.7,
     model: str = GEMINI_MODEL,
+    enable_search: bool = False,
 ) -> Dict[str, Any]:
     """
     统一 LLM 调用入口。优先 Gemini，其次 Claude，最后规则兜底。
     返回: {"text": str, "source": "gemini"|"claude"|"no_key"|"api_error", "error": str|None}
     """
-    # ── 1. 尝试 Gemini ──
+    # ── 1. 尝试 Gemini（走 urllib REST，绕过 httpx/代理截断问题）──
     gemini_client, gemini_err = _load_gemini_client()
     if gemini_client is not None:
-        try:
-            from google.genai import types as genai_types
-            resp = gemini_client.models.generate_content(
-                model=model,
-                contents=prompt,
-                config=genai_types.GenerateContentConfig(
-                    system_instruction=system,
-                    max_output_tokens=max_tokens,
-                    temperature=temperature,
-                ),
-            )
-            text = resp.text or ""
-            return {"text": text, "source": "gemini", "error": None}
-        except Exception as e:
-            gemini_err = str(e)
+        api_key = _load_gemini_key()
+        result = _call_gemini_rest(api_key, prompt, system, max_tokens, temperature,
+                                   enable_search=enable_search)
+        if result["text"]:
+            if enable_search:
+                result["source"] = "gemini+search"
+            return result
+        gemini_err = result.get("error", "gemini REST 调用失败")
+        print(f"[LLM][Gemini ERROR] {gemini_err}", flush=True)
 
     # ── 2. 降级到 Claude ──
     anthropic_client, anthropic_err = _load_anthropic_client()
@@ -201,21 +274,35 @@ def generate_reply(
                 f"  效果：{ex.get('outcome','positive')}\n"
             )
 
-    prompt = f"""客户信息：
-- 姓名：{customer_name}
-- 国家/地区：{country}
+    is_ongoing = bool(history_text)
+    reply_instruction = (
+        "继续对话，直接回应客户最新消息，禁止以任何称谓或问候语开头。"
+        if is_ongoing else
+        "首次接触，可简短一句问候，然后立即切入业务，禁止重复客户名字。"
+    )
+
+    prompt = f"""客户背景：
 - 客户类型：{category}
+- 目标市场：{country}
 
-最近对话记录：
-{history_text or '（无历史记录）'}
+{"对话记录：" + chr(10) + history_text if is_ongoing else "（首次接触）"}
 
-客户最新消息：
-「{last_message}」
+客户最新消息：「{last_message}」
 {experience_text}
 
-请生成一段专业、自然的回复。直接给出回复内容，不要加说明。"""
+{reply_instruction}
+回复要求：
+- 必须围绕跨境二手车出口业务
+- 简洁自然，不超过100字
+- 直接给出回复内容，不加任何说明或前缀标注"""
 
-    result = call_llm(prompt, system=WOLONG_SYSTEM_PROMPT, max_tokens=400)
+    # 政策/年份/法规类问题 → 启用 Google Search 联网搜索
+    use_search = _needs_search(last_message)
+    if use_search:
+        print(f"[LLM] 检测到政策类查询，启用联网搜索: {last_message[:40]}", flush=True)
+
+    result = call_llm(prompt, system=WOLONG_SYSTEM_PROMPT, max_tokens=400,
+                      enable_search=use_search)
 
     if result["text"]:
         return {

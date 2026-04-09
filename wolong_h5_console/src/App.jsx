@@ -100,6 +100,7 @@ function mapIndexItemToCustomer(item, conversation, index) {
     crm_status: conv.crm_status || item.crm_status || 'unknown',
     needs_human_review: Boolean(item.needs_human_review),
     destination: conv.destination || '',
+    pending_ai_reply: conv.pending_ai_reply || item.pending_ai_reply || null,
   }
 }
 
@@ -401,13 +402,27 @@ export default function App() {
   useEffect(() => { aiReplyEnabledRef.current = aiReplyEnabled }, [aiReplyEnabled])
 
   useEffect(() => {
-    if (!aiReplyEnabledRef.current || !selectedId) return
+    if (!selectedId) return
     setAiReplyText('')
     setAiReplyStatus(null)
     setAiTaskId(null)
     setAiSource('')
-    // 延迟 400ms 等待 selected 数据稳定后再请求
-    const t = setTimeout(handleFetchAiReply, 400) // eslint-disable-line react-hooks/exhaustive-deps
+
+    const t = setTimeout(() => {
+      // 优先使用后台预生成的 AI 建议（webhook 收到消息后自动生成）
+      const pending = selected?.pending_ai_reply
+      if (pending?.text) {
+        setAiReplyText(pending.text)
+        setAiOriginalSuggestion(pending.text)
+        setAiSource(pending.source || 'gemini')
+        if (!aiReplyEnabledRef.current) setAiReplyEnabled(true)
+        return
+      }
+      // 无预生成建议时，若 AI 面板已开启则主动请求
+      if (aiReplyEnabledRef.current) {
+        handleFetchAiReply() // eslint-disable-line react-hooks/exhaustive-deps
+      }
+    }, 400)
     return () => clearTimeout(t)
   }, [selectedId]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -997,12 +1012,31 @@ export default function App() {
           <div>
             <div style={{ fontSize: '14px', fontWeight: 800, marginBottom: '6px' }}>聊天内容</div>
             <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '10px', maxHeight: '260px', overflowY: 'auto', background: '#fafafa' }}>
-              {selected.messages?.length ? selected.messages.map((msg, idx) => (
-                <div key={idx} style={{ marginBottom: '10px' }}>
-                  <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '3px' }}>{msg.role} · {msg.time}</div>
-                  <div style={{ fontSize: '13px', color: '#111827', lineHeight: 1.7 }}>{msg.text}</div>
-                </div>
-              )) : (
+              {selected.messages?.length ? selected.messages.map((msg, idx) => {
+                const isAgent = msg.role === '我方' || msg.role === 'agent'
+                return (
+                  <div key={idx} style={{ marginBottom: '10px', display: 'flex', flexDirection: 'column', alignItems: isAgent ? 'flex-end' : 'flex-start' }}>
+                    <div style={{ fontSize: '11px', color: '#9ca3af', marginBottom: '3px' }}>
+                      {msg.role} · {msg.time}
+                    </div>
+                    <div style={{
+                      fontSize: '13px',
+                      lineHeight: 1.7,
+                      padding: '7px 12px',
+                      borderRadius: isAgent ? '14px 4px 14px 14px' : '4px 14px 14px 14px',
+                      maxWidth: '85%',
+                      background: isAgent ? '#dcfce7' : '#fee2e2',
+                      color: isAgent ? '#14532d' : '#7f1d1d',
+                      border: isAgent ? '1px solid #86efac' : '1px solid #fca5a5',
+                      fontFamily: "'Noto Sans Arabic', 'PingFang SC', sans-serif",
+                      direction: /[\u0600-\u06FF]/.test(msg.text || '') ? 'rtl' : 'ltr',
+                      textAlign: /[\u0600-\u06FF]/.test(msg.text || '') ? 'right' : 'left',
+                    }}>
+                      {msg.text}
+                    </div>
+                  </div>
+                )
+              }) : (
                 <div style={{ fontSize: '12px', color: '#9ca3af' }}>
                   {isFacebookEmptyView ? ti('facebook.empty.messages', '等待 Facebook runtime 聊天 / 互动数据') : '暂无聊天内容'}
                 </div>

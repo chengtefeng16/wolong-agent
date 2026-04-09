@@ -1,0 +1,16 @@
+{
+  "id": "59c5cfc7",
+  "timestamp": "2026-04-09 13:05:14",
+  "customer_msg": "好的我知道了我知道了我知道了你放心",
+  "ai_suggested": "请告知您对目标市场（中亚、中东、非洲、拉美）的二手车需求，包括车型、数量和预算，以便我们为您匹配合适的车辆。",
+  "human_approved": true,
+  "human_modified": false,
+  "final_reply": "请告知您对目标市场（中亚、中东、非洲、拉美）的二手车需求，包括车型、数量和预算，以便我们为您匹配合适的车辆。",
+  "category": "沟通无效",
+  "country": "未知",
+  "outcome": "sent",
+  "quality_score": null,
+  "keywords": [],
+  "task_id": "7dcc28d8",
+  "llm_source": "gemini"
+}

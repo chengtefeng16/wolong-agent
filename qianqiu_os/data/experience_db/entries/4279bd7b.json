@@ -1,0 +1,16 @@
+{
+  "id": "4279bd7b",
+  "timestamp": "2026-04-09 13:04:14",
+  "customer_msg": "",
+  "ai_suggested": "",
+  "human_approved": true,
+  "human_modified": true,
+  "final_reply": "好的，陆巡是哈萨克斯坦的热销车型。请问您对具体年份、配置和预算有什么要求吗？我们可以提供LC200和LC300系列。",
+  "category": "",
+  "country": "",
+  "outcome": "sent",
+  "quality_score": null,
+  "keywords": [],
+  "task_id": "d0b62414",
+  "llm_source": "unknown"
+}

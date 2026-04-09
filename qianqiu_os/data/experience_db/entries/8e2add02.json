@@ -1,0 +1,16 @@
+{
+  "id": "8e2add02",
+  "timestamp": "2026-04-09 13:58:02",
+  "customer_msg": "¿Y cómo se paga el depósito?",
+  "ai_suggested": "El depósito se paga mediante transferencia bancaria internacional o a través de una plataforma de pago segura. Una vez recibido el depósito, comenzamos a preparar el envío de los vehículos.",
+  "human_approved": true,
+  "human_modified": false,
+  "final_reply": "El depósito se paga mediante transferencia bancaria internacional o a través de una plataforma de pago segura. Una vez recibido el depósito, comenzamos a preparar el envío de los vehículos.",
+  "category": "疑似车商",
+  "country": "未知",
+  "outcome": "sent",
+  "quality_score": null,
+  "keywords": [],
+  "task_id": "452f35d3",
+  "llm_source": "gemini"
+}

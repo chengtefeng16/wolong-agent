@@ -3,6 +3,38 @@
   "source": "runtime_sessions/whatsapp",
   "customers": [
     {
+      "id": "+8613900000001",
+      "name": "测试客户",
+      "category": "待判断",
+      "country": "哈萨克斯坦",
+      "channel": "whatsapp",
+      "time": "2026-04-09 13:04:14",
+      "message": "好的，陆巡是哈萨克斯坦的热销车型。请问您对具体年份、配置和预算有什么要求吗？我们可以提供LC200和LC300系列。",
+      "keywords": [],
+      "reason": "你好，我需要10台丰田陆巡，请报价",
+      "tags": [],
+      "phone": "+8613900000001",
+      "timeline": [
+        "2026-04-09 07:04:06 客户：你好，我需要10台丰田陆巡，请报价",
+        "2026-04-09 13:04:14 我方：好的，陆巡是哈萨克斯坦的热销车型。请问您对具体年份、配置和预算有什么要求吗？我们可以提供LC200和LC300系列。"
+      ],
+      "messages": [
+        {
+          "role": "客户",
+          "text": "你好，我需要10台丰田陆巡，请报价",
+          "time": "2026-04-09 07:04:06"
+        },
+        {
+          "role": "我方",
+          "text": "好的，陆巡是哈萨克斯坦的热销车型。请问您对具体年份、配置和预算有什么要求吗？我们可以提供LC200和LC300系列。",
+          "time": "2026-04-09 13:04:14"
+        }
+      ],
+      "crm_status": "unknown",
+      "needs_human_review": false,
+      "destination": ""
+    },
+    {
       "id": "+16315551181",
       "name": "test user name",
       "category": "待判断",
@@ -46,8 +78,8 @@
       "category": "待判断",
       "country": "未知",
       "channel": "whatsapp",
-      "time": "2026-04-04 15:29:37",
-      "message": "我想要100台英菲尼迪加奔驰",
+      "time": "2026-04-09 14:06:03",
+      "message": "Yes, we absolutely ship to Oman! We have a wide range of used car models available, from sedans and SUVs to commercial vehicles. To help me recommend the best options for you, could you please tell me which specific models or types of cars you are looking for, the quantity, and your target budget?",
       "keywords": [],
       "reason": "您好，我想了解一下二手车出口的流程？",
       "tags": [],
@@ -63,7 +95,33 @@
         "2026-04-04 12:16:32 客户：Hi Test User 测试用户! Welcome to Wolong Auto Export. We specialize in vehicle exports to 未知. How can we assist you today?",
         "2026-04-04 15:28:39 客户：现在能不能测试？",
         "2026-04-04 15:29:00 客户：我问你能不能测试，不是现在无法测试",
-        "2026-04-04 15:29:37 客户：我想要100台英菲尼迪加奔驰"
+        "2026-04-04 15:29:37 客户：我想要100台英菲尼迪加奔驰",
+        "2026-04-08 21:06:21 客户：上次我们聊到丰田布拉多，你还记得吗？",
+        "2026-04-09 07:08:57 客户：测试方法和技术等",
+        "2026-04-09 07:09:13 客户：坤越通国际贸易您好，感谢联系我们！请告诉我们您对未知市场的车辆需求（车型、数量、预算），我们会立即回复您。",
+        "2026-04-09 07:57:16 客户：坤越通国际贸易您好！欢迎来到卧龙汽车出口。我们专注于向未知出口二手车。请问有什么可以帮助您的？",
+        "2026-04-09 09:13:53 客户：现在在进行一次测试，看看怎么样？",
+        "2026-04-09 09:14:20 客户：坤越通国际贸易您好，感谢联系我们！请告诉我们您对未知市场的车辆需求（车型、数量、预算），我们会立即回复您。",
+        "2026-04-09 09:24:53 客户：坤越通国际贸易您好！欢迎来到卧龙汽车出口。我们专注于向未知出口二手车。请问有什么可以帮助您的？",
+        "2026-04-09 13:04:52 客户：好的我知道了我知道了我知道了你放心",
+        "2026-04-09 13:05:14 我方：请告知您对目标市场（中亚、中东、非洲、拉美）的二手车需求，包括车型、数量和预算，以便我们为您匹配合适的车辆。",
+        "2026-04-09 13:07:41 我方：测试发送：您好！",
+        "2026-04-09 13:08:24 客户：好的，这次收到了，很不错",
+        "2026-04-09 13:09:17 客户：Я хотел бы узнать цену и подробную информацию о Toyota Land Cruiser Prado.",
+        "2026-04-09 13:09:52 我方：请告知您对普拉多的具体需求，包括年份、配置、数量和目标国家，以便我们为您提供准确的报价和详细信息。",
+        "2026-04-09 13:11:35 客户：أريد شراء ثلاث سيارات وإرسالها إلى خورغوس.",
+        "2026-04-09 13:12:00 我方：霍尔果斯是中哈边境口岸。请问这三辆普拉多是运往哈萨克斯坦，还是通过霍尔果斯中转到其他中亚国家？",
+        "2026-04-09 13:19:03 客户：أريد شراء ثلاث سيارات وإرسالها إلى خورغوس.",
+        "2026-04-09 13:39:11 客户：أريد شحنها إلى ألماتي، وتتكفلون أنتم بالشحن والتكاليف اللوجستية بالكامل.",
+        "2026-04-09 13:39:50 客户：هل يوجد ضمان على هذه السيارات؟",
+        "2026-04-09 13:40:44 客户：لماذا لا تستطيع الإجابة على سؤالي؟",
+        "2026-04-09 13:54:57 我方：نعتذر عن التأخير. السيارة مضمونة لمدة سنة أو 20 ألف كيلومتر، أيهما يأتي أولاً.",
+        "2026-04-09 13:55:50 客户：Это звучит как неплохой вариант.",
+        "2026-04-09 13:56:30 我方：Чтобы я мог лучше помочь，пожалуйста, сообщите мне, какие модели вас интересуют, в каком количестве и каков ваш бюджет.",
+        "2026-04-09 13:57:19 客户：¿Y cómo se paga el depósito?",
+        "2026-04-09 13:58:02 我方：El depósito se paga mediante transferencia bancaria internacional o a través de una plataforma de pago segura. Una vez recibido el depósito, comenzamos a preparar el envío de los vehículos.",
+        "2026-04-09 14:05:28 客户：Hi, I'm interested in importing used cars. Do you ship to Oman? What models do you have available?",
+        "2026-04-09 14:06:03 我方：Yes, we absolutely ship to Oman! We have a wide range of used car models available, from sedans and SUVs to commercial vehicles. To help me recommend the best options for you, could you please tell me which specific models or types of cars you are looking for, the quantity, and your target budget?"
       ],
       "messages": [
         {
@@ -120,6 +178,136 @@
           "role": "客户",
           "text": "我想要100台英菲尼迪加奔驰",
           "time": "2026-04-04 15:29:37"
+        },
+        {
+          "role": "客户",
+          "text": "上次我们聊到丰田布拉多，你还记得吗？",
+          "time": "2026-04-08 21:06:21"
+        },
+        {
+          "role": "客户",
+          "text": "测试方法和技术等",
+          "time": "2026-04-09 07:08:57"
+        },
+        {
+          "role": "客户",
+          "text": "坤越通国际贸易您好，感谢联系我们！请告诉我们您对未知市场的车辆需求（车型、数量、预算），我们会立即回复您。",
+          "time": "2026-04-09 07:09:13"
+        },
+        {
+          "role": "客户",
+          "text": "坤越通国际贸易您好！欢迎来到卧龙汽车出口。我们专注于向未知出口二手车。请问有什么可以帮助您的？",
+          "time": "2026-04-09 07:57:16"
+        },
+        {
+          "role": "客户",
+          "text": "现在在进行一次测试，看看怎么样？",
+          "time": "2026-04-09 09:13:53"
+        },
+        {
+          "role": "客户",
+          "text": "坤越通国际贸易您好，感谢联系我们！请告诉我们您对未知市场的车辆需求（车型、数量、预算），我们会立即回复您。",
+          "time": "2026-04-09 09:14:20"
+        },
+        {
+          "role": "客户",
+          "text": "坤越通国际贸易您好！欢迎来到卧龙汽车出口。我们专注于向未知出口二手车。请问有什么可以帮助您的？",
+          "time": "2026-04-09 09:24:53"
+        },
+        {
+          "role": "客户",
+          "text": "好的我知道了我知道了我知道了你放心",
+          "time": "2026-04-09 13:04:52"
+        },
+        {
+          "role": "我方",
+          "text": "请告知您对目标市场（中亚、中东、非洲、拉美）的二手车需求，包括车型、数量和预算，以便我们为您匹配合适的车辆。",
+          "time": "2026-04-09 13:05:14"
+        },
+        {
+          "role": "我方",
+          "text": "测试发送：您好！",
+          "time": "2026-04-09 13:07:41"
+        },
+        {
+          "role": "客户",
+          "text": "好的，这次收到了，很不错",
+          "time": "2026-04-09 13:08:24"
+        },
+        {
+          "role": "客户",
+          "text": "Я хотел бы узнать цену и подробную информацию о Toyota Land Cruiser Prado.",
+          "time": "2026-04-09 13:09:17"
+        },
+        {
+          "role": "我方",
+          "text": "请告知您对普拉多的具体需求，包括年份、配置、数量和目标国家，以便我们为您提供准确的报价和详细信息。",
+          "time": "2026-04-09 13:09:52"
+        },
+        {
+          "role": "客户",
+          "text": "أريد شراء ثلاث سيارات وإرسالها إلى خورغوس.",
+          "time": "2026-04-09 13:11:35"
+        },
+        {
+          "role": "我方",
+          "text": "霍尔果斯是中哈边境口岸。请问这三辆普拉多是运往哈萨克斯坦，还是通过霍尔果斯中转到其他中亚国家？",
+          "time": "2026-04-09 13:12:00"
+        },
+        {
+          "role": "客户",
+          "text": "أريد شراء ثلاث سيارات وإرسالها إلى خورغوس.",
+          "time": "2026-04-09 13:19:03"
+        },
+        {
+          "role": "客户",
+          "text": "أريد شحنها إلى ألماتي، وتتكفلون أنتم بالشحن والتكاليف اللوجستية بالكامل.",
+          "time": "2026-04-09 13:39:11"
+        },
+        {
+          "role": "客户",
+          "text": "هل يوجد ضمان على هذه السيارات؟",
+          "time": "2026-04-09 13:39:50"
+        },
+        {
+          "role": "客户",
+          "text": "لماذا لا تستطيع الإجابة على سؤالي؟",
+          "time": "2026-04-09 13:40:44"
+        },
+        {
+          "role": "我方",
+          "text": "نعتذر عن التأخير. السيارة مضمونة لمدة سنة أو 20 ألف كيلومتر، أيهما يأتي أولاً.",
+          "time": "2026-04-09 13:54:57"
+        },
+        {
+          "role": "客户",
+          "text": "Это звучит как неплохой вариант.",
+          "time": "2026-04-09 13:55:50"
+        },
+        {
+          "role": "我方",
+          "text": "Чтобы я мог лучше помочь，пожалуйста, сообщите мне, какие модели вас интересуют, в каком количестве и каков ваш бюджет.",
+          "time": "2026-04-09 13:56:30"
+        },
+        {
+          "role": "客户",
+          "text": "¿Y cómo se paga el depósito?",
+          "time": "2026-04-09 13:57:19"
+        },
+        {
+          "role": "我方",
+          "text": "El depósito se paga mediante transferencia bancaria internacional o a través de una plataforma de pago segura. Una vez recibido el depósito, comenzamos a preparar el envío de los vehículos.",
+          "time": "2026-04-09 13:58:02"
+        },
+        {
+          "role": "客户",
+          "text": "Hi, I'm interested in importing used cars. Do you ship to Oman? What models do you have available?",
+          "time": "2026-04-09 14:05:28"
+        },
+        {
+          "role": "我方",
+          "text": "Yes, we absolutely ship to Oman! We have a wide range of used car models available, from sedans and SUVs to commercial vehicles. To help me recommend the best options for you, could you please tell me which specific models or types of cars you are looking for, the quantity, and your target budget?",
+          "time": "2026-04-09 14:06:03"
         }
       ],
       "crm_status": "unknown",
@@ -384,7 +572,7 @@
     "准车商": 0,
     "疑似车商": 0,
     "个人客户": 1,
-    "沟通无效": 8
+    "沟通无效": 9
   },
-  "customer_count": 9
+  "customer_count": 10
 }

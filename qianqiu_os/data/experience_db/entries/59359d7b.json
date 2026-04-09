@@ -1,0 +1,16 @@
+{
+  "id": "59359d7b",
+  "timestamp": "2026-04-09 13:12:00",
+  "customer_msg": "أريد شراء ثلاث سيارات وإرسالها إلى خورغوس.",
+  "ai_suggested": "霍尔果斯是中哈边境口岸。请问这三辆普拉多是运往哈萨克斯坦，还是通过霍尔果斯中转到其他中亚国家？",
+  "human_approved": true,
+  "human_modified": false,
+  "final_reply": "霍尔果斯是中哈边境口岸。请问这三辆普拉多是运往哈萨克斯坦，还是通过霍尔果斯中转到其他中亚国家？",
+  "category": "疑似车商",
+  "country": "未知",
+  "outcome": "sent",
+  "quality_score": null,
+  "keywords": [],
+  "task_id": "3c67f4aa",
+  "llm_source": "gemini"
+}

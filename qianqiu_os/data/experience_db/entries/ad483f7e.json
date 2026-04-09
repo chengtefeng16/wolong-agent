@@ -1,0 +1,16 @@
+{
+  "id": "ad483f7e",
+  "timestamp": "2026-04-09 09:14:20",
+  "customer_msg": "现在在进行一次测试，看看怎么样？",
+  "ai_suggested": "坤越通国际贸易您好，感谢联系我们！请告诉我们您对未知市场的车辆需求（车型、数量、预算），我们会立即回复您。",
+  "human_approved": true,
+  "human_modified": false,
+  "final_reply": "坤越通国际贸易您好，感谢联系我们！请告诉我们您对未知市场的车辆需求（车型、数量、预算），我们会立即回复您。",
+  "category": "疑似车商",
+  "country": "未知",
+  "outcome": "sent",
+  "quality_score": null,
+  "keywords": [],
+  "task_id": "af1797f8",
+  "llm_source": "rule_fallback"
+}
