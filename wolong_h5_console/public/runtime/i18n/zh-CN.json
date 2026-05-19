@@ -1,4 +1,102 @@
 {
+  "ui": {
+    "title": "卧龙代理聊天实战工作台",
+    "new_customer_alert": "新客户提醒：检测到 {n} 条新增客户/互动，网页标签已闪动提醒。",
+    "alerts_title": "预警中心",
+    "collapse": "收起",
+    "expand": "展开预警中心",
+    "takeover": {
+      "title": "Manual Takeover 工作台",
+      "pending": "当前待人工处理：{n} 条",
+      "high": "高优先级",
+      "medium": "中优先级",
+      "low": "低优先级",
+      "reason": "接管原因：",
+      "summary": "摘要：",
+      "next_action": "建议动作："
+    },
+    "send_panel": {
+      "title": "人工测试发消息",
+      "desc": "开启后可模拟客户消息进入系统（H5 将在 8 秒内自动刷新）",
+      "on": "● 人工输入 已开启",
+      "off": "○ 人工输入 已关闭",
+      "phone": "电话号码 *",
+      "name": "客户名",
+      "country": "目标国家",
+      "message": "消息内容 *",
+      "sending": "发送中...",
+      "send": "发送",
+      "sent_ok": "✓ 消息已写入 runtime，H5 将在 8 秒内自动刷新显示。"
+    },
+    "whatsapp": {
+      "title": "WhatsApp 水龙头开关（runtime 真源读取）",
+      "emergency_stop": "紧急止水（前端演示）",
+      "layer1": "第1层 · 接入层",
+      "layer2": "第2层 · 处理层",
+      "layer3": "第3层 · 输出层",
+      "ingress_mode": "WhatsApp 接入模式",
+      "auto_classify": "自动分类：",
+      "auto_tagging": "自动标签：",
+      "h5_visible": "H5可见：",
+      "auto_reply": "自动回复：",
+      "auto_dispatch": "自动外发：",
+      "current_policy": "当前策略：",
+      "on": "开",
+      "off": "关",
+      "policy_readonly": "只观察不扰动",
+      "policy_manual": "人工接管 / dry_run",
+      "policy_other": "其他模式"
+    },
+    "customer_list": {
+      "title": "客户总览",
+      "no_keywords": "暂无关键词"
+    },
+    "detail": {
+      "proactive": "主动消息数",
+      "exchange": "往返轮次",
+      "takeover": "人工接管",
+      "yes": "是",
+      "no": "否",
+      "keywords_title": "判断依据关键词",
+      "reason_title": "判断说明",
+      "timeline_title": "时间线",
+      "chat_title": "聊天内容",
+      "no_keywords": "暂无关键词",
+      "no_timeline": "暂无时间线",
+      "no_chat": "暂无聊天内容",
+      "unknown_country": "未知国家",
+      "unknown_bucket": "待判断",
+      "unknown_stage": "待补充阶段"
+    },
+    "ai": {
+      "title": "AI 建议回复",
+      "subtitle": "AI 生成建议 → 人类审核 → 决定是否发送",
+      "ai_on": "● AI建议 已开启",
+      "ai_off": "○ AI建议 已关闭",
+      "auto_send_on": "⚡ AI可自动发（高风险，谨慎）",
+      "auto_send_off": "○ AI建议模式（人类审核）",
+      "regenerate": "🤖 重新生成",
+      "loading": "⏳ 生成中...",
+      "clear": "清空",
+      "calling": "正在调用 Gemini...",
+      "content_label": "AI 建议回复内容（可修改后发送）：",
+      "accept": "✓ 采纳并发送",
+      "sending": "发送中...",
+      "ignore": "忽略",
+      "auto_send_warning": "⚠ AI自动发已开启，采纳后将直接写入 runtime",
+      "sent_ok": "✓ AI回复已发送，H5 将在 8 秒内刷新。",
+      "send_err": "⚠ 发送失败，请检查后端 API 是否在线。",
+      "footer": "切换客户时自动生成建议 · 由 Gemini 2.5 Flash 驱动 · 修改后再决定是否发送",
+      "exp_label": "条经验",
+      "rule_template": "≈ 规则模板",
+      "task_id_label": "任务 ID："
+    }
+  },
+  "mode": {
+    "off": "关闭",
+    "readonly": "只读观察",
+    "manual": "人工接管"
+  },
   "runtime": {
     "loading": "正在读取 runtime 真源...",
     "loaded": "已读取 runtime 真源"

@@ -1,0 +1,20 @@
+# ================================================================
+# Railway 部署配置 — 卧龙 Agent 系统
+# 单服务架构：Python API + 静态 H5（Vite build）
+# ================================================================
+
+[build]
+# 先构建 H5，再交给 Python 服务
+buildCommand = "cd wolong_h5_console && npm ci && npm run build"
+
+[deploy]
+# Railway 注入 $PORT，Python 服务监听它
+startCommand = "python3 scripts/api_server.py"
+
+# 健康检查
+healthcheckPath = "/api/status"
+healthcheckTimeout = 30
+
+# 自动重启
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 5

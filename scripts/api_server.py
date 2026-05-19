@@ -92,11 +92,32 @@ try:
 except Exception:
     EXP_AVAILABLE = False
 
-RUNTIME_VIEWS = PROJECT_ROOT / "qianqiu_os" / "runtime_views"
-H5_VIEWS = PROJECT_ROOT / "wolong_h5_console" / "public" / "runtime" / "views"
-SESSIONS_DIR = PROJECT_ROOT / "qianqiu_os" / "runtime_sessions" / "whatsapp"
+# 导入历史客户重新激活分析器
+try:
+    from qianqiu_os.services.reactivation_analyzer_v1 import (
+        analyze_chat_file, analyze_multiple_chats,
+        save_results, load_results, update_result_status,
+    )
+    REACTIVATION_AVAILABLE = True
+except Exception as _e:
+    REACTIVATION_AVAILABLE = False
+    print(f"[API] 重新激活分析器加载失败: {_e}")
+
+# ── 数据根目录（Railway 用 DATA_ROOT 指向挂载 Volume）──
+_DATA_ROOT = Path(os.getenv("DATA_ROOT", str(PROJECT_ROOT)))
+
+RUNTIME_VIEWS = _DATA_ROOT / "qianqiu_os" / "runtime_views"
+H5_VIEWS = _DATA_ROOT / "wolong_h5_console" / "public" / "runtime" / "views"
+SESSIONS_DIR = _DATA_ROOT / "qianqiu_os" / "runtime_sessions" / "whatsapp"
 INDEX_PATH = SESSIONS_DIR / "conversation_index.json"
 CONVERSATIONS_DIR = SESSIONS_DIR / "conversations"
+
+# ── H5 静态文件目录（Railway 用 Vite build 后的 dist/）──
+H5_DIST = PROJECT_ROOT / "wolong_h5_console" / "dist"
+H5_PUBLIC = PROJECT_ROOT / "wolong_h5_console" / "public"
+# /runtime/* 静态数据目录（实时写入，优先从 runtime_views 读）
+RUNTIME_ALERTS = _DATA_ROOT / "qianqiu_os" / "runtime_alerts"
+RUNTIME_I18N = PROJECT_ROOT / "wolong_h5_console" / "public" / "runtime" / "i18n"
 
 
 def _read_json(path: Path, default=None):
@@ -440,11 +461,35 @@ def handle_whatsapp_webhook(payload: dict) -> dict:
             # 建立 wa_id → 姓名 的映射
             contact_map = {c.get("wa_id", ""): c.get("profile", {}).get("name", "客户") for c in contacts}
 
+            # ── 处理状态回执（已读/已送达），直接跳过 ──
+            statuses = value.get("statuses", [])
+            if statuses and not messages:
+                continue
+
             for msg in messages:
                 msg_type = msg.get("type", "")
                 wa_id = msg.get("from", "")
-                phone = f"+{wa_id}" if not wa_id.startswith("+") else wa_id
-                customer_name = contact_map.get(wa_id, "客户")
+                to_wa_id = msg.get("to", "")  # message_echoes 有 "to" 字段
+
+                # ── 判断是否为 message_echo（我方从手机发出的消息）──
+                my_phone_id = WHATSAPP_PHONE_NUMBER_ID  # 我方号码 ID
+                is_echo = bool(to_wa_id) and (
+                    wa_id == my_phone_id or
+                    wa_id.replace("+", "") == my_phone_id
+                )
+
+                if is_echo:
+                    # Echo：我方发出的消息，to 是客户号码
+                    customer_wa_id = to_wa_id.replace("+", "")
+                    phone = f"+{customer_wa_id}" if not to_wa_id.startswith("+") else to_wa_id
+                    customer_name = contact_map.get(customer_wa_id, "客户")
+                    role = "agent"
+                    print(f"[Webhook] 📤 手机发出的消息 to {phone}: ", end="")
+                else:
+                    # 普通入站消息
+                    phone = f"+{wa_id}" if not wa_id.startswith("+") else wa_id
+                    customer_name = contact_map.get(wa_id, "客户")
+                    role = "customer"
 
                 # 只处理文本消息（后续可扩展图片/语音等）
                 if msg_type == "text":
@@ -459,20 +504,23 @@ def handle_whatsapp_webhook(payload: dict) -> dict:
                         ""
                     ).strip()
                 else:
-                    # 非文本消息，记录类型但跳过
                     print(f"[Webhook] 跳过非文本消息类型: {msg_type} from {phone}")
                     continue
 
                 if not message_text:
                     continue
 
-                print(f"[Webhook] 收到消息 from {phone} ({customer_name}): {message_text[:60]}")
+                if not is_echo:
+                    print(f"[Webhook] 📥 收到消息 from {phone} ({customer_name}): {message_text[:60]}")
+                else:
+                    print(message_text[:60])
 
                 result = handle_send_message({
                     "phone": phone,
                     "name": customer_name,
                     "message": message_text,
-                    "country": "",  # WhatsApp 不直接提供国家，可通过号码前缀推断
+                    "role": role,
+                    "country": "",
                 })
 
                 if result.get("success"):
@@ -524,6 +572,124 @@ def handle_reflection(body: dict) -> dict:
         return {"status": "unavailable", "error": "闭环管理器未就绪"}
 
 
+def handle_translate(body: dict) -> dict:
+    """批量翻译文本为中文，使用 Gemini API"""
+    import urllib.request
+    import ssl
+    import time as _time
+    import re
+
+    texts = body.get("texts", [])
+    if not texts:
+        return {"translations": []}
+
+    # 加载 API key（复用 reactivation 的方式）
+    try:
+        from qianqiu_os.services.reactivation_analyzer_v1 import _load_gemini_key
+        api_key = _load_gemini_key()
+    except Exception:
+        api_key = os.environ.get("GEMINI_API_KEY", "")
+    if not api_key:
+        return {"error": "GEMINI_API_KEY 未配置", "translations": texts}
+
+    # 构建批量翻译 prompt
+    numbered = "\n".join(f"{i+1}. {t}" for i, t in enumerate(texts))
+    prompt = (
+        "将以下每条文本翻译成中文。保持原意和语气。"
+        "严格按格式输出：每行一条，格式为「序号. 中文翻译」，不要任何额外说明。\n\n"
+        + numbered
+    )
+
+    url = (
+        "https://generativelanguage.googleapis.com/v1beta/models/"
+        f"gemini-2.5-flash:generateContent?key={api_key}"
+    )
+    payload = {
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {"maxOutputTokens": 2000, "temperature": 0.1},
+    }
+    data = json.dumps(payload, ensure_ascii=False).encode("utf-8")
+    req = urllib.request.Request(url, data=data,
+                                  headers={"Content-Type": "application/json"},
+                                  method="POST")
+    ssl_ctx = ssl.create_default_context()
+    ssl_ctx.check_hostname = False
+    ssl_ctx.verify_mode = ssl.CERT_NONE
+    proxies = {
+        "https": os.environ.get("HTTPS_PROXY", os.environ.get("https_proxy", "")),
+        "http":  os.environ.get("HTTP_PROXY",  os.environ.get("http_proxy",  "")),
+    }
+    proxy_handler = urllib.request.ProxyHandler({k: v for k, v in proxies.items() if v})
+    opener = urllib.request.build_opener(proxy_handler,
+                                          urllib.request.HTTPSHandler(context=ssl_ctx))
+    last_error = ""
+    for attempt in range(3):
+        if attempt > 0:
+            _time.sleep(3 * attempt)
+        try:
+            with opener.open(req, timeout=30) as resp:
+                raw = json.loads(resp.read().decode("utf-8"))
+                text_out = (
+                    raw.get("candidates", [{}])[0]
+                       .get("content", {})
+                       .get("parts", [{}])[0]
+                       .get("text", "")
+                )
+                # 解析 "1. 翻译\n2. 翻译\n..." 格式
+                translations = []
+                for line in text_out.strip().splitlines():
+                    m = re.match(r"^\d+\.\s*(.+)$", line.strip())
+                    if m:
+                        translations.append(m.group(1).strip())
+                # 数量对齐（Gemini 偶尔漏行）
+                while len(translations) < len(texts):
+                    translations.append("")
+                return {"translations": translations[:len(texts)]}
+        except Exception as e:
+            last_error = str(e)
+            if "503" in last_error or "429" in last_error or "400" in last_error:
+                continue
+            return {"error": str(e), "translations": texts}
+    return {"error": f"翻译重试失败: {last_error}", "translations": texts}
+
+
+def handle_reactivation_analyze(body: dict) -> dict:
+    if not REACTIVATION_AVAILABLE:
+        return {"success": False, "error": "重新激活分析器未就绪"}
+    my_name_hint = body.get("my_name_hint", "")
+    if "files" in body:
+        files = body["files"]
+    elif "content" in body:
+        files = [{"filename": body.get("filename", "chat.txt"), "content": body["content"], "phone": body.get("phone", "")}]
+    else:
+        return {"success": False, "error": "缺少 content 或 files 字段"}
+    result = analyze_multiple_chats(files, my_name_hint=my_name_hint)
+    if result.get("results"):
+        save_results(result["results"])
+    return result
+
+
+def handle_reactivation_list(params: dict) -> dict:
+    if not REACTIVATION_AVAILABLE:
+        return {"success": False, "error": "重新激活分析器未就绪"}
+    results = load_results()
+    status_filter = params.get("status", "")
+    if status_filter:
+        results = [r for r in results if r.get("status") == status_filter]
+    return {"success": True, "results": results, "total": len(results)}
+
+
+def handle_reactivation_update_status(body: dict) -> dict:
+    if not REACTIVATION_AVAILABLE:
+        return {"success": False, "error": "重新激活分析器未就绪"}
+    result_id = body.get("id")
+    new_status = body.get("status")
+    if not result_id or not new_status:
+        return {"success": False, "error": "缺少 id 或 status 字段"}
+    ok = update_result_status(result_id, new_status)
+    return {"success": ok, "id": result_id, "status": new_status}
+
+
 class WolongAPIHandler(BaseHTTPRequestHandler):
     def log_message(self, format, *args):
         # 简化日志
@@ -552,6 +718,24 @@ class WolongAPIHandler(BaseHTTPRequestHandler):
         self.send_response(status)
         self.send_header("Content-Type", "text/plain; charset=utf-8")
         self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+    def _serve_static(self, file_path: Path, content_type: str = None):
+        """服务静态文件（用于 H5 dist/ 和 /runtime/* 数据文件）"""
+        if not file_path.exists():
+            self._send_json({"error": "Not found"}, 404)
+            return
+        import mimetypes
+        if content_type is None:
+            content_type, _ = mimetypes.guess_type(str(file_path))
+            content_type = content_type or "application/octet-stream"
+        with open(file_path, "rb") as f:
+            body = f.read()
+        self.send_response(200)
+        self.send_header("Content-Type", content_type)
+        self.send_header("Content-Length", str(len(body)))
+        self.send_header("Cache-Control", "no-cache")
         self.end_headers()
         self.wfile.write(body)
 
@@ -613,6 +797,46 @@ class WolongAPIHandler(BaseHTTPRequestHandler):
             )
             self._send_json(data)
 
+        elif path == "/api/reactivation/list":
+            flat_params = {k: v[0] for k, v in parse_qs(parsed.query).items()}
+            self._send_json(handle_reactivation_list(flat_params))
+
+        # ── /runtime/* 动态数据文件（H5 轮询用）──
+        elif path.startswith("/runtime/"):
+            rel = path[len("/runtime/"):]  # e.g. "views/h5_dashboard_whatsapp.json"
+            # 优先级：1. 实时 runtime_views（webhook 更新后最新）
+            #          2. dist/runtime（Railway build 时的快照）
+            #          3. public/runtime（git 中的静态文件）
+            if rel.startswith("views/"):
+                live_candidate = RUNTIME_VIEWS / rel[len("views/"):]
+            elif rel.startswith("alerts/"):
+                live_candidate = RUNTIME_ALERTS / rel[len("alerts/"):]
+            elif rel.startswith("i18n/"):
+                live_candidate = RUNTIME_I18N / rel[len("i18n/"):]
+            else:
+                live_candidate = H5_PUBLIC / "runtime" / rel  # fallback 到 public
+            if live_candidate.exists():
+                self._serve_static(live_candidate)
+            elif (H5_DIST / "runtime" / rel).exists():
+                self._serve_static(H5_DIST / "runtime" / rel)
+            elif (H5_PUBLIC / "runtime" / rel).exists():
+                self._serve_static(H5_PUBLIC / "runtime" / rel)
+            else:
+                self._send_json({"error": f"runtime file not found: {rel}"}, 404)
+
+        # ── H5 静态文件（Railway 生产模式：从 dist/ 服务）──
+        elif H5_DIST.exists():
+            # 生产模式：从 Vite build 产物服务
+            if path == "/" or path == "":
+                self._serve_static(H5_DIST / "index.html", "text/html; charset=utf-8")
+            else:
+                static_file = H5_DIST / path.lstrip("/")
+                if static_file.exists() and static_file.is_file():
+                    self._serve_static(static_file)
+                else:
+                    # SPA fallback：所有未知路由都返回 index.html
+                    self._serve_static(H5_DIST / "index.html", "text/html; charset=utf-8")
+
         else:
             self._send_json({"error": f"未知路径: {path}"}, 404)
 
@@ -673,12 +897,25 @@ class WolongAPIHandler(BaseHTTPRequestHandler):
             result = handle_mock_incoming(body)
             self._send_json(result)
 
+        elif path == "/api/reactivation/analyze":
+            result = handle_reactivation_analyze(body)
+            self._send_json(result)
+
+        elif path == "/api/reactivation/update_status":
+            result = handle_reactivation_update_status(body)
+            self._send_json(result)
+
+        elif path == "/api/translate":
+            result = handle_translate(body)
+            self._send_json(result)
+
         else:
-            self._send_json({"error": f"未知路径: {path}"}, 404)
+            self._send_json({"error": f"POST 未知路径: {path}"}, 404)
 
 
 def main():
-    port = 8765
+    # Railway 通过 $PORT 注入端口；命令行参数次之；默认 8765
+    port = int(os.getenv("PORT", 8765))
     for arg in sys.argv[1:]:
         if arg.startswith("--port="):
             port = int(arg.split("=")[1])

@@ -333,7 +333,15 @@ class ClosedLoopManager:
         exp = self._get_exp()
 
         import os
-        has_api_key = bool(os.getenv("ANTHROPIC_API_KEY"))
+        has_gemini_key = bool(os.getenv("GEMINI_API_KEY"))
+        has_anthropic_key = bool(os.getenv("ANTHROPIC_API_KEY"))
+        has_api_key = has_gemini_key or has_anthropic_key
+        if has_gemini_key:
+            llm_mode = "gemini_ai"
+        elif has_anthropic_key:
+            llm_mode = "claude_ai"
+        else:
+            llm_mode = "rule_fallback"
 
         exp_summary = {}
         if exp:
@@ -345,7 +353,7 @@ class ClosedLoopManager:
                 "llm_gateway": "online" if llm else "unavailable",
                 "experience_store": "online" if exp else "unavailable",
                 "api_key_configured": has_api_key,
-                "llm_mode": "claude_ai" if has_api_key else "rule_fallback",
+                "llm_mode": llm_mode,
             },
             "experience_stats": {
                 "total_entries": exp_summary.get("total_entries", 0),

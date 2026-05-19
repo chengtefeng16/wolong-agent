@@ -1,4 +1,102 @@
 {
+  "ui": {
+    "title": "Wolong Agent Chat Console",
+    "new_customer_alert": "New customer alert: {n} new customer(s)/interaction(s) detected. Browser tab is flashing.",
+    "alerts_title": "Alert Center",
+    "collapse": "Collapse",
+    "expand": "Expand Alert Center",
+    "takeover": {
+      "title": "Manual Takeover Workbench",
+      "pending": "Pending human review: {n}",
+      "high": "High Priority",
+      "medium": "Medium Priority",
+      "low": "Low Priority",
+      "reason": "Takeover Reason: ",
+      "summary": "Summary: ",
+      "next_action": "Suggested Action: "
+    },
+    "send_panel": {
+      "title": "Manual Test Message",
+      "desc": "Simulate a customer message entering the system (H5 auto-refreshes within 8 seconds)",
+      "on": "● Manual Input ON",
+      "off": "○ Manual Input OFF",
+      "phone": "Phone Number *",
+      "name": "Customer Name",
+      "country": "Target Country",
+      "message": "Message *",
+      "sending": "Sending...",
+      "send": "Send",
+      "sent_ok": "✓ Message written to runtime. H5 will refresh within 8 seconds."
+    },
+    "whatsapp": {
+      "title": "WhatsApp Control (runtime live data)",
+      "emergency_stop": "Emergency Stop (demo)",
+      "layer1": "Layer 1 · Ingress",
+      "layer2": "Layer 2 · Processing",
+      "layer3": "Layer 3 · Output",
+      "ingress_mode": "WhatsApp Ingress Mode",
+      "auto_classify": "Auto Classify: ",
+      "auto_tagging": "Auto Tag: ",
+      "h5_visible": "H5 Visible: ",
+      "auto_reply": "Auto Reply: ",
+      "auto_dispatch": "Auto Dispatch: ",
+      "current_policy": "Current Policy: ",
+      "on": "On",
+      "off": "Off",
+      "policy_readonly": "Observe only",
+      "policy_manual": "Manual takeover / dry_run",
+      "policy_other": "Other mode"
+    },
+    "customer_list": {
+      "title": "Customer Overview",
+      "no_keywords": "No keywords"
+    },
+    "detail": {
+      "proactive": "Proactive Messages",
+      "exchange": "Exchanges",
+      "takeover": "Human Takeover",
+      "yes": "Yes",
+      "no": "No",
+      "keywords_title": "Decision Keywords",
+      "reason_title": "Decision Reason",
+      "timeline_title": "Timeline",
+      "chat_title": "Chat History",
+      "no_keywords": "No keywords",
+      "no_timeline": "No timeline",
+      "no_chat": "No chat history",
+      "unknown_country": "Unknown Country",
+      "unknown_bucket": "Pending",
+      "unknown_stage": "Stage TBD"
+    },
+    "ai": {
+      "title": "AI Suggested Reply",
+      "subtitle": "AI generates → Human reviews → Decide to send",
+      "ai_on": "● AI Suggestions ON",
+      "ai_off": "○ AI Suggestions OFF",
+      "auto_send_on": "⚡ AI Auto-Send ON (high risk)",
+      "auto_send_off": "○ AI Suggest Mode (human review)",
+      "regenerate": "🤖 Regenerate",
+      "loading": "⏳ Generating...",
+      "clear": "Clear",
+      "calling": "Calling Gemini...",
+      "content_label": "AI suggested reply (editable before sending):",
+      "accept": "✓ Accept & Send",
+      "sending": "Sending...",
+      "ignore": "Ignore",
+      "auto_send_warning": "⚠ AI auto-send is ON — accepting will write directly to runtime",
+      "sent_ok": "✓ AI reply sent. H5 will refresh within 8 seconds.",
+      "send_err": "⚠ Send failed. Please check if the backend API is online.",
+      "footer": "Auto-generates on customer switch · Powered by Gemini 2.5 Flash · Edit before deciding to send",
+      "exp_label": " experience(s)",
+      "rule_template": "≈ Rule Template",
+      "task_id_label": "Task ID: "
+    }
+  },
+  "mode": {
+    "off": "Off",
+    "readonly": "Read-only",
+    "manual": "Manual Takeover"
+  },
   "runtime": {
     "loading": "Loading runtime live data...",
     "loaded": "Runtime live data loaded"

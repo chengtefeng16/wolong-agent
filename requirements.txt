@@ -8,7 +8,13 @@
 # of this software, in whole or in part, is strictly prohibited.
 # ================================================================
 
-pyautogen[all]
-gradio
-google-generativeai
-python-dotenv
+# ── Railway 生产环境（api_server.py 核心只需标准库）──
+# Gemini 调用走 urllib（内置），不需要 google-generativeai SDK
+# Claude fallback 走 anthropic SDK（可选）
+anthropic>=0.40.0
+
+# ── 本地开发额外依赖（Railway 不需要）──
+# pyautogen[all]   # 本地 AgentOS 框架（Railway 不用）
+# gradio           # 本地 UI（Railway 不用）
+# google-generativeai  # 已改用 urllib 直接调 REST，不需要 SDK
+# python-dotenv    # 已在 api_server.py 内置加载 .env

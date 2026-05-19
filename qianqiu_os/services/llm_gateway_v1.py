@@ -91,6 +91,30 @@ def _needs_search(message: str) -> bool:
     return any(kw in msg_lower for kw in _POLICY_KEYWORDS)
 
 
+def _detect_customer_language(text: str) -> tuple[str, str]:
+    """
+    检测客户消息的语言。
+    返回 (language_code, language_name_for_prompt)
+    """
+    import re
+    if not text:
+        return "en", "English"
+    # 俄语/西里尔字母检测
+    if re.search(r"[Ѐ-ӿ]", text):
+        return "ru", "Russian (俄语)"
+    # 中文检测
+    if re.search(r"[一-鿿]", text):
+        return "zh", "Chinese (中文)"
+    # 阿拉伯语检测
+    if re.search(r"[؀-ۿ]", text):
+        return "ar", "Arabic (阿拉伯语)"
+    # 土库曼语/乌兹别克语等拉丁字母语言（含特殊字符）
+    if re.search(r"[äöüňşçýžÄÖÜŇŞÇÝŽ]", text):
+        return "tk", "Turkmen/Uzbek (土库曼语/乌兹别克语)"
+    # 默认英语
+    return "en", "English"
+
+
 def _load_gemini_key() -> Optional[str]:
     """从 config.py 或环境变量读取 GEMINI_API_KEY"""
     # 1. 优先读 config.py（项目根目录）
@@ -281,6 +305,11 @@ def generate_reply(
         "首次接触，可简短一句问候，然后立即切入业务，禁止重复客户名字。"
     )
 
+    # 检测客户语言并强制指定回复语言
+    lang_code, lang_name = _detect_customer_language(last_message)
+    lang_instruction = f"⚠️ 语言强制要求：客户用{lang_name}发消息，你必须用{lang_name}回复，禁止用其他语言。"
+    print(f"[LLM] 检测到客户语言: {lang_code} ({lang_name})，消息前10字: {last_message[:10]!r}", flush=True)
+
     prompt = f"""客户背景：
 - 客户类型：{category}
 - 目标市场：{country}
@@ -290,8 +319,11 @@ def generate_reply(
 客户最新消息：「{last_message}」
 {experience_text}
 
+{lang_instruction}
+
 {reply_instruction}
 回复要求：
+- 必须用{lang_name}回复（严格遵守）
 - 必须围绕跨境二手车出口业务
 - 简洁自然，不超过100字
 - 直接给出回复内容，不加任何说明或前缀标注"""
@@ -360,29 +392,65 @@ def classify_customer(last_message: str, conversation_history: List[Dict] = None
 
 
 def _rule_based_reply(customer_name: str, country: str, category: str, last_message: str) -> str:
-    """规则兜底回复（LLM 不可用时）"""
+    """规则兜底回复（LLM 不可用时），根据客户语言选择对应语言模板"""
     msg = last_message.lower()
-    if any(w in msg for w in ["price", "cost", "quote", "how much", "报价", "多少钱"]):
-        return (f"Hi {customer_name}, thank you for your interest! "
-                f"We offer very competitive prices for the {country} market. "
-                f"Could you tell us which vehicle models you're looking for and your target quantity? "
-                f"We'll prepare a detailed quotation within 24 hours.")
-    elif any(w in msg for w in ["suv", "sedan", "pickup", "van", "car", "vehicle"]):
-        return (f"Hi {customer_name}, great choice! "
-                f"We have an excellent selection of vehicles well-suited for {country}. "
-                f"What quantity are you looking for, and do you have specific brand preferences?")
-    elif any(w in msg for w in ["ship", "delivery", "logistics", "物流", "运费"]):
-        return (f"Hi {customer_name}, we handle full shipping to {country}. "
-                f"Sea freight typically takes 25–45 days. "
-                f"Shall we include shipping in our quotation?")
-    elif any(w in msg for w in ["hello", "hi", "good", "您好", "你好"]):
-        return (f"Hi {customer_name}! Welcome to Wolong Auto Export. "
-                f"We specialize in vehicle exports to {country}. "
-                f"How can we assist you today?")
+    lang_code, _ = _detect_customer_language(last_message)
+
+    if lang_code == "ru":
+        # 俄语模板
+        if any(w in msg for w in ["цен", "стоим", "сколько", "прайс"]):
+            return (f"Здравствуйте! Мы предлагаем конкурентные цены для рынка {country}. "
+                    f"Пожалуйста, уточните модель и количество автомобилей — "
+                    f"подготовим коммерческое предложение в течение 24 часов.")
+        elif any(w in msg for w in ["доставк", "логистик", "отправк", "фрахт"]):
+            return (f"Мы организуем полную доставку в {country}. "
+                    f"Морской фрахт занимает около 25–45 дней. "
+                    f"Включить стоимость доставки в коммерческое предложение?")
+        else:
+            return (f"Здравствуйте! Мы специализируемся на экспорте подержанных автомобилей в {country}. "
+                    f"Пожалуйста, уточните модель, количество и бюджет — "
+                    f"ответим в кратчайшие сроки.")
+
+    elif lang_code == "zh":
+        # 中文模板
+        if any(w in msg for w in ["price", "cost", "quote", "how much", "报价", "多少钱", "价格"]):
+            return (f"您好！我们为{country}市场提供非常有竞争力的价格。"
+                    f"请告诉我们您需要的车型和数量，我们将在24小时内提供详细报价。")
+        elif any(w in msg for w in ["ship", "delivery", "logistics", "物流", "运费"]):
+            return (f"我们负责全程运输到{country}，海运通常需要25–45天。"
+                    f"需要我们在报价中包含运费吗？")
+        else:
+            return (f"您好！我们专注于向{country}出口优质二手车。"
+                    f"请分享您的车辆需求（车型、数量、预算），我们会立即为您跟进。")
+
+    elif lang_code == "ar":
+        # 阿拉伯语模板
+        return (f"مرحباً! نحن متخصصون في تصدير السيارات المستعملة إلى {country}. "
+                f"يرجى مشاركة متطلباتك (الموديل، الكمية، الميزانية) وسنرد فوراً.")
+
     else:
-        return (f"Hi {customer_name}, thank you for reaching out! "
-                f"Please share your vehicle requirements for {country} "
-                f"(model, quantity, budget) and we'll respond right away.")
+        # 英语模板（默认）
+        if any(w in msg for w in ["price", "cost", "quote", "how much", "报价", "多少钱"]):
+            return (f"Hi {customer_name}, thank you for your interest! "
+                    f"We offer very competitive prices for the {country} market. "
+                    f"Could you tell us which vehicle models you're looking for and your target quantity? "
+                    f"We'll prepare a detailed quotation within 24 hours.")
+        elif any(w in msg for w in ["suv", "sedan", "pickup", "van", "car", "vehicle"]):
+            return (f"Hi {customer_name}, great choice! "
+                    f"We have an excellent selection of vehicles well-suited for {country}. "
+                    f"What quantity are you looking for, and do you have specific brand preferences?")
+        elif any(w in msg for w in ["ship", "delivery", "logistics", "物流", "运费"]):
+            return (f"Hi {customer_name}, we handle full shipping to {country}. "
+                    f"Sea freight typically takes 25–45 days. "
+                    f"Shall we include shipping in our quotation?")
+        elif any(w in msg for w in ["hello", "hi", "good", "您好", "你好"]):
+            return (f"Hi {customer_name}! Welcome to Wolong Auto Export. "
+                    f"We specialize in vehicle exports to {country}. "
+                    f"How can we assist you today?")
+        else:
+            return (f"Hi {customer_name}, thank you for reaching out! "
+                    f"Please share your vehicle requirements for {country} "
+                    f"(model, quantity, budget) and we'll respond right away.")
 
 
 def _rule_based_classify(last_message: str) -> Dict[str, Any]:

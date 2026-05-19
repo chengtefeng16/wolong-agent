@@ -11,6 +11,16 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import './index.css'
 
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768)
+  useEffect(() => {
+    const handler = () => setIsMobile(window.innerWidth < 768)
+    window.addEventListener('resize', handler)
+    return () => window.removeEventListener('resize', handler)
+  }, [])
+  return isMobile
+}
+
 const fallbackCustomers = [
   {
     id: 'fallback_1',
@@ -39,7 +49,7 @@ const fallbackStats = [
   { label: '沟通无效', value: 0 },
 ]
 
-const channels = ['WhatsApp', 'Facebook', 'Ins（后续）', '更多渠道（后续）']
+const channels = ['全部客户', 'WhatsApp', 'Facebook', '历史激活', 'Ins（后续）', '更多渠道（后续）']
 
 function getCounts(messages) {
   const safeMessages = Array.isArray(messages) ? messages : []
@@ -191,7 +201,16 @@ async function loadRuntimeCustomers(channel = 'WhatsApp') {
   }
 }
 
+// ── 历史激活：意向等级颜色配置 ──
+const INTENT_COLORS = {
+  hot:     { bg: '#fef2f2', border: '#ef4444', badge: '#dc2626', label: '🔥 高意向' },
+  warm:    { bg: '#fffbeb', border: '#f59e0b', badge: '#d97706', label: '🟡 中意向' },
+  cold:    { bg: '#eff6ff', border: '#93c5fd', badge: '#2563eb', label: '🧊 低意向' },
+  unknown: { bg: '#f9fafb', border: '#d1d5db', badge: '#6b7280', label: '❓ 未知' },
+}
+
 export default function App() {
+  const isMobile = useIsMobile()
   const [customers, setCustomers] = useState(fallbackCustomers)
   const [stats, setStats] = useState(fallbackStats)
   const [selectedId, setSelectedId] = useState(fallbackCustomers[0].id)
@@ -209,8 +228,10 @@ export default function App() {
     return typeof current === 'string' ? current : fallback
   }
   const [activeChannel, setActiveChannel] = useState('WhatsApp')
+  const [mobileShowDetail, setMobileShowDetail] = useState(false)
   const [alerts, setAlerts] = useState([])
-  const [showAlerts, setShowAlerts] = useState(true)
+  // 手机端默认折叠预警中心，减少首屏干扰
+  const [showAlerts, setShowAlerts] = useState(!isMobile)
   const [takeoverWorkbench, setTakeoverWorkbench] = useState({ count: 0, items: [], level_counts: { high: 0, medium: 0, low: 0 } })
 
   const [ingressMode, setIngressMode] = useState('readonly')
@@ -237,6 +258,20 @@ export default function App() {
   const [aiOriginalSuggestion, setAiOriginalSuggestion] = useState('')  // AI 原始建议（用于判断是否被修改）
   const [aiExpCount, setAiExpCount] = useState(0)               // 注入的经验数量
   const [aiSource, setAiSource] = useState('')                  // AI 来源（gemini / claude / rule_fallback）
+
+  // ── 历史客户重新激活 ──
+  const [reactUploadStatus, setReactUploadStatus] = useState('idle') // idle | parsing | analyzing | done | error
+  const [reactUploadError, setReactUploadError] = useState('')
+  const [reactResults, setReactResults] = useState([])
+  const [reactMyName, setReactMyName] = useState('')
+  const [reactSelectedId, setReactSelectedId] = useState(null)
+  const [reactAnalysisProgress, setReactAnalysisProgress] = useState({ current: 0, total: 0 })
+
+  // ── 全部客户总表 ──
+  const [allCustomers, setAllCustomers] = useState([])
+  const [allSelectedId, setAllSelectedId] = useState(null)
+  const [allLoading, setAllLoading] = useState(false)
+
   const knownIdsRef = useRef(new Set())
   const flashTimerRef = useRef(null)
   const flashToggleRef = useRef(false)
@@ -426,6 +461,47 @@ export default function App() {
     return () => clearTimeout(t)
   }, [selectedId]) // eslint-disable-line react-hooks/exhaustive-deps
 
+  // ── 全部客户：合并 WhatsApp + Facebook + 历史激活 ──
+  useEffect(() => {
+    if (activeChannel !== '全部客户') return
+    let disposed = false
+    async function loadAll() {
+      setAllLoading(true)
+      const [wa, fbChat, fbFeed, react] = await Promise.all([
+        fetchJson('/runtime/views/h5_dashboard_whatsapp.json', { customers: [] }),
+        fetchJson('/runtime/views/h5_dashboard_facebook.json', { customers: [] }),
+        fetchJson('/runtime/views/h5_dashboard_facebook_feed.json', { customers: [] }),
+        fetch('/api/reactivation/list').then(r => r.ok ? r.json() : { results: [] }).catch(() => ({ results: [] })),
+      ])
+      if (disposed) return
+      const waCusts = (wa?.customers || []).map(c => ({ ...c, _source: 'WhatsApp' }))
+      const fbCusts = [
+        ...(fbChat?.customers || []),
+        ...(fbFeed?.customers || []),
+      ].map(c => ({ ...c, _source: 'Facebook' }))
+      const reactCusts = (react?.results || []).map(r => ({
+        id: r.id,
+        name: r.customer_name || r.filename,
+        phone: r.phone || '-',
+        country: r.country || '未知',
+        time: r.analyzed_at || '—',
+        message: r.last_contact_summary || r.no_deal_reason || '—',
+        keywords: r.car_models_interested || [],
+        messages: r.messages || [],
+        category: r.intent_level || 'unknown',
+        _source: '历史激活',
+        _react: r, // keep original for detail panel
+      }))
+      const merged = [...reactCusts, ...waCusts, ...fbCusts]
+      setAllCustomers(merged)
+      if (!allSelectedId && merged.length > 0) setAllSelectedId(merged[0].id)
+      setAllLoading(false)
+    }
+    loadAll()
+    const t = setInterval(loadAll, 10000)
+    return () => { disposed = true; clearInterval(t) }
+  }, [activeChannel]) // eslint-disable-line react-hooks/exhaustive-deps
+
   const isFacebookEmptyView = activeChannel === 'Facebook' && customers.length === 0
   const channelEmptyState = isFacebookEmptyView
     ? {
@@ -604,14 +680,14 @@ export default function App() {
 
       {showAlerts && alerts.length > 0 && (
         <div style={{ marginBottom: '10px' }}>
-          <div style={{ background: '#ffffff', border: '1px solid #ef4444', borderRadius: '12px', padding: '10px 12px', boxShadow: '0 1px 2px rgba(0,0,0,0.04)' }}>
+          <div style={{ background: '#ffffff', border: '1px solid #ef4444', borderRadius: '12px', padding: isMobile ? '8px 10px' : '10px 12px', boxShadow: '0 1px 2px rgba(0,0,0,0.04)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
-              <div style={{ fontSize: '15px', fontWeight: 800, color: '#b91c1c' }}>
+              <div style={{ fontSize: isMobile ? '14px' : '15px', fontWeight: 800, color: '#b91c1c' }}>
                 预警中心（{alerts.length}）
               </div>
               <button
                 onClick={() => setShowAlerts(false)}
-                style={{ border: '1px solid #d1d5db', background: '#fff', borderRadius: '8px', padding: '4px 10px', cursor: 'pointer', fontSize: '12px' }}
+                style={{ border: '1px solid #d1d5db', background: '#fff', borderRadius: '8px', padding: isMobile ? '6px 14px' : '4px 10px', cursor: 'pointer', fontSize: '13px', minHeight: '36px' }}
               >
                 收起
               </button>
@@ -649,16 +725,19 @@ export default function App() {
           <button
             onClick={() => setShowAlerts(true)}
             style={{
+              width: isMobile ? '100%' : 'auto',
               border: '1px solid #ef4444',
               background: '#fff1f2',
               color: '#b91c1c',
               borderRadius: '10px',
-              padding: '8px 12px',
+              padding: isMobile ? '12px 16px' : '8px 12px',
               fontWeight: 700,
               cursor: 'pointer',
+              fontSize: isMobile ? '14px' : '13px',
+              textAlign: 'left',
             }}
           >
-            展开预警中心（{alerts.length}）
+            🚨 展开预警中心（{alerts.length} 条）
           </button>
         </div>
       )}
@@ -687,7 +766,7 @@ export default function App() {
               </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: '10px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, minmax(0, 1fr))', gap: '10px' }}>
               {takeoverWorkbench.items.slice(0, 6).map((item) => {
                 const pStyle = getPriorityStyle(item.priority)
                 return (
@@ -746,7 +825,7 @@ export default function App() {
         </div>
 
         {sendPanelOpen && (
-          <div style={{ marginTop: '12px', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px', alignItems: 'end' }}>
+          <div style={{ marginTop: '12px', display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr 1fr', gap: '8px', alignItems: 'end' }}>
             <div>
               <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '4px' }}>电话号码 *</div>
               <input
@@ -838,7 +917,7 @@ export default function App() {
           </button>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr 1fr', gap: '10px', alignItems: 'stretch' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.2fr 1fr 1fr', gap: '10px', alignItems: 'stretch' }}>
           <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '10px', background: '#fafafa' }}>
             <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '6px' }}>第1层 · 接入层</div>
             <div style={{ fontSize: '13px', fontWeight: 700, marginBottom: '8px' }}>WhatsApp 接入模式</div>
@@ -865,7 +944,7 @@ export default function App() {
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: '10px', marginBottom: '10px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${isMobile ? 2 : 4}, minmax(0, 1fr))`, gap: '10px', marginBottom: '10px' }}>
         {stats.map((item) => (
           <div key={item.label} style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: '12px', padding: '12px' }}>
             <div style={{ fontSize: '12px', color: '#6b7280' }}>{item.label}</div>
@@ -897,17 +976,45 @@ export default function App() {
         })}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '360px 1fr', gap: '12px' }}>
-        <div style={{ background: '#fff', borderRadius: '12px', border: '1px solid #e5e7eb', padding: '10px' }}>
+      {/* ── 全部客户总表 ── */}
+      {activeChannel === '全部客户' && (
+        <AllCustomersPanel
+          customers={allCustomers}
+          selectedId={allSelectedId}
+          setSelectedId={setAllSelectedId}
+          loading={allLoading}
+        />
+      )}
+
+      {/* ── 历史客户重新激活面板 ── */}
+      {activeChannel === '历史激活' && (
+        <ReactivationPanel
+          uploadStatus={reactUploadStatus}
+          setUploadStatus={setReactUploadStatus}
+          uploadError={reactUploadError}
+          setUploadError={setReactUploadError}
+          results={reactResults}
+          setResults={setReactResults}
+          myName={reactMyName}
+          setMyName={setReactMyName}
+          selectedId={reactSelectedId}
+          setSelectedId={setReactSelectedId}
+          progress={reactAnalysisProgress}
+          setProgress={setReactAnalysisProgress}
+        />
+      )}
+
+      {activeChannel !== '历史激活' && activeChannel !== '全部客户' && <div style={{ display: isMobile ? 'block' : 'grid', gridTemplateColumns: '360px 1fr', gap: '12px' }}>
+        <div style={{ background: '#fff', borderRadius: '12px', border: '1px solid #e5e7eb', padding: '10px', display: isMobile && mobileShowDetail ? 'none' : 'block' }}>
           <div style={{ fontSize: '14px', fontWeight: 800, marginBottom: '10px' }}>客户总览</div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: '72vh', overflowY: 'auto' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: isMobile ? 'calc(100vh - 280px)' : '72vh', overflowY: 'auto' }}>
             {customers.map((item) => {
               const active = item.id === selectedId
               return (
                 <div
                   key={item.id}
-                  onClick={() => setSelectedId(item.id)}
+                  onClick={() => { setSelectedId(item.id); if (isMobile) { setMobileShowDetail(true); window.scrollTo(0, 0) } }}
                   style={{
                     border: active ? '1px solid #2563eb' : '1px solid #e5e7eb',
                     background: active ? '#eff6ff' : '#fff',
@@ -937,7 +1044,12 @@ export default function App() {
           </div>
         </div>
 
-        <div style={{ background: '#fff', borderRadius: '12px', border: '1px solid #e5e7eb', padding: '12px' }}>
+        <div style={{ background: '#fff', borderRadius: '12px', border: '1px solid #e5e7eb', padding: '12px', display: isMobile && !mobileShowDetail ? 'none' : 'block' }}>
+          {isMobile && mobileShowDetail && (
+            <button onClick={() => { setMobileShowDetail(false); window.scrollTo(0, 0) }} style={{ marginBottom: '10px', padding: '10px 16px', borderRadius: '8px', border: '1px solid #d1d5db', background: '#f3f4f6', fontSize: '14px', cursor: 'pointer', fontWeight: 600, minHeight: '40px' }}>
+              ← 返回列表
+            </button>
+          )}
           <div style={{ display: 'flex', justifyContent: 'space-between', gap: '12px', alignItems: 'center', marginBottom: '10px' }}>
             <div>
               <div style={{ fontSize: '18px', fontWeight: 800 }}>{selected.name}</div>
@@ -961,7 +1073,7 @@ export default function App() {
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '10px', marginBottom: '12px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(3, 1fr)' : 'repeat(3, minmax(0, 1fr))', gap: '8px', marginBottom: '12px' }}>
             <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '10px' }}>
               <div style={{ fontSize: '12px', color: '#6b7280' }}>主动消息数</div>
               <div style={{ fontSize: '20px', fontWeight: 800, marginTop: '4px' }}>{proactiveCount}</div>
@@ -1191,7 +1303,668 @@ export default function App() {
             )}
           </div>
         </div>
+      </div>}
+    </div>
+  )
+}
+
+// ─────────────────────────────────────────────────────────────
+// ReactivationPanel — 历史客户重新激活
+// ─────────────────────────────────────────────────────────────
+function ReactivationPanel({
+  uploadStatus, setUploadStatus,
+  uploadError, setUploadError,
+  results, setResults,
+  myName, setMyName,
+  selectedId, setSelectedId,
+  progress, setProgress,
+}) {
+  const isMobile = useIsMobile()
+  const [mobileView, setMobileView] = useState('list')
+  const fileInputRef = useRef(null)
+  const selected = results.find(r => r.id === selectedId) || results[0] || null
+  const [editingMsg, setEditingMsg] = useState('')
+  const [sendStatus, setSendStatus] = useState(null) // null | 'sending' | 'sent' | 'err'
+
+  // 同步编辑框到选中项
+  useEffect(() => {
+    if (selected) setEditingMsg(selected.reactivation_message || '')
+    setSendStatus(null)
+  }, [selectedId, selected?.id])
+
+  // 加载已保存的结果
+  useEffect(() => {
+    fetch('/api/reactivation/list')
+      .then(r => r.ok ? r.json() : null)
+      .then(data => { if (data?.results?.length) setResults(data.results) })
+      .catch(() => {})
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  async function handleFileUpload(e) {
+    const files = Array.from(e.target.files || [])
+    if (!files.length) return
+
+    setUploadStatus('parsing')
+    setUploadError('')
+    setProgress({ current: 0, total: files.length })
+
+    // 读取所有文件内容
+    const fileObjects = await Promise.all(files.map(f => new Promise((resolve) => {
+      const reader = new FileReader()
+      reader.onload = (ev) => resolve({
+        filename: f.name,
+        content: ev.target.result,
+        phone: '',
+      })
+      reader.readAsText(f, 'utf-8')
+    })))
+
+    setUploadStatus('analyzing')
+    setProgress({ current: 0, total: files.length })
+
+    try {
+      const resp = await fetch('/api/reactivation/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ files: fileObjects, my_name_hint: myName }),
+      })
+      const data = await resp.json()
+      if (data.success) {
+        setResults(prev => {
+          const existingIds = new Set(prev.map(r => r.id))
+          const fresh = (data.results || []).filter(r => !existingIds.has(r.id))
+          return [...fresh, ...prev]
+        })
+        setUploadStatus('done')
+        setProgress({ current: data.analyzed, total: data.total })
+        if (data.results?.[0]) setSelectedId(data.results[0].id)
+        if (data.errors?.length) {
+          setUploadError(`成功 ${data.analyzed} 个，失败 ${data.errors.length} 个：${data.errors.map(e => e.filename).join(', ')}`)
+        }
+      } else {
+        setUploadStatus('error')
+        setUploadError(data.error || '分析失败')
+      }
+    } catch (err) {
+      setUploadStatus('error')
+      setUploadError(`请求失败：${err.message}`)
+    }
+
+    // 重置 input 以允许重复上传同一文件
+    if (fileInputRef.current) fileInputRef.current.value = ''
+  }
+
+  async function handleUpdateStatus(id, status) {
+    await fetch('/api/reactivation/update_status', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, status }),
+    })
+    setResults(prev => prev.map(r => r.id === id ? { ...r, status } : r))
+  }
+
+  const pendingCount = results.filter(r => r.status === 'pending').length
+  const sentCount = results.filter(r => r.status === 'sent').length
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+      {/* 顶部：上传区 + 统计 */}
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr auto', gap: '12px', alignItems: 'start' }}>
+        {/* 上传卡片 */}
+        <div style={{ background: '#fff', borderRadius: '12px', border: '1px solid #e5e7eb', padding: '16px' }}>
+          <div style={{ fontSize: '15px', fontWeight: 800, marginBottom: '10px' }}>
+            📂 上传 WhatsApp 聊天记录（.txt）
+          </div>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
+            <input
+              type="text"
+              placeholder="我方账号名称（可选，帮助区分客户/我方）"
+              value={myName}
+              onChange={e => setMyName(e.target.value)}
+              style={{ flex: 1, minWidth: '200px', padding: '7px 10px', borderRadius: '8px', border: '1px solid #d1d5db', fontSize: '13px' }}
+            />
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              disabled={uploadStatus === 'analyzing'}
+              style={{
+                padding: '7px 16px', borderRadius: '8px', border: 'none',
+                background: uploadStatus === 'analyzing' ? '#93c5fd' : '#2563eb',
+                color: '#fff', fontWeight: 700, cursor: uploadStatus === 'analyzing' ? 'not-allowed' : 'pointer',
+                fontSize: '13px',
+              }}
+            >
+              {uploadStatus === 'analyzing' ? '⏳ Gemini 分析中...' : '选择文件'}
+            </button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".txt"
+              multiple
+              style={{ display: 'none' }}
+              onChange={handleFileUpload}
+            />
+          </div>
+          {/* 状态提示 */}
+          {uploadStatus === 'done' && progress.total > 0 && (
+            <div style={{ marginTop: '8px', fontSize: '12px', color: '#16a34a' }}>
+              ✓ 分析完成：{progress.current}/{progress.total} 个文件
+            </div>
+          )}
+          {uploadStatus === 'analyzing' && (
+            <div style={{ marginTop: '8px', fontSize: '12px', color: '#2563eb' }}>
+              ⏳ 正在调用 Gemini 2.5 Flash 逐一分析，请稍候...
+            </div>
+          )}
+          {uploadError && (
+            <div style={{ marginTop: '8px', fontSize: '12px', color: uploadStatus === 'error' ? '#dc2626' : '#d97706' }}>
+              {uploadStatus === 'error' ? '⚠ ' : 'ℹ '}{uploadError}
+            </div>
+          )}
+          <div style={{ marginTop: '8px', fontSize: '11px', color: '#9ca3af' }}>
+            支持批量上传 · 每个 .txt 对应一段对话 · 数据仅存储在本地服务器
+          </div>
+        </div>
+        {/* 统计 */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', minWidth: '120px' }}>
+          <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: '12px', padding: '12px', textAlign: 'center' }}>
+            <div style={{ fontSize: '11px', color: '#6b7280' }}>待发送</div>
+            <div style={{ fontSize: '28px', fontWeight: 800, color: '#2563eb' }}>{pendingCount}</div>
+          </div>
+          <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: '12px', padding: '12px', textAlign: 'center' }}>
+            <div style={{ fontSize: '11px', color: '#6b7280' }}>已发送</div>
+            <div style={{ fontSize: '28px', fontWeight: 800, color: '#16a34a' }}>{sentCount}</div>
+          </div>
+          <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: '12px', padding: '12px', textAlign: 'center' }}>
+            <div style={{ fontSize: '11px', color: '#6b7280' }}>总计</div>
+            <div style={{ fontSize: '28px', fontWeight: 800 }}>{results.length}</div>
+          </div>
+        </div>
       </div>
+
+      {/* 空状态 */}
+      {results.length === 0 && (
+        <div style={{ background: '#fff', borderRadius: '12px', border: '1px dashed #d1d5db', padding: '48px', textAlign: 'center', color: '#9ca3af' }}>
+          <div style={{ fontSize: '32px', marginBottom: '8px' }}>📋</div>
+          <div style={{ fontSize: '14px', fontWeight: 600, marginBottom: '4px' }}>暂无分析结果</div>
+          <div style={{ fontSize: '12px' }}>上传 WhatsApp 导出的 .txt 聊天记录，Gemini 将自动提取客户画像并生成个性化重新激活消息</div>
+        </div>
+      )}
+
+      {/* 主面板：列表 + 详情 */}
+      {results.length > 0 && (
+        <div style={{ display: isMobile ? 'block' : 'grid', gridTemplateColumns: '340px 1fr', gap: '12px' }}>
+          {/* 左侧列表 */}
+          <div style={{ background: '#fff', borderRadius: '12px', border: '1px solid #e5e7eb', padding: '10px', display: isMobile && mobileView === 'detail' ? 'none' : 'block' }}>
+            <div style={{ fontSize: '14px', fontWeight: 800, marginBottom: '8px' }}>客户列表</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', maxHeight: isMobile ? 'calc(100vh - 260px)' : '65vh', overflowY: 'auto' }}>
+              {results.map(r => {
+                const ic = INTENT_COLORS[r.intent_level] || INTENT_COLORS.unknown
+                const active = r.id === selectedId
+                return (
+                  <div
+                    key={r.id}
+                    onClick={() => { setSelectedId(r.id); if (isMobile) { setMobileView('detail'); window.scrollTo(0, 0) } }}
+                    style={{
+                      border: active ? `1px solid ${ic.border}` : '1px solid #e5e7eb',
+                      background: active ? ic.bg : '#fff',
+                      borderRadius: '10px', padding: '10px', cursor: 'pointer',
+                    }}
+                  >
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', minWidth: 0 }}>
+                        {r.phone && (
+                          <span style={{ fontSize: '11px', color: '#6b7280', background: '#f3f4f6', borderRadius: '6px', padding: '2px 6px', whiteSpace: 'nowrap', fontFamily: 'monospace' }}>
+                            {r.phone}
+                          </span>
+                        )}
+                        <div style={{ fontWeight: 800, fontSize: '14px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.customer_name || r.filename}</div>
+                      </div>
+                      <span style={{ fontSize: '10px', padding: '2px 6px', borderRadius: '999px', background: ic.badge, color: '#fff', fontWeight: 700, flexShrink: 0 }}>
+                        {ic.label}
+                      </span>
+                    </div>
+                    <div style={{ fontSize: '11px', color: '#6b7280', marginBottom: '4px' }}>
+                      {r.country || '国家未知'} · {(r.car_models_interested || []).join(', ') || '车型未知'}
+                    </div>
+                    <div style={{ fontSize: '11px', color: '#374151' }}>{r.no_deal_reason || '—'}</div>
+                    <div style={{ marginTop: '6px', display: 'flex', gap: '4px' }}>
+                      <span style={{
+                        fontSize: '10px', padding: '2px 6px', borderRadius: '999px',
+                        background: r.status === 'sent' ? '#dcfce7' : r.status === 'skipped' ? '#f3f4f6' : '#dbeafe',
+                        color: r.status === 'sent' ? '#16a34a' : r.status === 'skipped' ? '#6b7280' : '#1d4ed8',
+                        fontWeight: 600,
+                      }}>
+                        {r.status === 'sent' ? '✓ 已发送' : r.status === 'skipped' ? '— 跳过' : '待发送'}
+                      </span>
+                      <span style={{ fontSize: '10px', color: '#9ca3af' }}>{r.message_count} 条消息</span>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* 右侧详情 */}
+          {selected ? (
+            <div style={{ background: '#fff', borderRadius: '12px', border: '1px solid #e5e7eb', padding: '16px', display: isMobile && mobileView === 'list' ? 'none' : 'flex', flexDirection: 'column', gap: '14px' }}>
+              {/* 手机端返回按钮 */}
+              {isMobile && mobileView === 'detail' && (
+                <button onClick={() => { setMobileView('list'); window.scrollTo(0, 0) }} style={{ alignSelf: 'flex-start', padding: '10px 16px', borderRadius: '8px', border: '1px solid #d1d5db', background: '#f3f4f6', fontSize: '14px', cursor: 'pointer', fontWeight: 600, minHeight: '40px' }}>
+                  ← 返回列表
+                </button>
+              )}
+              {/* 客户信息头部 */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', flexWrap: 'wrap', gap: '8px' }}>
+                <div>
+                  <div style={{ fontSize: '20px', fontWeight: 800 }}>{selected.customer_name}</div>
+                  <div style={{ fontSize: '13px', color: '#6b7280', marginTop: '2px' }}>
+                    {selected.country || '国家未知'} · {selected.phone || '电话未知'} · {selected.message_count} 条消息
+                  </div>
+                </div>
+                <span style={{
+                  fontSize: '12px', padding: '4px 10px', borderRadius: '999px',
+                  background: (INTENT_COLORS[selected.intent_level] || INTENT_COLORS.unknown).badge,
+                  color: '#fff', fontWeight: 700,
+                }}>
+                  {(INTENT_COLORS[selected.intent_level] || INTENT_COLORS.unknown).label}
+                </span>
+              </div>
+
+              {/* 分析结果 */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                <div style={{ background: '#f9fafb', borderRadius: '10px', padding: '12px' }}>
+                  <div style={{ fontSize: '11px', color: '#6b7280', marginBottom: '4px', fontWeight: 600 }}>询问车型</div>
+                  <div style={{ fontSize: '13px', fontWeight: 600 }}>
+                    {(selected.car_models_interested || []).join(' · ') || '—'}
+                  </div>
+                </div>
+                <div style={{ background: '#f9fafb', borderRadius: '10px', padding: '12px' }}>
+                  <div style={{ fontSize: '11px', color: '#6b7280', marginBottom: '4px', fontWeight: 600 }}>未成交原因</div>
+                  <div style={{ fontSize: '13px' }}>{selected.no_deal_reason || '—'}</div>
+                </div>
+                <div style={{ background: '#f9fafb', borderRadius: '10px', padding: '12px' }}>
+                  <div style={{ fontSize: '11px', color: '#6b7280', marginBottom: '4px', fontWeight: 600 }}>意向判断</div>
+                  <div style={{ fontSize: '13px' }}>{selected.intent_reason || '—'}</div>
+                </div>
+                <div style={{ background: '#f9fafb', borderRadius: '10px', padding: '12px' }}>
+                  <div style={{ fontSize: '11px', color: '#6b7280', marginBottom: '4px', fontWeight: 600 }}>最后沟通摘要</div>
+                  <div style={{ fontSize: '13px' }}>{selected.last_contact_summary || '—'}</div>
+                </div>
+              </div>
+
+              {/* 重新激活消息编辑区 */}
+              <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '12px' }}>
+                <div style={{ fontSize: '13px', fontWeight: 700, marginBottom: '8px', color: '#1d4ed8' }}>
+                  ✉ 个性化重新激活消息（英文）
+                </div>
+                <textarea
+                  value={editingMsg}
+                  onChange={e => setEditingMsg(e.target.value)}
+                  rows={5}
+                  style={{
+                    width: '100%', padding: '8px', borderRadius: '8px',
+                    border: '1px solid #d1d5db', fontSize: '13px',
+                    fontFamily: 'inherit', resize: 'vertical', boxSizing: 'border-box',
+                  }}
+                />
+                <div style={{ display: 'flex', gap: '8px', marginTop: '8px', alignItems: 'center' }}>
+                  <button
+                    onClick={() => {
+                      setSendStatus('sending')
+                      handleUpdateStatus(selected.id, 'confirmed')
+                        .then(() => {
+                          setSendStatus('sent')
+                          handleUpdateStatus(selected.id, 'sent')
+                        })
+                        .catch(() => setSendStatus('err'))
+                    }}
+                    disabled={selected.status === 'sent' || sendStatus === 'sending'}
+                    style={{
+                      padding: '7px 16px', borderRadius: '8px', border: 'none',
+                      background: selected.status === 'sent' ? '#6b7280' : '#16a34a',
+                      color: '#fff', fontWeight: 700, cursor: selected.status === 'sent' ? 'not-allowed' : 'pointer',
+                      fontSize: '13px',
+                    }}
+                  >
+                    {sendStatus === 'sending' ? '处理中...' : selected.status === 'sent' ? '✓ 已标记发送' : '✓ 确认发送'}
+                  </button>
+                  <button
+                    onClick={() => handleUpdateStatus(selected.id, 'skipped')}
+                    style={{ padding: '7px 12px', borderRadius: '8px', border: '1px solid #d1d5db', background: '#fff', color: '#6b7280', fontWeight: 600, cursor: 'pointer', fontSize: '13px' }}
+                  >
+                    跳过
+                  </button>
+                  <div style={{ fontSize: '11px', color: '#9ca3af', marginLeft: 'auto' }}>
+                    分析于 {selected.analyzed_at} · 来源文件：{selected.filename}
+                  </div>
+                </div>
+                {sendStatus === 'sent' && (
+                  <div style={{ marginTop: '6px', fontSize: '12px', color: '#16a34a' }}>
+                    ✓ 已标记为发送。客户回复后将进入卧龙正常跟进流程。
+                  </div>
+                )}
+                {sendStatus === 'err' && (
+                  <div style={{ marginTop: '6px', fontSize: '12px', color: '#dc2626' }}>⚠ 更新失败，请检查后端服务。</div>
+                )}
+              </div>
+
+              {/* 历史沟通记录 */}
+              {selected.messages?.length > 0 && (
+                <div>
+                  <div style={{ fontSize: '13px', fontWeight: 700, marginBottom: '8px' }}>
+                    📜 历史沟通记录（{selected.messages.length} 条）
+                  </div>
+                  <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '10px', maxHeight: '320px', overflowY: 'auto', background: '#fafafa', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    {selected.messages.map((msg, idx) => {
+                      const isAgent = msg.role === '我方' || msg.role === 'agent'
+                      return (
+                        <div key={idx} style={{ display: 'flex', flexDirection: 'column', alignItems: isAgent ? 'flex-end' : 'flex-start' }}>
+                          <div style={{ fontSize: '11px', color: '#9ca3af', marginBottom: '2px' }}>
+                            {msg.role} · {msg.time}
+                          </div>
+                          <div style={{
+                            fontSize: '13px', lineHeight: 1.6,
+                            padding: '7px 12px',
+                            borderRadius: isAgent ? '14px 4px 14px 14px' : '4px 14px 14px 14px',
+                            maxWidth: '85%',
+                            background: isAgent ? '#dcfce7' : '#dbeafe',
+                            color: isAgent ? '#14532d' : '#1e3a5f',
+                            border: isAgent ? '1px solid #86efac' : '1px solid #93c5fd',
+                            fontFamily: "'Noto Sans Arabic', 'PingFang SC', sans-serif",
+                            direction: /[\u0600-\u06FF]/.test(msg.text || '') ? 'rtl' : 'ltr',
+                            textAlign: /[\u0600-\u06FF]/.test(msg.text || '') ? 'right' : 'left',
+                            whiteSpace: 'pre-wrap',
+                          }}>
+                            {msg.text}
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* 操作提示 */}
+              <div style={{ fontSize: '11px', color: '#9ca3af', background: '#f9fafb', borderRadius: '8px', padding: '8px 12px' }}>
+                💡 确认后请手动将消息复制到 WhatsApp 发送，或等待第3步（WhatsApp API自动发送）功能上线。客户回复后，通过 WhatsApp Webhook 自动进入卧龙跟进流程。
+              </div>
+            </div>
+          ) : (
+            <div style={{ background: '#fff', borderRadius: '12px', border: '1px solid #e5e7eb', padding: '32px', textAlign: 'center', color: '#9ca3af' }}>
+              ← 从左侧选择一个客户查看详情
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ─────────────────────────────────────────────────────────────
+// AllCustomersPanel — 全部客户总表（WhatsApp + Facebook + 历史激活）
+// ─────────────────────────────────────────────────────────────
+const SOURCE_STYLE = {
+  'WhatsApp':  { bg: '#dcfce7', color: '#166534', border: '#86efac' },
+  'Facebook':  { bg: '#dbeafe', color: '#1e40af', border: '#93c5fd' },
+  '历史激活':  { bg: '#fef3c7', color: '#92400e', border: '#fde68a' },
+}
+
+function AllCustomersPanel({ customers, selectedId, setSelectedId, loading }) {
+  const isMobile = useIsMobile()
+  const [mobileView, setMobileView] = useState('list') // 'list' | 'detail'
+  const selected = customers.find(c => c.id === selectedId) || customers[0] || null
+  const [showCN, setShowCN] = useState(false)
+  const [translations, setTranslations] = useState({}) // { customerId: ['cn1','cn2',...] }
+  const [translating, setTranslating] = useState(false)
+  const [sendStatus, setSendStatus] = useState({}) // { customerId: 'sending'|'sent'|'error' }
+
+  async function fetchTranslations(cust) {
+    if (!cust?.messages?.length) return
+    if (translations[cust.id]) { setShowCN(true); return }
+    setTranslating(true)
+    try {
+      const texts = cust.messages.map(m => m.text || '')
+      const res = await fetch('/api/translate', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ texts }),
+      })
+      const data = await res.json()
+      if (data.translations) {
+        setTranslations(prev => ({ ...prev, [cust.id]: data.translations }))
+        setShowCN(true)
+      }
+    } catch (e) { console.error('translate error', e) }
+    setTranslating(false)
+  }
+
+  return (
+    <div style={{ display: isMobile ? 'block' : 'grid', gridTemplateColumns: '380px 1fr', gap: '12px' }}>
+      {/* 左侧列表 */}
+      <div style={{ background: '#fff', borderRadius: '12px', border: '1px solid #e5e7eb', padding: '10px', display: isMobile && mobileView === 'detail' ? 'none' : 'block' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+          <div style={{ fontSize: '14px', fontWeight: 800 }}>全部客户</div>
+          <div style={{ fontSize: '12px', color: '#6b7280' }}>
+            {loading ? '加载中...' : `共 ${customers.length} 位`}
+          </div>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', maxHeight: isMobile ? 'calc(100vh - 240px)' : '72vh', overflowY: 'auto' }}>
+          {customers.length === 0 && (
+            <div style={{ fontSize: '12px', color: '#9ca3af', textAlign: 'center', padding: '24px' }}>
+              {loading ? '正在加载...' : '暂无客户数据'}
+            </div>
+          )}
+          {customers.map(c => {
+            const ss = SOURCE_STYLE[c._source] || SOURCE_STYLE['WhatsApp']
+            const active = c.id === selectedId
+            return (
+              <div
+                key={c.id}
+                onClick={() => { setSelectedId(c.id); if (isMobile) { setMobileView('detail'); window.scrollTo(0, 0) } }}
+                style={{
+                  border: active ? '1px solid #2563eb' : '1px solid #e5e7eb',
+                  background: active ? '#eff6ff' : '#fff',
+                  borderRadius: '10px', padding: '10px', cursor: 'pointer',
+                }}
+              >
+                {/* 第一行：手机号 + 姓名 + 来源标签 */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '3px', flexWrap: 'wrap' }}>
+                  {c.phone && c.phone !== '-' && (
+                    <span style={{ fontSize: '11px', color: '#6b7280', background: '#f3f4f6', borderRadius: '6px', padding: '1px 5px', fontFamily: 'monospace', whiteSpace: 'nowrap', flexShrink: 0 }}>
+                      {c.phone}
+                    </span>
+                  )}
+                  <span style={{ fontWeight: 800, fontSize: '13px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '120px' }}>
+                    {c.name}
+                  </span>
+                  <span style={{ fontSize: '10px', padding: '2px 7px', borderRadius: '999px', background: ss.bg, color: ss.color, border: `1px solid ${ss.border}`, fontWeight: 700, whiteSpace: 'nowrap', flexShrink: 0 }}>
+                    {c._source}
+                  </span>
+                </div>
+                {/* 第二行：国家 + 摘要 */}
+                <div style={{ fontSize: '11px', color: '#6b7280', marginBottom: '2px' }}>
+                  {c.country || '国家未知'}{c.time ? ` · ${c.time}` : ''}
+                </div>
+                <div style={{ fontSize: '11px', color: '#374151', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                  {c.message || '—'}
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+
+      {/* 右侧详情 */}
+      {selected ? (
+        <div style={{ background: '#fff', borderRadius: '12px', border: '1px solid #e5e7eb', padding: '16px', display: isMobile && mobileView === 'list' ? 'none' : 'flex', flexDirection: 'column', gap: '14px', overflowY: 'auto', maxHeight: isMobile ? 'calc(100vh - 60px)' : '80vh' }}>
+          {/* 手机端返回按钮 */}
+          {isMobile && mobileView === 'detail' && (
+            <button onClick={() => { setMobileView('list'); window.scrollTo(0, 0) }} style={{ alignSelf: 'flex-start', padding: '10px 16px', borderRadius: '8px', border: '1px solid #d1d5db', background: '#f3f4f6', fontSize: '14px', cursor: 'pointer', fontWeight: 600, minHeight: '40px' }}>
+              ← 返回列表
+            </button>
+          )}
+          {/* 头部 */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', flexWrap: 'wrap', gap: '8px' }}>
+            <div>
+              <div style={{ fontSize: '20px', fontWeight: 800 }}>{selected.name}</div>
+              <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '3px' }}>
+                {selected.country || '国家未知'} · {selected.phone && selected.phone !== '-' ? selected.phone : '电话未知'} · {selected.time || '—'}
+              </div>
+            </div>
+            <span style={{
+              fontSize: '12px', padding: '4px 10px', borderRadius: '999px', fontWeight: 700,
+              background: (SOURCE_STYLE[selected._source] || SOURCE_STYLE['WhatsApp']).bg,
+              color: (SOURCE_STYLE[selected._source] || SOURCE_STYLE['WhatsApp']).color,
+              border: `1px solid ${(SOURCE_STYLE[selected._source] || SOURCE_STYLE['WhatsApp']).border}`,
+            }}>
+              来源：{selected._source}
+            </span>
+          </div>
+
+          {/* 关键词 / 车型 */}
+          {(selected.keywords?.length > 0) && (
+            <div>
+              <div style={{ fontSize: '13px', fontWeight: 700, marginBottom: '6px' }}>关键词 / 车型</div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                {selected.keywords.map((kw, i) => (
+                  <span key={i} style={{ fontSize: '12px', padding: '3px 8px', borderRadius: '999px', background: '#eef2ff', color: '#3730a3' }}>{kw}</span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* 历史激活特有字段 */}
+          {selected._source === '历史激活' && selected._react && (
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+              <div style={{ background: '#f9fafb', borderRadius: '10px', padding: '10px' }}>
+                <div style={{ fontSize: '11px', color: '#6b7280', marginBottom: '4px', fontWeight: 600 }}>意向等级</div>
+                <div style={{ fontSize: '13px', fontWeight: 700 }}>
+                  {(INTENT_COLORS[selected._react.intent_level] || INTENT_COLORS.unknown).label}
+                </div>
+              </div>
+              <div style={{ background: '#f9fafb', borderRadius: '10px', padding: '10px' }}>
+                <div style={{ fontSize: '11px', color: '#6b7280', marginBottom: '4px', fontWeight: 600 }}>未成交原因</div>
+                <div style={{ fontSize: '12px' }}>{selected._react.no_deal_reason || '—'}</div>
+              </div>
+              {selected._react.reactivation_message && (
+                <div style={{ gridColumn: '1 / -1', background: '#fffbeb', borderRadius: '10px', padding: '10px', border: '1px solid #fde68a' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                    <div style={{ fontSize: '11px', color: '#92400e', fontWeight: 600 }}>✉ 重新激活消息</div>
+                    {selected.phone && selected.phone !== '-' && (() => {
+                      const st = sendStatus[selected.id]
+                      return (
+                        <button
+                          disabled={st === 'sending' || st === 'sent'}
+                          onClick={async () => {
+                            setSendStatus(p => ({ ...p, [selected.id]: 'sending' }))
+                            try {
+                              const res = await fetch('/api/send_message', {
+                                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                  phone: selected.phone,
+                                  name: selected.name,
+                                  message: selected._react.reactivation_message,
+                                  role: 'agent',
+                                }),
+                              })
+                              const d = await res.json()
+                              setSendStatus(p => ({ ...p, [selected.id]: d.success ? 'sent' : 'error' }))
+                            } catch {
+                              setSendStatus(p => ({ ...p, [selected.id]: 'error' }))
+                            }
+                          }}
+                          style={{
+                            fontSize: '11px', padding: '4px 10px', borderRadius: '999px', border: 'none', cursor: st === 'sent' ? 'default' : 'pointer', fontWeight: 700,
+                            background: st === 'sent' ? '#dcfce7' : st === 'error' ? '#fee2e2' : st === 'sending' ? '#e5e7eb' : '#25d366',
+                            color: st === 'sent' ? '#166534' : st === 'error' ? '#991b1b' : st === 'sending' ? '#6b7280' : '#fff',
+                          }}
+                        >
+                          {st === 'sending' ? '发送中...' : st === 'sent' ? '✓ 已发送' : st === 'error' ? '✗ 发送失败' : '📱 发送到WhatsApp'}
+                        </button>
+                      )
+                    })()}
+                  </div>
+                  <div style={{ fontSize: '12px', lineHeight: 1.6 }}>{selected._react.reactivation_message}</div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* 摘要 */}
+          <div>
+            <div style={{ fontSize: '13px', fontWeight: 700, marginBottom: '6px' }}>沟通摘要</div>
+            <div style={{ fontSize: '13px', lineHeight: 1.7, color: '#374151', background: '#f9fafb', borderRadius: '8px', padding: '10px' }}>
+              {selected.message || selected.reason || '—'}
+            </div>
+          </div>
+
+          {/* 历史聊天记录 */}
+          {selected.messages?.length > 0 && (
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+                <div style={{ fontSize: '13px', fontWeight: 700 }}>
+                  📜 历史沟通记录（{selected.messages.length} 条）
+                </div>
+                <button
+                  onClick={() => {
+                    if (!showCN) fetchTranslations(selected)
+                    else setShowCN(false)
+                  }}
+                  style={{
+                    fontSize: '11px', padding: '3px 10px', borderRadius: '999px', border: '1px solid #d1d5db',
+                    background: showCN ? '#eef2ff' : '#f9fafb', color: showCN ? '#3730a3' : '#6b7280',
+                    cursor: 'pointer', fontWeight: 600,
+                  }}
+                >
+                  {translating ? '⏳ 翻译中...' : showCN ? '🔠 隐藏中文' : '🔠 显示中文'}
+                </button>
+              </div>
+              <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '10px', maxHeight: '380px', overflowY: 'auto', background: '#fafafa', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {selected.messages.map((msg, idx) => {
+                  const isAgent = msg.role === '我方' || msg.role === 'agent'
+                  const cnText = showCN && translations[selected.id]?.[idx]
+                  return (
+                    <div key={idx} style={{ display: 'flex', flexDirection: 'column', alignItems: isAgent ? 'flex-end' : 'flex-start' }}>
+                      <div style={{ fontSize: '11px', color: '#9ca3af', marginBottom: '2px' }}>
+                        {msg.role} · {msg.time}
+                      </div>
+                      <div style={{
+                        fontSize: '13px', lineHeight: 1.6,
+                        padding: '7px 12px',
+                        borderRadius: isAgent ? '14px 4px 14px 14px' : '4px 14px 14px 14px',
+                        maxWidth: '85%',
+                        background: isAgent ? '#dcfce7' : '#dbeafe',
+                        color: isAgent ? '#14532d' : '#1e3a5f',
+                        border: isAgent ? '1px solid #86efac' : '1px solid #93c5fd',
+                        fontFamily: "'Noto Sans Arabic', 'PingFang SC', sans-serif",
+                        direction: /[\u0600-\u06FF]/.test(msg.text || '') ? 'rtl' : 'ltr',
+                        textAlign: /[\u0600-\u06FF]/.test(msg.text || '') ? 'right' : 'left',
+                        whiteSpace: 'pre-wrap',
+                      }}>
+                        {msg.text}
+                        {cnText && (
+                          <div style={{
+                            marginTop: '5px', paddingTop: '5px',
+                            borderTop: isAgent ? '1px solid #86efac' : '1px solid #93c5fd',
+                            fontSize: '12px', color: isAgent ? '#166534' : '#1e40af',
+                            fontFamily: "'PingFang SC', sans-serif",
+                            direction: 'ltr', textAlign: 'left',
+                          }}>
+                            🇨🇳 {cnText}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+      ) : (
+        <div style={{ background: '#fff', borderRadius: '12px', border: '1px solid #e5e7eb', padding: '32px', textAlign: 'center', color: '#9ca3af' }}>
+          ← 从左侧选择一个客户查看详情
+        </div>
+      )}
     </div>
   )
 }
