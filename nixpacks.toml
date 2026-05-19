@@ -1,0 +1,19 @@
+# Railway nixpacks 配置
+# 同时安装 Python（API 服务器）和 Node.js（Vite H5 构建）
+
+[phases.setup]
+nixPkgs = ["python311", "nodejs_20", "nodePackages.npm"]
+
+[phases.install]
+cmds = [
+  "pip install -r requirements.txt",
+  "cd wolong_h5_console && npm ci"
+]
+
+[phases.build]
+cmds = [
+  "cd wolong_h5_console && npm run build"
+]
+
+[start]
+cmd = "python3 scripts/api_server.py"

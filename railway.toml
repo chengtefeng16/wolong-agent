@@ -4,8 +4,8 @@
 # ================================================================
 
 [build]
-# 先构建 H5，再交给 Python 服务
-buildCommand = "cd wolong_h5_console && npm ci && npm run build"
+# nixpacks.toml 负责安装 Python + Node 并构建 H5
+# buildCommand 这里留空让 nixpacks 接管
 
 [deploy]
 # Railway 注入 $PORT，Python 服务监听它
