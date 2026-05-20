@@ -1,19 +1,20 @@
 # ================================================================
 # Railway 部署配置 — 卧龙 Agent 系统
-# 单服务架构：Python API + 静态 H5（Vite build）
+# 单容器：Dockerfile 多阶段构建（Node.js 构建 H5 + Python 运行 API）
 # ================================================================
 
 [build]
-# nixpacks.toml 负责安装 Python + Node 并构建 H5
-# buildCommand 这里留空让 nixpacks 接管
+# 使用根目录 Dockerfile（多阶段：Node build H5 → Python API）
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
 
 [deploy]
-# Railway 注入 $PORT，Python 服务监听它
+# CMD 已在 Dockerfile 定义，这里显式指定以防覆盖
 startCommand = "python3 scripts/api_server.py"
 
 # 健康检查
 healthcheckPath = "/api/status"
-healthcheckTimeout = 30
+healthcheckTimeout = 60
 
 # 自动重启
 restartPolicyType = "on_failure"
