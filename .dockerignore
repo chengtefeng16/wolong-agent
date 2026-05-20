@@ -1,0 +1,74 @@
+# ── 版本控制 ──
+.git
+.gitignore
+
+# ── Python 虚拟环境（不需要进容器）──
+.venv/
+.venv_delivery/
+.venv_pdf/
+venv/
+venv_broken_do_not_touch/
+venv_test/
+__pycache__/
+*.pyc
+*.pyo
+
+# ── Node 依赖（Stage 1 会重新 npm ci）──
+wolong_h5_console/node_modules/
+# dist 不在 git 里，Docker Stage 1 会构建
+# 不需要 ignore
+
+# ── 本地大文件备份（不进容器）──
+*.tar.gz
+*.zip
+*.gz
+REAL_DISASTER_BACKUPS_*/
+disaster_backup_*/
+disaster_backups_*/
+disaster_recovery_backups/
+stage_backups/
+backup_20260315_*/
+backup_20260316_*/
+backup_20260317_*/
+FULL_RESCUE_*/
+tmp/
+tmp_*/
+*.log
+*.txt.bak
+
+# ── 本地开发专用 ──
+.env
+.DS_Store
+.claude/
+ecosystem.config.cjs
+gradio.log
+request.json
+
+# ── 不需要进容器的文档和脚本 ──
+PROJECT_MEMO.md
+PROJECT_CHECKLIST.md
+PROJECT_CONSTITUTION.md
+PROGRESS_*.md
+WOLONG_KEY_FILES_EXPORT.txt
+*.md
+create_stage_disaster_backup.sh
+make_real_disaster_backups*.sh
+export_agentos_full_source_code.sh
+fix_*.py
+recover_*.py
+rewrite_*.py
+inspect_*.py
+debug_*.py
+extract_*.py
+
+# ── 测试和调试文件 ──
+test_*.py
+*.bak*
+app_full_output.txt
+raw_app_*.txt
+copyright_*.txt
+en_L7_snapshot.json
+memory_chat.json
+
+# ── 大型媒体/项目文件 ──
+AncientRuins.uproject
