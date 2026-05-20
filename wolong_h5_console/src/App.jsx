@@ -201,6 +201,54 @@ async function loadRuntimeCustomers(channel = 'WhatsApp') {
   }
 }
 
+function getCountryFlag(country) {
+  if (!country) return '🌍'
+  const lower = country.toLowerCase()
+  const map = [
+    [['阿联酋', 'uae', 'emirates', '迪拜', 'dubai'], '🇦🇪'],
+    [['俄罗斯', 'russia', 'russian'], '🇷🇺'],
+    [['沙特', 'saudi'], '🇸🇦'],
+    [['乌兹别克斯坦', 'uzbek'], '🇺🇿'],
+    [['土库曼斯坦', 'turkmen'], '🇹🇲'],
+    [['哈萨克斯坦', 'kazakh'], '🇰🇿'],
+    [['阿富汗', 'afghan'], '🇦🇫'],
+    [['巴基斯坦', 'pakistan', 'pakistani'], '🇵🇰'],
+    [['伊朗', 'iran', 'iranian'], '🇮🇷'],
+    [['土耳其', 'turkey', 'turkish'], '🇹🇷'],
+    [['伊拉克', 'iraq', 'iraqi'], '🇮🇶'],
+    [['科威特', 'kuwait'], '🇰🇼'],
+    [['卡塔尔', 'qatar'], '🇶🇦'],
+    [['巴林', 'bahrain'], '🇧🇭'],
+    [['约旦', 'jordan'], '🇯🇴'],
+    [['叙利亚', 'syria', 'syrian'], '🇸🇾'],
+    [['黎巴嫩', 'lebanon', 'lebanese'], '🇱🇧'],
+    [['埃及', 'egypt', 'egyptian'], '🇪🇬'],
+    [['摩洛哥', 'morocco', 'moroccan'], '🇲🇦'],
+    [['尼日利亚', 'nigeria', 'nigerian'], '🇳🇬'],
+    [['加纳', 'ghana', 'ghanaian'], '🇬🇭'],
+    [['肯尼亚', 'kenya', 'kenyan'], '🇰🇪'],
+    [['中国', 'china', 'chinese'], '🇨🇳'],
+    [['美国', 'usa', 'united states', 'american'], '🇺🇸'],
+    [['英国', 'uk', 'united kingdom', 'britain', 'british'], '🇬🇧'],
+    [['德国', 'germany', 'german'], '🇩🇪'],
+    [['法国', 'france', 'french'], '🇫🇷'],
+    [['澳大利亚', 'australia', 'australian'], '🇦🇺'],
+    [['印度', 'india', 'indian'], '🇮🇳'],
+    [['印尼', '印度尼西亚', 'indonesia', 'indonesian'], '🇮🇩'],
+    [['马来西亚', 'malaysia', 'malaysian'], '🇲🇾'],
+    [['泰国', 'thailand', 'thai'], '🇹🇭'],
+    [['越南', 'vietnam', 'vietnamese'], '🇻🇳'],
+    [['菲律宾', 'philippines', 'filipino'], '🇵🇭'],
+    [['阿塞拜疆', 'azerbaijan', 'azerbaijani'], '🇦🇿'],
+    [['格鲁吉亚', 'georgia', 'georgian'], '🇬🇪'],
+    [['吉尔吉斯斯坦', 'kyrgyz', 'kyrgyzstan'], '🇰🇬'],
+  ]
+  for (const [keys, flag] of map) {
+    if (keys.some(k => lower.includes(k))) return flag
+  }
+  return '🌍'
+}
+
 // ── 历史激活：意向等级颜色配置 ──
 const INTENT_COLORS = {
   hot:     { bg: '#fef2f2', border: '#ef4444', badge: '#dc2626', label: '🔥 高意向' },
@@ -660,654 +708,394 @@ export default function App() {
   }
 
   return (
-    <div className="page">
-      <div className="top-title">卧龙代理聊天实战工作台</div>
+    <div style={{
+      display: 'flex',
+      height: '100vh',
+      overflow: 'hidden',
+      background: '#f0f2f5',
+    }}>
 
-      {newCustomerCount > 0 && (
-        <div style={{ marginBottom: '10px' }}>
-          <div style={{
-            background: '#eff6ff',
-            border: '1px solid #bfdbfe',
-            borderRadius: '12px',
-            padding: '10px 12px',
-            color: '#1d4ed8',
-            fontWeight: 800
-          }}>
-            新客户提醒：检测到 {newCustomerCount} 条新增客户/互动，网页标签已闪动提醒。
-          </div>
-        </div>
-      )}
-
-      {showAlerts && alerts.length > 0 && (
-        <div style={{ marginBottom: '10px' }}>
-          <div style={{ background: '#ffffff', border: '1px solid #ef4444', borderRadius: '12px', padding: isMobile ? '8px 10px' : '10px 12px', boxShadow: '0 1px 2px rgba(0,0,0,0.04)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
-              <div style={{ fontSize: isMobile ? '14px' : '15px', fontWeight: 800, color: '#b91c1c' }}>
-                预警中心（{alerts.length}）
-              </div>
-              <button
-                onClick={() => setShowAlerts(false)}
-                style={{ border: '1px solid #d1d5db', background: '#fff', borderRadius: '8px', padding: isMobile ? '6px 14px' : '4px 10px', cursor: 'pointer', fontSize: '13px', minHeight: '36px' }}
-              >
-                收起
-              </button>
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              {alerts.slice(0, 5).map((alert, idx) => {
-                const style = getAlertLevelStyle(alert.level)
-                return (
-                  <div
-                    key={`${alert.type}_${alert.customer_id || idx}`}
-                    style={{ border: `1px solid ${style.border}`, background: style.bg, borderRadius: '10px', padding: '10px' }}
-                  >
-                    <div style={{ display: 'flex', justifyContent: 'space-between', gap: '10px', marginBottom: '4px' }}>
-                      <div style={{ fontSize: '13px', fontWeight: 800, color: style.text }}>
-                        {alert.title}
-                      </div>
-                      <div style={{ fontSize: '11px', color: '#6b7280' }}>
-                        {alert.created_at || '—'}
-                      </div>
-                    </div>
-                    <div style={{ fontSize: '13px', color: '#111827', lineHeight: 1.6 }}>
-                      {alert.message}
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {!showAlerts && alerts.length > 0 && (
-        <div style={{ marginBottom: '10px' }}>
-          <button
-            onClick={() => setShowAlerts(true)}
-            style={{
-              width: isMobile ? '100%' : 'auto',
-              border: '1px solid #ef4444',
-              background: '#fff1f2',
-              color: '#b91c1c',
-              borderRadius: '10px',
-              padding: isMobile ? '12px 16px' : '8px 12px',
-              fontWeight: 700,
-              cursor: 'pointer',
-              fontSize: isMobile ? '14px' : '13px',
-              textAlign: 'left',
-            }}
-          >
-            🚨 展开预警中心（{alerts.length} 条）
-          </button>
-        </div>
-      )}
-
-      {takeoverWorkbench.count > 0 && (
-        <div style={{ marginBottom: '10px' }}>
-          <div style={{ background: '#ffffff', border: '1px solid #2563eb', borderRadius: '12px', padding: '10px 12px', boxShadow: '0 1px 2px rgba(0,0,0,0.04)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', marginBottom: '10px', flexWrap: 'wrap' }}>
+      {/* ══════════ LEFT SIDEBAR ══════════ */}
+      {(!isMobile || !mobileShowDetail) && (
+        <div style={{
+          width: isMobile ? '100%' : '290px',
+          minWidth: isMobile ? 'unset' : '290px',
+          background: '#1e2640',
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100vh',
+          overflow: 'hidden',
+          flexShrink: 0,
+        }}>
+          {/* Sidebar header */}
+          <div style={{ padding: '14px 14px 10px', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
               <div>
-                <div style={{ fontSize: '15px', fontWeight: 800, color: '#1d4ed8' }}>Manual Takeover 工作台</div>
-                <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '2px' }}>
-                  当前待人工处理：{takeoverWorkbench.count} 条
-                </div>
+                <div style={{ fontSize: '16px', fontWeight: 800, color: '#fff', letterSpacing: '-0.3px' }}>卧龙 CRM</div>
+                <div style={{ fontSize: '10px', color: '#475569', marginTop: '1px' }}>{loadingText}</div>
               </div>
-
-              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                <div style={{ fontSize: '12px', padding: '4px 8px', borderRadius: '999px', background: '#fee2e2', color: '#b91c1c' }}>
-                  高优先级 {takeoverWorkbench.level_counts?.high || 0}
-                </div>
-                <div style={{ fontSize: '12px', padding: '4px 8px', borderRadius: '999px', background: '#fef3c7', color: '#92400e' }}>
-                  中优先级 {takeoverWorkbench.level_counts?.medium || 0}
-                </div>
-                <div style={{ fontSize: '12px', padding: '4px 8px', borderRadius: '999px', background: '#e5e7eb', color: '#374151' }}>
-                  低优先级 {takeoverWorkbench.level_counts?.low || 0}
-                </div>
+              <div style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
+                {newCustomerCount > 0 && (
+                  <div style={{ background: '#10b981', color: '#fff', borderRadius: '999px', padding: '2px 7px', fontSize: '10px', fontWeight: 700 }}>
+                    +{newCustomerCount}
+                  </div>
+                )}
+                {alerts.length > 0 && (
+                  <button
+                    onClick={() => setShowAlerts(v => !v)}
+                    style={{ background: '#ef4444', color: '#fff', border: 'none', borderRadius: '999px', padding: '2px 7px', fontSize: '10px', fontWeight: 700, cursor: 'pointer' }}
+                  >
+                    🚨 {alerts.length}
+                  </button>
+                )}
               </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, minmax(0, 1fr))', gap: '10px' }}>
-              {takeoverWorkbench.items.slice(0, 6).map((item) => {
-                const pStyle = getPriorityStyle(item.priority)
+            {/* Stats chips */}
+            <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
+              {stats.map(s => (
+                <div key={s.label} style={{ background: 'rgba(255,255,255,0.07)', borderRadius: '6px', padding: '3px 7px', fontSize: '10px', color: '#64748b' }}>
+                  <span style={{ fontWeight: 800, color: '#e2e8f0' }}>{s.value}</span>{' '}{s.label}
+                </div>
+              ))}
+            </div>
+
+            {/* Takeover notice */}
+            {takeoverWorkbench.count > 0 && (
+              <div style={{ marginTop: '7px', background: 'rgba(37,99,235,0.2)', borderRadius: '6px', padding: '4px 8px', fontSize: '10px', color: '#93c5fd' }}>
+                ⚡ {takeoverWorkbench.count} 条待接管
+                {takeoverWorkbench.level_counts?.high > 0 && (
+                  <span style={{ marginLeft: '8px', color: '#fca5a5' }}>高优 {takeoverWorkbench.level_counts.high}</span>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Channel tabs */}
+          <div style={{ padding: '8px 10px 6px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+            <div style={{ display: 'flex', gap: '3px', flexWrap: 'wrap' }}>
+              {channels.map(ch => {
+                const active = ch === activeChannel
+                const label =
+                  ch === 'WhatsApp' ? '💬 WA' :
+                  ch === 'Facebook' ? '👥 FB' :
+                  ch === '历史激活' ? '📂 激活' :
+                  ch === '全部客户' ? '🗂 全部' :
+                  ch
                 return (
-                  <div key={item.ticket_id} style={{ border: '1px solid #dbeafe', background: '#f8fbff', borderRadius: '10px', padding: '10px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', gap: '8px', marginBottom: '6px' }}>
-                      <div style={{ fontSize: '14px', fontWeight: 800 }}>{item.customer_name || item.customer_id}</div>
-                      <div style={{ fontSize: '11px', padding: '2px 8px', borderRadius: '999px', background: pStyle.bg, color: pStyle.text, fontWeight: 700 }}>
-                        {item.priority || 'low'}
-                      </div>
-                    </div>
-
-                    <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '6px' }}>
-                      {item.country || '未知国家'} · {item.bucket || '待判断'} · {item.business_stage || '待补充阶段'}
-                    </div>
-
-                    <div style={{ fontSize: '13px', color: '#111827', lineHeight: 1.6, marginBottom: '6px' }}>
-                      <strong>接管原因：</strong>{item.takeover_reason || 'waiting_human_takeover'}
-                    </div>
-
-                    <div style={{ fontSize: '13px', color: '#111827', lineHeight: 1.6, marginBottom: '6px' }}>
-                      <strong>摘要：</strong>{item.summary || '暂无摘要'}
-                    </div>
-
-                    <div style={{ fontSize: '13px', color: '#1f2937', lineHeight: 1.6 }}>
-                      <strong>建议动作：</strong>{item.next_action || '建议人工继续推进。'}
-                    </div>
-                  </div>
+                  <button
+                    key={ch}
+                    onClick={() => setActiveChannel(ch)}
+                    style={{
+                      padding: '4px 9px', borderRadius: '6px', border: 'none',
+                      background: active ? '#2563eb' : 'rgba(255,255,255,0.06)',
+                      color: active ? '#fff' : '#94a3b8',
+                      fontWeight: active ? 700 : 400,
+                      cursor: 'pointer', fontSize: '11px',
+                    }}
+                  >
+                    {label}
+                  </button>
                 )
               })}
             </div>
           </div>
-        </div>
-      )}
 
-      {/* ═══ 人工测试发消息面板 ═══ */}
-      <div style={{ background: '#fff', border: '1px solid #d7dde7', borderRadius: '12px', padding: '10px 12px', marginBottom: '10px', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap' }}>
-          <div>
-            <div style={{ fontSize: '15px', fontWeight: 700 }}>人工测试发消息</div>
-            <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '2px' }}>
-              开启后可模拟客户消息进入系统（H5 将在 8 秒内自动刷新）
-            </div>
-          </div>
-          {/* 主开关 */}
-          <button
-            onClick={() => { setSendPanelOpen((v) => !v); setSendStatus(null); setSendErrMsg('') }}
-            style={{
-              padding: '6px 16px', borderRadius: '999px', fontWeight: 700, fontSize: '13px', cursor: 'pointer',
-              border: sendPanelOpen ? '1px solid #16a34a' : '1px solid #d1d5db',
-              background: sendPanelOpen ? '#dcfce7' : '#f3f4f6',
-              color: sendPanelOpen ? '#15803d' : '#374151',
-            }}
-          >
-            {sendPanelOpen ? '● 人工输入 已开启' : '○ 人工输入 已关闭'}
-          </button>
-        </div>
-
-        {sendPanelOpen && (
-          <div style={{ marginTop: '12px', display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr 1fr', gap: '8px', alignItems: 'end' }}>
-            <div>
-              <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '4px' }}>电话号码 *</div>
-              <input
-                value={sendForm.phone}
-                onChange={(e) => setSendForm((f) => ({ ...f, phone: e.target.value }))}
-                placeholder="+8613900000000"
-                style={{ width: '100%', padding: '6px 8px', border: '1px solid #d1d5db', borderRadius: '8px', fontSize: '13px', boxSizing: 'border-box' }}
-              />
-            </div>
-            <div>
-              <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '4px' }}>客户名</div>
-              <input
-                value={sendForm.name}
-                onChange={(e) => setSendForm((f) => ({ ...f, name: e.target.value }))}
-                placeholder="Ahmad"
-                style={{ width: '100%', padding: '6px 8px', border: '1px solid #d1d5db', borderRadius: '8px', fontSize: '13px', boxSizing: 'border-box' }}
-              />
-            </div>
-            <div>
-              <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '4px' }}>目标国家</div>
-              <input
-                value={sendForm.country}
-                onChange={(e) => setSendForm((f) => ({ ...f, country: e.target.value }))}
-                placeholder="阿联酋"
-                style={{ width: '100%', padding: '6px 8px', border: '1px solid #d1d5db', borderRadius: '8px', fontSize: '13px', boxSizing: 'border-box' }}
-              />
-            </div>
-            <div style={{ gridColumn: '1 / -1' }}>
-              <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '4px' }}>消息内容 *</div>
-              <div style={{ display: 'flex', gap: '8px' }}>
-                <input
-                  value={sendForm.message}
-                  onChange={(e) => setSendForm((f) => ({ ...f, message: e.target.value }))}
-                  onKeyDown={(e) => { if (e.key === 'Enter') handleSendMessage() }}
-                  placeholder="I need 10 SUVs for resale..."
-                  style={{ flex: 1, padding: '6px 8px', border: '1px solid #d1d5db', borderRadius: '8px', fontSize: '13px' }}
-                />
-                <button
-                  onClick={handleSendMessage}
-                  disabled={sendStatus === 'sending'}
-                  style={{
-                    padding: '6px 16px', borderRadius: '8px', fontWeight: 700, fontSize: '13px', cursor: 'pointer',
-                    border: '1px solid #2563eb', background: sendStatus === 'sending' ? '#93c5fd' : '#2563eb',
-                    color: '#fff', whiteSpace: 'nowrap',
-                  }}
-                >
-                  {sendStatus === 'sending' ? '发送中...' : '发送'}
-                </button>
-              </div>
-            </div>
-            {sendErrMsg && (
-              <div style={{ gridColumn: '1 / -1', fontSize: '12px', color: '#dc2626', background: '#fef2f2', borderRadius: '8px', padding: '6px 10px' }}>
-                ⚠ {sendErrMsg}
+          {/* Customer list */}
+          <div style={{ flex: 1, overflowY: 'auto', padding: '6px 8px' }}>
+            {(activeChannel === '历史激活' || activeChannel === '全部客户') && (
+              <div style={{ padding: '24px 10px', textAlign: 'center', color: '#334155', fontSize: '12px' }}>
+                {activeChannel === '历史激活' ? '📂 查看右侧激活面板' : '🗂 查看右侧全部客户'}
               </div>
             )}
-            {sendStatus === 'ok' && (
-              <div style={{ gridColumn: '1 / -1', fontSize: '12px', color: '#16a34a', background: '#f0fdf4', borderRadius: '8px', padding: '6px 10px' }}>
-                ✓ 消息已写入 runtime，H5 将在 8 秒内自动刷新显示。
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-
-      {/* ═══ WhatsApp 水龙头开关 ═══ */}
-      <div style={{ background: '#fff', border: '1px solid #d7dde7', borderRadius: '12px', padding: '10px 12px', marginBottom: '10px', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap', marginBottom: '8px' }}>
-          <div>
-            <div style={{ fontSize: '15px', fontWeight: 700 }}>WhatsApp 水龙头开关（runtime 真源读取）</div>
-            <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '2px' }}>
-              {loadingText}
-            </div>
-          </div>
-
-          <button
-            onClick={emergencyStop}
-            style={{
-              height: '34px',
-              padding: '0 14px',
-              borderRadius: '10px',
-              border: '1px solid #ef4444',
-              background: '#fff1f2',
-              color: '#d92020',
-              fontWeight: 700,
-              cursor: 'pointer',
-            }}
-          >
-            紧急止水（前端演示）
-          </button>
-        </div>
-
-        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.2fr 1fr 1fr', gap: '10px', alignItems: 'stretch' }}>
-          <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '10px', background: '#fafafa' }}>
-            <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '6px' }}>第1层 · 接入层</div>
-            <div style={{ fontSize: '13px', fontWeight: 700, marginBottom: '8px' }}>WhatsApp 接入模式</div>
-            <div style={{ fontSize: '14px', fontWeight: 700 }}>{getModeLabel(ingressMode)}</div>
-          </div>
-
-          <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '10px', background: '#fafafa' }}>
-            <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '6px' }}>第2层 · 处理层</div>
-            <div style={{ fontSize: '12px', lineHeight: 1.8 }}>
-              <div>自动分类：{autoClassify ? '开' : '关'}</div>
-              <div>自动标签：{autoTagging ? '开' : '关'}</div>
-              <div>H5可见：{h5Visible ? '开' : '关'}</div>
-            </div>
-          </div>
-
-          <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '10px', background: '#fafafa' }}>
-            <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '6px' }}>第3层 · 输出层</div>
-            <div style={{ fontSize: '12px', lineHeight: 1.8 }}>
-              <div>自动回复：{autoReply ? '开' : '关'}</div>
-              <div>自动外发：{autoDispatch ? '开' : '关'}</div>
-              <div>当前策略：{ingressMode === 'readonly' ? '只观察不扰动' : ingressMode === 'manual' ? '人工接管 / dry_run' : '其他模式'}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${isMobile ? 2 : 4}, minmax(0, 1fr))`, gap: '10px', marginBottom: '10px' }}>
-        {stats.map((item) => (
-          <div key={item.label} style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: '12px', padding: '12px' }}>
-            <div style={{ fontSize: '12px', color: '#6b7280' }}>{item.label}</div>
-            <div style={{ fontSize: '24px', fontWeight: 800, marginTop: '4px' }}>{item.value}</div>
-          </div>
-        ))}
-      </div>
-
-      <div style={{ display: 'flex', gap: '8px', marginBottom: '10px', flexWrap: 'wrap' }}>
-        {channels.map((channel) => {
-          const active = channel === activeChannel
-          return (
-            <button
-              key={channel}
-              onClick={() => setActiveChannel(channel)}
-              style={{
-                padding: '8px 12px',
-                borderRadius: '10px',
-                border: active ? '1px solid #2563eb' : '1px solid #d1d5db',
-                background: active ? '#eff6ff' : '#fff',
-                color: active ? '#1d4ed8' : '#111827',
-                fontWeight: 700,
-                cursor: 'pointer',
-              }}
-            >
-              {channel}
-            </button>
-          )
-        })}
-      </div>
-
-      {/* ── 全部客户总表 ── */}
-      {activeChannel === '全部客户' && (
-        <AllCustomersPanel
-          customers={allCustomers}
-          selectedId={allSelectedId}
-          setSelectedId={setAllSelectedId}
-          loading={allLoading}
-        />
-      )}
-
-      {/* ── 历史客户重新激活面板 ── */}
-      {activeChannel === '历史激活' && (
-        <ReactivationPanel
-          uploadStatus={reactUploadStatus}
-          setUploadStatus={setReactUploadStatus}
-          uploadError={reactUploadError}
-          setUploadError={setReactUploadError}
-          results={reactResults}
-          setResults={setReactResults}
-          myName={reactMyName}
-          setMyName={setReactMyName}
-          selectedId={reactSelectedId}
-          setSelectedId={setReactSelectedId}
-          progress={reactAnalysisProgress}
-          setProgress={setReactAnalysisProgress}
-        />
-      )}
-
-      {activeChannel !== '历史激活' && activeChannel !== '全部客户' && <div style={{ display: isMobile ? 'block' : 'grid', gridTemplateColumns: '360px 1fr', gap: '12px' }}>
-        <div style={{ background: '#fff', borderRadius: '12px', border: '1px solid #e5e7eb', padding: '10px', display: isMobile && mobileShowDetail ? 'none' : 'block' }}>
-          <div style={{ fontSize: '14px', fontWeight: 800, marginBottom: '10px' }}>客户总览</div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: isMobile ? 'calc(100vh - 280px)' : '72vh', overflowY: 'auto' }}>
-            {customers.map((item) => {
+            {activeChannel !== '历史激活' && activeChannel !== '全部客户' && customers.map(item => {
               const active = item.id === selectedId
+              const flag = getCountryFlag(item.country)
               return (
                 <div
                   key={item.id}
                   onClick={() => { setSelectedId(item.id); if (isMobile) { setMobileShowDetail(true); window.scrollTo(0, 0) } }}
                   style={{
-                    border: active ? '1px solid #2563eb' : '1px solid #e5e7eb',
-                    background: active ? '#eff6ff' : '#fff',
-                    borderRadius: '10px',
-                    padding: '10px',
-                    cursor: 'pointer',
+                    padding: '9px 10px', borderRadius: '9px',
+                    background: active ? 'rgba(37,99,235,0.22)' : 'transparent',
+                    cursor: 'pointer', marginBottom: '1px',
+                    display: 'flex', gap: '9px', alignItems: 'flex-start',
                   }}
                 >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', gap: '10px', marginBottom: '4px' }}>
-                    <div style={{ fontWeight: 800 }}>{item.name}</div>
-                    <div style={{ fontSize: '12px', color: '#6b7280' }}>{item.time}</div>
+                  <div style={{
+                    width: '38px', height: '38px', borderRadius: '50%',
+                    background: active ? '#2563eb' : '#2d3a5e',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontSize: '18px', flexShrink: 0,
+                  }}>
+                    {flag}
                   </div>
-                  <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '6px' }}>
-                    {item.country} · {item.category} · {item.phone}
-                  </div>
-                  <div style={{ fontSize: '13px', color: '#111827', marginBottom: '8px' }}>{item.message}</div>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                    {item.keywords?.length ? item.keywords.map((kw) => (
-                      <span key={kw} style={{ fontSize: '11px', padding: '2px 6px', borderRadius: '999px', background: '#f3f4f6', color: '#374151' }}>
-                        {kw}
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                      <div style={{ fontSize: '13px', fontWeight: 600, color: active ? '#fff' : '#e2e8f0', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '150px' }}>
+                        {item.name}
+                      </div>
+                      <div style={{ fontSize: '9px', color: '#475569', flexShrink: 0 }}>
+                        {item.time && item.time !== '—' ? item.time.slice(-5) : ''}
+                      </div>
+                    </div>
+                    <div style={{ fontSize: '11px', color: active ? '#93c5fd' : '#4e6488', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: '2px' }}>
+                      {item.message || '暂无消息'}
+                    </div>
+                    <div style={{ display: 'flex', gap: '4px', marginTop: '4px', alignItems: 'center' }}>
+                      <span style={{
+                        fontSize: '9px', padding: '1px 5px', borderRadius: '999px',
+                        background: item.category === '准车商' ? 'rgba(22,101,52,0.5)' : 'rgba(255,255,255,0.07)',
+                        color: item.category === '准车商' ? '#86efac' : '#64748b',
+                      }}>
+                        {item.category}
                       </span>
-                    )) : <span style={{ fontSize: '11px', color: '#9ca3af' }}>暂无关键词</span>}
+                      {item.needs_human_review && <span style={{ fontSize: '9px', color: '#f87171' }}>⚠</span>}
+                    </div>
                   </div>
                 </div>
               )
             })}
           </div>
+
+          {/* Sidebar footer: system status */}
+          <div style={{ padding: '7px 12px', borderTop: '1px solid rgba(255,255,255,0.05)', display: 'flex', gap: '10px', flexWrap: 'wrap', fontSize: '9px', color: '#334155' }}>
+            <span>接入: {getModeLabel(ingressMode)}</span>
+            <span>自动回复: {autoReply ? '开' : '关'}</span>
+            <span>AI: {aiReplyEnabled ? '开' : '关'}</span>
+          </div>
         </div>
+      )}
 
-        <div style={{ background: '#fff', borderRadius: '12px', border: '1px solid #e5e7eb', padding: '12px', display: isMobile && !mobileShowDetail ? 'none' : 'block' }}>
-          {isMobile && mobileShowDetail && (
-            <button onClick={() => { setMobileShowDetail(false); window.scrollTo(0, 0) }} style={{ marginBottom: '10px', padding: '10px 16px', borderRadius: '8px', border: '1px solid #d1d5db', background: '#f3f4f6', fontSize: '14px', cursor: 'pointer', fontWeight: 600, minHeight: '40px' }}>
-              ← 返回列表
-            </button>
+      {/* ══════════ MAIN CONTENT ══════════ */}
+      {(!isMobile || mobileShowDetail || activeChannel === '历史激活' || activeChannel === '全部客户') && (
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden', minWidth: 0 }}>
+
+          {/* Alert banner */}
+          {showAlerts && alerts.length > 0 && (
+            <div style={{ background: '#fef2f2', borderBottom: '1px solid #fecaca', padding: '7px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
+              <div style={{ fontSize: '12px', color: '#b91c1c', fontWeight: 600 }}>
+                🚨 {alerts[0].title}: {alerts[0].message}
+                {alerts.length > 1 && <span style={{ color: '#dc2626' }}> (+{alerts.length - 1})</span>}
+              </div>
+              <button onClick={() => setShowAlerts(false)} style={{ border: 'none', background: 'transparent', cursor: 'pointer', color: '#9ca3af', fontSize: '18px', lineHeight: 1 }}>×</button>
+            </div>
           )}
-          <div style={{ display: 'flex', justifyContent: 'space-between', gap: '12px', alignItems: 'center', marginBottom: '10px' }}>
-            <div>
-              <div style={{ fontSize: '18px', fontWeight: 800 }}>{selected.name}</div>
-              <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '4px' }}>
-                {isFacebookEmptyView
-                  ? ti('facebook.empty.subtitle', 'Facebook · 等待真实数据接入')
-                  : `${selected.country} · ${selected.channel} · ${selected.phone}`}
-              </div>
-            </div>
-            <div
-              style={{
-                padding: '6px 10px',
-                borderRadius: '999px',
-                background: isHot ? '#dcfce7' : '#f3f4f6',
-                color: isHot ? '#166534' : '#374151',
-                fontWeight: 700,
-                fontSize: '12px',
-              }}
-            >
-              {selected.category}
-            </div>
-          </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(3, 1fr)' : 'repeat(3, minmax(0, 1fr))', gap: '8px', marginBottom: '12px' }}>
-            <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '10px' }}>
-              <div style={{ fontSize: '12px', color: '#6b7280' }}>主动消息数</div>
-              <div style={{ fontSize: '20px', fontWeight: 800, marginTop: '4px' }}>{proactiveCount}</div>
+          {/* ── 历史激活 ── */}
+          {activeChannel === '历史激活' && (
+            <div style={{ flex: 1, overflowY: 'auto', padding: '16px' }}>
+              <ReactivationPanel
+                uploadStatus={reactUploadStatus} setUploadStatus={setReactUploadStatus}
+                uploadError={reactUploadError} setUploadError={setReactUploadError}
+                results={reactResults} setResults={setReactResults}
+                myName={reactMyName} setMyName={setReactMyName}
+                selectedId={reactSelectedId} setSelectedId={setReactSelectedId}
+                progress={reactAnalysisProgress} setProgress={setReactAnalysisProgress}
+              />
             </div>
-            <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '10px' }}>
-              <div style={{ fontSize: '12px', color: '#6b7280' }}>往返轮次</div>
-              <div style={{ fontSize: '20px', fontWeight: 800, marginTop: '4px' }}>{exchangeCount}</div>
-            </div>
-            <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '10px' }}>
-              <div style={{ fontSize: '12px', color: '#6b7280' }}>人工接管</div>
-              <div style={{ fontSize: '20px', fontWeight: 800, marginTop: '4px' }}>{selected.needs_human_review ? '是' : '否'}</div>
-            </div>
-          </div>
+          )}
 
-          <div style={{ marginBottom: '12px' }}>
-            <div style={{ fontSize: '14px', fontWeight: 800, marginBottom: '6px' }}>判断依据关键词</div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-              {selected.keywords?.length ? selected.keywords.map((kw) => (
-                <span key={kw} style={{ fontSize: '12px', padding: '4px 8px', borderRadius: '999px', background: '#eef2ff', color: '#3730a3' }}>
-                  {kw}
-                </span>
-              )) : <span style={{ fontSize: '12px', color: '#9ca3af' }}>暂无关键词</span>}
+          {/* ── 全部客户 ── */}
+          {activeChannel === '全部客户' && (
+            <div style={{ flex: 1, overflowY: 'auto', padding: '16px' }}>
+              <AllCustomersPanel customers={allCustomers} selectedId={allSelectedId} setSelectedId={setAllSelectedId} loading={allLoading} />
             </div>
-          </div>
+          )}
 
-          <div style={{ marginBottom: '12px' }}>
-            <div style={{ fontSize: '14px', fontWeight: 800, marginBottom: '6px' }}>判断说明</div>
-            <div style={{ fontSize: '13px', lineHeight: 1.7, color: '#111827' }}>
-              {isFacebookEmptyView
-                ? ti('facebook.empty.detail', '当前 Facebook 真实聊天 / Feed 数据尚未进入 runtime view，请保持 webhook 在线并等待真实数据进入。')
-                : selected.reason}
-            </div>
-          </div>
-
-          <div style={{ marginBottom: '12px' }}>
-            <div style={{ fontSize: '14px', fontWeight: 800, marginBottom: '6px' }}>时间线</div>
-            <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '10px', maxHeight: '180px', overflowY: 'auto', background: '#fafafa' }}>
-              {selected.timeline?.length ? selected.timeline.map((line, idx) => (
-                <div key={idx} style={{ fontSize: '12px', marginBottom: '6px', color: '#374151' }}>{line}</div>
-              )) : (
-                <div style={{ fontSize: '12px', color: '#9ca3af' }}>
-                  {isFacebookEmptyView ? ti('facebook.empty.timeline', '等待 Facebook runtime 时间线数据') : '暂无时间线'}
-                </div>
-              )}
-            </div>
-          </div>
-
-          <div>
-            <div style={{ fontSize: '14px', fontWeight: 800, marginBottom: '6px' }}>聊天内容</div>
-            <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '10px', maxHeight: '260px', overflowY: 'auto', background: '#fafafa' }}>
-              {selected.messages?.length ? selected.messages.map((msg, idx) => {
-                const isAgent = msg.role === '我方' || msg.role === 'agent'
-                return (
-                  <div key={idx} style={{ marginBottom: '10px', display: 'flex', flexDirection: 'column', alignItems: isAgent ? 'flex-end' : 'flex-start' }}>
-                    <div style={{ fontSize: '11px', color: '#9ca3af', marginBottom: '3px' }}>
-                      {msg.role} · {msg.time}
-                    </div>
-                    <div style={{
-                      fontSize: '13px',
-                      lineHeight: 1.7,
-                      padding: '7px 12px',
-                      borderRadius: isAgent ? '14px 4px 14px 14px' : '4px 14px 14px 14px',
-                      maxWidth: '85%',
-                      background: isAgent ? '#dcfce7' : '#fee2e2',
-                      color: isAgent ? '#14532d' : '#7f1d1d',
-                      border: isAgent ? '1px solid #86efac' : '1px solid #fca5a5',
-                      fontFamily: "'Noto Sans Arabic', 'PingFang SC', sans-serif",
-                      direction: /[\u0600-\u06FF]/.test(msg.text || '') ? 'rtl' : 'ltr',
-                      textAlign: /[\u0600-\u06FF]/.test(msg.text || '') ? 'right' : 'left',
-                    }}>
-                      {msg.text}
-                    </div>
-                  </div>
-                )
-              }) : (
-                <div style={{ fontSize: '12px', color: '#9ca3af' }}>
-                  {isFacebookEmptyView ? ti('facebook.empty.messages', '等待 Facebook runtime 聊天 / 互动数据') : '暂无聊天内容'}
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* ═══ AI建议回复面板 ═══ */}
-          <div style={{ marginTop: '14px', border: '1px solid #dbeafe', borderRadius: '12px', padding: '12px', background: '#f8fbff' }}>
-            {/* 标题行 + 主开关 */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', marginBottom: '10px', flexWrap: 'wrap' }}>
-              <div>
-                <div style={{ fontSize: '14px', fontWeight: 800, color: '#1d4ed8' }}>AI 建议回复</div>
-                <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '2px' }}>
-                  AI 生成建议 → 人类审核 → 决定是否发送
-                </div>
-              </div>
-              <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
-                {/* 子开关：允许AI自动发 */}
-                {aiReplyEnabled && (
-                  <button
-                    onClick={() => setAiAutoSend((v) => !v)}
-                    style={{
-                      padding: '4px 12px', borderRadius: '999px', fontSize: '11px', fontWeight: 700, cursor: 'pointer',
-                      border: aiAutoSend ? '1px solid #dc2626' : '1px solid #d1d5db',
-                      background: aiAutoSend ? '#fef2f2' : '#f3f4f6',
-                      color: aiAutoSend ? '#dc2626' : '#6b7280',
-                    }}
-                  >
-                    {aiAutoSend ? '⚡ AI可自动发（高风险，谨慎）' : '○ AI建议模式（人类审核）'}
-                  </button>
+          {/* ── WhatsApp / Facebook chat view ── */}
+          {activeChannel !== '历史激活' && activeChannel !== '全部客户' && (
+            <>
+              {/* Customer header bar */}
+              <div style={{ padding: '10px 16px', background: '#fff', borderBottom: '1px solid #e5e7eb', display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0, flexWrap: 'wrap' }}>
+                {isMobile && (
+                  <button onClick={() => setMobileShowDetail(false)} style={{ border: 'none', background: 'transparent', cursor: 'pointer', fontSize: '20px', color: '#374151' }}>←</button>
                 )}
-                {/* 主开关 */}
+                <div style={{ fontSize: '24px', lineHeight: 1, flexShrink: 0 }}>{getCountryFlag(selected.country)}</div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: '15px', fontWeight: 700, color: '#111827', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{selected.name}</div>
+                  <div style={{ fontSize: '11px', color: '#6b7280' }}>
+                    {isFacebookEmptyView
+                      ? ti('facebook.empty.subtitle', 'Facebook · 等待真实数据接入')
+                      : `${selected.country} · ${selected.phone} · ${selected.channel}`}
+                  </div>
+                </div>
+                <div style={{ padding: '3px 10px', borderRadius: '999px', background: isHot ? '#dcfce7' : '#f3f4f6', color: isHot ? '#166534' : '#374151', fontWeight: 700, fontSize: '11px', flexShrink: 0 }}>
+                  {selected.category}
+                </div>
+                <div style={{ display: 'flex', gap: '6px', fontSize: '11px', color: '#9ca3af', flexShrink: 0, alignItems: 'center' }}>
+                  <span>{proactiveCount} 条</span>
+                  <span>·</span>
+                  <span>{exchangeCount} 轮</span>
+                  {selected.needs_human_review && <span style={{ color: '#ef4444', fontWeight: 700 }}>⚠ 待接管</span>}
+                </div>
                 <button
-                  onClick={() => { setAiReplyEnabled((v) => !v); setAiReplyText(''); setAiReplyStatus(null) }}
-                  style={{
-                    padding: '4px 12px', borderRadius: '999px', fontSize: '12px', fontWeight: 700, cursor: 'pointer',
-                    border: aiReplyEnabled ? '1px solid #2563eb' : '1px solid #d1d5db',
-                    background: aiReplyEnabled ? '#eff6ff' : '#f3f4f6',
-                    color: aiReplyEnabled ? '#1d4ed8' : '#6b7280',
-                  }}
+                  onClick={() => { setSendPanelOpen(v => !v); setSendStatus(null); setSendErrMsg('') }}
+                  style={{ padding: '4px 10px', borderRadius: '7px', border: '1px solid #e5e7eb', background: sendPanelOpen ? '#eff6ff' : '#f9fafb', color: sendPanelOpen ? '#1d4ed8' : '#374151', fontSize: '11px', cursor: 'pointer', flexShrink: 0 }}
                 >
-                  {aiReplyEnabled ? '● AI建议 已开启' : '○ AI建议 已关闭'}
+                  {sendPanelOpen ? '收起' : '📨 测试发消息'}
                 </button>
               </div>
-            </div>
 
-            {aiReplyEnabled && (
-              <div>
-                {/* 获取AI建议按钮 + 来源标签 */}
-                <div style={{ display: 'flex', gap: '8px', marginBottom: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
-                  <button
-                    onClick={handleFetchAiReply}
-                    disabled={aiReplyLoading || isFacebookEmptyView || !selected.messages?.length}
-                    style={{
-                      padding: '6px 14px', borderRadius: '8px', fontSize: '12px', fontWeight: 700, cursor: 'pointer',
-                      border: '1px solid #2563eb', background: '#2563eb', color: '#fff',
-                      opacity: (aiReplyLoading || isFacebookEmptyView || !selected.messages?.length) ? 0.5 : 1,
-                    }}
-                  >
-                    {aiReplyLoading ? '⏳ 生成中...' : '🤖 重新生成'}
-                  </button>
-                  {aiReplyText && (
-                    <button
-                      onClick={() => { setAiReplyText(''); setAiReplyStatus(null) }}
-                      style={{ padding: '6px 12px', borderRadius: '8px', fontSize: '12px', cursor: 'pointer', border: '1px solid #d1d5db', background: '#fff', color: '#374151' }}
-                    >
-                      清空
+              {/* Test send panel */}
+              {sendPanelOpen && (
+                <div style={{ background: '#fffbf0', borderBottom: '1px solid #fed7aa', padding: '10px 16px', flexShrink: 0 }}>
+                  <div style={{ fontSize: '11px', fontWeight: 700, color: '#92400e', marginBottom: '7px' }}>人工测试发消息（模拟客户来信）</div>
+                  <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr 1fr', gap: '6px', alignItems: 'end' }}>
+                    <div>
+                      <div style={{ fontSize: '10px', color: '#6b7280', marginBottom: '2px' }}>电话号码 *</div>
+                      <input value={sendForm.phone} onChange={e => setSendForm(f => ({ ...f, phone: e.target.value }))} placeholder="+8613900000000"
+                        style={{ width: '100%', padding: '5px 7px', border: '1px solid #d1d5db', borderRadius: '6px', fontSize: '12px', boxSizing: 'border-box' }} />
+                    </div>
+                    <div>
+                      <div style={{ fontSize: '10px', color: '#6b7280', marginBottom: '2px' }}>客户名</div>
+                      <input value={sendForm.name} onChange={e => setSendForm(f => ({ ...f, name: e.target.value }))} placeholder="Ahmad"
+                        style={{ width: '100%', padding: '5px 7px', border: '1px solid #d1d5db', borderRadius: '6px', fontSize: '12px', boxSizing: 'border-box' }} />
+                    </div>
+                    <div>
+                      <div style={{ fontSize: '10px', color: '#6b7280', marginBottom: '2px' }}>国家</div>
+                      <input value={sendForm.country} onChange={e => setSendForm(f => ({ ...f, country: e.target.value }))} placeholder="阿联酋"
+                        style={{ width: '100%', padding: '5px 7px', border: '1px solid #d1d5db', borderRadius: '6px', fontSize: '12px', boxSizing: 'border-box' }} />
+                    </div>
+                    <div style={{ gridColumn: '1 / -1' }}>
+                      <div style={{ fontSize: '10px', color: '#6b7280', marginBottom: '2px' }}>消息内容 *</div>
+                      <div style={{ display: 'flex', gap: '6px' }}>
+                        <input value={sendForm.message} onChange={e => setSendForm(f => ({ ...f, message: e.target.value }))} onKeyDown={e => { if (e.key === 'Enter') handleSendMessage() }}
+                          placeholder="I need 10 SUVs for resale..."
+                          style={{ flex: 1, padding: '5px 7px', border: '1px solid #d1d5db', borderRadius: '6px', fontSize: '12px' }} />
+                        <button onClick={handleSendMessage} disabled={sendStatus === 'sending'}
+                          style={{ padding: '5px 14px', borderRadius: '6px', border: 'none', background: sendStatus === 'sending' ? '#93c5fd' : '#2563eb', color: '#fff', fontWeight: 700, fontSize: '12px', cursor: 'pointer', whiteSpace: 'nowrap' }}>
+                          {sendStatus === 'sending' ? '发送中...' : '发送'}
+                        </button>
+                      </div>
+                    </div>
+                    {sendErrMsg && <div style={{ gridColumn: '1/-1', fontSize: '11px', color: '#dc2626', background: '#fef2f2', borderRadius: '5px', padding: '4px 8px' }}>⚠ {sendErrMsg}</div>}
+                    {sendStatus === 'ok' && <div style={{ gridColumn: '1/-1', fontSize: '11px', color: '#16a34a', background: '#f0fdf4', borderRadius: '5px', padding: '4px 8px' }}>✓ 已写入，约 8 秒后刷新</div>}
+                  </div>
+                </div>
+              )}
+
+              {/* Chat bubbles area */}
+              <div style={{ flex: 1, overflowY: 'auto', padding: isMobile ? '12px 10px' : '16px 24px', background: '#f0f2f5', display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                {isFacebookEmptyView ? (
+                  <div style={{ textAlign: 'center', color: '#9ca3af', fontSize: '13px', paddingTop: '48px' }}>
+                    <div style={{ fontSize: '36px', marginBottom: '10px' }}>💬</div>
+                    <div>{ti('facebook.empty.reason', '请保持 Facebook webhook 在线，并等待真实聊天进入。')}</div>
+                  </div>
+                ) : selected.messages?.length ? (
+                  selected.messages.map((msg, idx) => {
+                    const isAgent = msg.role === '我方' || msg.role === 'agent'
+                    const isArabic = /[؀-ۿ]/.test(msg.text || '')
+                    return (
+                      <div key={idx} style={{ display: 'flex', flexDirection: 'column', alignItems: isAgent ? 'flex-end' : 'flex-start', marginBottom: '8px' }}>
+                        <div style={{ fontSize: '10px', color: '#9ca3af', marginBottom: '3px', paddingLeft: isAgent ? 0 : '4px', paddingRight: isAgent ? '4px' : 0 }}>
+                          {msg.time}
+                        </div>
+                        <div style={{
+                          maxWidth: isMobile ? '85%' : '68%',
+                          padding: '9px 13px',
+                          borderRadius: isAgent ? '18px 4px 18px 18px' : '4px 18px 18px 18px',
+                          background: isAgent ? '#d9fdd3' : '#ffffff',
+                          color: '#111827',
+                          fontSize: '13px',
+                          lineHeight: 1.65,
+                          boxShadow: '0 1px 2px rgba(0,0,0,0.06)',
+                          direction: isArabic ? 'rtl' : 'ltr',
+                          textAlign: isArabic ? 'right' : 'left',
+                          fontFamily: "'Noto Sans Arabic', 'PingFang SC', sans-serif",
+                          whiteSpace: 'pre-wrap',
+                          wordBreak: 'break-word',
+                        }}>
+                          {msg.text}
+                        </div>
+                      </div>
+                    )
+                  })
+                ) : (
+                  <div style={{ textAlign: 'center', color: '#9ca3af', fontSize: '13px', paddingTop: '48px' }}>暂无聊天内容</div>
+                )}
+              </div>
+
+              {/* AI Reply panel (bottom) */}
+              <div style={{ background: '#fff', borderTop: '1px solid #e5e7eb', padding: '10px 16px', flexShrink: 0 }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px', flexWrap: 'wrap', gap: '6px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ fontSize: '13px', fontWeight: 700, color: '#1d4ed8' }}>AI 建议回复</span>
+                    {aiSource && (
+                      <span style={{
+                        fontSize: '10px', padding: '2px 7px', borderRadius: '999px', fontWeight: 600,
+                        background: aiSource === 'gemini' ? '#f0fdf4' : aiSource === 'claude' ? '#eff6ff' : '#fef9c3',
+                        color: aiSource === 'gemini' ? '#16a34a' : aiSource === 'claude' ? '#2563eb' : '#92400e',
+                        border: aiSource === 'gemini' ? '1px solid #bbf7d0' : aiSource === 'claude' ? '1px solid #bfdbfe' : '1px solid #fde68a',
+                      }}>
+                        {aiSource === 'gemini' ? '✦ Gemini 2.5 Flash' : aiSource === 'claude' ? '◆ Claude' : '≈ 规则模板'}
+                        {aiExpCount > 0 && ` · ${aiExpCount}条经验`}
+                      </span>
+                    )}
+                    {aiReplyLoading && <span style={{ fontSize: '11px', color: '#6b7280' }}>⏳ 正在生成...</span>}
+                  </div>
+                  <div style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
+                    {aiReplyEnabled && (
+                      <button onClick={() => setAiAutoSend(v => !v)}
+                        style={{ padding: '3px 9px', borderRadius: '999px', fontSize: '10px', fontWeight: 700, cursor: 'pointer', border: aiAutoSend ? '1px solid #dc2626' : '1px solid #d1d5db', background: aiAutoSend ? '#fef2f2' : '#f9fafb', color: aiAutoSend ? '#dc2626' : '#6b7280' }}>
+                        {aiAutoSend ? '⚡ AI自动发（高风险）' : '○ 人工审核'}
+                      </button>
+                    )}
+                    <button onClick={() => { setAiReplyEnabled(v => !v); setAiReplyText(''); setAiReplyStatus(null) }}
+                      style={{ padding: '3px 9px', borderRadius: '999px', fontSize: '11px', fontWeight: 700, cursor: 'pointer', border: aiReplyEnabled ? '1px solid #2563eb' : '1px solid #d1d5db', background: aiReplyEnabled ? '#eff6ff' : '#f9fafb', color: aiReplyEnabled ? '#1d4ed8' : '#6b7280' }}>
+                      {aiReplyEnabled ? '● AI 已开' : '○ AI 已关'}
                     </button>
-                  )}
-                  {/* AI 来源标签 */}
-                  {aiSource && (
-                    <span style={{
-                      fontSize: '11px', padding: '2px 8px', borderRadius: '999px', fontWeight: 600,
-                      background: aiSource === 'gemini' ? '#f0fdf4' : aiSource === 'claude' ? '#eff6ff' : '#fef9c3',
-                      color: aiSource === 'gemini' ? '#16a34a' : aiSource === 'claude' ? '#2563eb' : '#92400e',
-                      border: aiSource === 'gemini' ? '1px solid #bbf7d0' : aiSource === 'claude' ? '1px solid #bfdbfe' : '1px solid #fde68a',
-                    }}>
-                      {aiSource === 'gemini' ? '✦ Gemini 2.5 Flash'
-                        : aiSource === 'claude' ? '◆ Claude'
-                        : '≈ 规则模板'}
-                      {aiExpCount > 0 && ` · ${aiExpCount}条经验`}
-                    </span>
-                  )}
-                  {aiReplyLoading && !aiSource && (
-                    <span style={{ fontSize: '11px', color: '#6b7280' }}>正在调用 Gemini...</span>
-                  )}
+                  </div>
                 </div>
 
-                {/* AI建议内容 */}
-                {aiReplyText && (
-                  <div>
-                    <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '6px' }}>
-                      AI 建议回复内容（可修改后发送）：
-                    </div>
-                    <textarea
-                      value={aiReplyText}
-                      onChange={(e) => setAiReplyText(e.target.value)}
-                      rows={3}
-                      style={{
-                        width: '100%', padding: '8px', border: '1px solid #bfdbfe', borderRadius: '8px',
-                        fontSize: '13px', lineHeight: 1.7, background: '#fff', boxSizing: 'border-box',
-                        resize: 'vertical',
-                      }}
-                    />
-
-                    {/* 操作按钮 */}
-                    <div style={{ display: 'flex', gap: '8px', marginTop: '8px', flexWrap: 'wrap' }}>
-                      <button
-                        onClick={handleApproveAiReply}
-                        disabled={aiReplyStatus === 'sending'}
-                        style={{
-                          padding: '6px 14px', borderRadius: '8px', fontSize: '12px', fontWeight: 700, cursor: 'pointer',
-                          border: '1px solid #16a34a', background: '#16a34a', color: '#fff',
-                          opacity: aiReplyStatus === 'sending' ? 0.6 : 1,
-                        }}
-                      >
-                        {aiReplyStatus === 'sending' ? '发送中...' : '✓ 采纳并发送'}
+                {aiReplyEnabled && (
+                  <>
+                    <div style={{ display: 'flex', gap: '6px', marginBottom: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
+                      <button onClick={handleFetchAiReply} disabled={aiReplyLoading || isFacebookEmptyView || !selected.messages?.length}
+                        style={{ padding: '5px 12px', borderRadius: '7px', fontSize: '11px', fontWeight: 700, cursor: 'pointer', border: 'none', background: '#2563eb', color: '#fff', opacity: (aiReplyLoading || isFacebookEmptyView || !selected.messages?.length) ? 0.5 : 1 }}>
+                        {aiReplyLoading ? '⏳ 生成中...' : '🤖 重新生成'}
                       </button>
-                      <button
-                        onClick={() => { setAiReplyText(''); setAiReplyStatus(null) }}
-                        style={{ padding: '6px 12px', borderRadius: '8px', fontSize: '12px', cursor: 'pointer', border: '1px solid #d1d5db', background: '#fff', color: '#6b7280' }}
-                      >
-                        忽略
-                      </button>
-                      {aiAutoSend && (
-                        <div style={{ fontSize: '11px', color: '#dc2626', display: 'flex', alignItems: 'center' }}>
-                          ⚠ AI自动发已开启，采纳后将直接写入 runtime
-                        </div>
+                      {aiReplyText && (
+                        <button onClick={() => { setAiReplyText(''); setAiReplyStatus(null) }}
+                          style={{ padding: '5px 10px', borderRadius: '7px', fontSize: '11px', cursor: 'pointer', border: '1px solid #e5e7eb', background: '#fff', color: '#6b7280' }}>
+                          清空
+                        </button>
+                      )}
+                      {!aiReplyText && !aiReplyLoading && (
+                        <span style={{ fontSize: '11px', color: '#9ca3af' }}>切换客户时自动生成 · Gemini 2.5 Flash 驱动</span>
                       )}
                     </div>
 
-                    {aiReplyStatus === 'sent' && (
-                      <div style={{ marginTop: '8px', fontSize: '12px', color: '#16a34a', background: '#f0fdf4', borderRadius: '8px', padding: '6px 10px' }}>
-                        ✓ AI回复已发送，H5 将在 8 秒内刷新。
-                      </div>
+                    {aiReplyText && (
+                      <>
+                        <textarea value={aiReplyText} onChange={e => setAiReplyText(e.target.value)} rows={3}
+                          style={{ width: '100%', padding: '8px 10px', border: '1px solid #bfdbfe', borderRadius: '8px', fontSize: '13px', lineHeight: 1.6, background: '#f8fbff', boxSizing: 'border-box', resize: 'vertical', fontFamily: "'Noto Sans Arabic', 'PingFang SC', sans-serif" }} />
+                        <div style={{ display: 'flex', gap: '6px', marginTop: '7px', flexWrap: 'wrap', alignItems: 'center' }}>
+                          <button onClick={handleApproveAiReply} disabled={aiReplyStatus === 'sending'}
+                            style={{ padding: '6px 14px', borderRadius: '7px', fontSize: '12px', fontWeight: 700, cursor: 'pointer', border: 'none', background: '#16a34a', color: '#fff', opacity: aiReplyStatus === 'sending' ? 0.6 : 1 }}>
+                            {aiReplyStatus === 'sending' ? '发送中...' : '✓ 采纳并发送'}
+                          </button>
+                          <button onClick={handleIgnoreAiReply}
+                            style={{ padding: '6px 10px', borderRadius: '7px', fontSize: '12px', cursor: 'pointer', border: '1px solid #e5e7eb', background: '#fff', color: '#6b7280' }}>
+                            忽略
+                          </button>
+                          {aiAutoSend && <span style={{ fontSize: '10px', color: '#dc2626' }}>⚠ AI自动发已开启</span>}
+                          {aiReplyStatus === 'sent' && <span style={{ fontSize: '11px', color: '#16a34a', background: '#f0fdf4', borderRadius: '5px', padding: '3px 8px' }}>✓ 已发送</span>}
+                          {aiReplyStatus === 'err' && <span style={{ fontSize: '11px', color: '#dc2626', background: '#fef2f2', borderRadius: '5px', padding: '3px 8px' }}>⚠ 发送失败</span>}
+                        </div>
+                      </>
                     )}
-                    {aiReplyStatus === 'err' && (
-                      <div style={{ marginTop: '8px', fontSize: '12px', color: '#dc2626', background: '#fef2f2', borderRadius: '8px', padding: '6px 10px' }}>
-                        ⚠ 发送失败，请检查后端 API 是否在线。
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                {!aiReplyText && !aiReplyLoading && (
-                  <div style={{ fontSize: '12px', color: '#9ca3af' }}>
-                    切换客户时自动生成建议 · 由 Gemini 2.5 Flash 驱动 · 修改后再决定是否发送
-                  </div>
+                  </>
                 )}
               </div>
-            )}
-          </div>
+            </>
+          )}
         </div>
-      </div>}
+      )}
+
     </div>
   )
 }
-
 // ─────────────────────────────────────────────────────────────
 // ReactivationPanel — 历史客户重新激活
 // ─────────────────────────────────────────────────────────────
