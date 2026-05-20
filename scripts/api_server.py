@@ -690,6 +690,42 @@ def handle_reactivation_update_status(body: dict) -> dict:
     return {"success": ok, "id": result_id, "status": new_status}
 
 
+USERS_FILE = PROJECT_ROOT / "qianqiu_os" / "data" / "users.json"
+
+def _load_users() -> list:
+    if not USERS_FILE.exists():
+        return []
+    try:
+        return json.loads(USERS_FILE.read_text("utf-8")).get("users", [])
+    except Exception:
+        return []
+
+def handle_login(body: dict) -> dict:
+    username = str(body.get("username", "")).strip()
+    password = str(body.get("password", "")).strip()
+    if not username or not password:
+        return {"success": False, "error": "用户名和密码不能为空"}
+    for user in _load_users():
+        if user.get("username") == username and user.get("password") == password:
+            return {
+                "success": True,
+                "user": {
+                    "username": user["username"],
+                    "display_name": user.get("display_name", username),
+                    "role": user.get("role", "sales"),
+                    "assigned_phones": user.get("assigned_phones", []),
+                },
+            }
+    return {"success": False, "error": "用户名或密码错误"}
+
+def handle_get_users(params: dict) -> dict:
+    users = [
+        {"username": u["username"], "display_name": u.get("display_name", u["username"]), "role": u.get("role", "sales")}
+        for u in _load_users()
+    ]
+    return {"users": users}
+
+
 class WolongAPIHandler(BaseHTTPRequestHandler):
     def log_message(self, format, *args):
         # 简化日志
@@ -837,6 +873,9 @@ class WolongAPIHandler(BaseHTTPRequestHandler):
                     # SPA fallback：所有未知路由都返回 index.html
                     self._serve_static(H5_DIST / "index.html", "text/html; charset=utf-8")
 
+        elif path == "/api/users":
+            self._send_json(handle_get_users(flat_params))
+
         else:
             self._send_json({"error": f"未知路径: {path}"}, 404)
 
@@ -907,6 +946,10 @@ class WolongAPIHandler(BaseHTTPRequestHandler):
 
         elif path == "/api/translate":
             result = handle_translate(body)
+            self._send_json(result)
+
+        elif path == "/api/login":
+            result = handle_login(body)
             self._send_json(result)
 
         else:

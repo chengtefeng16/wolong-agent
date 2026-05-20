@@ -1,0 +1,24 @@
+{
+  "users": [
+    {
+      "username": "admin",
+      "password": "admin888",
+      "role": "admin",
+      "display_name": "管理员"
+    },
+    {
+      "username": "xiao_li",
+      "password": "li2026",
+      "role": "sales",
+      "display_name": "小李",
+      "assigned_phones": []
+    },
+    {
+      "username": "xiao_wang",
+      "password": "wang2026",
+      "role": "sales",
+      "display_name": "小王",
+      "assigned_phones": []
+    }
+  ]
+}

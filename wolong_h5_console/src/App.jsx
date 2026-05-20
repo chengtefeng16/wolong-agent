@@ -257,7 +257,121 @@ const INTENT_COLORS = {
   unknown: { bg: '#f9fafb', border: '#d1d5db', badge: '#6b7280', label: '❓ 未知' },
 }
 
+// ─────────────────────────────────────────────────────────────
+// LoginPage
+// ─────────────────────────────────────────────────────────────
+function LoginPage({ onLogin }) {
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    if (!username.trim() || !password.trim()) { setError('请输入用户名和密码'); return }
+    setLoading(true)
+    setError('')
+    try {
+      const resp = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: username.trim(), password: password.trim() }),
+      })
+      const data = await resp.json()
+      if (data.success) {
+        localStorage.setItem('wolong_auth', JSON.stringify(data.user))
+        onLogin(data.user)
+      } else {
+        setError(data.error || '登录失败')
+      }
+    } catch {
+      setError('无法连接到服务器，请确认后端已启动')
+    }
+    setLoading(false)
+  }
+
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      height: '100vh', background: '#f0f2f5',
+    }}>
+      <div style={{
+        background: '#fff', borderRadius: '16px', padding: '40px 36px',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.10)', width: '340px', maxWidth: '90vw',
+      }}>
+        {/* Logo */}
+        <div style={{ textAlign: 'center', marginBottom: '28px' }}>
+          <div style={{ fontSize: '32px', marginBottom: '8px' }}>🐉</div>
+          <div style={{ fontSize: '22px', fontWeight: 800, color: '#1e2640' }}>卧龙 CRM</div>
+          <div style={{ fontSize: '12px', color: '#9ca3af', marginTop: '4px' }}>请登录您的账户</div>
+        </div>
+
+        <form onSubmit={handleSubmit}>
+          <div style={{ marginBottom: '14px' }}>
+            <div style={{ fontSize: '12px', color: '#374151', fontWeight: 600, marginBottom: '5px' }}>用户名</div>
+            <input
+              value={username}
+              onChange={e => setUsername(e.target.value)}
+              placeholder="输入用户名"
+              autoFocus
+              style={{ width: '100%', padding: '10px 12px', border: '1px solid #d1d5db', borderRadius: '8px', fontSize: '14px', boxSizing: 'border-box', outline: 'none' }}
+            />
+          </div>
+          <div style={{ marginBottom: '20px' }}>
+            <div style={{ fontSize: '12px', color: '#374151', fontWeight: 600, marginBottom: '5px' }}>密码</div>
+            <input
+              type="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              placeholder="输入密码"
+              style={{ width: '100%', padding: '10px 12px', border: '1px solid #d1d5db', borderRadius: '8px', fontSize: '14px', boxSizing: 'border-box', outline: 'none' }}
+            />
+          </div>
+
+          {error && (
+            <div style={{ marginBottom: '14px', padding: '8px 12px', background: '#fef2f2', borderRadius: '8px', fontSize: '12px', color: '#dc2626' }}>
+              ⚠ {error}
+            </div>
+          )}
+
+          <button
+            type="submit"
+            disabled={loading}
+            style={{
+              width: '100%', padding: '11px', borderRadius: '8px', border: 'none',
+              background: loading ? '#93c5fd' : '#2563eb', color: '#fff',
+              fontWeight: 700, fontSize: '14px', cursor: loading ? 'not-allowed' : 'pointer',
+            }}
+          >
+            {loading ? '登录中...' : '登录'}
+          </button>
+        </form>
+
+        <div style={{ marginTop: '20px', padding: '12px', background: '#f9fafb', borderRadius: '8px', fontSize: '11px', color: '#6b7280' }}>
+          <div style={{ fontWeight: 600, marginBottom: '4px' }}>测试账号：</div>
+          <div>admin / admin888（管理员，查看全部）</div>
+          <div>xiao_li / li2026（销售员）</div>
+          <div>xiao_wang / wang2026（销售员）</div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function App() {
+  const [currentUser, setCurrentUser] = useState(() => {
+    try {
+      const saved = localStorage.getItem('wolong_auth')
+      return saved ? JSON.parse(saved) : null
+    } catch { return null }
+  })
+  if (!currentUser) {
+    return <LoginPage onLogin={user => { localStorage.setItem('wolong_auth', JSON.stringify(user)); setCurrentUser(user) }} />
+  }
+  return <MainApp currentUser={currentUser} onLogout={() => { localStorage.removeItem('wolong_auth'); setCurrentUser(null) }} />
+}
+
+function MainApp({ currentUser, onLogout }) {
   const isMobile = useIsMobile()
   const [customers, setCustomers] = useState(fallbackCustomers)
   const [stats, setStats] = useState(fallbackStats)
@@ -729,7 +843,8 @@ export default function App() {
         }}>
           {/* Sidebar header */}
           <div style={{ padding: '14px 14px 10px', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
+            {/* Brand + user info row */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
               <div>
                 <div style={{ fontSize: '16px', fontWeight: 800, color: '#fff', letterSpacing: '-0.3px' }}>卧龙 CRM</div>
                 <div style={{ fontSize: '10px', color: '#475569', marginTop: '1px' }}>{loadingText}</div>
@@ -741,14 +856,28 @@ export default function App() {
                   </div>
                 )}
                 {alerts.length > 0 && (
-                  <button
-                    onClick={() => setShowAlerts(v => !v)}
-                    style={{ background: '#ef4444', color: '#fff', border: 'none', borderRadius: '999px', padding: '2px 7px', fontSize: '10px', fontWeight: 700, cursor: 'pointer' }}
-                  >
+                  <button onClick={() => setShowAlerts(v => !v)}
+                    style={{ background: '#ef4444', color: '#fff', border: 'none', borderRadius: '999px', padding: '2px 7px', fontSize: '10px', fontWeight: 700, cursor: 'pointer' }}>
                     🚨 {alerts.length}
                   </button>
                 )}
               </div>
+            </div>
+            {/* Logged-in user info + logout */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(255,255,255,0.06)', borderRadius: '8px', padding: '6px 9px', marginBottom: '10px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
+                <div style={{ width: '24px', height: '24px', borderRadius: '50%', background: currentUser.role === 'admin' ? '#f59e0b' : '#2563eb', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px' }}>
+                  {currentUser.role === 'admin' ? '👑' : '👤'}
+                </div>
+                <div>
+                  <div style={{ fontSize: '11px', fontWeight: 700, color: '#e2e8f0' }}>{currentUser.display_name}</div>
+                  <div style={{ fontSize: '9px', color: '#64748b' }}>{currentUser.role === 'admin' ? '管理员' : '销售员'}</div>
+                </div>
+              </div>
+              <button onClick={onLogout}
+                style={{ fontSize: '10px', color: '#64748b', background: 'transparent', border: 'none', cursor: 'pointer', padding: '2px 6px', borderRadius: '5px' }}>
+                退出
+              </button>
             </div>
 
             {/* Stats chips */}
@@ -808,7 +937,14 @@ export default function App() {
                 {activeChannel === '历史激活' ? '📂 查看右侧激活面板' : '🗂 查看右侧全部客户'}
               </div>
             )}
-            {activeChannel !== '历史激活' && activeChannel !== '全部客户' && customers.map(item => {
+            {activeChannel !== '历史激活' && activeChannel !== '全部客户' && (() => {
+              // Admin sees all; sales sees assigned phones (or all if no assignment yet)
+              const assignedPhones = currentUser.assigned_phones || []
+              const visibleCustomers = currentUser.role === 'admin' || assignedPhones.length === 0
+                ? customers
+                : customers.filter(c => assignedPhones.includes(c.phone))
+              return visibleCustomers
+            })().map(item => {
               const active = item.id === selectedId
               const flag = getCountryFlag(item.country)
               return (
