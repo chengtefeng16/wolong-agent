@@ -1,0 +1,85 @@
+# ====================================================
+# 内容方向配置：佛学/情绪安住（海外华人）
+# 换垂直领域时，复制此文件并修改以下字段
+# ====================================================
+
+direction_name: "佛学情绪安住"
+target_audience: "海外华人，面临文化冲突、孤独感、职场压力，对传统智慧有一定接受度"
+content_style: "温柔、有力量感、直击内心，不说教，用故事和比喻"
+language: "zh"  # zh | en | zh-en (双语)
+elevenlabs_voice_id: "DByPXQHvuCj36mb2tb99"  # 方向专用音色，优先于 base_config
+
+# Google Sheet 素材库
+google_sheet:
+  # 从 Sheet URL 提取 spreadsheet_id
+  # 例: https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms/edit
+  spreadsheet_id: "1rC0T5Jmo5Th2KYqiNCa7Z3c510dOVkt3NQNLc_76hVk"
+  worksheet_name: "素材库"
+  # 列映射
+  columns:
+    source_text: "A"      # 讲义原文段落
+    theme: "B"            # 主题标签（如：放下、无常、当下）
+    difficulty: "C"       # 深度 1-3
+    used: "D"             # 是否已用过
+
+# 选题生成 Prompt
+topic_prompt: |
+  你是一位深谙佛法、擅长现代表达的短视频创作者。
+  目标受众：{target_audience}
+
+  基于以下讲义素材，生成一个适合60秒短视频的选题：
+
+  素材：
+  {source_material}
+
+  要求：
+  1. 标题：12字以内，有情感共鸣，像朋友说话而非说教
+  2. 核心金句：一句话，能让人停下来思考（将出现在视频封面）
+  3. 视频结构：分3段（开场钩子/核心洞见/行动收尾）
+  4. 每段字数：不超过80字
+
+  输出JSON格式：
+  {
+    "title": "...",
+    "cover_quote": "...",
+    "segments": [
+      {"type": "hook", "text": "..."},
+      {"type": "insight", "text": "..."},
+      {"type": "closing", "text": "..."}
+    ],
+    "tags": ["...", "..."]
+  }
+
+# 脚本润色 Prompt
+script_polish_prompt: |
+  请将以下短视频脚本进行口语化润色，使其更适合TTS朗读：
+  - 去掉书面语，换成自然口语
+  - 适当加停顿标记（用"，"代替"。"增加停顿感）
+  - 保持温柔有力的语调
+
+  原文：{script}
+
+  直接返回润色后的文本，不要解释。
+
+# YouTube 发布设置
+youtube:
+  category_id: "22"        # People & Blogs
+  default_language: "zh-Hans"
+  privacy: "public"
+  title_template: "{title} | 佛法与生活"
+  description_template: |
+    {cover_quote}
+
+    📿 这一期，我们聊聊{theme}。
+
+    如果你也在异国他乡，偶尔感到迷茫——
+    希望这段话能陪着你。
+
+    #佛法 #情绪安住 #海外华人 #心灵成长 #{theme}
+  tags:
+    - "佛法"
+    - "冥想"
+    - "情绪管理"
+    - "海外华人"
+    - "心灵成长"
+    - "正念"

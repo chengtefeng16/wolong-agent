@@ -1,0 +1,12 @@
+# 生成的媒体文件（体积大，不入版本控制）
+output/
+
+# 凭证文件（安全敏感，绝不提交）
+config/gsheets_credentials.json
+config/youtube_credentials.json
+config/youtube_token.json
+
+# Python
+__pycache__/
+*.pyc
+.venv/

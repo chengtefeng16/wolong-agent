@@ -1,0 +1,41 @@
+# ====================================================
+# 短视频Agent - 基础配置
+# 切换垂直方向只需改 content_config 指向的文件
+# ====================================================
+
+# 当前激活的内容方向配置
+content_config: "buddhism_zh"
+
+# API Keys
+api:
+  gemini_key: "AIzaSyA1Uf-0Mz1-MlcLGqJ-sAgkLmBqc-YQK6Q"
+  elevenlabs_key: "sk_2ca0bca9c826a7b7b9a5b68d9fa4737f57deedf2b99deb0d"
+  # vrip4LPxKN0LbhJ62533 是克隆音色需要付费升级，暂用 Sarah (premade, 支持中文multilingual)
+  elevenlabs_voice_id: "EXAVITQu4vr4xnSDxMaL"
+  # YouTube OAuth credentials path (需要单独配置)
+  youtube_credentials: "config/youtube_credentials.json"
+  youtube_token: "config/youtube_token.json"
+  # Google Sheets Service Account (需要单独配置)
+  gsheets_credentials: "config/gsheets_credentials.json"
+
+# 视频规格
+video:
+  width: 1080
+  height: 1920          # 9:16 竖屏
+  fps: 30
+  background_color: [15, 15, 25]  # 深夜蓝黑色
+
+# 字幕样式
+subtitle:
+  font_size: 58
+  line_height: 1.5
+  max_chars_per_line: 14   # 中文每行最多字数
+  color: [255, 255, 255]
+  shadow_color: [0, 0, 0]
+  shadow_offset: 3
+  padding_bottom: 320      # 距底部像素
+
+# 输出
+output:
+  dir: "output"
+  keep_temp: false          # 是否保留中间临时文件
