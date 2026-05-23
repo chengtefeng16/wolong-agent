@@ -7,7 +7,7 @@ direction_name: "佛学情绪安住"
 target_audience: "海外华人，面临文化冲突、孤独感、职场压力，对传统智慧有一定接受度"
 content_style: "温柔、有力量感、直击内心，不说教，用故事和比喻"
 language: "zh"  # zh | en | zh-en (双语)
-elevenlabs_voice_id: "DByPXQHvuCj36mb2tb99"  # 方向专用音色，优先于 base_config
+elevenlabs_voice_id: "EXAVITQu4vr4xnSDxMaL"  # Sarah — premade，支持中文multilingual
 
 # Google Sheet 素材库
 google_sheet:
@@ -17,10 +17,10 @@ google_sheet:
   worksheet_name: "素材库"
   # 列映射
   columns:
-    source_text: "A"      # 讲义原文段落
-    theme: "B"            # 主题标签（如：放下、无常、当下）
-    difficulty: "C"       # 深度 1-3
-    used: "D"             # 是否已用过
+    source_text: "D"      # segment_text — 讲义原文段落
+    theme: "E"            # tags — 情绪/主题标签（如：失眠,焦虑）
+    difficulty: "C"       # segment_id（暂用，后续可加深度字段）
+    used: "F"             # 暂无此列，留空则所有素材均为未用状态
 
 # 选题生成 Prompt
 topic_prompt: |
