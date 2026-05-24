@@ -1,0 +1,250 @@
+[
+  {
+    "success": true,
+    "id": "react_1775898720_9989",
+    "filename": "480397",
+    "phone": "+992918899719",
+    "message_count": 3,
+    "participants": [
+      "Чурахон Каримов",
+      "坤越通国际贸易"
+    ],
+    "analyzed_at": "2026-04-11 17:12:00",
+    "status": "sent",
+    "customer_name": "Чурахон Каримов",
+    "country": "Tajikistan",
+    "car_models_interested": [],
+    "intent_level": "cold",
+    "intent_reason": "The customer initiated contact but did not respond to the salesperson's qualifying questions about car models or intent.",
+    "no_deal_reason": "No response after initial inquiry.",
+    "last_contact_summary": "Customer made an initial inquiry about the company and then did not respond to the salesperson's follow-up questions about car models and purpose of purchase.",
+    "reactivation_message": "Здравствуйте, Чурахон! Надеюсь, у вас все хорошо. Я хотел(а) узнать, удалось ли вам найти интересующий вас автомобиль или вы все еще рассматриваете варианты? Если у вас есть вопросы или вы готовы обсудить конкретные модели, я с удовольствием помогу.",
+    "messages": [
+      {
+        "role": "",
+        "text": "‎未接语音通话, ‎轻触回拨",
+        "time": "2026/3/17 15:14:57"
+      },
+      {
+        "role": "",
+        "text": "Здравствуйте! Я заполнил(-а) форму и хочу узнать больше о вашей компании.\nphone: +992918899719\nfull name: Чура Чернобыл\nemail: cura4630@gmail.com",
+        "time": "2026/3/23 19:49:23"
+      },
+      {
+        "role": "",
+        "text": "Здравствуйте, Чурахон!\nСпасибо за ваш интерес к нашей компании. Я увидел, что вы также пытались позвонить нам. Извините, что не смог ответить сразу.\nЯ представитель международной торговой компании по экспорту подержанных автомобилей из Китая. Чтобы мы могли предложить вам лучшие варианты, уточните, пожалуйста:\n1. Вы планируете приобрести автомобиль для личного пользования или вы являетесь дилером?\n2. Какая марка или модель автомобиля вас интересует?\n3. В какой город Таджикистана необходима доставка?\nЕсли вам удобнее общаться в WeChat, вы можете добавить мой китайский номер: Jk-51666666.\nЖду вашего ответа. Мы на связи!",
+        "time": "2026/3/27 14:53:57"
+      }
+    ],
+    "status_updated_at": "2026-04-11 17:12:22"
+  },
+  {
+    "success": true,
+    "id": "react_1775825979_5332",
+    "filename": "_chat 2.txt",
+    "phone": "+99365447661",
+    "message_count": 27,
+    "participants": [
+      "Begenc",
+      "坤越通国际贸易"
+    ],
+    "analyzed_at": "2026-04-10 20:59:39",
+    "status": "sent",
+    "customer_name": "Begenc Seýidow",
+    "country": "Turkmenistan",
+    "car_models_interested": [],
+    "intent_level": "warm",
+    "intent_reason": "Customer expressed clear interest in a used car for personal use with a specific budget and year, and followed up multiple times.",
+    "no_deal_reason": "The salesperson struggled to find a suitable car matching the customer's very specific and challenging budget/year requirements, compounded by Chinese New Year delays.",
+    "last_contact_summary": "Salesperson re-engaged Begenc, asking about specific vehicle types or budget ranges to find suitable options, but no specific models were discussed.",
+    "reactivation_message": "Hello Begenc! Hope you're doing well. I remember you were looking for a used car for around $5,000, ideally a 2022 model, to be shipped to Turkmenistan. While finding a 2022 model at that price point is challenging, we've been reviewing our inventory. Would you be open to considering slightly older models or perhaps a different vehicle type if it fits your budget and needs? We'd love to help you find a great car.",
+    "messages": [
+      {
+        "role": "",
+        "text": "Здравствуйте! Я заполнил(-а) форму и хочу узнать больше о вашей компании.\nphone: +99365447661\nfull name: Begenc Seýidow\nemail: bbegenjow066@gmail.com",
+        "time": "2026/1/27 08:26:54"
+      },
+      {
+        "role": "",
+        "text": "Hello, how are you, friend?",
+        "time": "2026/1/27 11:10:55"
+      },
+      {
+        "role": "",
+        "text": "Hello, my friend 🙂\nI’m doing well, thank you.\nThanks for your message.\nWe are a company in China focusing on vehicle supply and export, including used and new cars.\nMay I know what kind of vehicles you are interested in?\nIs it for personal use or for business?\nLooking forward to your reply.",
+        "time": "2026/1/27 20:01:42"
+      },
+      {
+        "role": "",
+        "text": "Must be used privately.",
+        "time": "2026/1/27 20:11:40"
+      },
+      {
+        "role": "",
+        "text": "5000 $ I need a car.",
+        "time": "2026/1/27 20:12:25"
+      },
+      {
+        "role": "",
+        "text": "He is the amount of the car yes year 2022",
+        "time": "2026/1/27 20:13:12"
+      },
+      {
+        "role": "",
+        "text": "Thank you for your message.\nTo be honest, with a budget of 5,000 USD and looking for a 2022 year vehicle, the options will be quite limited.\nAt this price level, it would usually only be possible to consider:\n- a very small car, or\n- an older / basic vehicle with limited configuration.\nFinding a car that is both recent (2022) and low-priced is not easy, but I can still check what options may be available based on your expectations.\nCould you please let me know:\n1) Which country and city the car will be delivered to?\n2) Is the 5,000 USD budget for the car only, or including delivery and export costs?\nThen I can advise you more accurately.",
+        "time": "2026/1/27 20:16:33"
+      },
+      {
+        "role": "",
+        "text": "‎这条消息已被删除。",
+        "time": "2026/1/27 20:19:28"
+      },
+      {
+        "role": "",
+        "text": "$5,000 just for the car",
+        "time": "2026/1/27 20:19:43"
+      },
+      {
+        "role": "",
+        "text": "But if you have cargo, we will pay for it.",
+        "time": "2026/1/27 20:20:44"
+      },
+      {
+        "role": "",
+        "text": "Then send it to Turkmenistan",
+        "time": "2026/1/27 20:21:15"
+      },
+      {
+        "role": "",
+        "text": "If you find it on this site, please send me a photo of the car.",
+        "time": "2026/1/27 20:21:50"
+      },
+      {
+        "role": "",
+        "text": "Sure, no problem.\nOnce I find a suitable option on this site, I will send you the car photos, basic information, and price for your reference.\nPlease allow me a little time to check carefully.",
+        "time": "2026/1/27 20:23:02"
+      },
+      {
+        "role": "",
+        "text": "I'm waiting well",
+        "time": "2026/1/27 20:27:41"
+      },
+      {
+        "role": "",
+        "text": "OK，thanks",
+        "time": "2026/1/27 20:28:53"
+      },
+      {
+        "role": "",
+        "text": "Hello, how are you, friend?",
+        "time": "2026/1/28 19:03:31"
+      },
+      {
+        "role": "",
+        "text": "The result is yes",
+        "time": "2026/1/28 19:03:32"
+      },
+      {
+        "role": "",
+        "text": "Hello, my friend 😊\nMay I kindly ask if your request is urgent or not?\nI would like to let you know that the Chinese New Year holiday is coming very soon. During this period, many suppliers and logistics companies in China will temporarily stop or slow down operations.\nIf it is not very urgent, I can start matching suitable cars for you immediately after the holiday, and I will handle it more efficiently and carefully.\nPlease let me know if you are able to wait until after the Chinese New Year, or if you need something urgently now.\nThank you for your understanding, and I look forward to your reply.",
+        "time": "2026/2/4 10:28:13"
+      },
+      {
+        "role": "",
+        "text": "Hello, how are you, friend?",
+        "time": "2026/2/8 20:43:34"
+      },
+      {
+        "role": "",
+        "text": "Not urgent",
+        "time": "2026/2/8 20:43:54"
+      },
+      {
+        "role": "",
+        "text": "I'm waiting well.",
+        "time": "2026/2/8 20:43:59"
+      },
+      {
+        "role": "",
+        "text": "Hello, how are you, friend?",
+        "time": "2026/2/27 19:06:41"
+      },
+      {
+        "role": "",
+        "text": "Hello, my friend.\nSorry for the late reply, and thank you for your patience.\nWe are still following up and matching suitable vehicle options for you. Please don’t worry, we will organize the relevant information and send it to you for reference as soon as possible.\nIf you now have any more specific requirements, such as vehicle model, budget, quantity, or other preferences, you can also tell us directly, and we will match more suitable options for you more quickly.\nThank you for your understanding and support.",
+        "time": "2026/3/10 12:53:13"
+      },
+      {
+        "role": "",
+        "text": "Ок",
+        "time": "2026/3/10 13:16:35"
+      },
+      {
+        "role": "",
+        "text": "Hello",
+        "time": "2026/4/10 18:48:05"
+      },
+      {
+        "role": "",
+        "text": "hello",
+        "time": "2026/4/10 20:29:50"
+      },
+      {
+        "role": "",
+        "text": "Hello my friend 👋\nNice to hear from you again.\nDo you have any specific vehicle in mind now?\nFor example: SUV, pickup, sedan — or your budget range?\nI can send you some good options with price and photos right away 👍",
+        "time": "2026/4/10 20:31:22"
+      }
+    ],
+    "status_updated_at": "2026-04-11 17:12:38"
+  },
+  {
+    "success": true,
+    "id": "react_1775825566_7687",
+    "filename": "_chat(1).txt",
+    "phone": "",
+    "message_count": 4,
+    "participants": [
+      "Garyagdy Nurmuradow",
+      "坤越通国际贸易"
+    ],
+    "analyzed_at": "2026-04-10 20:52:46",
+    "status": "sent",
+    "customer_name": "Гарик Нурмурадов",
+    "country": "Туркменистан",
+    "car_models_interested": [
+      "Zeekr",
+      "Haval",
+      "BYD",
+      "economical sedans",
+      "compact crossovers"
+    ],
+    "intent_level": "warm",
+    "intent_reason": "Customer expressed specific needs (automatic transmission, for personal use due to disability) and budget was requested.",
+    "no_deal_reason": "Customer did not provide budget or year of manufacture preferences after the last inquiry.",
+    "last_contact_summary": "Salesperson offered to find suitable automatic transmission cars (sedans/crossovers) and asked about budget and year of manufacture, also suggested WeChat.",
+    "reactivation_message": "Здравствуйте, Гарик! Надеюсь, у вас все хорошо. Я хотел(а) узнать, удалось ли вам определиться с бюджетом или годом выпуска для автомобиля? Мы по-прежнему готовы помочь вам найти подходящий Zeekr, Haval, BYD, или другой экономичный седан/компактный кроссовер с автоматической коробкой передач, который будет максимально удобен для вас.",
+    "messages": [
+      {
+        "role": "",
+        "text": "Здравствуйте! Я заполнил(-а) форму и хочу узнать больше о вашей компании.\nphone: +99362217009\nfull name: Гарик Нурмурадов\nemail: garyagdynurmuradow@gmail.com",
+        "time": "2026/3/19 09:46:40"
+      },
+      {
+        "role": "",
+        "text": "Здравствуйте, Гарик!\nСпасибо за ваш интерес к нашей компании. Я увидел, что вас заинтересовали наши автомобили (Zeekr, Haval, BYD).\nЯ представитель международной торговой компании по экспорту подержанных автомобилей из Китая. Чтобы мы могли предложить вам наиболее подходящие условия и цены, уточните, пожалуйста:\n1. Вы планируете приобрести автомобиль для личного пользования или вы являетесь дилером подержанных автомобилей?\n2. Какая именно модель вас интересует больше всего?\n3. В какой город Туркменистана необходимо доставить авто?\nЕсли вам удобнее общаться в WeChat, вы можете добавить мой китайский номер: Jk-51666666.\nЖду вашего ответа. Мы на связи!",
+        "time": "2026/3/27 14:51:35"
+      },
+      {
+        "role": "",
+        "text": "Привет из Туркмения 🇹🇲 АШХАБАТ Я сам человек инвалид одна нога нету хочу купить для себя не дорогой автомобиль автомат коробка передач",
+        "time": "2026/3/28 03:38:28"
+      },
+      {
+        "role": "",
+        "text": "Здравствуйте! Очень приятно получить весточку из Ашхабада 🇹🇲.\nЯ искренне сочувствую вашей ситуации, и мы обязательно постараемся подобрать для вас максимально удобный, надежный и доступный автомобиль на автоматической коробке передач, который будет облегчать ваше передвижение.\nДля ваших целей я могу предложить рассмотреть несколько вариантов с отличным соотношением цены и качества (например, экономичные седаны или компактные кроссоверы с удобной посадкой).\nЧтобы я мог подготовить для вас список подходящих авто с ценами, уточните, пожалуйста:\n1. Какую примерно сумму (в долларах) вы планируете потратить на покупку с учетом доставки?\n2. Есть ли у вас предпочтения по году выпуска автомобиля?\nЕсли вам будет удобно, мы можем обсудить детали и посмотреть фото/видео машин в WeChat: Jk-51666666.\nМы сделаем всё возможное, чтобы найти лучший вариант для вас!",
+        "time": "2026/4/1 15:55:35"
+      }
+    ],
+    "status_updated_at": "2026-04-10 20:52:54"
+  }
+]

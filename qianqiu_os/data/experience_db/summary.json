@@ -1,32 +1,40 @@
 {
-  "total_entries": 16,
-  "approved_count": 16,
-  "modified_count": 4,
+  "total_entries": 33,
+  "approved_count": 33,
+  "modified_count": 5,
   "by_category": {
-    "疑似车商": 12,
-    "": 4
+    "疑似车商": 21,
+    "": 5,
+    "沟通无效": 3,
+    "个人客户": 1,
+    "准车商": 3
   },
   "by_country": {
     "乌干达": 2,
-    "": 4,
-    "未知": 10
+    "": 5,
+    "未知": 26
   },
   "keyword_freq": {
     "suv": 2,
     "hybrid": 1,
     "hello": 1,
     "vehicle": 1,
-    "hi": 2
+    "hi": 3,
+    "toyota": 1,
+    "car": 1,
+    "ship": 1,
+    "import": 1,
+    "sedan": 1
   },
   "approval_rate": 1.0,
-  "last_updated": "2026-04-04 13:43:21",
+  "last_updated": "2026-05-19 20:59:44",
   "top_keywords": [
     {
-      "keyword": "suv",
-      "count": 2
+      "keyword": "hi",
+      "count": 3
     },
     {
-      "keyword": "hi",
+      "keyword": "suv",
       "count": 2
     },
     {
@@ -39,6 +47,26 @@
     },
     {
       "keyword": "vehicle",
+      "count": 1
+    },
+    {
+      "keyword": "toyota",
+      "count": 1
+    },
+    {
+      "keyword": "car",
+      "count": 1
+    },
+    {
+      "keyword": "ship",
+      "count": 1
+    },
+    {
+      "keyword": "import",
+      "count": 1
+    },
+    {
+      "keyword": "sedan",
       "count": 1
     }
   ]

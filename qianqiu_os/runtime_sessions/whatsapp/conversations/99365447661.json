@@ -1,0 +1,198 @@
+{
+  "phone": "+99365447661",
+  "customer_name": "Begenc Seýidow",
+  "country": "Turkmenistan",
+  "channel": "whatsapp",
+  "bucket": "待判断",
+  "summary": "Понял вас, мой друг. Спасибо за уточнение.\nЧто касается Kia K3 и Toyota Corolla ",
+  "crm_status": "unknown",
+  "messages": [
+    {
+      "role": "customer",
+      "text": "Здравствуйте! Я заполнил(-а) форму и хочу узнать больше о вашей компании.\nphone: +99365447661\nfull name: Begenc Seýidow\nemail: bbegenjow066@gmail.com",
+      "time": "2026/1/27 08:26:54",
+      "timestamp": "2026/1/27 08:26:54"
+    },
+    {
+      "role": "customer",
+      "text": "Hello, how are you, friend?",
+      "time": "2026/1/27 11:10:55",
+      "timestamp": "2026/1/27 11:10:55"
+    },
+    {
+      "role": "agent",
+      "text": "Hello, my friend 🙂\nI’m doing well, thank you.\nThanks for your message.\nWe are a company in China focusing on vehicle supply and export, including used and new cars.\nMay I know what kind of vehicles you are interested in?\nIs it for personal use or for business?\nLooking forward to your reply.",
+      "time": "2026/1/27 20:01:43",
+      "timestamp": "2026/1/27 20:01:43"
+    },
+    {
+      "role": "customer",
+      "text": "Must be used privately.",
+      "time": "2026/1/27 20:11:40",
+      "timestamp": "2026/1/27 20:11:40"
+    },
+    {
+      "role": "customer",
+      "text": "5000 $ I need a car.",
+      "time": "2026/1/27 20:12:25",
+      "timestamp": "2026/1/27 20:12:25"
+    },
+    {
+      "role": "customer",
+      "text": "He is the amount of the car yes year 2022",
+      "time": "2026/1/27 20:13:12",
+      "timestamp": "2026/1/27 20:13:12"
+    },
+    {
+      "role": "agent",
+      "text": "Thank you for your message.\nTo be honest, with a budget of 5,000 USD and looking for a 2022 year vehicle, the options will be quite limited.\nAt this price level, it would usually only be possible to consider:\n- a very small car, or\n- an older / basic vehicle with limited configuration.\nFinding a car that is both recent (2022) and low-priced is not easy, but I can still check what options may be available based on your expectations.\nCould you please let me know:\n1) Which country and city the car will be delivered to?\n2) Is the 5,000 USD budget for the car only, or including delivery and export costs?\nThen I can advise you more accurately.",
+      "time": "2026/1/27 20:16:34",
+      "timestamp": "2026/1/27 20:16:34"
+    },
+    {
+      "role": "customer",
+      "text": "$5,000 just for the car",
+      "time": "2026/1/27 20:19:43",
+      "timestamp": "2026/1/27 20:19:43"
+    },
+    {
+      "role": "customer",
+      "text": "But if you have cargo, we will pay for it.",
+      "time": "2026/1/27 20:20:44",
+      "timestamp": "2026/1/27 20:20:44"
+    },
+    {
+      "role": "customer",
+      "text": "Then send it to Turkmenistan",
+      "time": "2026/1/27 20:21:15",
+      "timestamp": "2026/1/27 20:21:15"
+    },
+    {
+      "role": "customer",
+      "text": "If you find it on this site, please send me a photo of the car.",
+      "time": "2026/1/27 20:21:50",
+      "timestamp": "2026/1/27 20:21:50"
+    },
+    {
+      "role": "agent",
+      "text": "Sure, no problem.\nOnce I find a suitable option on this site, I will send you the car photos, basic information, and price for your reference.\nPlease allow me a little time to check carefully.",
+      "time": "2026/1/27 20:23:02",
+      "timestamp": "2026/1/27 20:23:02"
+    },
+    {
+      "role": "customer",
+      "text": "I'm waiting well",
+      "time": "2026/1/27 20:27:41",
+      "timestamp": "2026/1/27 20:27:41"
+    },
+    {
+      "role": "agent",
+      "text": "OK，thanks",
+      "time": "2026/1/27 20:28:53",
+      "timestamp": "2026/1/27 20:28:53"
+    },
+    {
+      "role": "customer",
+      "text": "Hello, how are you, friend?",
+      "time": "2026/1/28 19:03:31",
+      "timestamp": "2026/1/28 19:03:31"
+    },
+    {
+      "role": "customer",
+      "text": "The result is yes",
+      "time": "2026/1/28 19:03:32",
+      "timestamp": "2026/1/28 19:03:32"
+    },
+    {
+      "role": "agent",
+      "text": "Hello, my friend 😊\nMay I kindly ask if your request is urgent or not?\nI would like to let you know that the Chinese New Year holiday is coming very soon. During this period, many suppliers and logistics companies in China will temporarily stop or slow down operations.\nIf it is not very urgent, I can start matching suitable cars for you immediately after the holiday, and I will handle it more efficiently and carefully.\nPlease let me know if you are able to wait until after the Chinese New Year, or if you need something urgently now.\nThank you for your understanding, and I look forward to your reply.",
+      "time": "2026/2/4 10:28:14",
+      "timestamp": "2026/2/4 10:28:14"
+    },
+    {
+      "role": "customer",
+      "text": "Hello, how are you, friend?",
+      "time": "2026/2/8 20:43:34",
+      "timestamp": "2026/2/8 20:43:34"
+    },
+    {
+      "role": "customer",
+      "text": "Not urgent",
+      "time": "2026/2/8 20:43:54",
+      "timestamp": "2026/2/8 20:43:54"
+    },
+    {
+      "role": "customer",
+      "text": "I'm waiting well.",
+      "time": "2026/2/8 20:43:59",
+      "timestamp": "2026/2/8 20:43:59"
+    },
+    {
+      "role": "customer",
+      "text": "Hello, how are you, friend?",
+      "time": "2026/2/27 19:06:41",
+      "timestamp": "2026/2/27 19:06:41"
+    },
+    {
+      "role": "agent",
+      "text": "Hello, my friend.\nSorry for the late reply, and thank you for your patience.\nWe are still following up and matching suitable vehicle options for you. Please don’t worry, we will organize the relevant information and send it to you for reference as soon as possible.\nIf you now have any more specific requirements, such as vehicle model, budget, quantity, or other preferences, you can also tell us directly, and we will match more suitable options for you more quickly.\nThank you for your understanding and support.",
+      "time": "2026/3/10 12:53:14",
+      "timestamp": "2026/3/10 12:53:14"
+    },
+    {
+      "role": "customer",
+      "text": "Ок",
+      "time": "2026/3/10 13:16:35",
+      "timestamp": "2026/3/10 13:16:35"
+    },
+    {
+      "role": "customer",
+      "text": "Hello",
+      "time": "2026/4/10 18:48:05",
+      "timestamp": "2026/4/10 18:48:05"
+    },
+    {
+      "role": "agent",
+      "text": "hello",
+      "time": "2026/4/10 20:29:50",
+      "timestamp": "2026/4/10 20:29:50"
+    },
+    {
+      "role": "agent",
+      "text": "Hello my friend 👋\nNice to hear from you again.\nDo you have any specific vehicle in mind now?\nFor example: SUV, pickup, sedan — or your budget range?\nI can send you some good options with price and photos right away 👍",
+      "time": "2026/4/10 20:31:23",
+      "timestamp": "2026/4/10 20:31:23"
+    },
+    {
+      "role": "customer",
+      "text": "sedan and crossover are possible",
+      "time": "2026/4/10 21:00:57",
+      "timestamp": "2026/4/10 21:00:57"
+    },
+    {
+      "role": "customer",
+      "text": "2022 How much does it cost, White or Snow, and Corolla is also possible which is a 2022 sedan",
+      "time": "2026/4/11 18:30:50",
+      "timestamp": "2026/4/11 18:30:50"
+    },
+    {
+      "role": "customer",
+      "text": "Which is used but in good condition, our budget is about 6 thousand",
+      "time": "2026/4/11 18:36:24",
+      "timestamp": "2026/4/11 18:36:24"
+    },
+    {
+      "role": "customer",
+      "text": "Б/у, но в хорошем состоянии, наш бюджет около  5 тысяч.",
+      "time": "2026/4/11 18:38:03",
+      "timestamp": "2026/4/11 18:38:03"
+    },
+    {
+      "role": "agent",
+      "text": "Понял вас, мой друг. Спасибо за уточнение.\nЧто касается Kia K3 и Toyota Corolla 2022 года: это отличные и надежные машины. Однако, должен быть честен с вами — бюджет в 5000$ для этих моделей 2022 года (в хорошем состоянии и с учетом доставки) довольно низкий.\nЧтобы не предлагать вам битые или проблемные авто, я могу сделать следующее:\n1. Поискать варианты этих моделей чуть постарше (например, 2018-2019 гг.), которые пройдут в ваш бюджет.\n2. Или поискать другие надежные седаны в отличном состоянии за 5000$.\nЧто вы об этом думаете? Я хочу подобрать для вас действительно качественный автомобиль, который прослужит долго.",
+      "time": "2026/4/11 20:27:20",
+      "timestamp": "2026/4/11 20:27:20"
+    }
+  ],
+  "last_updated": "2026-04-11 21:11:24"
+}

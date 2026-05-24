@@ -3,83 +3,13 @@
   "source": "runtime_sessions/whatsapp",
   "customers": [
     {
-      "id": "+8613900000001",
-      "name": "测试客户",
-      "category": "待判断",
-      "country": "哈萨克斯坦",
-      "channel": "whatsapp",
-      "time": "2026-04-09 13:04:14",
-      "message": "好的，陆巡是哈萨克斯坦的热销车型。请问您对具体年份、配置和预算有什么要求吗？我们可以提供LC200和LC300系列。",
-      "keywords": [],
-      "reason": "你好，我需要10台丰田陆巡，请报价",
-      "tags": [],
-      "phone": "+8613900000001",
-      "timeline": [
-        "2026-04-09 07:04:06 客户：你好，我需要10台丰田陆巡，请报价",
-        "2026-04-09 13:04:14 我方：好的，陆巡是哈萨克斯坦的热销车型。请问您对具体年份、配置和预算有什么要求吗？我们可以提供LC200和LC300系列。"
-      ],
-      "messages": [
-        {
-          "role": "客户",
-          "text": "你好，我需要10台丰田陆巡，请报价",
-          "time": "2026-04-09 07:04:06"
-        },
-        {
-          "role": "我方",
-          "text": "好的，陆巡是哈萨克斯坦的热销车型。请问您对具体年份、配置和预算有什么要求吗？我们可以提供LC200和LC300系列。",
-          "time": "2026-04-09 13:04:14"
-        }
-      ],
-      "crm_status": "unknown",
-      "needs_human_review": false,
-      "destination": ""
-    },
-    {
-      "id": "+16315551181",
-      "name": "test user name",
-      "category": "待判断",
-      "country": "未知",
-      "channel": "whatsapp",
-      "time": "2026-04-04 13:43:21",
-      "message": "Hi test user name! Welcome to Wolong Auto Export. We specialize in vehicle exports to 未知. How can we assist you today?",
-      "keywords": [],
-      "reason": "this is a text message",
-      "tags": [],
-      "phone": "+16315551181",
-      "timeline": [
-        "2026-04-04 13:04:30 客户：this is a text message",
-        "2026-04-04 13:43:20 客户：Hi test user name! Welcome to Wolong Auto Export. We specialize in vehicle exports to 未知. How can we assist you today?",
-        "2026-04-04 13:43:21 客户：Hi test user name! Welcome to Wolong Auto Export. We specialize in vehicle exports to 未知. How can we assist you today?"
-      ],
-      "messages": [
-        {
-          "role": "客户",
-          "text": "this is a text message",
-          "time": "2026-04-04 13:04:30"
-        },
-        {
-          "role": "客户",
-          "text": "Hi test user name! Welcome to Wolong Auto Export. We specialize in vehicle exports to 未知. How can we assist you today?",
-          "time": "2026-04-04 13:43:20"
-        },
-        {
-          "role": "客户",
-          "text": "Hi test user name! Welcome to Wolong Auto Export. We specialize in vehicle exports to 未知. How can we assist you today?",
-          "time": "2026-04-04 13:43:21"
-        }
-      ],
-      "crm_status": "unknown",
-      "needs_human_review": false,
-      "destination": ""
-    },
-    {
       "id": "+8618801801477",
       "name": "坤越通国际贸易",
       "category": "待判断",
       "country": "未知",
       "channel": "whatsapp",
-      "time": "2026-04-09 14:06:03",
-      "message": "Yes, we absolutely ship to Oman! We have a wide range of used car models available, from sedans and SUVs to commercial vehicles. To help me recommend the best options for you, could you please tell me which specific models or types of cars you are looking for, the quantity, and your target budget?",
+      "time": "2026-05-19 20:59:44",
+      "message": "نعم، يمكننا أن نقدم لك أسعارًا تقريبية بمجرد أن تحدد الماركات والموديلات المحددة التي تهتم بها لكل بيك أب. أما بخصوص الدفع، فيمكنك دفع 30% كدفعة أولى عبر التحويل البنكي (T/T) أو Alibaba Trade Assurance، وسنرسل لك صورًا وفيديوهات مفصلة للسيارات قبل الشحن. كما نقدم ضمانًا لمدة سنة أو 20 ألف كيلومتر، أيهما يأتي أولاً، على الأجزاء الأساسية مثل المحرك وناقل الحركة.",
       "keywords": [],
       "reason": "您好，我想了解一下二手车出口的流程？",
       "tags": [],
@@ -121,7 +51,15 @@
         "2026-04-09 13:57:19 客户：¿Y cómo se paga el depósito?",
         "2026-04-09 13:58:02 我方：El depósito se paga mediante transferencia bancaria internacional o a través de una plataforma de pago segura. Una vez recibido el depósito, comenzamos a preparar el envío de los vehículos.",
         "2026-04-09 14:05:28 客户：Hi, I'm interested in importing used cars. Do you ship to Oman? What models do you have available?",
-        "2026-04-09 14:06:03 我方：Yes, we absolutely ship to Oman! We have a wide range of used car models available, from sedans and SUVs to commercial vehicles. To help me recommend the best options for you, could you please tell me which specific models or types of cars you are looking for, the quantity, and your target budget?"
+        "2026-04-09 14:06:03 我方：Yes, we absolutely ship to Oman! We have a wide range of used car models available, from sedans and SUVs to commercial vehicles. To help me recommend the best options for you, could you please tell me which specific models or types of cars you are looking for, the quantity, and your target budget?",
+        "2026-04-10 20:30:47 客户：晚上好，最近有什么车子？",
+        "2026-04-10 20:31:41 我方：当然可以！我们最近有很多不错的二手车源，包括各种轿车、SUV和商务车。为了更好地给您推荐，请问您感兴趣的具体车型、数量和预算大概是多少呢？",
+        "2026-05-19 19:44:39 客户：我也很高兴认识你们",
+        "2026-05-19 19:45:03 我方：我也很高兴能为您服务！为了更好地了解您的需求，请问您感兴趣的具体车型、数量和预算大概是多少呢？我们可以根据您的要求，为您推荐最合适的二手车源。",
+        "2026-05-19 19:46:00 客户：Общая цена за 10 китайских пикапов: от 800 000 до 1 700 000 юаней.",
+        "2026-05-19 20:58:20 我方：Отлично! Цена от 800 000 до 1 700 000 юаней за 10 китайских пикапов — это хороший диапазон. Чтобы я мог подобрать для вас наиболее подходящие модели, пожалуйста, уточните, какие конкретно марки и модели пикапов вас интересуют, а также ваш целевой бюджет на каждый автомобиль. Мы можем отправить вам видео и фотографии доступных вариантов.",
+        "2026-05-19 20:59:16 客户：نعم، ما هو السعر التقريبي الذي يمكنكم تقديمه؟ وماذا بعد؟ كيف يمكن الدفع؟",
+        "2026-05-19 20:59:44 我方：نعم، يمكننا أن نقدم لك أسعارًا تقريبية بمجرد أن تحدد الماركات والموديلات المحددة التي تهتم بها لكل بيك أب. أما بخصوص الدفع، فيمكنك دفع 30% كدفعة أولى عبر التحويل البنكي (T/T) أو Alibaba Trade Assurance، وسنرسل لك صورًا وفيديوهات مفصلة للسيارات قبل الشحن. كما نقدم ضمانًا لمدة سنة أو 20 ألف كيلومتر، أيهما يأتي أولاً، على الأجزاء الأساسية مثل المحرك وناقل الحركة."
       ],
       "messages": [
         {
@@ -308,271 +246,456 @@
           "role": "我方",
           "text": "Yes, we absolutely ship to Oman! We have a wide range of used car models available, from sedans and SUVs to commercial vehicles. To help me recommend the best options for you, could you please tell me which specific models or types of cars you are looking for, the quantity, and your target budget?",
           "time": "2026-04-09 14:06:03"
-        }
-      ],
-      "crm_status": "unknown",
-      "needs_human_review": false,
-      "destination": ""
-    },
-    {
-      "id": "+8613122101699",
-      "name": "坤越通测试",
-      "category": "待判断",
-      "country": "未知",
-      "channel": "whatsapp",
-      "time": "2026-04-04 12:41:15",
-      "message": "Hi 坤越通测试, thank you for reaching out! Please share your vehicle requirements for 未知 (model, quantity, budget) and we'll respond right away.",
-      "keywords": [],
-      "reason": "你好，我是真实用户，测试消息接收是否正常。我想进口10辆丰田埃尔法到哈萨克斯坦。",
-      "tags": [],
-      "phone": "+8613122101699",
-      "timeline": [
-        "2026-04-02 16:04:58 客户：你好，我是真实用户，测试消息接收是否正常。我想进口10辆丰田埃尔法到哈萨克斯坦。",
-        "2026-04-02 21:16:56 客户：您好！消息接收正常，很高兴为您服务。\n\n非常感谢您",
-        "2026-04-02 21:59:09 客户：您好！很高兴为您服务。\n\n请问您对哪些车型感兴趣",
-        "2026-04-04 12:03:58 客户：现在能不能收到？能不能收到测试一下？",
-        "2026-04-04 12:17:46 客户：我又给你发了一条信息，但是没看到",
-        "2026-04-04 12:24:32 客户：Hi 坤越通测试, thank you for reaching out! Please share your vehicle requirements for 未知 (model, quantity, budget) and we'll respond right away.",
-        "2026-04-04 12:31:05 客户：修复测试消息",
-        "2026-04-04 12:41:15 客户：Hi 坤越通测试, thank you for reaching out! Please share your vehicle requirements for 未知 (model, quantity, budget) and we'll respond right away."
-      ],
-      "messages": [
-        {
-          "role": "客户",
-          "text": "你好，我是真实用户，测试消息接收是否正常。我想进口10辆丰田埃尔法到哈萨克斯坦。",
-          "time": "2026-04-02 16:04:58"
         },
         {
           "role": "客户",
-          "text": "您好！消息接收正常，很高兴为您服务。\n\n非常感谢您",
-          "time": "2026-04-02 21:16:56"
-        },
-        {
-          "role": "客户",
-          "text": "您好！很高兴为您服务。\n\n请问您对哪些车型感兴趣",
-          "time": "2026-04-02 21:59:09"
-        },
-        {
-          "role": "客户",
-          "text": "现在能不能收到？能不能收到测试一下？",
-          "time": "2026-04-04 12:03:58"
-        },
-        {
-          "role": "客户",
-          "text": "我又给你发了一条信息，但是没看到",
-          "time": "2026-04-04 12:17:46"
-        },
-        {
-          "role": "客户",
-          "text": "Hi 坤越通测试, thank you for reaching out! Please share your vehicle requirements for 未知 (model, quantity, budget) and we'll respond right away.",
-          "time": "2026-04-04 12:24:32"
-        },
-        {
-          "role": "客户",
-          "text": "修复测试消息",
-          "time": "2026-04-04 12:31:05"
-        },
-        {
-          "role": "客户",
-          "text": "Hi 坤越通测试, thank you for reaching out! Please share your vehicle requirements for 未知 (model, quantity, budget) and we'll respond right away.",
-          "time": "2026-04-04 12:41:15"
-        }
-      ],
-      "crm_status": "unknown",
-      "needs_human_review": false,
-      "destination": ""
-    },
-    {
-      "id": "+256704100001",
-      "name": "Grace Nambi",
-      "category": "待判断",
-      "country": "乌干达",
-      "channel": "whatsapp",
-      "time": "2026-04-02 13:22:43",
-      "message": "Hello Grace,\n\n很高兴您对我们的混合动力SUV感兴趣！Har",
-      "keywords": [],
-      "reason": "Interested in hybrid SUVs, maybe Harrier or RAV4. Can you export to Kampala?",
-      "tags": [],
-      "phone": "+256704100001",
-      "timeline": [
-        "2026-04-02 09:14:14 客户：Interested in hybrid SUVs, maybe Harrier or RAV4. Can you export to Kampala?",
-        "2026-04-02 12:05:08 客户：Hello Grace,\n\n很高兴您对我们的混合动力SUV感兴趣！Harrier",
-        "2026-04-02 13:22:43 客户：Hello Grace,\n\n很高兴您对我们的混合动力SUV感兴趣！Har"
-      ],
-      "messages": [
-        {
-          "role": "客户",
-          "text": "Interested in hybrid SUVs, maybe Harrier or RAV4. Can you export to Kampala?",
-          "time": "2026-04-02 09:14:14"
-        },
-        {
-          "role": "客户",
-          "text": "Hello Grace,\n\n很高兴您对我们的混合动力SUV感兴趣！Harrier",
-          "time": "2026-04-02 12:05:08"
-        },
-        {
-          "role": "客户",
-          "text": "Hello Grace,\n\n很高兴您对我们的混合动力SUV感兴趣！Har",
-          "time": "2026-04-02 13:22:43"
-        }
-      ],
-      "crm_status": "unknown",
-      "needs_human_review": false,
-      "destination": ""
-    },
-    {
-      "id": "+260977200001",
-      "name": "Mulenga Banda",
-      "category": "待判断",
-      "country": "赞比亚",
-      "channel": "whatsapp",
-      "time": "2026-04-02 09:14:14",
-      "message": "Need 5 Toyota Hilux pickup trucks for our business in Lusaka. Whats your best price?",
-      "keywords": [],
-      "reason": "Need 5 Toyota Hilux pickup trucks for our business in Lusaka. Whats your best pr",
-      "tags": [],
-      "phone": "+260977200001",
-      "timeline": [
-        "2026-04-02 09:14:14 客户：Need 5 Toyota Hilux pickup trucks for our business in Lusaka. Whats your best price?"
-      ],
-      "messages": [
-        {
-          "role": "客户",
-          "text": "Need 5 Toyota Hilux pickup trucks for our business in Lusaka. Whats your best price?",
-          "time": "2026-04-02 09:14:14"
-        }
-      ],
-      "crm_status": "unknown",
-      "needs_human_review": false,
-      "destination": ""
-    },
-    {
-      "id": "+8613800001234",
-      "name": "Ahmad Raza",
-      "category": "待判断",
-      "country": "巴基斯坦",
-      "channel": "whatsapp",
-      "time": "2026-04-02 09:14:13",
-      "message": "We import 25-30 cars per month, mostly Corolla & Yaris. Are you a direct supplier?",
-      "keywords": [],
-      "reason": "We import 25-30 cars per month, mostly Corolla & Yaris. Are you a direct supplie",
-      "tags": [],
-      "phone": "+8613800001234",
-      "timeline": [
-        "2026-04-02 09:14:13 客户：We import 25-30 cars per month, mostly Corolla & Yaris. Are you a direct supplier?"
-      ],
-      "messages": [
-        {
-          "role": "客户",
-          "text": "We import 25-30 cars per month, mostly Corolla & Yaris. Are you a direct supplier?",
-          "time": "2026-04-02 09:14:13"
-        }
-      ],
-      "crm_status": "unknown",
-      "needs_human_review": false,
-      "destination": ""
-    },
-    {
-      "id": "+992900111222",
-      "name": "Bek Yusupov",
-      "category": "待判断",
-      "country": "塔吉克斯坦",
-      "channel": "whatsapp",
-      "time": "2026-04-02 09:14:13",
-      "message": "I need Camry 2022-2024, white or silver, about 7 units. Do you have stock?",
-      "keywords": [],
-      "reason": "I need Camry 2022-2024, white or silver, about 7 units. Do you have stock?",
-      "tags": [],
-      "phone": "+992900111222",
-      "timeline": [
-        "2026-04-02 09:14:13 客户：I need Camry 2022-2024, white or silver, about 7 units. Do you have stock?"
-      ],
-      "messages": [
-        {
-          "role": "客户",
-          "text": "I need Camry 2022-2024, white or silver, about 7 units. Do you have stock?",
-          "time": "2026-04-02 09:14:13"
-        }
-      ],
-      "crm_status": "unknown",
-      "needs_human_review": false,
-      "destination": ""
-    },
-    {
-      "id": "+77011112233",
-      "name": "Zhaslan Abenov",
-      "category": "待判断",
-      "country": "哈萨克斯坦",
-      "channel": "whatsapp",
-      "time": "2026-04-02 09:14:12",
-      "message": "Hi! We are a dealership in Almaty. Need 15 Prado units for Q2. Can you quote FOB?",
-      "keywords": [],
-      "reason": "Hi! We are a dealership in Almaty. Need 15 Prado units for Q2. Can you quote FOB",
-      "tags": [],
-      "phone": "+77011112233",
-      "timeline": [
-        "2026-04-02 09:14:12 客户：Hi! We are a dealership in Almaty. Need 15 Prado units for Q2. Can you quote FOB?"
-      ],
-      "messages": [
-        {
-          "role": "客户",
-          "text": "Hi! We are a dealership in Almaty. Need 15 Prado units for Q2. Can you quote FOB?",
-          "time": "2026-04-02 09:14:12"
-        }
-      ],
-      "crm_status": "unknown",
-      "needs_human_review": false,
-      "destination": ""
-    },
-    {
-      "id": "+79161230000",
-      "name": "Ivan",
-      "category": "个人客户",
-      "country": "俄罗斯",
-      "channel": "whatsapp",
-      "time": "2026-04-02 09:14:13",
-      "message": "Want one family sedan for personal use, budget $18000. What do you recommend?",
-      "keywords": [
-        "1台",
-        "家庭用车",
-        "预算待补",
-        "明确非转卖",
-        "数量=1",
-        "自用倾向明显"
-      ],
-      "reason": "客户明确表示是家庭自用，不是转卖，属于个人客户。",
-      "tags": [
-        "1台",
-        "家庭用车",
-        "预算待补"
-      ],
-      "phone": "+79161230000",
-      "timeline": [
-        "2026-03-12 10:02:00 客户：I need one family car, not for resale.",
-        "2026-03-12 10:03:00 我方：好的，您更偏向家庭自用。请问您更想要SUV还是轿车？预算大概是多少？"
-      ],
-      "messages": [
-        {
-          "role": "客户",
-          "text": "I need one family car, not for resale.",
-          "time": "2026-03-12 10:02:00"
+          "text": "晚上好，最近有什么车子？",
+          "time": "2026-04-10 20:30:47"
         },
         {
           "role": "我方",
-          "text": "好的，您更偏向家庭自用。请问您更想要SUV还是轿车？预算大概是多少？",
-          "time": "2026-03-12 10:03:00"
+          "text": "当然可以！我们最近有很多不错的二手车源，包括各种轿车、SUV和商务车。为了更好地给您推荐，请问您感兴趣的具体车型、数量和预算大概是多少呢？",
+          "time": "2026-04-10 20:31:41"
+        },
+        {
+          "role": "客户",
+          "text": "我也很高兴认识你们",
+          "time": "2026-05-19 19:44:39"
+        },
+        {
+          "role": "我方",
+          "text": "我也很高兴能为您服务！为了更好地了解您的需求，请问您感兴趣的具体车型、数量和预算大概是多少呢？我们可以根据您的要求，为您推荐最合适的二手车源。",
+          "time": "2026-05-19 19:45:03"
+        },
+        {
+          "role": "客户",
+          "text": "Общая цена за 10 китайских пикапов: от 800 000 до 1 700 000 юаней.",
+          "time": "2026-05-19 19:46:00"
+        },
+        {
+          "role": "我方",
+          "text": "Отлично! Цена от 800 000 до 1 700 000 юаней за 10 китайских пикапов — это хороший диапазон. Чтобы я мог подобрать для вас наиболее подходящие модели, пожалуйста, уточните, какие конкретно марки и модели пикапов вас интересуют, а также ваш целевой бюджет на каждый автомобиль. Мы можем отправить вам видео и фотографии доступных вариантов.",
+          "time": "2026-05-19 20:58:20"
+        },
+        {
+          "role": "客户",
+          "text": "نعم، ما هو السعر التقريبي الذي يمكنكم تقديمه؟ وماذا بعد؟ كيف يمكن الدفع؟",
+          "time": "2026-05-19 20:59:16"
+        },
+        {
+          "role": "我方",
+          "text": "نعم، يمكننا أن نقدم لك أسعارًا تقريبية بمجرد أن تحدد الماركات والموديلات المحددة التي تهتم بها لكل بيك أب. أما بخصوص الدفع، فيمكنك دفع 30% كدفعة أولى عبر التحويل البنكي (T/T) أو Alibaba Trade Assurance، وسنرسل لك صورًا وفيديوهات مفصلة للسيارات قبل الشحن. كما نقدم ضمانًا لمدة سنة أو 20 ألف كيلومتر، أيهما يأتي أولاً، على الأجزاء الأساسية مثل المحرك وناقل الحركة.",
+          "time": "2026-05-19 20:59:44"
         }
       ],
-      "crm_status": "not_ready",
+      "crm_status": "unknown",
       "needs_human_review": false,
-      "destination": "待确认"
+      "destination": ""
+    },
+    {
+      "id": "+99362217009",
+      "name": "Garyagdy Nurmuradow",
+      "category": "待判断",
+      "country": "Turkmenistan",
+      "channel": "whatsapp",
+      "time": "2026/4/1 15:55:35",
+      "message": "Здравствуйте! Очень приятно получить весточку из Ашхабада 🇹🇲.\nЯ искренне сочувст",
+      "keywords": [],
+      "reason": "Здравствуйте! Очень приятно получить весточку из Ашхабада 🇹🇲.\nЯ искренне сочувст",
+      "tags": [],
+      "phone": "+99362217009",
+      "timeline": [
+        "2026/3/19 09:46:40 客户：Здравствуйте! Я заполнил(-а) форму и хочу узнать больше о вашей компании.\nphone: +99362217009\nfull name: Гарик Нурмурадов\nemail: garyagdynurmuradow@gmail.com",
+        "2026/3/27 14:51:35 我方：Здравствуйте, Гарик!\nСпасибо за ваш интерес к нашей компании. Я увидел, что вас заинтересовали наши автомобили (Zeekr, Haval, BYD).\nЯ представитель международной торговой компании по экспорту подержанных автомобилей из Китая. Чтобы мы могли предложить вам наиболее подходящие условия и цены, уточните, пожалуйста:\n1. Вы планируете приобрести автомобиль для личного пользования или вы являетесь дилером подержанных автомобилей?\n2. Какая именно модель вас интересует больше всего?\n3. В какой город Туркменистана необходимо доставить авто?\nЕсли вам удобнее общаться в WeChat, вы можете добавить мой китайский номер: Jk-51666666.\nЖду вашего ответа. Мы на связи!",
+        "2026/3/28 03:38:28 客户：Привет из Туркмения 🇹🇲 АШХАБАТ Я сам человек инвалид одна нога нету хочу купить для себя не дорогой автомобиль автомат коробка передач",
+        "2026/4/1 15:55:35 我方：Здравствуйте! Очень приятно получить весточку из Ашхабада 🇹🇲.\nЯ искренне сочувствую вашей ситуации, и мы обязательно постараемся подобрать для вас максимально удобный, надежный и доступный автомобиль на автоматической коробке передач, который будет облегчать ваше передвижение.\nДля ваших целей я могу предложить рассмотреть несколько вариантов с отличным соотношением цены и качества (например, экономичные седаны или компактные кроссоверы с удобной посадкой).\nЧтобы я мог подготовить для вас список подходящих авто с ценами, уточните, пожалуйста:\n1. Какую примерно сумму (в долларах) вы планируете потратить на покупку с учетом доставки?\n2. Есть ли у вас предпочтения по году выпуска автомобиля?\nЕсли вам будет удобно, мы можем обсудить детали и посмотреть фото/видео машин в WeChat: Jk-51666666.\nМы сделаем всё возможное, чтобы найти лучший вариант для вас!"
+      ],
+      "messages": [
+        {
+          "role": "客户",
+          "text": "Здравствуйте! Я заполнил(-а) форму и хочу узнать больше о вашей компании.\nphone: +99362217009\nfull name: Гарик Нурмурадов\nemail: garyagdynurmuradow@gmail.com",
+          "time": "2026/3/19 09:46:40"
+        },
+        {
+          "role": "我方",
+          "text": "Здравствуйте, Гарик!\nСпасибо за ваш интерес к нашей компании. Я увидел, что вас заинтересовали наши автомобили (Zeekr, Haval, BYD).\nЯ представитель международной торговой компании по экспорту подержанных автомобилей из Китая. Чтобы мы могли предложить вам наиболее подходящие условия и цены, уточните, пожалуйста:\n1. Вы планируете приобрести автомобиль для личного пользования или вы являетесь дилером подержанных автомобилей?\n2. Какая именно модель вас интересует больше всего?\n3. В какой город Туркменистана необходимо доставить авто?\nЕсли вам удобнее общаться в WeChat, вы можете добавить мой китайский номер: Jk-51666666.\nЖду вашего ответа. Мы на связи!",
+          "time": "2026/3/27 14:51:35"
+        },
+        {
+          "role": "客户",
+          "text": "Привет из Туркмения 🇹🇲 АШХАБАТ Я сам человек инвалид одна нога нету хочу купить для себя не дорогой автомобиль автомат коробка передач",
+          "time": "2026/3/28 03:38:28"
+        },
+        {
+          "role": "我方",
+          "text": "Здравствуйте! Очень приятно получить весточку из Ашхабада 🇹🇲.\nЯ искренне сочувствую вашей ситуации, и мы обязательно постараемся подобрать для вас максимально удобный, надежный и доступный автомобиль на автоматической коробке передач, который будет облегчать ваше передвижение.\nДля ваших целей я могу предложить рассмотреть несколько вариантов с отличным соотношением цены и качества (например, экономичные седаны или компактные кроссоверы с удобной посадкой).\nЧтобы я мог подготовить для вас список подходящих авто с ценами, уточните, пожалуйста:\n1. Какую примерно сумму (в долларах) вы планируете потратить на покупку с учетом доставки?\n2. Есть ли у вас предпочтения по году выпуска автомобиля?\nЕсли вам будет удобно, мы можем обсудить детали и посмотреть фото/видео машин в WeChat: Jk-51666666.\nМы сделаем всё возможное, чтобы найти лучший вариант для вас!",
+          "time": "2026/4/1 15:55:35"
+        }
+      ],
+      "crm_status": "unknown",
+      "needs_human_review": false,
+      "destination": ""
+    },
+    {
+      "id": "+996700515377",
+      "name": "Baur bro",
+      "category": "待判断",
+      "country": "Kyrgyzstan",
+      "channel": "whatsapp",
+      "time": "2026/3/17 15:49:37",
+      "message": "My account has been temporarily disabled by WhatsApp due to network issues. You ",
+      "keywords": [],
+      "reason": "My account has been temporarily disabled by WhatsApp due to network issues. You ",
+      "tags": [],
+      "phone": "+996700515377",
+      "timeline": [
+        "2026/3/11 20:28:15 客户：🤝",
+        "2026/3/11 20:28:27 客户：Какие машины можно заказать у вас ?",
+        "2026/3/11 20:28:27 客户：Электромобиль или гибридный с 4 wd",
+        "2026/3/11 20:28:27 客户：Кыргызстан. Киргизия. город Бишкек.",
+        "2026/3/11 20:36:45 我方：Здравствуйте!\nДа, мы можем помочь вам подобрать автомобили для экспорта в Кыргызстан, в город Бишкек.\nПо вашему запросу мы можем рассматривать:\n1. Электромобили\n2. Гибридные автомобили с полным приводом (4WD)\nЧтобы мы могли точнее подобрать для вас подходящие варианты, пожалуйста, уточните:\n1. Какой у вас ориентировочный бюджет?\n2. Вас больше интересует седан, SUV или внедорожник?\n3. Вы рассматриваете автомобиль для личного пользования или для продажи?\nПосле этого мы сможем как можно скорее подготовить для вас подходящие модели и ориентировочные цены.",
+        "2026/3/11 20:39:27 客户：Кроссовер Suv, гибрид 4 wd",
+        "2026/3/11 20:39:38 客户：Для себя",
+        "2026/3/11 20:39:50 客户：Вы в каком городе Китай.",
+        "2026/3/11 20:39:50 客户：Я, Кыргызстан. Киргизия. город Бишкек.",
+        "2026/3/11 20:40:19 客户：От 12000 до 25000$",
+        "2026/3/11 20:54:20 我方：Здравствуйте! Спасибо за подробную информацию.\nНаша компания находится в Шанхае, Китай.\nМы уже поняли ваш запрос: вам нужен автомобиль для личного пользования — кроссовер / SUV, гибрид, с полным приводом (4WD), с бюджетом от 12 000 до 25 000 долларов, с отправкой в Бишкек, Кыргызстан.\nХорошо, мы подберём для вас подходящие варианты в соответствии с вашими требованиями.\nЧуть позже я отправлю вам несколько подходящих моделей и ориентировочные цены. Вы сможете сначала посмотреть и сравнить, а затем выбрать наиболее интересующий вас вариант.",
+        "2026/3/12 19:26:21 客户：Гибридный с 4 wd, SUV",
+        "2026/3/16 13:56:25 客户：Привет",
+        "2026/3/16 13:56:29 客户：Примерно  нужна. Гибрид с 4 wd, Suv, REEV ?",
+        "2026/3/17 15:49:37 我方：My account has been temporarily disabled by WhatsApp due to network issues. You can contact me on Jk-51666666"
+      ],
+      "messages": [
+        {
+          "role": "客户",
+          "text": "🤝",
+          "time": "2026/3/11 20:28:15"
+        },
+        {
+          "role": "客户",
+          "text": "Какие машины можно заказать у вас ?",
+          "time": "2026/3/11 20:28:27"
+        },
+        {
+          "role": "客户",
+          "text": "Электромобиль или гибридный с 4 wd",
+          "time": "2026/3/11 20:28:27"
+        },
+        {
+          "role": "客户",
+          "text": "Кыргызстан. Киргизия. город Бишкек.",
+          "time": "2026/3/11 20:28:27"
+        },
+        {
+          "role": "我方",
+          "text": "Здравствуйте!\nДа, мы можем помочь вам подобрать автомобили для экспорта в Кыргызстан, в город Бишкек.\nПо вашему запросу мы можем рассматривать:\n1. Электромобили\n2. Гибридные автомобили с полным приводом (4WD)\nЧтобы мы могли точнее подобрать для вас подходящие варианты, пожалуйста, уточните:\n1. Какой у вас ориентировочный бюджет?\n2. Вас больше интересует седан, SUV или внедорожник?\n3. Вы рассматриваете автомобиль для личного пользования или для продажи?\nПосле этого мы сможем как можно скорее подготовить для вас подходящие модели и ориентировочные цены.",
+          "time": "2026/3/11 20:36:45"
+        },
+        {
+          "role": "客户",
+          "text": "Кроссовер Suv, гибрид 4 wd",
+          "time": "2026/3/11 20:39:27"
+        },
+        {
+          "role": "客户",
+          "text": "Для себя",
+          "time": "2026/3/11 20:39:38"
+        },
+        {
+          "role": "客户",
+          "text": "Вы в каком городе Китай.",
+          "time": "2026/3/11 20:39:50"
+        },
+        {
+          "role": "客户",
+          "text": "Я, Кыргызстан. Киргизия. город Бишкек.",
+          "time": "2026/3/11 20:39:50"
+        },
+        {
+          "role": "客户",
+          "text": "От 12000 до 25000$",
+          "time": "2026/3/11 20:40:19"
+        },
+        {
+          "role": "我方",
+          "text": "Здравствуйте! Спасибо за подробную информацию.\nНаша компания находится в Шанхае, Китай.\nМы уже поняли ваш запрос: вам нужен автомобиль для личного пользования — кроссовер / SUV, гибрид, с полным приводом (4WD), с бюджетом от 12 000 до 25 000 долларов, с отправкой в Бишкек, Кыргызстан.\nХорошо, мы подберём для вас подходящие варианты в соответствии с вашими требованиями.\nЧуть позже я отправлю вам несколько подходящих моделей и ориентировочные цены. Вы сможете сначала посмотреть и сравнить, а затем выбрать наиболее интересующий вас вариант.",
+          "time": "2026/3/11 20:54:20"
+        },
+        {
+          "role": "客户",
+          "text": "Гибридный с 4 wd, SUV",
+          "time": "2026/3/12 19:26:21"
+        },
+        {
+          "role": "客户",
+          "text": "Привет",
+          "time": "2026/3/16 13:56:25"
+        },
+        {
+          "role": "客户",
+          "text": "Примерно  нужна. Гибрид с 4 wd, Suv, REEV ?",
+          "time": "2026/3/16 13:56:29"
+        },
+        {
+          "role": "我方",
+          "text": "My account has been temporarily disabled by WhatsApp due to network issues. You can contact me on Jk-51666666",
+          "time": "2026/3/17 15:49:37"
+        }
+      ],
+      "crm_status": "unknown",
+      "needs_human_review": false,
+      "destination": ""
+    },
+    {
+      "id": "+992918899719",
+      "name": "Чурахон Каримов",
+      "category": "待判断",
+      "country": "Tajikistan",
+      "channel": "whatsapp",
+      "time": "2026/3/27 14:53:57",
+      "message": "Здравствуйте, Чурахон!\nСпасибо за ваш интерес к нашей компании. Я увидел, что вы",
+      "keywords": [],
+      "reason": "Здравствуйте, Чурахон!\nСпасибо за ваш интерес к нашей компании. Я увидел, что вы",
+      "tags": [],
+      "phone": "+992918899719",
+      "timeline": [
+        "2026/3/17 15:14:57 客户：‎未接语音通话, ‎轻触回拨",
+        "2026/3/23 19:49:23 客户：Здравствуйте! Я заполнил(-а) форму и хочу узнать больше о вашей компании.\nphone: +992918899719\nfull name: Чура Чернобыл\nemail: cura4630@gmail.com",
+        "2026/3/27 14:53:57 我方：Здравствуйте, Чурахон!\nСпасибо за ваш интерес к нашей компании. Я увидел, что вы также пытались позвонить нам. Извините, что не смог ответить сразу.\nЯ представитель международной торговой компании по экспорту подержанных автомобилей из Китая. Чтобы мы могли предложить вам лучшие варианты, уточните, пожалуйста:\n1. Вы планируете приобрести автомобиль для личного пользования или вы являетесь дилером?\n2. Какая марка или модель автомобиля вас интересует?\n3. В какой город Таджикистана необходима доставка?\nЕсли вам удобнее общаться в WeChat, вы можете добавить мой китайский номер: Jk-51666666.\nЖду вашего ответа. Мы на связи!"
+      ],
+      "messages": [
+        {
+          "role": "客户",
+          "text": "‎未接语音通话, ‎轻触回拨",
+          "time": "2026/3/17 15:14:57"
+        },
+        {
+          "role": "客户",
+          "text": "Здравствуйте! Я заполнил(-а) форму и хочу узнать больше о вашей компании.\nphone: +992918899719\nfull name: Чура Чернобыл\nemail: cura4630@gmail.com",
+          "time": "2026/3/23 19:49:23"
+        },
+        {
+          "role": "我方",
+          "text": "Здравствуйте, Чурахон!\nСпасибо за ваш интерес к нашей компании. Я увидел, что вы также пытались позвонить нам. Извините, что не смог ответить сразу.\nЯ представитель международной торговой компании по экспорту подержанных автомобилей из Китая. Чтобы мы могли предложить вам лучшие варианты, уточните, пожалуйста:\n1. Вы планируете приобрести автомобиль для личного пользования или вы являетесь дилером?\n2. Какая марка или модель автомобиля вас интересует?\n3. В какой город Таджикистана необходима доставка?\nЕсли вам удобнее общаться в WeChat, вы можете добавить мой китайский номер: Jk-51666666.\nЖду вашего ответа. Мы на связи!",
+          "time": "2026/3/27 14:53:57"
+        }
+      ],
+      "crm_status": "unknown",
+      "needs_human_review": false,
+      "destination": ""
+    },
+    {
+      "id": "+99365447661",
+      "name": "Begenc Seýidow",
+      "category": "待判断",
+      "country": "Turkmenistan",
+      "channel": "whatsapp",
+      "time": "2026/4/11 20:27:20",
+      "message": "Понял вас, мой друг. Спасибо за уточнение.\nЧто касается Kia K3 и Toyota Corolla ",
+      "keywords": [],
+      "reason": "Понял вас, мой друг. Спасибо за уточнение.\nЧто касается Kia K3 и Toyota Corolla ",
+      "tags": [],
+      "phone": "+99365447661",
+      "timeline": [
+        "2026/1/27 08:26:54 客户：Здравствуйте! Я заполнил(-а) форму и хочу узнать больше о вашей компании.\nphone: +99365447661\nfull name: Begenc Seýidow\nemail: bbegenjow066@gmail.com",
+        "2026/1/27 11:10:55 客户：Hello, how are you, friend?",
+        "2026/1/27 20:01:43 我方：Hello, my friend 🙂\nI’m doing well, thank you.\nThanks for your message.\nWe are a company in China focusing on vehicle supply and export, including used and new cars.\nMay I know what kind of vehicles you are interested in?\nIs it for personal use or for business?\nLooking forward to your reply.",
+        "2026/1/27 20:11:40 客户：Must be used privately.",
+        "2026/1/27 20:12:25 客户：5000 $ I need a car.",
+        "2026/1/27 20:13:12 客户：He is the amount of the car yes year 2022",
+        "2026/1/27 20:16:34 我方：Thank you for your message.\nTo be honest, with a budget of 5,000 USD and looking for a 2022 year vehicle, the options will be quite limited.\nAt this price level, it would usually only be possible to consider:\n- a very small car, or\n- an older / basic vehicle with limited configuration.\nFinding a car that is both recent (2022) and low-priced is not easy, but I can still check what options may be available based on your expectations.\nCould you please let me know:\n1) Which country and city the car will be delivered to?\n2) Is the 5,000 USD budget for the car only, or including delivery and export costs?\nThen I can advise you more accurately.",
+        "2026/1/27 20:19:43 客户：$5,000 just for the car",
+        "2026/1/27 20:20:44 客户：But if you have cargo, we will pay for it.",
+        "2026/1/27 20:21:15 客户：Then send it to Turkmenistan",
+        "2026/1/27 20:21:50 客户：If you find it on this site, please send me a photo of the car.",
+        "2026/1/27 20:23:02 我方：Sure, no problem.\nOnce I find a suitable option on this site, I will send you the car photos, basic information, and price for your reference.\nPlease allow me a little time to check carefully.",
+        "2026/1/27 20:27:41 客户：I'm waiting well",
+        "2026/1/27 20:28:53 我方：OK，thanks",
+        "2026/1/28 19:03:31 客户：Hello, how are you, friend?",
+        "2026/1/28 19:03:32 客户：The result is yes",
+        "2026/2/4 10:28:14 我方：Hello, my friend 😊\nMay I kindly ask if your request is urgent or not?\nI would like to let you know that the Chinese New Year holiday is coming very soon. During this period, many suppliers and logistics companies in China will temporarily stop or slow down operations.\nIf it is not very urgent, I can start matching suitable cars for you immediately after the holiday, and I will handle it more efficiently and carefully.\nPlease let me know if you are able to wait until after the Chinese New Year, or if you need something urgently now.\nThank you for your understanding, and I look forward to your reply.",
+        "2026/2/8 20:43:34 客户：Hello, how are you, friend?",
+        "2026/2/8 20:43:54 客户：Not urgent",
+        "2026/2/8 20:43:59 客户：I'm waiting well.",
+        "2026/2/27 19:06:41 客户：Hello, how are you, friend?",
+        "2026/3/10 12:53:14 我方：Hello, my friend.\nSorry for the late reply, and thank you for your patience.\nWe are still following up and matching suitable vehicle options for you. Please don’t worry, we will organize the relevant information and send it to you for reference as soon as possible.\nIf you now have any more specific requirements, such as vehicle model, budget, quantity, or other preferences, you can also tell us directly, and we will match more suitable options for you more quickly.\nThank you for your understanding and support.",
+        "2026/3/10 13:16:35 客户：Ок",
+        "2026/4/10 18:48:05 客户：Hello",
+        "2026/4/10 20:29:50 我方：hello",
+        "2026/4/10 20:31:23 我方：Hello my friend 👋\nNice to hear from you again.\nDo you have any specific vehicle in mind now?\nFor example: SUV, pickup, sedan — or your budget range?\nI can send you some good options with price and photos right away 👍",
+        "2026/4/10 21:00:57 客户：sedan and crossover are possible",
+        "2026/4/11 18:30:50 客户：2022 How much does it cost, White or Snow, and Corolla is also possible which is a 2022 sedan",
+        "2026/4/11 18:36:24 客户：Which is used but in good condition, our budget is about 6 thousand",
+        "2026/4/11 18:38:03 客户：Б/у, но в хорошем состоянии, наш бюджет около  5 тысяч.",
+        "2026/4/11 20:27:20 我方：Понял вас, мой друг. Спасибо за уточнение.\nЧто касается Kia K3 и Toyota Corolla 2022 года: это отличные и надежные машины. Однако, должен быть честен с вами — бюджет в 5000$ для этих моделей 2022 года (в хорошем состоянии и с учетом доставки) довольно низкий.\nЧтобы не предлагать вам битые или проблемные авто, я могу сделать следующее:\n1. Поискать варианты этих моделей чуть постарше (например, 2018-2019 гг.), которые пройдут в ваш бюджет.\n2. Или поискать другие надежные седаны в отличном состоянии за 5000$.\nЧто вы об этом думаете? Я хочу подобрать для вас действительно качественный автомобиль, который прослужит долго."
+      ],
+      "messages": [
+        {
+          "role": "客户",
+          "text": "Здравствуйте! Я заполнил(-а) форму и хочу узнать больше о вашей компании.\nphone: +99365447661\nfull name: Begenc Seýidow\nemail: bbegenjow066@gmail.com",
+          "time": "2026/1/27 08:26:54"
+        },
+        {
+          "role": "客户",
+          "text": "Hello, how are you, friend?",
+          "time": "2026/1/27 11:10:55"
+        },
+        {
+          "role": "我方",
+          "text": "Hello, my friend 🙂\nI’m doing well, thank you.\nThanks for your message.\nWe are a company in China focusing on vehicle supply and export, including used and new cars.\nMay I know what kind of vehicles you are interested in?\nIs it for personal use or for business?\nLooking forward to your reply.",
+          "time": "2026/1/27 20:01:43"
+        },
+        {
+          "role": "客户",
+          "text": "Must be used privately.",
+          "time": "2026/1/27 20:11:40"
+        },
+        {
+          "role": "客户",
+          "text": "5000 $ I need a car.",
+          "time": "2026/1/27 20:12:25"
+        },
+        {
+          "role": "客户",
+          "text": "He is the amount of the car yes year 2022",
+          "time": "2026/1/27 20:13:12"
+        },
+        {
+          "role": "我方",
+          "text": "Thank you for your message.\nTo be honest, with a budget of 5,000 USD and looking for a 2022 year vehicle, the options will be quite limited.\nAt this price level, it would usually only be possible to consider:\n- a very small car, or\n- an older / basic vehicle with limited configuration.\nFinding a car that is both recent (2022) and low-priced is not easy, but I can still check what options may be available based on your expectations.\nCould you please let me know:\n1) Which country and city the car will be delivered to?\n2) Is the 5,000 USD budget for the car only, or including delivery and export costs?\nThen I can advise you more accurately.",
+          "time": "2026/1/27 20:16:34"
+        },
+        {
+          "role": "客户",
+          "text": "$5,000 just for the car",
+          "time": "2026/1/27 20:19:43"
+        },
+        {
+          "role": "客户",
+          "text": "But if you have cargo, we will pay for it.",
+          "time": "2026/1/27 20:20:44"
+        },
+        {
+          "role": "客户",
+          "text": "Then send it to Turkmenistan",
+          "time": "2026/1/27 20:21:15"
+        },
+        {
+          "role": "客户",
+          "text": "If you find it on this site, please send me a photo of the car.",
+          "time": "2026/1/27 20:21:50"
+        },
+        {
+          "role": "我方",
+          "text": "Sure, no problem.\nOnce I find a suitable option on this site, I will send you the car photos, basic information, and price for your reference.\nPlease allow me a little time to check carefully.",
+          "time": "2026/1/27 20:23:02"
+        },
+        {
+          "role": "客户",
+          "text": "I'm waiting well",
+          "time": "2026/1/27 20:27:41"
+        },
+        {
+          "role": "我方",
+          "text": "OK，thanks",
+          "time": "2026/1/27 20:28:53"
+        },
+        {
+          "role": "客户",
+          "text": "Hello, how are you, friend?",
+          "time": "2026/1/28 19:03:31"
+        },
+        {
+          "role": "客户",
+          "text": "The result is yes",
+          "time": "2026/1/28 19:03:32"
+        },
+        {
+          "role": "我方",
+          "text": "Hello, my friend 😊\nMay I kindly ask if your request is urgent or not?\nI would like to let you know that the Chinese New Year holiday is coming very soon. During this period, many suppliers and logistics companies in China will temporarily stop or slow down operations.\nIf it is not very urgent, I can start matching suitable cars for you immediately after the holiday, and I will handle it more efficiently and carefully.\nPlease let me know if you are able to wait until after the Chinese New Year, or if you need something urgently now.\nThank you for your understanding, and I look forward to your reply.",
+          "time": "2026/2/4 10:28:14"
+        },
+        {
+          "role": "客户",
+          "text": "Hello, how are you, friend?",
+          "time": "2026/2/8 20:43:34"
+        },
+        {
+          "role": "客户",
+          "text": "Not urgent",
+          "time": "2026/2/8 20:43:54"
+        },
+        {
+          "role": "客户",
+          "text": "I'm waiting well.",
+          "time": "2026/2/8 20:43:59"
+        },
+        {
+          "role": "客户",
+          "text": "Hello, how are you, friend?",
+          "time": "2026/2/27 19:06:41"
+        },
+        {
+          "role": "我方",
+          "text": "Hello, my friend.\nSorry for the late reply, and thank you for your patience.\nWe are still following up and matching suitable vehicle options for you. Please don’t worry, we will organize the relevant information and send it to you for reference as soon as possible.\nIf you now have any more specific requirements, such as vehicle model, budget, quantity, or other preferences, you can also tell us directly, and we will match more suitable options for you more quickly.\nThank you for your understanding and support.",
+          "time": "2026/3/10 12:53:14"
+        },
+        {
+          "role": "客户",
+          "text": "Ок",
+          "time": "2026/3/10 13:16:35"
+        },
+        {
+          "role": "客户",
+          "text": "Hello",
+          "time": "2026/4/10 18:48:05"
+        },
+        {
+          "role": "我方",
+          "text": "hello",
+          "time": "2026/4/10 20:29:50"
+        },
+        {
+          "role": "我方",
+          "text": "Hello my friend 👋\nNice to hear from you again.\nDo you have any specific vehicle in mind now?\nFor example: SUV, pickup, sedan — or your budget range?\nI can send you some good options with price and photos right away 👍",
+          "time": "2026/4/10 20:31:23"
+        },
+        {
+          "role": "客户",
+          "text": "sedan and crossover are possible",
+          "time": "2026/4/10 21:00:57"
+        },
+        {
+          "role": "客户",
+          "text": "2022 How much does it cost, White or Snow, and Corolla is also possible which is a 2022 sedan",
+          "time": "2026/4/11 18:30:50"
+        },
+        {
+          "role": "客户",
+          "text": "Which is used but in good condition, our budget is about 6 thousand",
+          "time": "2026/4/11 18:36:24"
+        },
+        {
+          "role": "客户",
+          "text": "Б/у, но в хорошем состоянии, наш бюджет около  5 тысяч.",
+          "time": "2026/4/11 18:38:03"
+        },
+        {
+          "role": "我方",
+          "text": "Понял вас, мой друг. Спасибо за уточнение.\nЧто касается Kia K3 и Toyota Corolla 2022 года: это отличные и надежные машины. Однако, должен быть честен с вами — бюджет в 5000$ для этих моделей 2022 года (в хорошем состоянии и с учетом доставки) довольно низкий.\nЧтобы не предлагать вам битые или проблемные авто, я могу сделать следующее:\n1. Поискать варианты этих моделей чуть постарше (например, 2018-2019 гг.), которые пройдут в ваш бюджет.\n2. Или поискать другие надежные седаны в отличном состоянии за 5000$.\nЧто вы об этом думаете? Я хочу подобрать для вас действительно качественный автомобиль, который прослужит долго.",
+          "time": "2026/4/11 20:27:20"
+        }
+      ],
+      "crm_status": "unknown",
+      "needs_human_review": false,
+      "destination": ""
     }
   ],
   "stats": {
     "准车商": 0,
     "疑似车商": 0,
-    "个人客户": 1,
-    "沟通无效": 9
+    "个人客户": 0,
+    "沟通无效": 5
   },
-  "customer_count": 10
+  "customer_count": 5
 }

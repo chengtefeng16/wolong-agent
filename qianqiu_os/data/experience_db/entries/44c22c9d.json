@@ -1,0 +1,18 @@
+{
+  "id": "44c22c9d",
+  "timestamp": "2026-04-11 18:03:46",
+  "customer_msg": "sedan and crossover are possible",
+  "ai_suggested": "没问题！轿车和跨界车我们都有大量现货，各种品牌和型号都很齐全。为了更好地帮您匹配，请问您对具体车型、数量和预算有什么偏好吗？我们可以尽快为您提供详细的报价和车辆信息。",
+  "human_approved": true,
+  "human_modified": false,
+  "final_reply": "没问题！轿车和跨界车我们都有大量现货，各种品牌和型号都很齐全。为了更好地帮您匹配，请问您对具体车型、数量和预算有什么偏好吗？我们可以尽快为您提供详细的报价和车辆信息。",
+  "category": "疑似车商",
+  "country": "未知",
+  "outcome": "sent",
+  "quality_score": null,
+  "keywords": [
+    "sedan"
+  ],
+  "task_id": "89d3e3ab",
+  "llm_source": "gemini"
+}

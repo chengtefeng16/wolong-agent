@@ -1,6 +1,168 @@
 {
   "entries": [
     {
+      "id": "6e5cd8ff",
+      "timestamp": "2026-05-19 20:59:44",
+      "human_approved": true,
+      "category": "准车商",
+      "country": "未知",
+      "keywords": [],
+      "outcome": "sent"
+    },
+    {
+      "id": "e76d6022",
+      "timestamp": "2026-05-19 20:58:20",
+      "human_approved": true,
+      "category": "准车商",
+      "country": "未知",
+      "keywords": [],
+      "outcome": "sent"
+    },
+    {
+      "id": "109cd9d4",
+      "timestamp": "2026-05-19 19:45:03",
+      "human_approved": true,
+      "category": "沟通无效",
+      "country": "未知",
+      "keywords": [],
+      "outcome": "sent"
+    },
+    {
+      "id": "44c22c9d",
+      "timestamp": "2026-04-11 18:03:46",
+      "human_approved": true,
+      "category": "疑似车商",
+      "country": "未知",
+      "keywords": [
+        "sedan"
+      ],
+      "outcome": "sent"
+    },
+    {
+      "id": "f45a9ac5",
+      "timestamp": "2026-04-10 20:31:41",
+      "human_approved": true,
+      "category": "疑似车商",
+      "country": "未知",
+      "keywords": [],
+      "outcome": "sent"
+    },
+    {
+      "id": "e7bfcf89",
+      "timestamp": "2026-04-09 14:06:03",
+      "human_approved": true,
+      "category": "准车商",
+      "country": "未知",
+      "keywords": [
+        "car",
+        "ship",
+        "import",
+        "hi"
+      ],
+      "outcome": "sent"
+    },
+    {
+      "id": "8e2add02",
+      "timestamp": "2026-04-09 13:58:02",
+      "human_approved": true,
+      "category": "疑似车商",
+      "country": "未知",
+      "keywords": [],
+      "outcome": "sent"
+    },
+    {
+      "id": "eea5b742",
+      "timestamp": "2026-04-09 13:56:30",
+      "human_approved": true,
+      "category": "沟通无效",
+      "country": "未知",
+      "keywords": [],
+      "outcome": "sent"
+    },
+    {
+      "id": "6ba5520e",
+      "timestamp": "2026-04-09 13:54:57",
+      "human_approved": true,
+      "category": "疑似车商",
+      "country": "未知",
+      "keywords": [],
+      "outcome": "sent"
+    },
+    {
+      "id": "59359d7b",
+      "timestamp": "2026-04-09 13:12:00",
+      "human_approved": true,
+      "category": "疑似车商",
+      "country": "未知",
+      "keywords": [],
+      "outcome": "sent"
+    },
+    {
+      "id": "9b7e5fd5",
+      "timestamp": "2026-04-09 13:09:52",
+      "human_approved": true,
+      "category": "个人客户",
+      "country": "未知",
+      "keywords": [
+        "toyota"
+      ],
+      "outcome": "sent"
+    },
+    {
+      "id": "59c5cfc7",
+      "timestamp": "2026-04-09 13:05:14",
+      "human_approved": true,
+      "category": "沟通无效",
+      "country": "未知",
+      "keywords": [],
+      "outcome": "sent"
+    },
+    {
+      "id": "4279bd7b",
+      "timestamp": "2026-04-09 13:04:14",
+      "human_approved": true,
+      "category": "",
+      "country": "",
+      "keywords": [],
+      "outcome": "sent"
+    },
+    {
+      "id": "d2addb6b",
+      "timestamp": "2026-04-09 09:24:53",
+      "human_approved": true,
+      "category": "疑似车商",
+      "country": "未知",
+      "keywords": [],
+      "outcome": "sent"
+    },
+    {
+      "id": "ad483f7e",
+      "timestamp": "2026-04-09 09:14:20",
+      "human_approved": true,
+      "category": "疑似车商",
+      "country": "未知",
+      "keywords": [],
+      "outcome": "sent"
+    },
+    {
+      "id": "2c8b8082",
+      "timestamp": "2026-04-09 07:57:16",
+      "human_approved": true,
+      "category": "疑似车商",
+      "country": "未知",
+      "keywords": [],
+      "outcome": "sent"
+    },
+    {
+      "id": "ef77b1a8",
+      "timestamp": "2026-04-09 07:09:13",
+      "human_approved": true,
+      "category": "疑似车商",
+      "country": "未知",
+      "keywords": [],
+      "outcome": "sent"
+    },
+    {
       "id": "ae32ca73",
       "timestamp": "2026-04-04 13:43:21",
       "human_approved": true,
