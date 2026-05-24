@@ -18,3 +18,5 @@ copyright_coverage_report_20260321_214541.txt
 L0_L8_FULL_BACKUP_20260215_091401_副本.tar.gz
 *.tar.gz
 .env
+short_video_agent/config/*.json
+short_video_agent/config/*.yaml
