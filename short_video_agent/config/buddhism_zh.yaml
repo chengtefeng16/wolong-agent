@@ -57,7 +57,7 @@ script_prompt: |
 youtube:
   category_id: "22"        # People & Blogs
   default_language: "zh-Hans"
-  privacy: "private"   # 首次上传私密，确认效果后手动改为 public
+  privacy: "public"   # 首次上传私密，确认效果后手动改为 public
   title_template: "{title} | 佛法与生活"
   description_template: |
     {cover_quote}
