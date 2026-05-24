@@ -1,0 +1,53 @@
+name: Daily Short Video Upload
+
+on:
+  schedule:
+    # 北京时间 周二/四/六 晚8点 = UTC 12:00
+    - cron: '0 12 * * 2,4,6'
+    # 北京时间 周日 早9点 = UTC 01:00
+    - cron: '0 1 * * 0'
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  generate-and-upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install ffmpeg
+        run: sudo apt-get install -y ffmpeg
+
+      - name: Install dependencies
+        working-directory: short_video_agent
+        run: pip install -r requirements.txt
+
+      - name: Restore config files from secrets
+        working-directory: short_video_agent
+        run: |
+          echo "${{ secrets.YOUTUBE_CREDENTIALS }}" | base64 -d > config/youtube_credentials.json
+          echo "${{ secrets.YOUTUBE_TOKEN }}" | base64 -d > config/youtube_token.json
+          echo "${{ secrets.GSHEETS_CREDENTIALS }}" | base64 -d > config/gsheets_credentials.json
+
+      - name: Update API keys in config
+        working-directory: short_video_agent
+        run: |
+          sed -i "s|gemini_key:.*|gemini_key: \"${{ secrets.GEMINI_KEY }}\"|" config/base_config.yaml
+          sed -i "s|elevenlabs_key:.*|elevenlabs_key: \"${{ secrets.ELEVENLABS_KEY }}\"|" config/base_config.yaml
+
+      - name: Run full pipeline
+        working-directory: short_video_agent
+        run: python main.py --produce
+
+      - name: Upload to YouTube
+        working-directory: short_video_agent
+        run: |
+          VIDEO=$(ls -t output/video_*.mp4 | head -1)
+          SCRIPT=$(ls -t output/script_*.json | head -1)
+          python main.py --step upload --video "$VIDEO" --script "$SCRIPT"
