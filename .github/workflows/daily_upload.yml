@@ -43,8 +43,62 @@ jobs:
         run: python main.py --produce
 
       - name: Upload to YouTube
+        id: upload
         working-directory: short_video_agent
         run: |
           VIDEO=$(ls -t output/video_*.mp4 | head -1)
           SCRIPT=$(ls -t output/script_*.json | head -1)
-          python main.py --step upload --video "$VIDEO" --script "$SCRIPT"
+          python main.py --step upload --video "$VIDEO" --script "$SCRIPT" 2>&1 | tee /tmp/upload_log.txt
+          VIDEO_ID=$(grep -oP '(?<=youtu\.be/)[a-zA-Z0-9_-]+' /tmp/upload_log.txt | head -1)
+          TITLE=$(grep -oP '(?<=开始上传: 「)[^」]+' /tmp/upload_log.txt | head -1)
+          echo "video_id=$VIDEO_ID" >> $GITHUB_OUTPUT
+          echo "title=$TITLE" >> $GITHUB_OUTPUT
+
+      - name: Update history.json
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VIDEO_ID: ${{ steps.upload.outputs.video_id }}
+          TITLE: ${{ steps.upload.outputs.title }}
+        run: |
+          python3 << 'EOF'
+          import json, os, base64, requests
+          from datetime import datetime
+
+          token = os.environ['GH_TOKEN']
+          repo = "chengtefeng16/wolong-agent"
+          path = "short_video_agent/history.json"
+          headers = {
+            "Authorization": f"token {token}",
+            "Accept": "application/vnd.github.v3+json"
+          }
+
+          # 获取现有history
+          resp = requests.get(f"https://api.github.com/repos/{repo}/contents/{path}", headers=headers)
+          if resp.status_code == 200:
+            existing = json.loads(base64.b64decode(resp.json()['content']).decode())
+            sha = resp.json()['sha']
+          else:
+            existing = []
+            sha = None
+
+          # 添加新记录
+          entry = {
+            "video_id": os.environ.get('VIDEO_ID', ''),
+            "title": os.environ.get('TITLE', ''),
+            "published_at": datetime.utcnow().isoformat(),
+            "privacy": "public",
+            "status": "success"
+          }
+          existing.insert(0, entry)
+
+          # 推回GitHub
+          payload = {
+            "message": f"history: add {entry['video_id']}",
+            "content": base64.b64encode(json.dumps(existing, ensure_ascii=False, indent=2).encode()).decode()
+          }
+          if sha:
+            payload["sha"] = sha
+
+          requests.put(f"https://api.github.com/repos/{repo}/contents/{path}", headers=headers, json=payload)
+          print(f"History updated: {entry['video_id']}")
+          EOF

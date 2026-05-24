@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>短视频Agent后台</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0f0f; color: #fff; min-height: 100vh; }
+.sidebar { width: 220px; position: fixed; left: 0; top: 0; bottom: 0; background: #1a1a1a; border-right: 1px solid #2a2a2a; padding: 24px 0; }
+.logo { padding: 0 20px 24px; border-bottom: 1px solid #2a2a2a; margin-bottom: 16px; }
+.logo h1 { font-size: 16px; font-weight: 600; color: #fff; }
+.logo p { font-size: 12px; color: #666; margin-top: 4px; }
+.nav-item { display: flex; align-items: center; gap: 10px; padding: 10px 20px; font-size: 14px; color: #888; cursor: pointer; transition: all 0.15s; text-decoration: none; }
+.nav-item:hover, .nav-item.active { color: #fff; background: #2a2a2a; }
+.nav-item svg { width: 16px; height: 16px; }
+.main { margin-left: 220px; padding: 32px; }
+.header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
+.header h2 { font-size: 20px; font-weight: 600; }
+.header p { font-size: 13px; color: #666; margin-top: 4px; }
+.btn-primary { background: #7c5cfc; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: background 0.15s; }
+.btn-primary:hover { background: #6a4de8; }
+.btn-primary:disabled { background: #444; cursor: not-allowed; }
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
+.stat-card { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 12px; padding: 20px; }
+.stat-card .label { font-size: 12px; color: #666; margin-bottom: 8px; }
+.stat-card .value { font-size: 28px; font-weight: 600; }
+.stat-card .sub { font-size: 12px; color: #555; margin-top: 4px; }
+.section-title { font-size: 15px; font-weight: 600; margin-bottom: 16px; color: #ccc; }
+.video-list { display: flex; flex-direction: column; gap: 12px; }
+.video-card { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 12px; padding: 16px 20px; display: flex; align-items: center; gap: 16px; transition: border-color 0.15s; }
+.video-card:hover { border-color: #444; }
+.video-card.top { border-color: #7c5cfc44; }
+.video-thumb { width: 96px; height: 54px; border-radius: 6px; object-fit: cover; background: #2a2a2a; flex-shrink: 0; }
+.video-thumb-placeholder { width: 96px; height: 54px; border-radius: 6px; background: #2a2a2a; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: #444; font-size: 20px; }
+.video-info { flex: 1; min-width: 0; }
+.video-title { font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 6px; }
+.video-meta { font-size: 12px; color: #555; display: flex; align-items: center; gap: 12px; }
+.badge { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 4px; }
+.badge-success { background: #1a3a1a; color: #4caf50; }
+.badge-fail { background: #3a1a1a; color: #f44336; }
+.badge-public { background: #1a2a3a; color: #42a5f5; }
+.badge-private { background: #2a2a2a; color: #888; }
+.metrics { display: flex; gap: 20px; flex-shrink: 0; }
+.metric { text-align: center; min-width: 60px; }
+.metric .m-val { font-size: 18px; font-weight: 600; }
+.metric .m-label { font-size: 11px; color: #555; margin-top: 2px; }
+.metric.highlight .m-val { color: #7c5cfc; }
+.video-link { color: #7c5cfc; text-decoration: none; font-size: 13px; flex-shrink: 0; display: flex; align-items: center; gap: 4px; padding: 6px 10px; border: 1px solid #7c5cfc44; border-radius: 6px; }
+.video-link:hover { background: #7c5cfc22; }
+.rank { width: 24px; height: 24px; border-radius: 50%; background: #2a2a2a; color: #888; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.rank.gold { background: #3a2a00; color: #ffc107; }
+.rank.silver { background: #2a2a2a; color: #aaa; }
+.rank.bronze { background: #2a1500; color: #cd7f32; }
+.schedule { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 12px; padding: 20px; margin-top: 28px; }
+.week-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-top: 12px; }
+.day { text-align: center; }
+.day-name { font-size: 11px; color: #555; margin-bottom: 6px; }
+.day-slot { font-size: 11px; padding: 6px 4px; border-radius: 6px; }
+.day-slot.active { background: #7c5cfc22; color: #7c5cfc; border: 1px solid #7c5cfc44; }
+.day-slot.empty { color: #333; }
+.loading { color: #555; font-size: 14px; text-align: center; padding: 40px; }
+.top-badge { font-size: 10px; padding: 2px 6px; background: #7c5cfc22; color: #7c5cfc; border-radius: 4px; margin-left: 8px; }
+.empty-state { text-align: center; padding: 60px 20px; color: #555; }
+.empty-state svg { width: 48px; height: 48px; margin-bottom: 16px; opacity: 0.3; }
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="logo">
+    <h1>短视频 Agent</h1>
+    <p>佛法与生活</p>
+  </div>
+  <a class="nav-item active" href="#">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+    概览
+  </a>
+  <a class="nav-item" href="#">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 10l4.553-2.069A1 1 0 0121 8.845v6.31a1 1 0 01-1.447.894L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>
+    视频管理
+  </a>
+  <a class="nav-item" href="#">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+    评论管理
+  </a>
+  <a class="nav-item" href="#">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+    数据分析
+  </a>
+  <a class="nav-item" href="#">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>
+    发布设置
+  </a>
+</div>
+
+<div class="main">
+  <div class="header">
+    <div>
+      <h2>发布概览</h2>
+      <p id="last-update">加载中...</p>
+    </div>
+    <button class="btn-primary" id="trigger-btn" onclick="triggerGenerate()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      立即生成
+    </button>
+  </div>
+
+  <div class="stats-grid" id="stats-grid">
+    <div class="stat-card"><div class="label">总发布视频</div><div class="value" id="s-total">—</div></div>
+    <div class="stat-card"><div class="label">总浏览量</div><div class="value" id="s-views">—</div></div>
+    <div class="stat-card"><div class="label">总点赞数</div><div class="value" id="s-likes">—</div></div>
+    <div class="stat-card"><div class="label">总评论数</div><div class="value" id="s-comments">—</div></div>
+  </div>
+
+  <div class="section-title">视频排行（按浏览量）</div>
+  <div class="video-list" id="video-list">
+    <div class="loading">加载视频数据中...</div>
+  </div>
+
+  <div class="schedule">
+    <div class="section-title" style="margin-bottom: 0;">自动发布计划（北京时间）</div>
+    <div class="week-grid">
+      <div class="day"><div class="day-name">周日</div><div class="day-slot active">09:00</div></div>
+      <div class="day"><div class="day-name">周一</div><div class="day-slot empty">—</div></div>
+      <div class="day"><div class="day-name">周二</div><div class="day-slot active">20:00</div></div>
+      <div class="day"><div class="day-name">周三</div><div class="day-slot empty">—</div></div>
+      <div class="day"><div class="day-name">周四</div><div class="day-slot active">20:00</div></div>
+      <div class="day"><div class="day-name">周五</div><div class="day-slot empty">—</div></div>
+      <div class="day"><div class="day-name">周六</div><div class="day-slot active">20:00</div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+function fmt(n) {
+  if (n >= 10000) return (n/10000).toFixed(1) + '万';
+  if (n >= 1000) return (n/1000).toFixed(1) + 'k';
+  return String(n);
+}
+
+function getRankClass(i) {
+  if (i === 0) return 'gold';
+  if (i === 1) return 'silver';
+  if (i === 2) return 'bronze';
+  return '';
+}
+
+async function loadStats() {
+  try {
+    const res = await fetch('/api/stats');
+    const data = await res.json();
+    document.getElementById('s-total').textContent = data.total_videos || 0;
+    document.getElementById('s-views').textContent = fmt(data.total_views || 0);
+    document.getElementById('s-likes').textContent = fmt(data.total_likes || 0);
+    document.getElementById('s-comments').textContent = fmt(data.total_comments || 0);
+    document.getElementById('last-update').textContent = '最后更新：' + new Date().toLocaleString('zh-CN');
+  } catch(e) {
+    console.error(e);
+  }
+}
+
+async function loadVideos() {
+  try {
+    const res = await fetch('/api/videos');
+    const videos = await res.json();
+    const list = document.getElementById('video-list');
+
+    if (!videos.length) {
+      list.innerHTML = '<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 10l4.553-2.069A1 1 0 0121 8.845v6.31a1 1 0 01-1.447.894L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg><p>暂无发布记录</p></div>';
+      return;
+    }
+
+    list.innerHTML = videos.map((v, i) => {
+      const rankClass = getRankClass(i);
+      const isTop = i === 0;
+      const thumb = v.thumbnail
+        ? `<img class="video-thumb" src="${v.thumbnail}" alt="">`
+        : `<div class="video-thumb-placeholder">▶</div>`;
+      const statusBadge = v.status === 'success'
+        ? '<span class="badge badge-success">成功</span>'
+        : '<span class="badge badge-fail">失败</span>';
+      const privacyBadge = v.privacy === 'public'
+        ? '<span class="badge badge-public">公开</span>'
+        : '<span class="badge badge-private">私密</span>';
+
+      return `
+      <div class="video-card ${isTop ? 'top' : ''}">
+        <div class="rank ${rankClass}">${i + 1}</div>
+        ${thumb}
+        <div class="video-info">
+          <div class="video-title">${v.title || '无标题'}${isTop ? '<span class="top-badge">🏆 最高浏览</span>' : ''}</div>
+          <div class="video-meta">
+            ${statusBadge} ${privacyBadge}
+            <span>${v.published_at ? v.published_at.slice(0, 10) : '—'}</span>
+          </div>
+        </div>
+        <div class="metrics">
+          <div class="metric ${isTop ? 'highlight' : ''}">
+            <div class="m-val">${fmt(v.views || 0)}</div>
+            <div class="m-label">浏览</div>
+          </div>
+          <div class="metric">
+            <div class="m-val">${fmt(v.likes || 0)}</div>
+            <div class="m-label">点赞</div>
+          </div>
+          <div class="metric">
+            <div class="m-val">${fmt(v.comments || 0)}</div>
+            <div class="m-label">评论</div>
+          </div>
+          <div class="metric">
+            <div class="m-val">${fmt(v.shares || 0)}</div>
+            <div class="m-label">收藏</div>
+          </div>
+        </div>
+        ${v.video_id ? `<a class="video-link" href="https://youtu.be/${v.video_id}" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          YouTube
+        </a>` : ''}
+      </div>`;
+    }).join('');
+  } catch(e) {
+    document.getElementById('video-list').innerHTML = '<div class="loading">加载失败，请刷新重试</div>';
+  }
+}
+
+async function triggerGenerate() {
+  const btn = document.getElementById('trigger-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 生成中...';
+  try {
+    const res = await fetch('/api/trigger', {method: 'POST'});
+    const data = await res.json();
+    if (data.success) {
+      btn.innerHTML = '✓ 已触发';
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg> 立即生成';
+      }, 3000);
+    }
+  } catch(e) {
+    btn.disabled = false;
+    btn.innerHTML = '立即生成';
+  }
+}
+
+loadStats();
+loadVideos();
+setInterval(() => { loadStats(); loadVideos(); }, 60000);
+</script>
+</body>
+</html>
