@@ -2,11 +2,9 @@ name: Daily Short Video Upload
 
 on:
   schedule:
-    # 北京时间 周二/四/六 晚8点 = UTC 12:00
     - cron: '0 12 * * 2,4,6'
-    # 北京时间 周日 早9点 = UTC 01:00
     - cron: '0 1 * * 0'
-  workflow_dispatch:  # 允许手动触发
+  workflow_dispatch:
 
 jobs:
   generate-and-upload:
@@ -33,7 +31,6 @@ jobs:
         run: |
           echo "${{ secrets.YOUTUBE_CREDENTIALS }}" | base64 -d > config/youtube_credentials.json
           echo "${{ secrets.YOUTUBE_TOKEN }}" | base64 -d > config/youtube_token.json
-          echo "${{ secrets.GSHEETS_CREDENTIALS }}" | base64 -d > config/gsheets_credentials.json
 
       - name: Update API keys in config
         working-directory: short_video_agent
