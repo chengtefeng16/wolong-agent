@@ -395,6 +395,8 @@ function MainApp({ currentUser, onLogout }) {
   const [newContactForm, setNewContactForm] = useState({ phone: '', name: '', country: '', message: '' })
   const [newContactStatus, setNewContactStatus] = useState(null) // null | 'sending' | 'ok' | 'err'
   const [newContactErr, setNewContactErr] = useState('')
+  // 主动新建的联系人列表，独立于轮询不被覆盖
+  const [addedContacts, setAddedContacts] = useState([])
 
   const [customers, setCustomers] = useState(fallbackCustomers)
   const [stats, setStats] = useState(fallbackStats)
@@ -517,8 +519,16 @@ function MainApp({ currentUser, onLogout }) {
       setCustomers(runtimeResult.customers)
       setStats(runtimeResult.stats)
       setSelectedId((prev) => {
-        const exists = runtimeResult.customers?.some((item) => item?.id === prev)
-        return exists ? prev : (runtimeResult.customers?.[0]?.id || '')
+        const allIds = new Set([
+          ...(runtimeResult.customers || []).map(c => c?.id).filter(Boolean),
+          // also keep selection if it's a manually added contact
+        ])
+        // Check addedContacts via ref to avoid stale closure — we just preserve if prev is non-empty
+        if (prev && !allIds.has(prev)) {
+          // might be an addedContact — keep it (will re-check on render)
+          return prev
+        }
+        return prev && allIds.has(prev) ? prev : (runtimeResult.customers?.[0]?.id || '')
       })
 
       const nextIds = new Set((runtimeResult.customers || []).map((item) => item?.id).filter(Boolean))
@@ -703,7 +713,7 @@ function MainApp({ currentUser, onLogout }) {
         needs_human_review: false,
       }
     : null
-  const selected = customers.find((x) => x.id === selectedId) || customers[0] || channelEmptyState || fallbackCustomers[0]
+  const selected = customers.find((x) => x.id === selectedId) || addedContacts.find((x) => x.id === selectedId) || customers[0] || channelEmptyState || fallbackCustomers[0]
   const isHot = selected.category === '准车商'
   const { proactiveCount, exchangeCount } = useMemo(() => getCounts(selected.messages), [selected])
 
@@ -759,15 +769,45 @@ function MainApp({ currentUser, onLogout }) {
     setNewContactErr('')
     setNewContactStatus('sending')
     try {
-      const resp = await fetch('/api/send_message', {
+      const resp = await fetch('/api/new_contact', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...newContactForm, role: 'agent' }),
+        body: JSON.stringify(newContactForm),
       })
       const data = await resp.json()
       if (data.success) {
-        setNewContactStatus('ok')
+        const c = data.contact || {}
+        const phone = c.phone || newContactForm.phone
+        const name = c.name || newContactForm.name || phone
+        const now = new Date()
+        const hhmm = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`
+        // 把新联系人插入到客户列表头部
+        const newCust = {
+          id: phone,
+          phone,
+          name,
+          country: c.country || newContactForm.country || '',
+          time: hhmm,
+          message: newContactForm.message,
+          category: data.mode === 'mock' ? '🧪 测试联系' : '新建联系',
+          messages: [
+            {
+              id: Date.now(),
+              role: 'agent',
+              text: newContactForm.message,
+              time: hhmm,
+            }
+          ],
+          _isMock: data.mode === 'mock',
+        }
+        setAddedContacts(prev => {
+          // 避免重复添加同一号码
+          const filtered = prev.filter(c => c.phone !== phone)
+          return [newCust, ...filtered]
+        })
+        setSelectedId(phone)
+        setNewContactStatus(data.mode === 'mock' ? 'mock_ok' : 'ok')
         setNewContactForm({ phone: '', name: '', country: '', message: '' })
-        setTimeout(() => { setNewContactStatus(null); setNewContactOpen(false) }, 2500)
+        setTimeout(() => { setNewContactStatus(null); setNewContactOpen(false) }, 3000)
       } else {
         setNewContactStatus('err')
         setNewContactErr(data.error || '发送失败')
@@ -1065,10 +1105,15 @@ function MainApp({ currentUser, onLogout }) {
                       style={{ width: '100%', padding: '5px 7px', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '5px', background: 'rgba(255,255,255,0.07)', color: '#e2e8f0', fontSize: '11px', boxSizing: 'border-box', resize: 'none' }} />
                   </div>
                   {newContactErr && <div style={{ fontSize: '10px', color: '#fca5a5', marginBottom: '5px' }}>⚠ {newContactErr}</div>}
-                  {newContactStatus === 'ok' && <div style={{ fontSize: '10px', color: '#86efac', marginBottom: '5px' }}>✓ 已发送，约 8 秒后刷新</div>}
-                  <button onClick={handleNewContact} disabled={newContactStatus === 'sending'}
-                    style={{ width: '100%', padding: '6px', borderRadius: '6px', border: 'none', background: newContactStatus === 'sending' ? '#1e3a8a' : '#2563eb', color: '#fff', fontSize: '11px', fontWeight: 700, cursor: 'pointer' }}>
-                    {newContactStatus === 'sending' ? '发送中...' : '📨 发送第一条消息'}
+                  {newContactStatus === 'ok' && <div style={{ fontSize: '10px', color: '#86efac', marginBottom: '5px' }}>✅ 已发送！联系人已加入客户列表</div>}
+                  {newContactStatus === 'mock_ok' && (
+                    <div style={{ fontSize: '10px', marginBottom: '5px', padding: '5px 7px', background: 'rgba(251,191,36,0.15)', border: '1px solid rgba(251,191,36,0.3)', borderRadius: '5px', color: '#fbbf24', lineHeight: '1.5' }}>
+                      🧪 <strong>测试模式</strong>：联系人已加入列表<br/>（未发送真实消息，需配置 WhatsApp Token 后生效）
+                    </div>
+                  )}
+                  <button onClick={handleNewContact} disabled={newContactStatus === 'sending' || newContactStatus === 'ok' || newContactStatus === 'mock_ok'}
+                    style={{ width: '100%', padding: '6px', borderRadius: '6px', border: 'none', background: (newContactStatus === 'sending') ? '#1e3a8a' : (newContactStatus === 'ok' || newContactStatus === 'mock_ok') ? '#374151' : '#2563eb', color: '#fff', fontSize: '11px', fontWeight: 700, cursor: 'pointer' }}>
+                    {newContactStatus === 'sending' ? '发送中...' : (newContactStatus === 'ok' || newContactStatus === 'mock_ok') ? '✓ 完成' : '📨 发送第一条消息'}
                   </button>
                 </div>
               )}
@@ -1083,11 +1128,15 @@ function MainApp({ currentUser, onLogout }) {
               </div>
             )}
             {activeChannel !== '历史激活' && activeChannel !== '全部客户' && (() => {
+              // 合并主动新建的联系人（去重：若 phone 已存在于 customers 则不重复显示）
+              const existingPhones = new Set(customers.map(c => c.phone || c.id))
+              const freshAdded = addedContacts.filter(c => !existingPhones.has(c.phone))
+              const allCustomers = [...freshAdded, ...customers]
               // Admin sees all; sales sees assigned phones (or all if no assignment yet)
               const assignedPhones = currentUser.assigned_phones || []
               let visibleCustomers = currentUser.role === 'admin' || assignedPhones.length === 0
-                ? customers
-                : customers.filter(c => assignedPhones.includes(c.phone))
+                ? allCustomers
+                : allCustomers.filter(c => assignedPhones.includes(c.phone))
               // Apply tag filter
               if (tagFilter) {
                 visibleCustomers = visibleCustomers.filter(c =>

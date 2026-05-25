@@ -761,6 +761,80 @@ def handle_get_users(params: dict) -> dict:
     return {"users": users}
 
 
+# ── 新建联系（主动发起 WhatsApp）──
+NEW_CONTACTS_FILE = PROJECT_ROOT / "qianqiu_os" / "data" / "new_contacts.json"
+
+def _load_new_contacts() -> list:
+    if not NEW_CONTACTS_FILE.exists():
+        return []
+    try:
+        return json.loads(NEW_CONTACTS_FILE.read_text("utf-8"))
+    except Exception:
+        return []
+
+def _save_new_contacts(data: list):
+    NEW_CONTACTS_FILE.parent.mkdir(parents=True, exist_ok=True)
+    NEW_CONTACTS_FILE.write_text(json.dumps(data, ensure_ascii=False, indent=2), "utf-8")
+
+def handle_new_contact(body: dict) -> dict:
+    phone = str(body.get("phone", "")).strip()
+    name = str(body.get("name", "")).strip() or phone
+    country = str(body.get("country", "")).strip()
+    message = str(body.get("message", "")).strip()
+
+    if not phone:
+        return {"success": False, "error": "手机号不能为空"}
+    if not message:
+        return {"success": False, "error": "消息内容不能为空"}
+
+    # 标准化手机号（确保有 + 前缀）
+    if not phone.startswith("+"):
+        phone = "+" + phone
+
+    ts = time.strftime("%Y-%m-%dT%H:%M:%S")
+    contact = {
+        "phone": phone,
+        "name": name,
+        "country": country,
+        "first_message": message,
+        "created_at": ts,
+    }
+
+    # 持久化到 new_contacts.json
+    contacts = _load_new_contacts()
+    updated = False
+    for i, c in enumerate(contacts):
+        if c.get("phone") == phone:
+            contacts[i] = contact
+            updated = True
+            break
+    if not updated:
+        contacts.append(contact)
+    _save_new_contacts(contacts)
+
+    # 若有真实 Token，尝试调用 WhatsApp API（普通文本消息）
+    # ⚠️  主动发起需要模板消息，此处仅做 dry_run 或 real 记录
+    if WHATSAPP_ACCESS_TOKEN:
+        wa_result = wa_send_message(phone, message)
+        sent = wa_result.get("sent", False)
+        print(f"[new_contact][real] {name}({phone}) → sent={sent}")
+        return {
+            "success": True,
+            "mode": "real",
+            "contact": contact,
+            "wa_result": wa_result,
+            "note": "已调用 WhatsApp API（主动发起需审批模板消息才能到达新用户）",
+        }
+    else:
+        print(f"[new_contact][mock] 模拟新建联系 {name}({phone}): {message[:60]}")
+        return {
+            "success": True,
+            "mode": "mock",
+            "contact": contact,
+            "note": "测试模式：联系人已保存到本地，未发送真实消息。配置 WHATSAPP_ACCESS_TOKEN 后切换为真实发送。",
+        }
+
+
 class WolongAPIHandler(BaseHTTPRequestHandler):
     def log_message(self, format, *args):
         # 简化日志
@@ -866,6 +940,31 @@ class WolongAPIHandler(BaseHTTPRequestHandler):
                 H5_VIEWS / "h5_dashboard_whatsapp.json",
                 {"customers": [], "dashboard_name": "h5_dashboard_whatsapp"}
             )
+            # 合并 new_contacts.json 中主动创建的联系人（置顶显示）
+            new_contacts = _load_new_contacts()
+            if new_contacts:
+                existing_phones = {c.get("phone") or c.get("id") for c in data.get("customers", [])}
+                extra = []
+                for nc in reversed(new_contacts):  # 最新的排最前
+                    phone = nc.get("phone", "")
+                    if phone not in existing_phones:
+                        extra.append({
+                            "id": phone,
+                            "phone": phone,
+                            "name": nc.get("name") or phone,
+                            "category": "新建联系",
+                            "country": nc.get("country", ""),
+                            "channel": "whatsapp",
+                            "time": nc.get("created_at", ""),
+                            "message": nc.get("first_message", ""),
+                            "messages": [
+                                {"role": "agent", "text": nc.get("first_message", ""), "time": nc.get("created_at", "")}
+                            ],
+                            "_isNewContact": True,
+                        })
+                if extra:
+                    data = dict(data)
+                    data["customers"] = extra + list(data.get("customers", []))
             self._send_json(data)
 
         elif path == "/api/reactivation/list":
@@ -995,6 +1094,10 @@ class WolongAPIHandler(BaseHTTPRequestHandler):
 
         elif path == "/api/customer_meta":
             result = handle_save_customer_meta(body)
+            self._send_json(result)
+
+        elif path == "/api/new_contact":
+            result = handle_new_contact(body)
             self._send_json(result)
 
         else:
