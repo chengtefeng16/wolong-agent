@@ -325,3 +325,128 @@ class VideoComposer:
     def _pil_to_array(img: Image.Image):
         import numpy as np
         return np.array(img)
+
+
+    def compose_bilingual(
+        self,
+        audio_path: str,
+        script_data: dict,
+        output_filename: str,
+        background_path: str = None,
+    ) -> str:
+        """双语字幕版本：中文主字幕 + 英文副字幕"""
+        os.makedirs(self.output_dir, exist_ok=True)
+        out_path = os.path.join(self.output_dir, output_filename)
+
+        audio_clip = AudioFileClip(audio_path)
+        duration = audio_clip.duration
+
+        bg_img = self._make_background(background_path)
+        script_text = script_data.get("full_script", "")
+        en_subtitles = script_data.get("en_subtitles", [])
+
+        subtitle_clips = self._make_bilingual_subtitle_clips(
+            script_text, en_subtitles, duration, bg_img
+        )
+
+        bg_clip = ImageClip(self._pil_to_array(bg_img), duration=duration)
+        all_clips = [bg_clip] + subtitle_clips
+
+        video = CompositeVideoClip(all_clips, size=(self.W, self.H))
+        video = video.with_audio(audio_clip)
+        video = video.with_duration(duration)
+
+        video.write_videofile(
+            out_path,
+            fps=self.fps,
+            codec="libx264",
+            audio_codec="aac",
+            temp_audiofile=os.path.join(self.output_dir, "_tmp_audio.m4a"),
+            remove_temp=True,
+            logger=None,
+        )
+
+        print(f"  [Video] 双语视频已合成: {out_path}  ({duration:.1f}s)")
+        return out_path
+
+    def _make_bilingual_subtitle_clips(
+        self, zh_text: str, en_subtitles: list, duration: float, bg_img
+    ) -> list:
+        zh_sentences = self._split_sentences(zh_text)
+        if not zh_sentences:
+            return []
+
+        # 对齐中英句子数量
+        while len(en_subtitles) < len(zh_sentences):
+            en_subtitles.append("")
+        en_subtitles = en_subtitles[:len(zh_sentences)]
+
+        time_per_char = duration / max(sum(len(s) for s in zh_sentences), 1)
+        clips = []
+        current_time = 0.0
+
+        for zh, en in zip(zh_sentences, en_subtitles):
+            seg_duration = max(len(zh) * time_per_char, 1.0)
+            seg_duration = min(seg_duration, duration - current_time)
+            if seg_duration <= 0:
+                break
+
+            frame_img = self._draw_bilingual_frame(bg_img, zh, en)
+            frame_arr = self._pil_to_array(frame_img)
+
+            clip = (
+                ImageClip(frame_arr)
+                .with_start(current_time)
+                .with_duration(seg_duration)
+            )
+            clips.append(clip)
+            current_time += seg_duration
+
+        return clips
+
+    def _draw_bilingual_frame(self, bg_img, zh_text: str, en_text: str):
+        img = bg_img.copy()
+        draw = ImageDraw.Draw(img)
+
+        font_size_zh = self.scfg["font_size"]
+        font_size_en = max(font_size_zh - 16, 24)
+
+        font_zh = self._get_font(font_size_zh)
+        font_en = self._get_font(font_size_en)
+
+        line_height_zh = int(font_size_zh * self.scfg["line_height"])
+        line_height_en = int(font_size_en * 1.4)
+        gap = 16
+
+        # 中文行
+        zh_lines = textwrap.wrap(zh_text, width=self.scfg["max_chars_per_line"])
+        zh_total_h = line_height_zh * len(zh_lines)
+
+        # 英文行
+        en_lines = textwrap.wrap(en_text, width=26) if en_text else []
+        en_total_h = line_height_en * len(en_lines)
+
+        total_h = zh_total_h + (gap + en_total_h if en_lines else 0)
+        y_start = self.H - self.scfg["padding_bottom"] - total_h
+
+        # 画中文
+        for i, line in enumerate(zh_lines):
+            y = y_start + i * line_height_zh
+            bbox = draw.textbbox((0, 0), line, font=font_zh)
+            x = (self.W - (bbox[2] - bbox[0])) // 2
+            shadow_off = self.scfg["shadow_offset"]
+            draw.text((x + shadow_off, y + shadow_off), line, font=font_zh,
+                      fill=tuple(self.scfg["shadow_color"]))
+            draw.text((x, y), line, font=font_zh, fill=tuple(self.scfg["color"]))
+
+        # 画英文（灰白色，比中文小）
+        if en_lines:
+            en_y_start = y_start + zh_total_h + gap
+            for i, line in enumerate(en_lines):
+                y = en_y_start + i * line_height_en
+                bbox = draw.textbbox((0, 0), line, font=font_en)
+                x = (self.W - (bbox[2] - bbox[0])) // 2
+                draw.text((x + 2, y + 2), line, font=font_en, fill=(0, 0, 0))
+                draw.text((x, y), line, font=font_en, fill=(200, 200, 200))
+
+        return img
