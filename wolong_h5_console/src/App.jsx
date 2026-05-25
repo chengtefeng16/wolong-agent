@@ -259,6 +259,46 @@ const PRESET_TAGS = [
   { label: '无效',     color: '#6b7280', bg: '#f9fafb', border: '#d1d5db' },
 ]
 
+// ── 业务分类（客户所属业务线）──
+const BIZ_TYPES = [
+  { key: 'trade',      label: '🚗 贸易客户', desc: '坤越通二手车国际贸易', color: '#d97706', bg: '#fffbeb', border: '#fcd34d' },
+  { key: 'saas',       label: '📋 SaaS客户', desc: 'cncar国家政策法规系统',  color: '#2563eb', bg: '#eff6ff', border: '#93c5fd' },
+  { key: 'unclassified', label: '🔍 待分类',  desc: '尚未确定业务归属',       color: '#6b7280', bg: '#f9fafb', border: '#d1d5db' },
+]
+
+// ── 消息模板预设（后端可覆盖）──
+const PRESET_TEMPLATES = [
+  {
+    id: 'tpl_trade_en',
+    name: '贸易-英文开场',
+    bizType: 'trade',
+    lang: 'en',
+    langLabel: '英文',
+    content: 'Hi {name}, I\'m from KunYueTong Auto Export. We specialize in used vehicle exports to {country}. Would you be interested in our competitive prices and reliable service?',
+  },
+  {
+    id: 'tpl_trade_ru',
+    name: '贸易-俄文开场',
+    bizType: 'trade',
+    lang: 'ru',
+    langLabel: '俄文',
+    content: 'Здравствуйте, {name}! Я представляю компанию по экспорту подержанных автомобилей из Китая. Нас интересует сотрудничество с {country}. Готовы обсудить?',
+  },
+  {
+    id: 'tpl_saas_zh',
+    name: 'SaaS-中文开场',
+    bizType: 'saas',
+    lang: 'zh',
+    langLabel: '中文',
+    content: '您好{name}，我们是cncar国家政策法规查询系统，专为国际贸易商提供各国进口政策、关税、法规的一站式查询服务。是否方便了解一下？',
+  },
+]
+
+// 渲染模板内容：把 {name}/{country} 等变量替换成实际值（未填则保留原格式）
+function applyTemplateVars(content, vars = {}) {
+  return content.replace(/\{(\w+)\}/g, (_, k) => vars[k] || `{${k}}`)
+}
+
 // ── 历史激活：意向等级颜色配置 ──
 const INTENT_COLORS = {
   hot:     { bg: '#fef2f2', border: '#ef4444', badge: '#dc2626', label: '🔥 高意向' },
@@ -385,14 +425,22 @@ function MainApp({ currentUser, onLogout }) {
   const isMobile = useIsMobile()
 
   // ── 客户标签 & 备注 ──
-  const [customerMeta, setCustomerMeta] = useState({}) // phone → {tags, notes}
+  const [customerMeta, setCustomerMeta] = useState({}) // phone → {tags, notes, bizType}
   const [metaPanelOpen, setMetaPanelOpen] = useState(false)
   const [editingNotes, setEditingNotes] = useState('')
   const [tagFilter, setTagFilter] = useState(null)    // active tag filter string
+  const [bizFilter, setBizFilter] = useState(null)    // active biz type filter key
+
+  // ── 消息模板管理 ──
+  const [templates, setTemplates] = useState(PRESET_TEMPLATES)
+  const [tplPanelOpen, setTplPanelOpen] = useState(false)
+  const [editingTpl, setEditingTpl] = useState(null) // null | template object (for edit/new)
+  const [tplForm, setTplForm] = useState({ name: '', bizType: 'trade', lang: 'zh', langLabel: '中文', content: '' })
 
   // ── 新建联系 ──
   const [newContactOpen, setNewContactOpen] = useState(false)
-  const [newContactForm, setNewContactForm] = useState({ phone: '', name: '', country: '', message: '' })
+  const [newContactForm, setNewContactForm] = useState({ phone: '', name: '', country: '', message: '', bizType: '' })
+  const [selectedTplId, setSelectedTplId] = useState('')   // selected template id in new-contact form
   const [newContactStatus, setNewContactStatus] = useState(null) // null | 'sending' | 'ok' | 'err'
   const [newContactErr, setNewContactErr] = useState('')
   // 主动新建的联系人列表，独立于轮询不被覆盖
@@ -721,10 +769,17 @@ function MainApp({ currentUser, onLogout }) {
     window.alert('当前按钮只做展示。真实止水动作请走 AgentOS 后端治理配置链。')
   }
 
-  // ── 加载全部客户标签 ──
+  // ── 加载全部客户标签 & 业务分类 ──
   useEffect(() => {
     fetchJson('/api/customer_meta_all', {}).then(data => {
       if (data && typeof data === 'object') setCustomerMeta(data)
+    })
+  }, [])
+
+  // ── 加载模板列表 ──
+  useEffect(() => {
+    fetchJson('/api/templates', null).then(data => {
+      if (Array.isArray(data) && data.length > 0) setTemplates(data)
     })
   }, [])
 
@@ -739,7 +794,7 @@ function MainApp({ currentUser, onLogout }) {
 
   // ── 标签切换 ──
   function toggleTag(phone, tag) {
-    const current = customerMeta[phone] || { tags: [], notes: '' }
+    const current = customerMeta[phone] || { tags: [], notes: '', bizType: '' }
     const tags = current.tags.includes(tag)
       ? current.tags.filter(t => t !== tag)
       : [...current.tags, tag]
@@ -747,19 +802,60 @@ function MainApp({ currentUser, onLogout }) {
     setCustomerMeta(prev => ({ ...prev, [phone]: updated }))
     fetch('/api/customer_meta', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ phone, tags, notes: current.notes || '' }),
+      body: JSON.stringify({ phone, tags, notes: current.notes || '', bizType: current.bizType || '' }),
     }).catch(() => {})
   }
 
   // ── 保存备注 ──
   async function saveNotes(phone, notes) {
-    const current = customerMeta[phone] || { tags: [], notes: '' }
+    const current = customerMeta[phone] || { tags: [], notes: '', bizType: '' }
     const updated = { ...current, notes }
     setCustomerMeta(prev => ({ ...prev, [phone]: updated }))
     await fetch('/api/customer_meta', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ phone, tags: current.tags || [], notes }),
+      body: JSON.stringify({ phone, tags: current.tags || [], notes, bizType: current.bizType || '' }),
     }).catch(() => {})
+  }
+
+  // ── 保存业务分类 ──
+  function saveBizType(phone, bizType) {
+    const current = customerMeta[phone] || { tags: [], notes: '', bizType: '' }
+    const updated = { ...current, bizType }
+    setCustomerMeta(prev => ({ ...prev, [phone]: updated }))
+    fetch('/api/customer_meta', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone, tags: current.tags || [], notes: current.notes || '', bizType }),
+    }).catch(() => {})
+  }
+
+  // ── 模板 CRUD ──
+  async function saveTplForm() {
+    const isEdit = !!editingTpl?.id && !editingTpl.id.startsWith('_new')
+    const tpl = isEdit
+      ? { ...editingTpl, ...tplForm }
+      : { ...tplForm, id: 'tpl_' + Date.now() }
+    try {
+      const resp = await fetch('/api/templates', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(tpl),
+      })
+      const data = await resp.json()
+      if (data.templates) setTemplates(data.templates)
+      else setTemplates(prev => {
+        const idx = prev.findIndex(t => t.id === tpl.id)
+        return idx >= 0 ? prev.map((t, i) => i === idx ? tpl : t) : [...prev, tpl]
+      })
+      setEditingTpl(null)
+    } catch { /* silently fail */ }
+  }
+
+  async function deleteTpl(id) {
+    try {
+      const resp = await fetch(`/api/templates?id=${encodeURIComponent(id)}`, { method: 'DELETE' })
+      const data = await resp.json()
+      if (data.templates) setTemplates(data.templates)
+      else setTemplates(prev => prev.filter(t => t.id !== id))
+    } catch { /* silently fail */ }
   }
 
   // ── 新建联系 ──
@@ -804,9 +900,14 @@ function MainApp({ currentUser, onLogout }) {
           const filtered = prev.filter(c => c.phone !== phone)
           return [newCust, ...filtered]
         })
+        // 自动打上业务分类标签
+        if (newContactForm.bizType) {
+          saveBizType(phone, newContactForm.bizType)
+        }
         setSelectedId(phone)
+        setSelectedTplId('')
         setNewContactStatus(data.mode === 'mock' ? 'mock_ok' : 'ok')
-        setNewContactForm({ phone: '', name: '', country: '', message: '' })
+        setNewContactForm({ phone: '', name: '', country: '', message: '', bizType: '' })
         setTimeout(() => { setNewContactStatus(null); setNewContactOpen(false) }, 3000)
       } else {
         setNewContactStatus('err')
@@ -1060,15 +1161,24 @@ function MainApp({ currentUser, onLogout }) {
             </div>
           </div>
 
-          {/* Customer list header: tag filter + new contact button */}
+          {/* Customer list header: filters + actions */}
           {activeChannel !== '历史激活' && activeChannel !== '全部客户' && (
             <div style={{ padding: '6px 8px 4px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-              {/* Tag filter chips */}
-              <div style={{ display: 'flex', gap: '3px', flexWrap: 'wrap', marginBottom: '5px' }}>
-                <button onClick={() => setTagFilter(null)}
-                  style={{ padding: '2px 7px', borderRadius: '999px', fontSize: '10px', border: 'none', background: tagFilter === null ? '#2563eb' : 'rgba(255,255,255,0.08)', color: tagFilter === null ? '#fff' : '#64748b', cursor: 'pointer' }}>
+              {/* Biz-type filter chips */}
+              <div style={{ display: 'flex', gap: '3px', flexWrap: 'wrap', marginBottom: '4px' }}>
+                <button onClick={() => setBizFilter(null)}
+                  style={{ padding: '2px 7px', borderRadius: '999px', fontSize: '10px', border: 'none', background: bizFilter === null ? '#2563eb' : 'rgba(255,255,255,0.08)', color: bizFilter === null ? '#fff' : '#64748b', cursor: 'pointer' }}>
                   全部
                 </button>
+                {BIZ_TYPES.map(bt => (
+                  <button key={bt.key} onClick={() => setBizFilter(bizFilter === bt.key ? null : bt.key)}
+                    style={{ padding: '2px 7px', borderRadius: '999px', fontSize: '10px', border: 'none', background: bizFilter === bt.key ? bt.bg : 'rgba(255,255,255,0.06)', color: bizFilter === bt.key ? bt.color : '#64748b', cursor: 'pointer', fontWeight: bizFilter === bt.key ? 700 : 400 }}>
+                    {bt.label}
+                  </button>
+                ))}
+              </div>
+              {/* Behavior tag filter chips */}
+              <div style={{ display: 'flex', gap: '3px', flexWrap: 'wrap', marginBottom: '5px' }}>
                 {PRESET_TAGS.map(t => (
                   <button key={t.label} onClick={() => setTagFilter(tagFilter === t.label ? null : t.label)}
                     style={{ padding: '2px 7px', borderRadius: '999px', fontSize: '10px', border: 'none', background: tagFilter === t.label ? t.bg : 'rgba(255,255,255,0.06)', color: tagFilter === t.label ? t.color : '#64748b', cursor: 'pointer', fontWeight: tagFilter === t.label ? 700 : 400 }}>
@@ -1076,15 +1186,35 @@ function MainApp({ currentUser, onLogout }) {
                   </button>
                 ))}
               </div>
-              {/* New contact button */}
-              <button onClick={() => { setNewContactOpen(v => !v); setNewContactStatus(null); setNewContactErr('') }}
-                style={{ width: '100%', padding: '6px', borderRadius: '7px', border: '1px dashed rgba(255,255,255,0.15)', background: newContactOpen ? 'rgba(37,99,235,0.2)' : 'transparent', color: newContactOpen ? '#93c5fd' : '#64748b', fontSize: '11px', cursor: 'pointer', fontWeight: 600 }}>
-                {newContactOpen ? '✕ 取消' : '+ 新建联系'}
-              </button>
+              {/* Actions row */}
+              <div style={{ display: 'flex', gap: '4px' }}>
+                <button onClick={() => { setNewContactOpen(v => !v); setNewContactStatus(null); setNewContactErr(''); setSelectedTplId('') }}
+                  style={{ flex: 1, padding: '6px', borderRadius: '7px', border: '1px dashed rgba(255,255,255,0.15)', background: newContactOpen ? 'rgba(37,99,235,0.2)' : 'transparent', color: newContactOpen ? '#93c5fd' : '#64748b', fontSize: '11px', cursor: 'pointer', fontWeight: 600 }}>
+                  {newContactOpen ? '✕ 取消' : '+ 新建联系'}
+                </button>
+                <button onClick={() => setTplPanelOpen(v => !v)}
+                  style={{ padding: '6px 8px', borderRadius: '7px', border: '1px dashed rgba(255,255,255,0.15)', background: tplPanelOpen ? 'rgba(124,58,237,0.2)' : 'transparent', color: tplPanelOpen ? '#c4b5fd' : '#64748b', fontSize: '11px', cursor: 'pointer' }}
+                  title="模板管理">
+                  📝
+                </button>
+              </div>
 
               {/* New contact form */}
               {newContactOpen && (
                 <div style={{ marginTop: '7px', background: 'rgba(255,255,255,0.04)', borderRadius: '8px', padding: '8px' }}>
+                  {/* Biz type selector */}
+                  <div style={{ marginBottom: '6px' }}>
+                    <div style={{ fontSize: '9px', color: '#475569', marginBottom: '3px' }}>客户分类</div>
+                    <div style={{ display: 'flex', gap: '4px' }}>
+                      {BIZ_TYPES.map(bt => (
+                        <button key={bt.key} onClick={() => { setNewContactForm(p => ({ ...p, bizType: bt.key })); setSelectedTplId('') }}
+                          style={{ flex: 1, padding: '4px 2px', borderRadius: '5px', border: `1px solid ${newContactForm.bizType === bt.key ? bt.border : 'rgba(255,255,255,0.1)'}`, background: newContactForm.bizType === bt.key ? bt.bg + '22' : 'rgba(255,255,255,0.04)', color: newContactForm.bizType === bt.key ? bt.color : '#64748b', fontSize: '10px', cursor: 'pointer', fontWeight: newContactForm.bizType === bt.key ? 700 : 400 }}>
+                          {bt.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  {/* Basic fields */}
                   {[
                     { key: 'phone', placeholder: '+8613900000000  (必填)', label: '手机号' },
                     { key: 'name',  placeholder: 'Ahmad',              label: '姓名' },
@@ -1097,24 +1227,148 @@ function MainApp({ currentUser, onLogout }) {
                         style={{ width: '100%', padding: '5px 7px', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '5px', background: 'rgba(255,255,255,0.07)', color: '#e2e8f0', fontSize: '11px', boxSizing: 'border-box' }} />
                     </div>
                   ))}
+                  {/* Template selector */}
+                  {(() => {
+                    const bizTemplates = templates.filter(t => !newContactForm.bizType || t.bizType === newContactForm.bizType)
+                    if (!bizTemplates.length) return null
+                    return (
+                      <div style={{ marginBottom: '5px' }}>
+                        <div style={{ fontSize: '9px', color: '#475569', marginBottom: '3px' }}>选择话术模板（可选）</div>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
+                          {bizTemplates.map(tpl => (
+                            <button key={tpl.id} onClick={() => {
+                              setSelectedTplId(tpl.id)
+                              const filled = applyTemplateVars(tpl.content, { name: newContactForm.name, country: newContactForm.country })
+                              setNewContactForm(p => ({ ...p, message: filled }))
+                            }}
+                              style={{ textAlign: 'left', padding: '4px 7px', borderRadius: '5px', border: `1px solid ${selectedTplId === tpl.id ? '#6366f1' : 'rgba(255,255,255,0.1)'}`, background: selectedTplId === tpl.id ? 'rgba(99,102,241,0.15)' : 'rgba(255,255,255,0.04)', color: selectedTplId === tpl.id ? '#c7d2fe' : '#94a3b8', fontSize: '10px', cursor: 'pointer' }}>
+                              <span style={{ fontWeight: 600, marginRight: '4px' }}>{tpl.name}</span>
+                              <span style={{ opacity: 0.6 }}>[{tpl.langLabel}]</span>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )
+                  })()}
+                  {/* Message */}
                   <div style={{ marginBottom: '6px' }}>
                     <div style={{ fontSize: '9px', color: '#475569', marginBottom: '2px' }}>第一条消息（必填）</div>
-                    <textarea value={newContactForm.message} onChange={e => setNewContactForm(p => ({ ...p, message: e.target.value }))}
+                    <textarea value={newContactForm.message} onChange={e => { setNewContactForm(p => ({ ...p, message: e.target.value })); setSelectedTplId('') }}
                       placeholder="您好！我们是卧龙汽车..."
-                      rows={2}
+                      rows={3}
                       style={{ width: '100%', padding: '5px 7px', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '5px', background: 'rgba(255,255,255,0.07)', color: '#e2e8f0', fontSize: '11px', boxSizing: 'border-box', resize: 'none' }} />
                   </div>
                   {newContactErr && <div style={{ fontSize: '10px', color: '#fca5a5', marginBottom: '5px' }}>⚠ {newContactErr}</div>}
                   {newContactStatus === 'ok' && <div style={{ fontSize: '10px', color: '#86efac', marginBottom: '5px' }}>✅ 已发送！联系人已加入客户列表</div>}
                   {newContactStatus === 'mock_ok' && (
                     <div style={{ fontSize: '10px', marginBottom: '5px', padding: '5px 7px', background: 'rgba(251,191,36,0.15)', border: '1px solid rgba(251,191,36,0.3)', borderRadius: '5px', color: '#fbbf24', lineHeight: '1.5' }}>
-                      🧪 <strong>测试模式</strong>：联系人已加入列表<br/>（未发送真实消息，需配置 WhatsApp Token 后生效）
+                      🧪 <strong>测试模式</strong>：联系人已加入列表<br/>（未发送真实消息）
                     </div>
                   )}
                   <button onClick={handleNewContact} disabled={newContactStatus === 'sending' || newContactStatus === 'ok' || newContactStatus === 'mock_ok'}
                     style={{ width: '100%', padding: '6px', borderRadius: '6px', border: 'none', background: (newContactStatus === 'sending') ? '#1e3a8a' : (newContactStatus === 'ok' || newContactStatus === 'mock_ok') ? '#374151' : '#2563eb', color: '#fff', fontSize: '11px', fontWeight: 700, cursor: 'pointer' }}>
                     {newContactStatus === 'sending' ? '发送中...' : (newContactStatus === 'ok' || newContactStatus === 'mock_ok') ? '✓ 完成' : '📨 发送第一条消息'}
                   </button>
+                </div>
+              )}
+
+              {/* Template management panel */}
+              {tplPanelOpen && (
+                <div style={{ marginTop: '7px', background: 'rgba(124,58,237,0.07)', border: '1px solid rgba(124,58,237,0.2)', borderRadius: '8px', padding: '8px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '7px' }}>
+                    <span style={{ fontSize: '11px', fontWeight: 700, color: '#c4b5fd' }}>📝 话术模板管理</span>
+                    <button onClick={() => { setEditingTpl({ id: '_new' }); setTplForm({ name: '', bizType: 'trade', lang: 'zh', langLabel: '中文', content: '' }) }}
+                      style={{ fontSize: '10px', padding: '2px 8px', borderRadius: '5px', border: 'none', background: '#7c3aed', color: '#fff', cursor: 'pointer' }}>
+                      + 新增
+                    </button>
+                  </div>
+                  {/* Template list */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', maxHeight: '220px', overflowY: 'auto' }}>
+                    {templates.map(tpl => {
+                      const bt = BIZ_TYPES.find(b => b.key === tpl.bizType)
+                      return (
+                        <div key={tpl.id} style={{ background: 'rgba(255,255,255,0.05)', borderRadius: '6px', padding: '6px 8px', border: '1px solid rgba(255,255,255,0.08)' }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '4px' }}>
+                            <div style={{ flex: 1, minWidth: 0 }}>
+                              <div style={{ fontSize: '11px', fontWeight: 600, color: '#e2e8f0', marginBottom: '2px' }}>{tpl.name}</div>
+                              <div style={{ display: 'flex', gap: '4px', marginBottom: '3px' }}>
+                                {bt && <span style={{ fontSize: '9px', padding: '1px 5px', borderRadius: '999px', background: bt.bg + '22', color: bt.color }}>{bt.label}</span>}
+                                <span style={{ fontSize: '9px', padding: '1px 5px', borderRadius: '999px', background: 'rgba(255,255,255,0.08)', color: '#94a3b8' }}>{tpl.langLabel}</span>
+                              </div>
+                              <div style={{ fontSize: '10px', color: '#64748b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '180px' }}>{tpl.content}</div>
+                            </div>
+                            <div style={{ display: 'flex', gap: '3px', flexShrink: 0 }}>
+                              <button onClick={() => { setEditingTpl(tpl); setTplForm({ name: tpl.name, bizType: tpl.bizType, lang: tpl.lang, langLabel: tpl.langLabel, content: tpl.content }) }}
+                                style={{ fontSize: '10px', padding: '2px 6px', borderRadius: '4px', border: 'none', background: 'rgba(255,255,255,0.08)', color: '#94a3b8', cursor: 'pointer' }}>
+                                编辑
+                              </button>
+                              <button onClick={() => { if (window.confirm(`删除模板「${tpl.name}」？`)) deleteTpl(tpl.id) }}
+                                style={{ fontSize: '10px', padding: '2px 6px', borderRadius: '4px', border: 'none', background: 'rgba(220,38,38,0.15)', color: '#fca5a5', cursor: 'pointer' }}>
+                                删
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                  {/* Edit form */}
+                  {editingTpl && (
+                    <div style={{ marginTop: '8px', background: 'rgba(255,255,255,0.04)', borderRadius: '6px', padding: '8px', border: '1px solid rgba(124,58,237,0.3)' }}>
+                      <div style={{ fontSize: '10px', fontWeight: 700, color: '#c4b5fd', marginBottom: '6px' }}>
+                        {editingTpl.id === '_new' ? '新增模板' : '编辑模板'}
+                      </div>
+                      {[
+                        { key: 'name', label: '模板名称', placeholder: '贸易-阿文开场' },
+                      ].map(f => (
+                        <div key={f.key} style={{ marginBottom: '5px' }}>
+                          <div style={{ fontSize: '9px', color: '#64748b', marginBottom: '2px' }}>{f.label}</div>
+                          <input value={tplForm[f.key]} onChange={e => setTplForm(p => ({ ...p, [f.key]: e.target.value }))}
+                            placeholder={f.placeholder}
+                            style={{ width: '100%', padding: '4px 6px', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '4px', background: 'rgba(255,255,255,0.07)', color: '#e2e8f0', fontSize: '11px', boxSizing: 'border-box' }} />
+                        </div>
+                      ))}
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5px', marginBottom: '5px' }}>
+                        <div>
+                          <div style={{ fontSize: '9px', color: '#64748b', marginBottom: '2px' }}>业务类型</div>
+                          <select value={tplForm.bizType} onChange={e => setTplForm(p => ({ ...p, bizType: e.target.value }))}
+                            style={{ width: '100%', padding: '4px 6px', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '4px', background: '#1e2a3a', color: '#e2e8f0', fontSize: '11px' }}>
+                            {BIZ_TYPES.map(bt => <option key={bt.key} value={bt.key}>{bt.label}</option>)}
+                          </select>
+                        </div>
+                        <div>
+                          <div style={{ fontSize: '9px', color: '#64748b', marginBottom: '2px' }}>语言</div>
+                          <select value={tplForm.lang} onChange={e => {
+                            const labels = { zh: '中文', en: '英文', ru: '俄文', ar: '阿拉伯文' }
+                            setTplForm(p => ({ ...p, lang: e.target.value, langLabel: labels[e.target.value] || e.target.value }))
+                          }}
+                            style={{ width: '100%', padding: '4px 6px', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '4px', background: '#1e2a3a', color: '#e2e8f0', fontSize: '11px' }}>
+                            <option value="zh">中文</option>
+                            <option value="en">英文</option>
+                            <option value="ru">俄文</option>
+                            <option value="ar">阿拉伯文</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div style={{ marginBottom: '6px' }}>
+                        <div style={{ fontSize: '9px', color: '#64748b', marginBottom: '2px' }}>模板内容（支持 &#123;name&#125; &#123;country&#125; 变量）</div>
+                        <textarea value={tplForm.content} onChange={e => setTplForm(p => ({ ...p, content: e.target.value }))}
+                          placeholder="Hi {name}, we are..."
+                          rows={3}
+                          style={{ width: '100%', padding: '4px 6px', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '4px', background: 'rgba(255,255,255,0.07)', color: '#e2e8f0', fontSize: '11px', boxSizing: 'border-box', resize: 'none' }} />
+                      </div>
+                      <div style={{ display: 'flex', gap: '4px' }}>
+                        <button onClick={saveTplForm}
+                          style={{ flex: 1, padding: '5px', borderRadius: '5px', border: 'none', background: '#7c3aed', color: '#fff', fontSize: '11px', fontWeight: 700, cursor: 'pointer' }}>
+                          保存
+                        </button>
+                        <button onClick={() => setEditingTpl(null)}
+                          style={{ padding: '5px 10px', borderRadius: '5px', border: '1px solid rgba(255,255,255,0.1)', background: 'transparent', color: '#64748b', fontSize: '11px', cursor: 'pointer' }}>
+                          取消
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -1137,7 +1391,13 @@ function MainApp({ currentUser, onLogout }) {
               let visibleCustomers = currentUser.role === 'admin' || assignedPhones.length === 0
                 ? allCustomers
                 : allCustomers.filter(c => assignedPhones.includes(c.phone))
-              // Apply tag filter
+              // Apply biz-type filter
+              if (bizFilter) {
+                visibleCustomers = visibleCustomers.filter(c =>
+                  (customerMeta[c.phone]?.bizType || '') === bizFilter
+                )
+              }
+              // Apply behavior tag filter
               if (tagFilter) {
                 visibleCustomers = visibleCustomers.filter(c =>
                   (customerMeta[c.phone]?.tags || []).includes(tagFilter)
@@ -1180,6 +1440,17 @@ function MainApp({ currentUser, onLogout }) {
                       {item.message || '暂无消息'}
                     </div>
                     <div style={{ display: 'flex', gap: '3px', marginTop: '4px', alignItems: 'center', flexWrap: 'wrap' }}>
+                      {/* Biz type badge */}
+                      {(() => {
+                        const biz = customerMeta[item.phone]?.bizType
+                        const bt = biz ? BIZ_TYPES.find(b => b.key === biz) : null
+                        if (!bt) return null
+                        return (
+                          <span style={{ fontSize: '8px', padding: '1px 5px', borderRadius: '999px', background: bt.bg + '22', color: bt.color, border: `1px solid ${bt.border}55`, fontWeight: 700 }}>
+                            {bt.label}
+                          </span>
+                        )
+                      })()}
                       <span style={{
                         fontSize: '9px', padding: '1px 5px', borderRadius: '999px',
                         background: item.category === '准车商' ? 'rgba(22,101,52,0.5)' : 'rgba(255,255,255,0.07)',
@@ -1317,9 +1588,26 @@ function MainApp({ currentUser, onLogout }) {
                     {/* Expanded editor */}
                     {metaPanelOpen && meta && (
                       <div style={{ padding: '10px 16px 12px', borderTop: '1px solid #f3f4f6', background: '#fafafa' }}>
-                        {/* Tag toggles */}
+                        {/* Biz type selector */}
                         <div style={{ marginBottom: '10px' }}>
-                          <div style={{ fontSize: '11px', fontWeight: 600, color: '#374151', marginBottom: '6px' }}>点击切换标签</div>
+                          <div style={{ fontSize: '11px', fontWeight: 600, color: '#374151', marginBottom: '6px' }}>业务分类</div>
+                          <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                            {BIZ_TYPES.map(bt => {
+                              const active = (customerMeta[phone]?.bizType || '') === bt.key
+                              return (
+                                <button key={bt.key} onClick={() => saveBizType(phone, active ? '' : bt.key)}
+                                  style={{ padding: '4px 10px', borderRadius: '999px', fontSize: '12px', cursor: 'pointer', fontWeight: active ? 700 : 400, border: `1px solid ${active ? bt.border : '#e5e7eb'}`, background: active ? bt.bg : '#fff', color: active ? bt.color : '#6b7280', transition: 'all 0.1s' }}
+                                  title={bt.desc}>
+                                  {active ? '✓ ' : ''}{bt.label}
+                                </button>
+                              )
+                            })}
+                          </div>
+                        </div>
+
+                        {/* Behavior Tag toggles */}
+                        <div style={{ marginBottom: '10px' }}>
+                          <div style={{ fontSize: '11px', fontWeight: 600, color: '#374151', marginBottom: '6px' }}>跟进标签</div>
                           <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
                             {PRESET_TAGS.map(t => {
                               const active = activeTags.includes(t.label)

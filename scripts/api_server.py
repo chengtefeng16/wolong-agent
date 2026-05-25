@@ -722,8 +722,9 @@ def handle_save_customer_meta(body: dict) -> dict:
         return {"success": False, "error": "phone required"}
     tags = [str(t) for t in body.get("tags", []) if t]
     notes = str(body.get("notes", ""))
+    biz_type = str(body.get("bizType", ""))
     db = _load_customer_tags()
-    db[phone] = {"tags": tags, "notes": notes, "updated_at": time.strftime("%Y-%m-%dT%H:%M:%S")}
+    db[phone] = {"tags": tags, "notes": notes, "bizType": biz_type, "updated_at": time.strftime("%Y-%m-%dT%H:%M:%S")}
     _save_customer_tags(db)
     return {"success": True}
 
@@ -759,6 +760,74 @@ def handle_get_users(params: dict) -> dict:
         for u in _load_users()
     ]
     return {"users": users}
+
+
+# ── 消息模板管理 ──
+TEMPLATES_FILE = PROJECT_ROOT / "qianqiu_os" / "data" / "message_templates.json"
+
+PRESET_TEMPLATES = [
+    {
+        "id": "tpl_trade_en",
+        "name": "贸易-英文开场",
+        "bizType": "trade",
+        "lang": "en",
+        "langLabel": "英文",
+        "content": "Hi {name}, I'm from KunYueTong Auto Export. We specialize in used vehicle exports to {country}. Would you be interested in our competitive prices and reliable service?",
+    },
+    {
+        "id": "tpl_trade_ru",
+        "name": "贸易-俄文开场",
+        "bizType": "trade",
+        "lang": "ru",
+        "langLabel": "俄文",
+        "content": "Здравствуйте, {name}! Я представляю компанию по экспорту подержанных автомобилей из Китая. Нас интересует сотрудничество с {country}. Готовы обсудить?",
+    },
+    {
+        "id": "tpl_saas_zh",
+        "name": "SaaS-中文开场",
+        "bizType": "saas",
+        "lang": "zh",
+        "langLabel": "中文",
+        "content": "您好{name}，我们是cncar国家政策法规查询系统，专为国际贸易商提供各国进口政策、关税、法规的一站式查询服务。是否方便了解一下？",
+    },
+]
+
+def _load_templates() -> list:
+    if not TEMPLATES_FILE.exists():
+        _save_templates(PRESET_TEMPLATES)
+        return list(PRESET_TEMPLATES)
+    try:
+        data = json.loads(TEMPLATES_FILE.read_text("utf-8"))
+        return data if isinstance(data, list) else PRESET_TEMPLATES
+    except Exception:
+        return list(PRESET_TEMPLATES)
+
+def _save_templates(data: list):
+    TEMPLATES_FILE.parent.mkdir(parents=True, exist_ok=True)
+    TEMPLATES_FILE.write_text(json.dumps(data, ensure_ascii=False, indent=2), "utf-8")
+
+def handle_get_templates() -> list:
+    return _load_templates()
+
+def handle_save_template(body: dict) -> dict:
+    """新增或更新一个模板（body 即完整模板对象，需有 id）"""
+    tpl_id = str(body.get("id", "")).strip()
+    if not tpl_id:
+        return {"success": False, "error": "id 不能为空"}
+    templates = _load_templates()
+    idx = next((i for i, t in enumerate(templates) if t.get("id") == tpl_id), -1)
+    if idx >= 0:
+        templates[idx] = body
+    else:
+        templates.append(body)
+    _save_templates(templates)
+    return {"success": True, "templates": templates}
+
+def handle_delete_template(tpl_id: str) -> dict:
+    templates = _load_templates()
+    templates = [t for t in templates if t.get("id") != tpl_id]
+    _save_templates(templates)
+    return {"success": True, "templates": templates}
 
 
 # ── 新建联系（主动发起 WhatsApp）──
@@ -994,8 +1063,20 @@ class WolongAPIHandler(BaseHTTPRequestHandler):
             else:
                 self._send_json({"error": f"runtime file not found: {rel}"}, 404)
 
+        elif path == "/api/users":
+            self._send_json(handle_get_users(flat_params))
+
+        elif path == "/api/customer_meta":
+            self._send_json(handle_get_customer_meta(flat_params))
+
+        elif path == "/api/customer_meta_all":
+            self._send_json(handle_get_all_customer_meta())
+
+        elif path == "/api/templates":
+            self._send_json(handle_get_templates())
+
         # ── H5 静态文件（Railway 生产模式：从 dist/ 服务）──
-        elif H5_DIST.exists():
+        elif H5_DIST.exists() and not path.startswith("/api/"):
             # 生产模式：从 Vite build 产物服务
             if path == "/" or path == "":
                 self._serve_static(H5_DIST / "index.html", "text/html; charset=utf-8")
@@ -1007,17 +1088,23 @@ class WolongAPIHandler(BaseHTTPRequestHandler):
                     # SPA fallback：所有未知路由都返回 index.html
                     self._serve_static(H5_DIST / "index.html", "text/html; charset=utf-8")
 
-        elif path == "/api/users":
-            self._send_json(handle_get_users(flat_params))
-
-        elif path == "/api/customer_meta":
-            self._send_json(handle_get_customer_meta(flat_params))
-
-        elif path == "/api/customer_meta_all":
-            self._send_json(handle_get_all_customer_meta())
-
         else:
             self._send_json({"error": f"未知路径: {path}"}, 404)
+
+    def do_DELETE(self):
+        parsed = urlparse(self.path)
+        path = parsed.path
+        flat_params = {k: v[0] for k, v in parse_qs(parsed.query).items()}
+        self.send_response(200)
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.end_headers()
+        if path == "/api/templates":
+            tpl_id = flat_params.get("id", "")
+            result = handle_delete_template(tpl_id)
+            self.wfile.write(json.dumps(result, ensure_ascii=False).encode("utf-8"))
+        else:
+            self.wfile.write(json.dumps({"error": f"DELETE 未知路径: {path}"}).encode("utf-8"))
 
     def do_POST(self):
         parsed = urlparse(self.path)
@@ -1098,6 +1185,10 @@ class WolongAPIHandler(BaseHTTPRequestHandler):
 
         elif path == "/api/new_contact":
             result = handle_new_contact(body)
+            self._send_json(result)
+
+        elif path == "/api/templates":
+            result = handle_save_template(body)
             self._send_json(result)
 
         else:
