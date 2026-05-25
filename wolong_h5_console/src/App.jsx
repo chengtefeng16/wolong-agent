@@ -249,6 +249,16 @@ function getCountryFlag(country) {
   return '🌍'
 }
 
+// ── 客户标签预设 ──
+const PRESET_TAGS = [
+  { label: '高意向',   color: '#dc2626', bg: '#fef2f2', border: '#fca5a5' },
+  { label: '待跟进',   color: '#d97706', bg: '#fffbeb', border: '#fcd34d' },
+  { label: '已成交',   color: '#16a34a', bg: '#f0fdf4', border: '#86efac' },
+  { label: '长期观望', color: '#2563eb', bg: '#eff6ff', border: '#93c5fd' },
+  { label: '价格敏感', color: '#7c3aed', bg: '#f5f3ff', border: '#c4b5fd' },
+  { label: '无效',     color: '#6b7280', bg: '#f9fafb', border: '#d1d5db' },
+]
+
 // ── 历史激活：意向等级颜色配置 ──
 const INTENT_COLORS = {
   hot:     { bg: '#fef2f2', border: '#ef4444', badge: '#dc2626', label: '🔥 高意向' },
@@ -373,6 +383,19 @@ export default function App() {
 
 function MainApp({ currentUser, onLogout }) {
   const isMobile = useIsMobile()
+
+  // ── 客户标签 & 备注 ──
+  const [customerMeta, setCustomerMeta] = useState({}) // phone → {tags, notes}
+  const [metaPanelOpen, setMetaPanelOpen] = useState(false)
+  const [editingNotes, setEditingNotes] = useState('')
+  const [tagFilter, setTagFilter] = useState(null)    // active tag filter string
+
+  // ── 新建联系 ──
+  const [newContactOpen, setNewContactOpen] = useState(false)
+  const [newContactForm, setNewContactForm] = useState({ phone: '', name: '', country: '', message: '' })
+  const [newContactStatus, setNewContactStatus] = useState(null) // null | 'sending' | 'ok' | 'err'
+  const [newContactErr, setNewContactErr] = useState('')
+
   const [customers, setCustomers] = useState(fallbackCustomers)
   const [stats, setStats] = useState(fallbackStats)
   const [selectedId, setSelectedId] = useState(fallbackCustomers[0].id)
@@ -688,6 +711,73 @@ function MainApp({ currentUser, onLogout }) {
     window.alert('当前按钮只做展示。真实止水动作请走 AgentOS 后端治理配置链。')
   }
 
+  // ── 加载全部客户标签 ──
+  useEffect(() => {
+    fetchJson('/api/customer_meta_all', {}).then(data => {
+      if (data && typeof data === 'object') setCustomerMeta(data)
+    })
+  }, [])
+
+  // ── 切换客户时同步备注文本 ──
+  useEffect(() => {
+    const phone = selected?.phone
+    if (!phone || phone === '-') return
+    const meta = customerMeta[phone]
+    setEditingNotes(meta?.notes || '')
+    setMetaPanelOpen(false)
+  }, [selected?.phone]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // ── 标签切换 ──
+  function toggleTag(phone, tag) {
+    const current = customerMeta[phone] || { tags: [], notes: '' }
+    const tags = current.tags.includes(tag)
+      ? current.tags.filter(t => t !== tag)
+      : [...current.tags, tag]
+    const updated = { ...current, tags }
+    setCustomerMeta(prev => ({ ...prev, [phone]: updated }))
+    fetch('/api/customer_meta', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone, tags, notes: current.notes || '' }),
+    }).catch(() => {})
+  }
+
+  // ── 保存备注 ──
+  async function saveNotes(phone, notes) {
+    const current = customerMeta[phone] || { tags: [], notes: '' }
+    const updated = { ...current, notes }
+    setCustomerMeta(prev => ({ ...prev, [phone]: updated }))
+    await fetch('/api/customer_meta', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone, tags: current.tags || [], notes }),
+    }).catch(() => {})
+  }
+
+  // ── 新建联系 ──
+  async function handleNewContact() {
+    if (!newContactForm.phone.trim()) { setNewContactErr('手机号不能为空'); return }
+    if (!newContactForm.message.trim()) { setNewContactErr('第一条消息不能为空'); return }
+    setNewContactErr('')
+    setNewContactStatus('sending')
+    try {
+      const resp = await fetch('/api/send_message', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...newContactForm, role: 'agent' }),
+      })
+      const data = await resp.json()
+      if (data.success) {
+        setNewContactStatus('ok')
+        setNewContactForm({ phone: '', name: '', country: '', message: '' })
+        setTimeout(() => { setNewContactStatus(null); setNewContactOpen(false) }, 2500)
+      } else {
+        setNewContactStatus('err')
+        setNewContactErr(data.error || '发送失败')
+      }
+    } catch {
+      setNewContactStatus('err')
+      setNewContactErr('无法连接后端')
+    }
+  }
+
   // ── 发送测试消息 ──
   async function handleSendMessage() {
     if (!sendForm.message.trim()) { setSendErrMsg('消息内容不能为空'); return }
@@ -930,6 +1020,61 @@ function MainApp({ currentUser, onLogout }) {
             </div>
           </div>
 
+          {/* Customer list header: tag filter + new contact button */}
+          {activeChannel !== '历史激活' && activeChannel !== '全部客户' && (
+            <div style={{ padding: '6px 8px 4px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+              {/* Tag filter chips */}
+              <div style={{ display: 'flex', gap: '3px', flexWrap: 'wrap', marginBottom: '5px' }}>
+                <button onClick={() => setTagFilter(null)}
+                  style={{ padding: '2px 7px', borderRadius: '999px', fontSize: '10px', border: 'none', background: tagFilter === null ? '#2563eb' : 'rgba(255,255,255,0.08)', color: tagFilter === null ? '#fff' : '#64748b', cursor: 'pointer' }}>
+                  全部
+                </button>
+                {PRESET_TAGS.map(t => (
+                  <button key={t.label} onClick={() => setTagFilter(tagFilter === t.label ? null : t.label)}
+                    style={{ padding: '2px 7px', borderRadius: '999px', fontSize: '10px', border: 'none', background: tagFilter === t.label ? t.bg : 'rgba(255,255,255,0.06)', color: tagFilter === t.label ? t.color : '#64748b', cursor: 'pointer', fontWeight: tagFilter === t.label ? 700 : 400 }}>
+                    {t.label}
+                  </button>
+                ))}
+              </div>
+              {/* New contact button */}
+              <button onClick={() => { setNewContactOpen(v => !v); setNewContactStatus(null); setNewContactErr('') }}
+                style={{ width: '100%', padding: '6px', borderRadius: '7px', border: '1px dashed rgba(255,255,255,0.15)', background: newContactOpen ? 'rgba(37,99,235,0.2)' : 'transparent', color: newContactOpen ? '#93c5fd' : '#64748b', fontSize: '11px', cursor: 'pointer', fontWeight: 600 }}>
+                {newContactOpen ? '✕ 取消' : '+ 新建联系'}
+              </button>
+
+              {/* New contact form */}
+              {newContactOpen && (
+                <div style={{ marginTop: '7px', background: 'rgba(255,255,255,0.04)', borderRadius: '8px', padding: '8px' }}>
+                  {[
+                    { key: 'phone', placeholder: '+8613900000000  (必填)', label: '手机号' },
+                    { key: 'name',  placeholder: 'Ahmad',              label: '姓名' },
+                    { key: 'country', placeholder: '阿联酋',           label: '国家' },
+                  ].map(f => (
+                    <div key={f.key} style={{ marginBottom: '5px' }}>
+                      <div style={{ fontSize: '9px', color: '#475569', marginBottom: '2px' }}>{f.label}</div>
+                      <input value={newContactForm[f.key]} onChange={e => setNewContactForm(p => ({ ...p, [f.key]: e.target.value }))}
+                        placeholder={f.placeholder}
+                        style={{ width: '100%', padding: '5px 7px', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '5px', background: 'rgba(255,255,255,0.07)', color: '#e2e8f0', fontSize: '11px', boxSizing: 'border-box' }} />
+                    </div>
+                  ))}
+                  <div style={{ marginBottom: '6px' }}>
+                    <div style={{ fontSize: '9px', color: '#475569', marginBottom: '2px' }}>第一条消息（必填）</div>
+                    <textarea value={newContactForm.message} onChange={e => setNewContactForm(p => ({ ...p, message: e.target.value }))}
+                      placeholder="您好！我们是卧龙汽车..."
+                      rows={2}
+                      style={{ width: '100%', padding: '5px 7px', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '5px', background: 'rgba(255,255,255,0.07)', color: '#e2e8f0', fontSize: '11px', boxSizing: 'border-box', resize: 'none' }} />
+                  </div>
+                  {newContactErr && <div style={{ fontSize: '10px', color: '#fca5a5', marginBottom: '5px' }}>⚠ {newContactErr}</div>}
+                  {newContactStatus === 'ok' && <div style={{ fontSize: '10px', color: '#86efac', marginBottom: '5px' }}>✓ 已发送，约 8 秒后刷新</div>}
+                  <button onClick={handleNewContact} disabled={newContactStatus === 'sending'}
+                    style={{ width: '100%', padding: '6px', borderRadius: '6px', border: 'none', background: newContactStatus === 'sending' ? '#1e3a8a' : '#2563eb', color: '#fff', fontSize: '11px', fontWeight: 700, cursor: 'pointer' }}>
+                    {newContactStatus === 'sending' ? '发送中...' : '📨 发送第一条消息'}
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Customer list */}
           <div style={{ flex: 1, overflowY: 'auto', padding: '6px 8px' }}>
             {(activeChannel === '历史激活' || activeChannel === '全部客户') && (
@@ -940,13 +1085,20 @@ function MainApp({ currentUser, onLogout }) {
             {activeChannel !== '历史激活' && activeChannel !== '全部客户' && (() => {
               // Admin sees all; sales sees assigned phones (or all if no assignment yet)
               const assignedPhones = currentUser.assigned_phones || []
-              const visibleCustomers = currentUser.role === 'admin' || assignedPhones.length === 0
+              let visibleCustomers = currentUser.role === 'admin' || assignedPhones.length === 0
                 ? customers
                 : customers.filter(c => assignedPhones.includes(c.phone))
+              // Apply tag filter
+              if (tagFilter) {
+                visibleCustomers = visibleCustomers.filter(c =>
+                  (customerMeta[c.phone]?.tags || []).includes(tagFilter)
+                )
+              }
               return visibleCustomers
             })().map(item => {
               const active = item.id === selectedId
               const flag = getCountryFlag(item.country)
+              const itemTags = customerMeta[item.phone]?.tags || []
               return (
                 <div
                   key={item.id}
@@ -978,7 +1130,7 @@ function MainApp({ currentUser, onLogout }) {
                     <div style={{ fontSize: '11px', color: active ? '#93c5fd' : '#4e6488', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: '2px' }}>
                       {item.message || '暂无消息'}
                     </div>
-                    <div style={{ display: 'flex', gap: '4px', marginTop: '4px', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', gap: '3px', marginTop: '4px', alignItems: 'center', flexWrap: 'wrap' }}>
                       <span style={{
                         fontSize: '9px', padding: '1px 5px', borderRadius: '999px',
                         background: item.category === '准车商' ? 'rgba(22,101,52,0.5)' : 'rgba(255,255,255,0.07)',
@@ -987,6 +1139,14 @@ function MainApp({ currentUser, onLogout }) {
                         {item.category}
                       </span>
                       {item.needs_human_review && <span style={{ fontSize: '9px', color: '#f87171' }}>⚠</span>}
+                      {itemTags.slice(0, 2).map(tag => {
+                        const preset = PRESET_TAGS.find(p => p.label === tag)
+                        return (
+                          <span key={tag} style={{ fontSize: '8px', padding: '1px 4px', borderRadius: '999px', background: preset ? preset.bg + '33' : 'rgba(255,255,255,0.1)', color: preset ? preset.color : '#94a3b8', border: `1px solid ${preset ? preset.border + '55' : 'rgba(255,255,255,0.1)'}` }}>
+                            {tag}
+                          </span>
+                        )
+                      })}
                     </div>
                   </div>
                 </div>
@@ -1072,6 +1232,78 @@ function MainApp({ currentUser, onLogout }) {
                   {sendPanelOpen ? '收起' : '📨 测试发消息'}
                 </button>
               </div>
+
+              {/* Tags & Notes panel (collapsible, below header) */}
+              {(() => {
+                const phone = selected?.phone
+                const meta = phone && phone !== '-' ? (customerMeta[phone] || { tags: [], notes: '' }) : null
+                const activeTags = meta?.tags || []
+                return (
+                  <div style={{ background: '#fff', borderBottom: '1px solid #e5e7eb', flexShrink: 0 }}>
+                    {/* Collapsed bar: show current tags + toggle button */}
+                    <div style={{ padding: '6px 16px', display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                      <span style={{ fontSize: '11px', color: '#6b7280', flexShrink: 0 }}>🏷️</span>
+                      {activeTags.length === 0 && (
+                        <span style={{ fontSize: '11px', color: '#d1d5db' }}>暂无标签</span>
+                      )}
+                      {activeTags.map(tag => {
+                        const preset = PRESET_TAGS.find(p => p.label === tag)
+                        return (
+                          <span key={tag} style={{ fontSize: '11px', padding: '2px 8px', borderRadius: '999px', background: preset?.bg || '#f3f4f6', color: preset?.color || '#374151', border: `1px solid ${preset?.border || '#d1d5db'}`, fontWeight: 600 }}>
+                            {tag}
+                          </span>
+                        )
+                      })}
+                      {meta?.notes && (
+                        <span style={{ fontSize: '11px', color: '#6b7280', marginLeft: '4px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '200px' }}>
+                          📝 {meta.notes}
+                        </span>
+                      )}
+                      <button onClick={() => setMetaPanelOpen(v => !v)}
+                        style={{ marginLeft: 'auto', fontSize: '10px', padding: '2px 8px', borderRadius: '6px', border: '1px solid #e5e7eb', background: metaPanelOpen ? '#eff6ff' : '#f9fafb', color: metaPanelOpen ? '#1d4ed8' : '#6b7280', cursor: 'pointer', flexShrink: 0 }}>
+                        {metaPanelOpen ? '收起' : '编辑标签/备注'}
+                      </button>
+                    </div>
+
+                    {/* Expanded editor */}
+                    {metaPanelOpen && meta && (
+                      <div style={{ padding: '10px 16px 12px', borderTop: '1px solid #f3f4f6', background: '#fafafa' }}>
+                        {/* Tag toggles */}
+                        <div style={{ marginBottom: '10px' }}>
+                          <div style={{ fontSize: '11px', fontWeight: 600, color: '#374151', marginBottom: '6px' }}>点击切换标签</div>
+                          <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                            {PRESET_TAGS.map(t => {
+                              const active = activeTags.includes(t.label)
+                              return (
+                                <button key={t.label} onClick={() => toggleTag(phone, t.label)}
+                                  style={{ padding: '4px 10px', borderRadius: '999px', fontSize: '12px', cursor: 'pointer', fontWeight: active ? 700 : 400, border: `1px solid ${active ? t.border : '#e5e7eb'}`, background: active ? t.bg : '#fff', color: active ? t.color : '#6b7280', transition: 'all 0.1s' }}>
+                                  {active ? '✓ ' : ''}{t.label}
+                                </button>
+                              )
+                            })}
+                          </div>
+                        </div>
+
+                        {/* Notes */}
+                        <div>
+                          <div style={{ fontSize: '11px', fontWeight: 600, color: '#374151', marginBottom: '5px' }}>备注</div>
+                          <textarea
+                            value={editingNotes}
+                            onChange={e => setEditingNotes(e.target.value)}
+                            placeholder="写下跟进备注、客户喜好、特殊要求..."
+                            rows={2}
+                            style={{ width: '100%', padding: '7px 9px', border: '1px solid #d1d5db', borderRadius: '7px', fontSize: '12px', lineHeight: 1.6, resize: 'none', boxSizing: 'border-box', background: '#fff' }}
+                          />
+                          <button onClick={() => saveNotes(phone, editingNotes)}
+                            style={{ marginTop: '5px', padding: '5px 14px', borderRadius: '6px', border: 'none', background: '#2563eb', color: '#fff', fontSize: '11px', fontWeight: 700, cursor: 'pointer' }}>
+                            保存备注
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )
+              })()}
 
               {/* Test send panel */}
               {sendPanelOpen && (

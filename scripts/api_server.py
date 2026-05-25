@@ -691,6 +691,41 @@ def handle_reactivation_update_status(body: dict) -> dict:
 
 
 USERS_FILE = PROJECT_ROOT / "qianqiu_os" / "data" / "users.json"
+CUSTOMER_TAGS_FILE = PROJECT_ROOT / "qianqiu_os" / "data" / "customer_tags.json"
+
+# ── 客户标签 & 备注 ──
+def _load_customer_tags() -> dict:
+    if not CUSTOMER_TAGS_FILE.exists():
+        return {}
+    try:
+        return json.loads(CUSTOMER_TAGS_FILE.read_text("utf-8"))
+    except Exception:
+        return {}
+
+def _save_customer_tags(data: dict):
+    CUSTOMER_TAGS_FILE.write_text(json.dumps(data, ensure_ascii=False, indent=2), "utf-8")
+
+def handle_get_customer_meta(params: dict) -> dict:
+    phone = params.get("phone", "")
+    if not phone:
+        return {"error": "phone required"}
+    db = _load_customer_tags()
+    entry = db.get(phone, {"tags": [], "notes": ""})
+    return {"phone": phone, "tags": entry.get("tags", []), "notes": entry.get("notes", "")}
+
+def handle_get_all_customer_meta() -> dict:
+    return _load_customer_tags()
+
+def handle_save_customer_meta(body: dict) -> dict:
+    phone = str(body.get("phone", "")).strip()
+    if not phone:
+        return {"success": False, "error": "phone required"}
+    tags = [str(t) for t in body.get("tags", []) if t]
+    notes = str(body.get("notes", ""))
+    db = _load_customer_tags()
+    db[phone] = {"tags": tags, "notes": notes, "updated_at": time.strftime("%Y-%m-%dT%H:%M:%S")}
+    _save_customer_tags(db)
+    return {"success": True}
 
 def _load_users() -> list:
     if not USERS_FILE.exists():
@@ -876,6 +911,12 @@ class WolongAPIHandler(BaseHTTPRequestHandler):
         elif path == "/api/users":
             self._send_json(handle_get_users(flat_params))
 
+        elif path == "/api/customer_meta":
+            self._send_json(handle_get_customer_meta(flat_params))
+
+        elif path == "/api/customer_meta_all":
+            self._send_json(handle_get_all_customer_meta())
+
         else:
             self._send_json({"error": f"未知路径: {path}"}, 404)
 
@@ -950,6 +991,10 @@ class WolongAPIHandler(BaseHTTPRequestHandler):
 
         elif path == "/api/login":
             result = handle_login(body)
+            self._send_json(result)
+
+        elif path == "/api/customer_meta":
+            result = handle_save_customer_meta(body)
             self._send_json(result)
 
         else:
