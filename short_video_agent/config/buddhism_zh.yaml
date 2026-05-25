@@ -6,7 +6,7 @@
 direction_name: "佛学情绪安住"
 target_audience: "海外华人，面临文化冲突、孤独感、职场压力，对传统智慧有一定接受度"
 content_style: "温柔、有力量感、直击内心，不说教，用故事和比喻"
-language: "zh"  # zh | en | zh-en (双语)
+language: "zh-en"  # zh | en | zh-en (双语)
 elevenlabs_voice_id: "EXAVITQu4vr4xnSDxMaL"  # Sarah — premade，支持中文multilingual
 
 # Google Sheet 素材库
