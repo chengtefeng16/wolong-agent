@@ -1,53 +1,38 @@
-"""ElevenLabs TTS 音频生成器"""
+"""TTS 音频生成器 - 使用 edge-tts（微软免费TTS，云端友好）"""
 import os
-import requests
+import asyncio
+import edge_tts
 
 
 class AudioGenerator:
-    BASE_URL = "https://api.elevenlabs.io/v1"
+    # 中文女声，质量接近ElevenLabs Sarah
+    DEFAULT_VOICE = "zh-CN-XiaoxiaoNeural"
 
     def __init__(self, cfg: dict):
-        self.api_key = cfg["api"]["elevenlabs_key"]
-        self.voice_id = cfg["api"]["elevenlabs_voice_id"]
+        self.api_key = cfg["api"].get("elevenlabs_key", "")  # 保留兼容，不再使用
+        self.voice_id = cfg["api"].get("elevenlabs_voice_id", self.DEFAULT_VOICE)
         self.output_dir = cfg["output"]["dir"]
+        # 如果voice_id是ElevenLabs格式（非zh-开头），用默认中文声音
+        if not self.voice_id.startswith("zh-") and not self.voice_id.startswith("en-"):
+            self.voice = self.DEFAULT_VOICE
+        else:
+            self.voice = self.voice_id
 
     def generate(self, text: str, filename: str) -> str:
         """生成音频文件，返回文件路径"""
-        url = f"{self.BASE_URL}/text-to-speech/{self.voice_id}"
-        headers = {
-            "xi-api-key": self.api_key,
-            "Content-Type": "application/json",
-        }
-        payload = {
-            "text": text,
-            "model_id": "eleven_multilingual_v2",
-            "voice_settings": {
-                "stability": 0.55,
-                "similarity_boost": 0.80,
-                "style": 0.20,
-                "use_speaker_boost": True,
-            },
-        }
-
-        resp = requests.post(url, json=payload, headers=headers, timeout=60)
-        if resp.status_code != 200:
-            raise RuntimeError(
-                f"ElevenLabs API 错误 {resp.status_code}: {resp.text[:300]}"
-            )
-
         os.makedirs(self.output_dir, exist_ok=True)
         out_path = os.path.join(self.output_dir, filename)
-        with open(out_path, "wb") as f:
-            f.write(resp.content)
+
+        asyncio.run(self._generate_async(text, out_path))
 
         print(f"  [Audio] 已生成: {out_path}")
         return out_path
 
+    async def _generate_async(self, text: str, out_path: str):
+        communicate = edge_tts.Communicate(text, self.voice)
+        await communicate.save(out_path)
+
     def get_voice_list(self) -> list:
-        """调试用：列出账号下所有音色"""
-        resp = requests.get(
-            f"{self.BASE_URL}/voices",
-            headers={"xi-api-key": self.api_key},
-            timeout=15,
-        )
-        return resp.json().get("voices", [])
+        """列出可用声音"""
+        voices = asyncio.run(edge_tts.list_voices())
+        return [v for v in voices if v["Locale"].startswith("zh-")]
