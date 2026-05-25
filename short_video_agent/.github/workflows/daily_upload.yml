@@ -43,40 +43,25 @@ jobs:
         working-directory: short_video_agent
         run: python main.py --produce
 
-      - name: Upload to YouTube and save video_id
+      - name: Upload to YouTube and update history
         working-directory: short_video_agent
         run: |
           VIDEO=$(ls -t output/video_*.mp4 | head -1)
           SCRIPT=$(ls -t output/script_*.json | head -1)
-          VIDEO_ID=$(python - <<PYEOF
-          import sys, json
+          python - <<PYEOF
+          import sys, json, os
+          from datetime import datetime
           sys.path.insert(0, '.')
           from modules.config_loader import load_config
           from modules.youtube_uploader import YouTubeUploader
           cfg = load_config()
-          script_data = json.load(open('$SCRIPT'))
-          uploader = YouTubeUploader(cfg)
-          video_id = uploader.upload('$VIDEO', script_data)
-          print(video_id)
-          PYEOF
-          )
-          echo "VIDEO_ID=$VIDEO_ID" >> $GITHUB_ENV
-          echo "SCRIPT_PATH=$SCRIPT" >> $GITHUB_ENV
-
-      - name: Update history.json
-        working-directory: short_video_agent
-        run: |
-          python - <<PYEOF
-          import json, os
-          from datetime import datetime
-          script_path = os.environ['SCRIPT_PATH']
-          video_id = os.environ['VIDEO_ID']
+          script_path = '$SCRIPT'
+          video_path = '$VIDEO'
           script_data = json.load(open(script_path))
+          uploader = YouTubeUploader(cfg)
+          video_id = uploader.upload(video_path, script_data)
           history_path = 'history.json'
-          if os.path.exists(history_path):
-              history = json.load(open(history_path))
-          else:
-              history = []
+          history = json.load(open(history_path)) if os.path.exists(history_path) else []
           history.insert(0, {
               'video_id': video_id,
               'title': script_data.get('title', ''),
@@ -86,16 +71,15 @@ jobs:
               'tags': script_data.get('tags', []),
           })
           json.dump(history, open(history_path, 'w'), ensure_ascii=False, indent=2)
-          print(f'history.json updated: {video_id}')
+          print(f'Done: https://youtu.be/{video_id}')
           PYEOF
 
       - name: Push history.json to GitHub
-        working-directory: short_video_agent
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add history.json
+          git add short_video_agent/history.json
           git diff --staged --quiet || git commit -m "update history.json [skip ci]"
-          git push origin HEAD:main
+          git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
