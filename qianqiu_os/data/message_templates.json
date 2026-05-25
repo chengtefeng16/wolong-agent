@@ -1,0 +1,26 @@
+[
+  {
+    "id": "tpl_trade_en",
+    "name": "贸易-英文开场",
+    "bizType": "trade",
+    "lang": "en",
+    "langLabel": "英文",
+    "content": "Hi {name}, I'm from KunYueTong Auto Export. We specialize in used vehicle exports to {country}. Would you be interested in our competitive prices and reliable service?"
+  },
+  {
+    "id": "tpl_trade_ru",
+    "name": "贸易-俄文开场",
+    "bizType": "trade",
+    "lang": "ru",
+    "langLabel": "俄文",
+    "content": "Здравствуйте, {name}! Я представляю компанию по экспорту подержанных автомобилей из Китая. Нас интересует сотрудничество с {country}. Готовы обсудить?"
+  },
+  {
+    "id": "tpl_saas_zh",
+    "name": "SaaS-中文开场",
+    "bizType": "saas",
+    "lang": "zh",
+    "langLabel": "中文",
+    "content": "您好{name}，我们是cncar国家政策法规查询系统，专为国际贸易商提供各国进口政策、关税、法规的一站式查询服务。是否方便了解一下？"
+  }
+]

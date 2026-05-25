@@ -2,8 +2,8 @@ name: Daily Short Video Upload
 
 on:
   schedule:
-    - cron: '0 12 * * 2,4,6'
-    - cron: '0 1 * * 0'
+    - cron: "0 12 * * 2,4,6"
+    - cron: "0 1 * * 0"
   workflow_dispatch:
 
 permissions:
@@ -19,7 +19,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install ffmpeg
         run: sudo apt-get install -y ffmpeg
@@ -37,8 +37,8 @@ jobs:
       - name: Update API keys in config
         working-directory: short_video_agent
         run: |
-          sed -i "s|gemini_key:.*|gemini_key: \"${{ secrets.GEMINI_KEY }}\"|" config/base_config.yaml
-          sed -i "s|elevenlabs_key:.*|elevenlabs_key: \"${{ secrets.ELEVENLABS_KEY }}\"|" config/base_config.yaml
+          sed -i "s|gemini_key:.*|gemini_key: \"${{ secrets.GEMINI_KEY }}\""|" config/base_config.yaml
+          sed -i "s|elevenlabs_key:.*|elevenlabs_key: \"${{ secrets.ELEVENLABS_KEY }}\""|" config/base_config.yaml
 
       - name: Run full pipeline
         working-directory: short_video_agent
@@ -51,8 +51,8 @@ jobs:
           VIDEO=$(ls -t output/video_*.mp4 | head -1)
           SCRIPT=$(ls -t output/script_*.json | head -1)
           python main.py --step upload --video "$VIDEO" --script "$SCRIPT" 2>&1 | tee /tmp/upload_log.txt
-          VIDEO_ID=$(grep -oP '(?<=youtu\.be/)[a-zA-Z0-9_-]+' /tmp/upload_log.txt | head -1)
-          TITLE=$(grep -oP '(?<=开始上传: 「)[^」]+' /tmp/upload_log.txt | head -1)
+          VIDEO_ID=$(grep -oP "(?<=youtu\.be/)[a-zA-Z0-9_-]+" /tmp/upload_log.txt | head -1)
+          TITLE=$(grep -oP "(?<=开始上传: 「)[^」]+" /tmp/upload_log.txt | head -1)
           echo "video_id=$VIDEO_ID" >> $GITHUB_OUTPUT
           echo "title=$TITLE" >> $GITHUB_OUTPUT
 
@@ -62,40 +62,22 @@ jobs:
           VIDEO_ID: ${{ steps.upload.outputs.video_id }}
           TITLE: ${{ steps.upload.outputs.title }}
         run: |
-          python3 << 'PYEOF'
+          python3 << PYEOF
           import json, os, base64, requests
           from datetime import datetime
-          token = os.environ['GH_TOKEN']
+          token = os.environ["GH_TOKEN"]
           repo = "chengtefeng16/wolong-agent"
           path = "short_video_agent/history.json"
-          headers = {
-            "Authorization": f"token {token}",
-            "Accept": "application/vnd.github.v3+json"
-          }
+          headers = {"Authorization": f"token {token}", "Accept": "application/vnd.github.v3+json"}
           resp = requests.get(f"https://api.github.com/repos/{repo}/contents/{path}", headers=headers)
           print(f"GET status: {resp.status_code}")
-          if resp.status_code == 200:
-            existing = json.loads(base64.b64decode(resp.json()['content']).decode())
-            sha = resp.json()['sha']
-          else:
-            existing = []
-            sha = None
-          entry = {
-            "video_id": os.environ.get('VIDEO_ID', ''),
-            "title": os.environ.get('TITLE', ''),
-            "published_at": datetime.utcnow().isoformat(),
-            "privacy": "public",
-            "status": "success"
-          }
+          existing = json.loads(base64.b64decode(resp.json()["content"]).decode()) if resp.status_code == 200 else []
+          sha = resp.json().get("sha") if resp.status_code == 200 else None
+          entry = {"video_id": os.environ.get("VIDEO_ID",""), "title": os.environ.get("TITLE",""), "published_at": datetime.utcnow().isoformat(), "privacy": "public", "status": "success"}
           existing.insert(0, entry)
-          payload = {
-            "message": f"history: add {entry['video_id']}",
-            "content": base64.b64encode(json.dumps(existing, ensure_ascii=False, indent=2).encode()).decode()
-          }
-          if sha:
-            payload["sha"] = sha
-          put_resp = requests.put(f"https://api.github.com/repos/{repo}/contents/{path}", headers=headers, json=payload)
-          print(f"PUT status: {put_resp.status_code}")
-          print(f"PUT response: {put_resp.text[:200]}")
-          print(f"History updated: {entry['video_id']}")
+          payload = {"message": f"history: add {entry["video_id"]}", "content": base64.b64encode(json.dumps(existing, ensure_ascii=False, indent=2).encode()).decode()}
+          if sha: payload["sha"] = sha
+          r = requests.put(f"https://api.github.com/repos/{repo}/contents/{path}", headers=headers, json=payload)
+          print(f"PUT status: {r.status_code}")
+          print(f"History updated: {entry["video_id"]}")
           PYEOF
