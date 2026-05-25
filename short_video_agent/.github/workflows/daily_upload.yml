@@ -6,10 +6,12 @@ on:
     - cron: '0 1 * * 0'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   generate-and-upload:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -31,7 +33,6 @@ jobs:
         run: |
           echo "${{ secrets.YOUTUBE_CREDENTIALS }}" | base64 -d > config/youtube_credentials.json
           echo "${{ secrets.YOUTUBE_TOKEN }}" | base64 -d > config/youtube_token.json
-          echo "${{ secrets.GSHEETS_CREDENTIALS }}" | base64 -d > config/gsheets_credentials.json
 
       - name: Update API keys in config
         working-directory: short_video_agent
@@ -43,43 +44,58 @@ jobs:
         working-directory: short_video_agent
         run: python main.py --produce
 
-      - name: Upload to YouTube and update history
+      - name: Upload to YouTube
+        id: upload
         working-directory: short_video_agent
         run: |
           VIDEO=$(ls -t output/video_*.mp4 | head -1)
           SCRIPT=$(ls -t output/script_*.json | head -1)
-          python - <<PYEOF
-          import sys, json, os
-          from datetime import datetime
-          sys.path.insert(0, '.')
-          from modules.config_loader import load_config
-          from modules.youtube_uploader import YouTubeUploader
-          cfg = load_config()
-          script_path = '$SCRIPT'
-          video_path = '$VIDEO'
-          script_data = json.load(open(script_path))
-          uploader = YouTubeUploader(cfg)
-          video_id = uploader.upload(video_path, script_data)
-          history_path = 'history.json'
-          history = json.load(open(history_path)) if os.path.exists(history_path) else []
-          history.insert(0, {
-              'video_id': video_id,
-              'title': script_data.get('title', ''),
-              'published_at': datetime.now().isoformat(),
-              'status': 'success',
-              'url': f'https://youtu.be/{video_id}',
-              'tags': script_data.get('tags', []),
-          })
-          json.dump(history, open(history_path, 'w'), ensure_ascii=False, indent=2)
-          print(f'Done: https://youtu.be/{video_id}')
-          PYEOF
+          python main.py --step upload --video "$VIDEO" --script "$SCRIPT" 2>&1 | tee /tmp/upload_log.txt
+          VIDEO_ID=$(grep -oP '(?<=youtu\.be/)[a-zA-Z0-9_-]+' /tmp/upload_log.txt | head -1)
+          TITLE=$(grep -oP '(?<=开始上传: 「)[^」]+' /tmp/upload_log.txt | head -1)
+          echo "video_id=$VIDEO_ID" >> $GITHUB_OUTPUT
+          echo "title=$TITLE" >> $GITHUB_OUTPUT
 
-      - name: Push history.json to GitHub
-        run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-          git add short_video_agent/history.json
-          git diff --staged --quiet || git commit -m "update history.json [skip ci]"
-          git push
+      - name: Update history.json
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VIDEO_ID: ${{ steps.upload.outputs.video_id }}
+          TITLE: ${{ steps.upload.outputs.title }}
+        run: |
+          python3 << 'PYEOF'
+          import json, os, base64, requests
+          from datetime import datetime
+          token = os.environ['GH_TOKEN']
+          repo = "chengtefeng16/wolong-agent"
+          path = "short_video_agent/history.json"
+          headers = {
+            "Authorization": f"token {token}",
+            "Accept": "application/vnd.github.v3+json"
+          }
+          resp = requests.get(f"https://api.github.com/repos/{repo}/contents/{path}", headers=headers)
+          print(f"GET status: {resp.status_code}")
+          if resp.status_code == 200:
+            existing = json.loads(base64.b64decode(resp.json()['content']).decode())
+            sha = resp.json()['sha']
+          else:
+            existing = []
+            sha = None
+          entry = {
+            "video_id": os.environ.get('VIDEO_ID', ''),
+            "title": os.environ.get('TITLE', ''),
+            "published_at": datetime.utcnow().isoformat(),
+            "privacy": "public",
+            "status": "success"
+          }
+          existing.insert(0, entry)
+          payload = {
+            "message": f"history: add {entry['video_id']}",
+            "content": base64.b64encode(json.dumps(existing, ensure_ascii=False, indent=2).encode()).decode()
+          }
+          if sha:
+            payload["sha"] = sha
+          put_resp = requests.put(f"https://api.github.com/repos/{repo}/contents/{path}", headers=headers, json=payload)
+          print(f"PUT status: {put_resp.status_code}")
+          print(f"PUT response: {put_resp.text[:200]}")
+          print(f"History updated: {entry['video_id']}")
+          PYEOF
