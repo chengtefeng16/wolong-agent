@@ -1,0 +1,47 @@
+# ================================================================
+# Copyright (c) 2026 程特峰 (Tefeng Cheng)
+# All Rights Reserved.
+#
+# Project: AgentOS / Wolong Agent System
+# This source code is proprietary and confidential.
+# Unauthorized copying, modification, distribution or use
+# of this software, in whole or in part, is strictly prohibited.
+# ================================================================
+
+qianqiu_os/__init__.py
+qianqiu_os/agents/__init__.py
+qianqiu_os/agents/wolong_agent.py
+qianqiu_os/app.py
+qianqiu_os/data/wolong_policy_rules.py
+qianqiu_os/managers/wolong_manager.py
+qianqiu_os/models/__init__.py
+qianqiu_os/models/task.py
+qianqiu_os/registry/__init__.py
+qianqiu_os/registry/agent_registry.py
+qianqiu_os/registry/tool_registry.py
+qianqiu_os/review_task.py
+qianqiu_os/services/__init__.py
+qianqiu_os/services/agent_loader.py
+qianqiu_os/services/api_executor.py
+qianqiu_os/services/audit_logger.py
+qianqiu_os/services/browser_executor.py
+qianqiu_os/services/critic.py
+qianqiu_os/services/desktop_executor.py
+qianqiu_os/services/early_warning_manager.py
+qianqiu_os/services/execution_manager.py
+qianqiu_os/services/human_machine_loop_manager.py
+qianqiu_os/services/input_adapter.py
+qianqiu_os/services/knowledge_graph_manager.py
+qianqiu_os/services/memory_manager.py
+qianqiu_os/services/metrics_manager.py
+qianqiu_os/services/output_adapter.py
+qianqiu_os/services/planner.py
+qianqiu_os/services/promotion_manager.py
+qianqiu_os/services/reflection_manager.py
+qianqiu_os/services/scheduler.py
+qianqiu_os/services/self_healing_manager.py
+qianqiu_os/services/state_manager.py
+qianqiu_os/services/test_manager.py
+qianqiu_os/tools/__init__.py
+qianqiu_os/tools/policy_check_tool.py
+qianqiu_os/tools/wolong_policy_tool.py

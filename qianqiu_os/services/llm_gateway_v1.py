@@ -75,7 +75,7 @@ CLASSIFY_SYSTEM_PROMPT = """你是「卧龙 Agent」的智能分类引擎。
 只输出JSON，不要其他内容。"""
 
 
-GEMINI_MODEL = "gemini-2.5-flash"
+GEMINI_MODEL = "gemini-2.5-flash-preview-05-20"
 
 # 政策/法规类关键词 → 触发联网搜索模式
 _POLICY_KEYWORDS = [
@@ -147,7 +147,7 @@ def _call_gemini_rest(api_key: str, prompt: str, system: str,
 
     url = (
         f"https://generativelanguage.googleapis.com/v1beta/models/"
-        f"gemini-2.5-flash:generateContent?key={api_key}"
+        f"gemini-2.5-flash-preview-05-20:generateContent?key={api_key}"
     )
 
     if enable_search:

@@ -1,0 +1,15 @@
+# ================================================================
+# Copyright (c) 2026 程特峰 (Tefeng Cheng)
+# All Rights Reserved.
+#
+# Project: AgentOS / Wolong Agent System
+# This source code is proprietary and confidential.
+# Unauthorized copying, modification, distribution or use
+# of this software, in whole or in part, is strictly prohibited.
+# ================================================================
+
+2026-03-11 10:59:50,783 | INFO | Scheduler created task: dc7ca8c9-f883-4315-866b-a6ff085ed2f2
+2026-03-11 10:59:51,110 | INFO | Scheduler queued task: dc7ca8c9-f883-4315-866b-a6ff085ed2f2
+2026-03-11 10:59:51,428 | INFO | Scheduler planning task: dc7ca8c9-f883-4315-866b-a6ff085ed2f2
+2026-03-11 10:59:51,736 | INFO | Scheduler dispatching task: dc7ca8c9-f883-4315-866b-a6ff085ed2f2
+2026-03-11 10:59:52,177 | INFO | Task waiting_human_review: dc7ca8c9-f883-4315-866b-a6ff085ed2f2

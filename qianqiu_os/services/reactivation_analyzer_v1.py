@@ -238,7 +238,7 @@ Extract the customer profile and generate a reactivation message."""
 
     url = (
         "https://generativelanguage.googleapis.com/v1beta/models/"
-        f"gemini-2.5-flash:generateContent?key={api_key}"
+        f"gemini-2.5-flash-preview-05-20:generateContent?key={api_key}"
     )
 
     payload = {
