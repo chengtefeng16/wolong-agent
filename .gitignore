@@ -20,3 +20,22 @@ L0_L8_FULL_BACKUP_20260215_091401_副本.tar.gz
 .env
 short_video_agent/config/*.json
 short_video_agent/config/*.yaml
+
+# Runtime generated files (large, not needed in git)
+qianqiu_os/runtime_exports/
+qianqiu_os/runtime_sessions/
+qianqiu_os/data/tasks.json
+
+# Backup folders
+disaster_backup_*/
+FULL_RESCUE_*/
+stage_backups/
+tmp/
+backup_*/
+
+# Root-level temporary scripts
+fix_*.py
+recover_*.py
+test_*.py
+ui_*.py
+ui_gradio*
