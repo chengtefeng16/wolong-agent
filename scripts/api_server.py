@@ -1240,22 +1240,20 @@ def main():
                     print(f"[WABA] 尝试更新 webhook 到 Railway...")
                     update_url = f"https://graph.facebook.com/v19.0/{phone_id}"
                     import urllib.parse as _parse
+                    app_id = "941216881630307"
+                    sub_url = f"https://graph.facebook.com/v19.0/{app_id}/subscriptions"
                     data = _parse.urlencode({
-                        "webhook_url": railway_url,
+                        "object": "whatsapp_business_account",
+                        "callback_url": railway_url,
+                        "verify_token": "wolong_webhook_token",
+                        "fields": "messages",
                         "access_token": token
                     }).encode()
-                    req3 = urllib.request.Request(update_url, data=data, method="POST")
+                    req3 = urllib.request.Request(sub_url, data=data, method="POST")
                     req3.add_header("Content-Type", "application/x-www-form-urlencoded")
                     with urllib.request.urlopen(req3, timeout=15, context=ctx) as resp3:
                         update_result = _json.loads(resp3.read())
-                        print(f"[WABA] 更新结果: {update_result}")
-                    print(f"[WABA] 更新请求已发送，开始验证...")
-                    # 验证更新是否生效
-                    check2_url = f"https://graph.facebook.com/v19.0/{phone_id}?fields=webhook_configuration&access_token={token}"
-                    req4 = urllib.request.Request(check2_url)
-                    with urllib.request.urlopen(req4, timeout=15, context=ctx) as resp4:
-                        wh2 = _json.loads(resp4.read())
-                        print(f"[WABA] 更新后 webhook: {wh2.get('webhook_configuration', {})}")
+                        print(f"[WABA] subscriptions 结果: {update_result}")
                 else:
                     print(f"[WABA] ✅ webhook 已是 Railway 地址")
         except Exception as e:
