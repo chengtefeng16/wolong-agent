@@ -1227,6 +1227,13 @@ def main():
                     print("[WABA] ✅ WABA 订阅已激活")
                 else:
                     print(f"[WABA] ⚠️  激活失败: {result}")
+            # 查询并打印当前 webhook 配置
+            phone_id = os.getenv("WHATSAPP_PHONE_NUMBER_ID", "1116512831537320")
+            check_url = f"https://graph.facebook.com/v19.0/{phone_id}?fields=webhook_configuration&access_token={token}"
+            req2 = urllib.request.Request(check_url)
+            with urllib.request.urlopen(req2, timeout=15, context=ctx) as resp2:
+                wh = _json.loads(resp2.read())
+                print(f"[WABA] 当前 webhook: {wh.get('webhook_configuration', {})}")
         except Exception as e:
             print(f"[WABA] ⚠️  激活异常: {e}")
     import threading as _threading
