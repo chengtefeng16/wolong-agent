@@ -1249,6 +1249,7 @@ def main():
                     with urllib.request.urlopen(req3, timeout=15, context=ctx) as resp3:
                         update_result = _json.loads(resp3.read())
                         print(f"[WABA] 更新结果: {update_result}")
+                    print(f"[WABA] 更新请求已发送，开始验证...")
                     # 验证更新是否生效
                     check2_url = f"https://graph.facebook.com/v19.0/{phone_id}?fields=webhook_configuration&access_token={token}"
                     req4 = urllib.request.Request(check2_url)
@@ -1258,7 +1259,9 @@ def main():
                 else:
                     print(f"[WABA] ✅ webhook 已是 Railway 地址")
         except Exception as e:
+            import traceback
             print(f"[WABA] ⚠️  激活异常: {e}")
+            print(f"[WABA] 详细错误: {traceback.format_exc()}")
     import threading as _threading
     _threading.Thread(target=_activate_waba, daemon=True).start()
 
