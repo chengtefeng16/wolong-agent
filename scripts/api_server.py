@@ -1239,11 +1239,22 @@ def main():
                 if current != railway_url:
                     print(f"[WABA] 尝试更新 webhook 到 Railway...")
                     update_url = f"https://graph.facebook.com/v19.0/{phone_id}"
-                    data = f"callback_url={railway_url}&access_token={token}".encode()
+                    import urllib.parse as _parse
+                    data = _parse.urlencode({
+                        "webhook_url": railway_url,
+                        "access_token": token
+                    }).encode()
                     req3 = urllib.request.Request(update_url, data=data, method="POST")
+                    req3.add_header("Content-Type", "application/x-www-form-urlencoded")
                     with urllib.request.urlopen(req3, timeout=15, context=ctx) as resp3:
                         update_result = _json.loads(resp3.read())
                         print(f"[WABA] 更新结果: {update_result}")
+                    # 验证更新是否生效
+                    check2_url = f"https://graph.facebook.com/v19.0/{phone_id}?fields=webhook_configuration&access_token={token}"
+                    req4 = urllib.request.Request(check2_url)
+                    with urllib.request.urlopen(req4, timeout=15, context=ctx) as resp4:
+                        wh2 = _json.loads(resp4.read())
+                        print(f"[WABA] 更新后 webhook: {wh2.get('webhook_configuration', {})}")
                 else:
                     print(f"[WABA] ✅ webhook 已是 Railway 地址")
         except Exception as e:
