@@ -1233,7 +1233,19 @@ def main():
             req2 = urllib.request.Request(check_url)
             with urllib.request.urlopen(req2, timeout=15, context=ctx) as resp2:
                 wh = _json.loads(resp2.read())
-                print(f"[WABA] 当前 webhook: {wh.get('webhook_configuration', {})}")
+                current = wh.get('webhook_configuration', {}).get('application', '')
+                print(f"[WABA] 当前 webhook: {current}")
+                railway_url = "https://wolong-agent-production.up.railway.app/webhook"
+                if current != railway_url:
+                    print(f"[WABA] 尝试更新 webhook 到 Railway...")
+                    update_url = f"https://graph.facebook.com/v19.0/{phone_id}"
+                    data = f"webhook_url={railway_url}&access_token={token}".encode()
+                    req3 = urllib.request.Request(update_url, data=data, method="POST")
+                    with urllib.request.urlopen(req3, timeout=15, context=ctx) as resp3:
+                        update_result = _json.loads(resp3.read())
+                        print(f"[WABA] 更新结果: {update_result}")
+                else:
+                    print(f"[WABA] ✅ webhook 已是 Railway 地址")
         except Exception as e:
             print(f"[WABA] ⚠️  激活异常: {e}")
     import threading as _threading
