@@ -972,6 +972,32 @@ class WolongAPIHandler(BaseHTTPRequestHandler):
                 self._send_plain("Verification failed", 403)
             return
 
+        if path == "/api/admin/update_webhook":
+            import urllib.request, ssl, json as _j, urllib.parse as _p
+            token = WHATSAPP_ACCESS_TOKEN
+            railway_url = "https://wolong-agent-production.up.railway.app/webhook"
+            ctx = ssl.create_default_context()
+            ctx.check_hostname = False
+            ctx.verify_mode = ssl.CERT_NONE
+            results = {}
+            # 方法1: subscriptions
+            try:
+                data = _p.urlencode({"object":"whatsapp_business_account","callback_url":railway_url,"verify_token":"wolong_webhook_token","fields":"messages","access_token":token}).encode()
+                req = urllib.request.Request("https://graph.facebook.com/v19.0/941216881630307/subscriptions", data=data, method="POST")
+                with urllib.request.urlopen(req, timeout=15, context=ctx) as r:
+                    results["subscriptions"] = _j.loads(r.read())
+            except Exception as e:
+                results["subscriptions_error"] = str(e)
+            # 方法2: phone number patch
+            try:
+                data2 = _p.urlencode({"webhook_url":railway_url,"access_token":token}).encode()
+                req2 = urllib.request.Request(f"https://graph.facebook.com/v19.0/{WHATSAPP_PHONE_NUMBER_ID}", data=data2, method="POST")
+                with urllib.request.urlopen(req2, timeout=15, context=ctx) as r2:
+                    results["phone_patch"] = _j.loads(r2.read())
+            except Exception as e:
+                results["phone_patch_error"] = str(e)
+            self._send_json(results)
+            return
         if path == "/api/status":
             loop_status = {}
             if CLOSED_LOOP_AVAILABLE:
