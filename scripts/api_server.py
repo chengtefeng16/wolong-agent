@@ -1119,6 +1119,7 @@ class WolongAPIHandler(BaseHTTPRequestHandler):
 
         # ── WhatsApp Webhook 消息接收 ──
         if path == "/webhook":
+            print(f"[Webhook-RAW] {str(body)[:500]}")
             result = handle_whatsapp_webhook(body)
             self._send_json(result)
             # 收到消息后自动同步到 H5（两步：重建视图 + 拷贝到 public）
