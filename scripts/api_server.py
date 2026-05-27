@@ -1206,6 +1206,32 @@ def main():
             port = int(sys.argv[sys.argv.index(arg) + 1])
 
     server = HTTPServer(("0.0.0.0", port), WolongAPIHandler)
+    # ── 启动时自动激活 WABA 订阅 ──
+    def _activate_waba():
+        import urllib.request, urllib.error, ssl, json as _json
+        waba_id = "2817262535309287"
+        token = WHATSAPP_ACCESS_TOKEN
+        if not token:
+            print("[WABA] ⚠️  未配置 WHATSAPP_ACCESS_TOKEN，跳过订阅激活")
+            return
+        try:
+            url = f"https://graph.facebook.com/v20.0/{waba_id}/subscribed_apps"
+            req = urllib.request.Request(url, method="POST")
+            req.add_header("Authorization", f"Bearer {token}")
+            ctx = ssl.create_default_context()
+            ctx.check_hostname = False
+            ctx.verify_mode = ssl.CERT_NONE
+            with urllib.request.urlopen(req, timeout=15, context=ctx) as resp:
+                result = _json.loads(resp.read())
+                if result.get("success"):
+                    print("[WABA] ✅ WABA 订阅已激活")
+                else:
+                    print(f"[WABA] ⚠️  激活失败: {result}")
+        except Exception as e:
+            print(f"[WABA] ⚠️  激活异常: {e}")
+    import threading as _threading
+    _threading.Thread(target=_activate_waba, daemon=True).start()
+
     print(f"[API] 卧龙 Agent 后端 API 服务器已启动: http://localhost:{port}")
     print(f"[API] WhatsApp 模式: {'🟢 真实发送 (WHATSAPP_ACCESS_TOKEN 已配置)' if WA_MODE == 'real' else '🟡 dry_run/mock (未配置 WHATSAPP_ACCESS_TOKEN)'}")
     print(f"[API] Phone Number ID: {WHATSAPP_PHONE_NUMBER_ID}")
