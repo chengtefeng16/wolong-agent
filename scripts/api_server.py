@@ -1239,7 +1239,7 @@ def main():
                 if current != railway_url:
                     print(f"[WABA] 尝试更新 webhook 到 Railway...")
                     update_url = f"https://graph.facebook.com/v19.0/{phone_id}"
-                    data = f"webhook_url={railway_url}&access_token={token}".encode()
+                    data = f"callback_url={railway_url}&access_token={token}".encode()
                     req3 = urllib.request.Request(update_url, data=data, method="POST")
                     with urllib.request.urlopen(req3, timeout=15, context=ctx) as resp3:
                         update_result = _json.loads(resp3.read())
