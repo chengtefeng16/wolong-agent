@@ -10,7 +10,7 @@ dockerfilePath = "Dockerfile"
 
 [deploy]
 # CMD 已在 Dockerfile 定义，这里显式指定以防覆盖
-startCommand = "python3 scripts/api_server.py"
+startCommand = "bash scripts/start_railway.sh"
 
 # 健康检查
 healthcheckPath = "/api/status"
