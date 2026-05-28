@@ -47,4 +47,5 @@ ENV PORT=8765
 EXPOSE 8765
 
 # 启动 API 服务器（自动读取 $PORT）
-CMD ["python3", "scripts/api_server.py"]
+COPY scripts/start_railway.sh ./scripts/
+CMD ["bash", "scripts/start_railway.sh"]
