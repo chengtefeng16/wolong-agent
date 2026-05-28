@@ -1,13 +1,13 @@
 #!/bin/bash
 # 安装并启动 ngrok，然后启动 API 服务器
 
-# 下载 ngrok
+# 下载 ngrok（如果不存在）
 if [ ! -f /usr/local/bin/ngrok ]; then
     echo "[ngrok] 安装 ngrok..."
     curl -s https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz | tar xz -C /usr/local/bin/
 fi
 
-# 配置 ngrok authtoken
+# 配置并启动 ngrok
 if [ -n "$NGROK_AUTHTOKEN" ]; then
     ngrok config add-authtoken $NGROK_AUTHTOKEN
     echo "[ngrok] 启动固定域名隧道..."
