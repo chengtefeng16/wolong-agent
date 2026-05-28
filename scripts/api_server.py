@@ -974,28 +974,58 @@ class WolongAPIHandler(BaseHTTPRequestHandler):
 
         if path == "/api/admin/update_webhook":
             import urllib.request, ssl, json as _j, urllib.parse as _p
-            token = WHATSAPP_ACCESS_TOKEN
+            app_id = os.getenv("WHATSAPP_APP_ID", "941216881630307")
+            app_secret = os.getenv("WHATSAPP_APP_SECRET", "528757903896e0b3aeef95ce4cced4d9")
+            user_token = WHATSAPP_ACCESS_TOKEN
             railway_url = "https://wolong-agent-production.up.railway.app/webhook"
             ctx = ssl.create_default_context()
             ctx.check_hostname = False
             ctx.verify_mode = ssl.CERT_NONE
             results = {}
-            # 方法1: subscriptions
+            # 步骤1: 获取 App Access Token
             try:
-                data = _p.urlencode({"object":"whatsapp_business_account","callback_url":railway_url,"verify_token":"wolong_webhook_token","fields":"messages","access_token":token}).encode()
-                req = urllib.request.Request("https://graph.facebook.com/v19.0/941216881630307/subscriptions", data=data, method="POST")
+                app_token_url = f"https://graph.facebook.com/oauth/access_token?client_id={app_id}&client_secret={app_secret}&grant_type=client_credentials"
+                req0 = urllib.request.Request(app_token_url)
+                with urllib.request.urlopen(req0, timeout=15, context=ctx) as r0:
+                    app_token_data = _j.loads(r0.read())
+                    app_token = app_token_data.get("access_token", "")
+                    results["app_token"] = app_token[:20] + "..."
+            except Exception as e:
+                results["app_token_error"] = str(e)
+                self._send_json(results)
+                return
+            # 步骤2: 用 App Token 调用 subscriptions
+            try:
+                data = _p.urlencode({
+                    "object": "whatsapp_business_account",
+                    "callback_url": railway_url,
+                    "verify_token": "wolong_webhook_token",
+                    "fields": "messages",
+                    "access_token": app_token
+                }).encode()
+                req = urllib.request.Request(f"https://graph.facebook.com/v19.0/{app_id}/subscriptions", data=data, method="POST")
+                req.add_header("Content-Type", "application/x-www-form-urlencoded")
                 with urllib.request.urlopen(req, timeout=15, context=ctx) as r:
                     results["subscriptions"] = _j.loads(r.read())
             except Exception as e:
                 results["subscriptions_error"] = str(e)
-            # 方法2: phone number patch
+            # 步骤3: 用 User Token 订阅 WABA
             try:
-                data2 = _p.urlencode({"webhook_url":railway_url,"access_token":token}).encode()
-                req2 = urllib.request.Request(f"https://graph.facebook.com/v19.0/{WHATSAPP_PHONE_NUMBER_ID}", data=data2, method="POST")
+                waba_id = "2817262535309287"
+                req2 = urllib.request.Request(f"https://graph.facebook.com/v20.0/{waba_id}/subscribed_apps", method="POST")
+                req2.add_header("Authorization", f"Bearer {user_token}")
                 with urllib.request.urlopen(req2, timeout=15, context=ctx) as r2:
-                    results["phone_patch"] = _j.loads(r2.read())
+                    results["waba_subscribe"] = _j.loads(r2.read())
             except Exception as e:
-                results["phone_patch_error"] = str(e)
+                results["waba_subscribe_error"] = str(e)
+            # 步骤4: 验证当前 webhook
+            try:
+                check_url = f"https://graph.facebook.com/v19.0/{WHATSAPP_PHONE_NUMBER_ID}?fields=webhook_configuration&access_token={user_token}"
+                req3 = urllib.request.Request(check_url)
+                with urllib.request.urlopen(req3, timeout=15, context=ctx) as r3:
+                    results["current_webhook"] = _j.loads(r3.read())
+            except Exception as e:
+                results["current_webhook_error"] = str(e)
             self._send_json(results)
             return
         if path == "/api/status":
