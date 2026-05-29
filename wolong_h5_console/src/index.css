@@ -1,48 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
 html, body, #root {
   margin: 0;
   padding: 0;
   height: 100%;
   overflow: hidden;
-  background: #f0f2f5;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif;
+  background: #f8fafc;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Helvetica Neue', sans-serif;
   -webkit-text-size-adjust: 100%;
+  font-size: 14px;
+  color: #111827;
 }
 
-@media (max-width: 767px) {
-  .page {
-    padding: 10px;
-  }
-  .top-title {
-    font-size: 16px;
-  }
-}
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 button, input, textarea, select {
   font-family: inherit;
   -webkit-tap-highlight-color: transparent;
 }
+button { touch-action: manipulation; }
 
-button {
-  touch-action: manipulation;
-}
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: #cbd5e1; }
 
-.page {
-  padding: 14px;
-  color: #1f2937;
-}
+.page { padding: 14px; color: #1f2937; }
+.top-title { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
 
-.top-title {
-  font-size: 18px;
-  font-weight: 700;
-  margin-bottom: 12px;
-}
-
-.stats-row,
-.channel-row {
+.stats-row, .channel-row {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
@@ -51,37 +38,33 @@ button {
 
 .mini-card {
   background: #fff;
-  border: 1px solid #d7dde7;
-  border-radius: 10px;
-  padding: 8px 12px;
-  min-height: 56px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 10px 14px;
+  min-height: 60px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  transition: box-shadow 0.15s;
 }
-
-.mini-card span {
-  font-size: 12px;
-  color: #6b7280;
-  margin-bottom: 4px;
-}
-
-.mini-card strong {
-  font-size: 22px;
-}
+.mini-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+.mini-card span { font-size: 11px; color: #6b7280; margin-bottom: 4px; font-weight: 500; }
+.mini-card strong { font-size: 22px; font-weight: 800; color: #111827; }
 
 .channel {
-  height: 38px;
-  border-radius: 10px;
-  border: 1px solid #d7dde7;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
   background: #fff;
-  font-size: 13px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.15s;
 }
-
-.channel.active {
-  background: #e8f1ff;
-  border-color: #8eb7ff;
-}
+.channel:hover { border-color: #93c5fd; color: #2563eb; }
+.channel.active { background: #eff6ff; border-color: #93c5fd; color: #2563eb; font-weight: 600; }
 
 .main-grid {
   display: grid;
@@ -91,155 +74,59 @@ button {
 
 .panel {
   background: #fff;
-  border: 1px solid #d7dde7;
-  border-radius: 12px;
-  padding: 12px;
-}
-
-.panel-head h3,
-.detail-top h3 {
-  margin: 0;
-  font-size: 16px;
-}
-
-.panel-head p,
-.detail-top p {
-  margin: 4px 0 0;
-  font-size: 12px;
-  color: #6b7280;
-}
-
-.list-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-top: 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
 }
 
 .list-row {
   width: 100%;
-  border: 1px solid #d7dde7;
-  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  background: #fafafa;
   border-radius: 10px;
-  padding: 8px 10px;
+  padding: 10px 12px;
   display: grid;
   grid-template-columns: 1.9fr 110px 96px 64px;
   gap: 8px;
   text-align: left;
   align-items: center;
+  cursor: pointer;
+  transition: all 0.15s;
 }
+.list-row:hover { border-color: #93c5fd; background: #f0f7ff; }
+.list-row.selected { border-color: #3b82f6; background: #eff6ff; box-shadow: 0 0 0 2px rgba(59,130,246,0.1); }
 
-.list-row.selected {
-  border-color: #8eb7ff;
-  background: #edf4ff;
-}
-
-.list-main {
-  min-width: 0;
-}
-
-.name-line {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.msg-line {
-  font-size: 12px;
-  color: #6b7280;
-  margin-top: 6px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.list-side {
-  text-align: center;
-  font-size: 12px;
-  color: #4b5563;
-}
+.msg-line { font-size: 12px; color: #6b7280; margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 .tag {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 22px;
+  height: 20px;
   padding: 0 8px;
-  border-radius: 999px;
+  border-radius: 6px;
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 600;
 }
-
-.准车商 {
-  background: #e7f8ee;
-  color: #1f8f52;
-}
-
-.疑似车商 {
-  background: #fff4df;
-  color: #b7791f;
-}
-
-.个人客户 {
-  background: #e8f1ff;
-  color: #2f6edb;
-}
-
-.无效沟通 {
-  background: #fdeaea;
-  color: #c24141;
-}
-
-.detail-top {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  align-items: flex-start;
-  margin-bottom: 12px;
-}
-
-.keyword-box {
-  width: 320px;
-  border: 1px solid #d7dde7;
-  border-radius: 10px;
-  padding: 10px;
-  background: #f9fafb;
-}
-
-.keyword-title {
-  font-size: 12px;
-  color: #6b7280;
-  margin-bottom: 8px;
-}
-
-.keyword-wrap {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
+.准车商 { background: #dcfce7; color: #15803d; }
+.疑似车商 { background: #fef9c3; color: #854d0e; }
+.个人客户 { background: #dbeafe; color: #1d4ed8; }
+.无效沟通 { background: #fee2e2; color: #b91c1c; }
 
 .chip {
   display: inline-flex;
   align-items: center;
-  height: 28px;
+  height: 26px;
   padding: 0 10px;
-  border-radius: 999px;
-  background: #e8f1ff;
-  color: #2f6edb;
+  border-radius: 6px;
+  background: #eff6ff;
+  color: #2563eb;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 500;
 }
 
-.detail-card {
-  border: 1px solid #d7dde7;
-  border-radius: 10px;
-  padding: 12px;
-  background: #f9fafb;
-  margin-bottom: 10px;
-}
-
-.detail-card-title {
-  font-size: 12px;
-  color: #6b7280;
-  margin-bottom: 8px;
+@media (max-width: 767px) {
+  .page { padding: 10px; }
+  .top-title { font-size: 16px; }
 }

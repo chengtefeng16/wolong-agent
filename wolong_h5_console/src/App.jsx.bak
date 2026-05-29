@@ -343,7 +343,7 @@ function LoginPage({ onLogin }) {
   return (
     <div style={{
       display: 'flex', alignItems: 'center', justifyContent: 'center',
-      height: '100vh', background: '#f8fafc',
+      height: '100vh', background: '#f0f2f5',
     }}>
       <div style={{
         background: '#fff', borderRadius: '16px', padding: '40px 36px',
@@ -1057,7 +1057,7 @@ function MainApp({ currentUser, onLogout }) {
       display: 'flex',
       height: '100vh',
       overflow: 'hidden',
-      background: '#f8fafc',
+      background: '#f0f2f5',
     }}>
 
       {/* ══════════ LEFT SIDEBAR ══════════ */}
@@ -1065,7 +1065,7 @@ function MainApp({ currentUser, onLogout }) {
         <div style={{
           width: isMobile ? '100%' : '290px',
           minWidth: isMobile ? 'unset' : '290px',
-          background: '#ffffff',
+          background: '#1e2640',
           display: 'flex',
           flexDirection: 'column',
           height: '100vh',
@@ -1073,12 +1073,12 @@ function MainApp({ currentUser, onLogout }) {
           flexShrink: 0,
         }}>
           {/* Sidebar header */}
-          <div style={{ padding: '14px 14px 10px', borderBottom: '1px solid #f3f4f6' }}>
+          <div style={{ padding: '14px 14px 10px', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
             {/* Brand + user info row */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
               <div>
-                <div style={{ fontSize: '16px', fontWeight: 800, color: '#111827', letterSpacing: '-0.3px' }}>卧龙 CRM</div>
-                <div style={{ fontSize: '10px', color: '#6b7280', marginTop: '1px' }}>{loadingText}</div>
+                <div style={{ fontSize: '16px', fontWeight: 800, color: '#fff', letterSpacing: '-0.3px' }}>卧龙 CRM</div>
+                <div style={{ fontSize: '10px', color: '#475569', marginTop: '1px' }}>{loadingText}</div>
               </div>
               <div style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
                 {newCustomerCount > 0 && (
@@ -1095,18 +1095,18 @@ function MainApp({ currentUser, onLogout }) {
               </div>
             </div>
             {/* Logged-in user info + logout */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#f9fafb', borderRadius: '8px', padding: '6px 9px', marginBottom: '10px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(255,255,255,0.06)', borderRadius: '8px', padding: '6px 9px', marginBottom: '10px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
                 <div style={{ width: '24px', height: '24px', borderRadius: '50%', background: currentUser.role === 'admin' ? '#f59e0b' : '#2563eb', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px' }}>
                   {currentUser.role === 'admin' ? '👑' : '👤'}
                 </div>
                 <div>
-                  <div style={{ fontSize: '11px', fontWeight: 700, color: '#111827' }}>{currentUser.display_name}</div>
-                  <div style={{ fontSize: '9px', color: '#9ca3af' }}>{currentUser.role === 'admin' ? '管理员' : '销售员'}</div>
+                  <div style={{ fontSize: '11px', fontWeight: 700, color: '#e2e8f0' }}>{currentUser.display_name}</div>
+                  <div style={{ fontSize: '9px', color: '#64748b' }}>{currentUser.role === 'admin' ? '管理员' : '销售员'}</div>
                 </div>
               </div>
               <button onClick={onLogout}
-                style={{ fontSize: '10px', color: '#9ca3af', background: 'transparent', border: 'none', cursor: 'pointer', padding: '2px 6px', borderRadius: '5px' }}>
+                style={{ fontSize: '10px', color: '#64748b', background: 'transparent', border: 'none', cursor: 'pointer', padding: '2px 6px', borderRadius: '5px' }}>
                 退出
               </button>
             </div>
@@ -1114,15 +1114,15 @@ function MainApp({ currentUser, onLogout }) {
             {/* Stats chips */}
             <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
               {stats.map(s => (
-                <div key={s.label} style={{ background: '#f3f4f6', borderRadius: '6px', padding: '3px 7px', fontSize: '10px', color: '#9ca3af' }}>
-                  <span style={{ fontWeight: 800, color: '#111827' }}>{s.value}</span>{' '}{s.label}
+                <div key={s.label} style={{ background: 'rgba(255,255,255,0.07)', borderRadius: '6px', padding: '3px 7px', fontSize: '10px', color: '#64748b' }}>
+                  <span style={{ fontWeight: 800, color: '#e2e8f0' }}>{s.value}</span>{' '}{s.label}
                 </div>
               ))}
             </div>
 
             {/* Takeover notice */}
             {takeoverWorkbench.count > 0 && (
-              <div style={{ marginTop: '7px', background: 'rgba(37,99,235,0.2)', borderRadius: '6px', padding: '4px 8px', fontSize: '10px', color: '#2563eb' }}>
+              <div style={{ marginTop: '7px', background: 'rgba(37,99,235,0.2)', borderRadius: '6px', padding: '4px 8px', fontSize: '10px', color: '#93c5fd' }}>
                 ⚡ {takeoverWorkbench.count} 条待接管
                 {takeoverWorkbench.level_counts?.high > 0 && (
                   <span style={{ marginLeft: '8px', color: '#fca5a5' }}>高优 {takeoverWorkbench.level_counts.high}</span>
@@ -1132,7 +1132,7 @@ function MainApp({ currentUser, onLogout }) {
           </div>
 
           {/* Channel tabs */}
-          <div style={{ padding: '8px 10px 6px', borderBottom: '1px solid #f3f4f6' }}>
+          <div style={{ padding: '8px 10px 6px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
             <div style={{ display: 'flex', gap: '3px', flexWrap: 'wrap' }}>
               {channels.map(ch => {
                 const active = ch === activeChannel
@@ -1163,7 +1163,7 @@ function MainApp({ currentUser, onLogout }) {
 
           {/* Customer list header: filters + actions */}
           {activeChannel !== '历史激活' && activeChannel !== '全部客户' && (
-            <div style={{ padding: '6px 8px 4px', borderBottom: '1px solid #f3f4f6' }}>
+            <div style={{ padding: '6px 8px 4px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
               {/* Biz-type filter chips */}
               <div style={{ display: 'flex', gap: '3px', flexWrap: 'wrap', marginBottom: '4px' }}>
                 <button onClick={() => setBizFilter(null)}
@@ -1201,10 +1201,10 @@ function MainApp({ currentUser, onLogout }) {
 
               {/* New contact form */}
               {newContactOpen && (
-                <div style={{ marginTop: '7px', background: '#f9fafb', borderRadius: '8px', padding: '8px' }}>
+                <div style={{ marginTop: '7px', background: 'rgba(255,255,255,0.04)', borderRadius: '8px', padding: '8px' }}>
                   {/* Biz type selector */}
                   <div style={{ marginBottom: '6px' }}>
-                    <div style={{ fontSize: '9px', color: '#6b7280', marginBottom: '3px' }}>客户分类</div>
+                    <div style={{ fontSize: '9px', color: '#475569', marginBottom: '3px' }}>客户分类</div>
                     <div style={{ display: 'flex', gap: '4px' }}>
                       {BIZ_TYPES.map(bt => (
                         <button key={bt.key} onClick={() => { setNewContactForm(p => ({ ...p, bizType: bt.key })); setSelectedTplId('') }}
@@ -1221,10 +1221,10 @@ function MainApp({ currentUser, onLogout }) {
                     { key: 'country', placeholder: '阿联酋',           label: '国家' },
                   ].map(f => (
                     <div key={f.key} style={{ marginBottom: '5px' }}>
-                      <div style={{ fontSize: '9px', color: '#6b7280', marginBottom: '2px' }}>{f.label}</div>
+                      <div style={{ fontSize: '9px', color: '#475569', marginBottom: '2px' }}>{f.label}</div>
                       <input value={newContactForm[f.key]} onChange={e => setNewContactForm(p => ({ ...p, [f.key]: e.target.value }))}
                         placeholder={f.placeholder}
-                        style={{ width: '100%', padding: '5px 7px', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '5px', background: '#f3f4f6', color: '#111827', fontSize: '11px', boxSizing: 'border-box' }} />
+                        style={{ width: '100%', padding: '5px 7px', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '5px', background: 'rgba(255,255,255,0.07)', color: '#e2e8f0', fontSize: '11px', boxSizing: 'border-box' }} />
                     </div>
                   ))}
                   {/* Template selector */}
@@ -1233,7 +1233,7 @@ function MainApp({ currentUser, onLogout }) {
                     if (!bizTemplates.length) return null
                     return (
                       <div style={{ marginBottom: '5px' }}>
-                        <div style={{ fontSize: '9px', color: '#6b7280', marginBottom: '3px' }}>选择话术模板（可选）</div>
+                        <div style={{ fontSize: '9px', color: '#475569', marginBottom: '3px' }}>选择话术模板（可选）</div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
                           {bizTemplates.map(tpl => (
                             <button key={tpl.id} onClick={() => {
@@ -1252,11 +1252,11 @@ function MainApp({ currentUser, onLogout }) {
                   })()}
                   {/* Message */}
                   <div style={{ marginBottom: '6px' }}>
-                    <div style={{ fontSize: '9px', color: '#6b7280', marginBottom: '2px' }}>第一条消息（必填）</div>
+                    <div style={{ fontSize: '9px', color: '#475569', marginBottom: '2px' }}>第一条消息（必填）</div>
                     <textarea value={newContactForm.message} onChange={e => { setNewContactForm(p => ({ ...p, message: e.target.value })); setSelectedTplId('') }}
                       placeholder="您好！我们是卧龙汽车..."
                       rows={3}
-                      style={{ width: '100%', padding: '5px 7px', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '5px', background: '#f3f4f6', color: '#111827', fontSize: '11px', boxSizing: 'border-box', resize: 'none' }} />
+                      style={{ width: '100%', padding: '5px 7px', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '5px', background: 'rgba(255,255,255,0.07)', color: '#e2e8f0', fontSize: '11px', boxSizing: 'border-box', resize: 'none' }} />
                   </div>
                   {newContactErr && <div style={{ fontSize: '10px', color: '#fca5a5', marginBottom: '5px' }}>⚠ {newContactErr}</div>}
                   {newContactStatus === 'ok' && <div style={{ fontSize: '10px', color: '#86efac', marginBottom: '5px' }}>✅ 已发送！联系人已加入客户列表</div>}
@@ -1290,16 +1290,16 @@ function MainApp({ currentUser, onLogout }) {
                         <div key={tpl.id} style={{ background: 'rgba(255,255,255,0.05)', borderRadius: '6px', padding: '6px 8px', border: '1px solid rgba(255,255,255,0.08)' }}>
                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '4px' }}>
                             <div style={{ flex: 1, minWidth: 0 }}>
-                              <div style={{ fontSize: '11px', fontWeight: 600, color: '#111827', marginBottom: '2px' }}>{tpl.name}</div>
+                              <div style={{ fontSize: '11px', fontWeight: 600, color: '#e2e8f0', marginBottom: '2px' }}>{tpl.name}</div>
                               <div style={{ display: 'flex', gap: '4px', marginBottom: '3px' }}>
                                 {bt && <span style={{ fontSize: '9px', padding: '1px 5px', borderRadius: '999px', background: bt.bg + '22', color: bt.color }}>{bt.label}</span>}
-                                <span style={{ fontSize: '9px', padding: '1px 5px', borderRadius: '999px', background: '#f3f4f6', color: '#94a3b8' }}>{tpl.langLabel}</span>
+                                <span style={{ fontSize: '9px', padding: '1px 5px', borderRadius: '999px', background: 'rgba(255,255,255,0.08)', color: '#94a3b8' }}>{tpl.langLabel}</span>
                               </div>
-                              <div style={{ fontSize: '10px', color: '#9ca3af', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '180px' }}>{tpl.content}</div>
+                              <div style={{ fontSize: '10px', color: '#64748b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '180px' }}>{tpl.content}</div>
                             </div>
                             <div style={{ display: 'flex', gap: '3px', flexShrink: 0 }}>
                               <button onClick={() => { setEditingTpl(tpl); setTplForm({ name: tpl.name, bizType: tpl.bizType, lang: tpl.lang, langLabel: tpl.langLabel, content: tpl.content }) }}
-                                style={{ fontSize: '10px', padding: '2px 6px', borderRadius: '4px', border: 'none', background: '#f3f4f6', color: '#94a3b8', cursor: 'pointer' }}>
+                                style={{ fontSize: '10px', padding: '2px 6px', borderRadius: '4px', border: 'none', background: 'rgba(255,255,255,0.08)', color: '#94a3b8', cursor: 'pointer' }}>
                                 编辑
                               </button>
                               <button onClick={() => { if (window.confirm(`删除模板「${tpl.name}」？`)) deleteTpl(tpl.id) }}
@@ -1314,7 +1314,7 @@ function MainApp({ currentUser, onLogout }) {
                   </div>
                   {/* Edit form */}
                   {editingTpl && (
-                    <div style={{ marginTop: '8px', background: '#f9fafb', borderRadius: '6px', padding: '8px', border: '1px solid rgba(124,58,237,0.3)' }}>
+                    <div style={{ marginTop: '8px', background: 'rgba(255,255,255,0.04)', borderRadius: '6px', padding: '8px', border: '1px solid rgba(124,58,237,0.3)' }}>
                       <div style={{ fontSize: '10px', fontWeight: 700, color: '#c4b5fd', marginBottom: '6px' }}>
                         {editingTpl.id === '_new' ? '新增模板' : '编辑模板'}
                       </div>
@@ -1322,27 +1322,27 @@ function MainApp({ currentUser, onLogout }) {
                         { key: 'name', label: '模板名称', placeholder: '贸易-阿文开场' },
                       ].map(f => (
                         <div key={f.key} style={{ marginBottom: '5px' }}>
-                          <div style={{ fontSize: '9px', color: '#9ca3af', marginBottom: '2px' }}>{f.label}</div>
+                          <div style={{ fontSize: '9px', color: '#64748b', marginBottom: '2px' }}>{f.label}</div>
                           <input value={tplForm[f.key]} onChange={e => setTplForm(p => ({ ...p, [f.key]: e.target.value }))}
                             placeholder={f.placeholder}
-                            style={{ width: '100%', padding: '4px 6px', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '4px', background: '#f3f4f6', color: '#111827', fontSize: '11px', boxSizing: 'border-box' }} />
+                            style={{ width: '100%', padding: '4px 6px', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '4px', background: 'rgba(255,255,255,0.07)', color: '#e2e8f0', fontSize: '11px', boxSizing: 'border-box' }} />
                         </div>
                       ))}
                       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5px', marginBottom: '5px' }}>
                         <div>
-                          <div style={{ fontSize: '9px', color: '#9ca3af', marginBottom: '2px' }}>业务类型</div>
+                          <div style={{ fontSize: '9px', color: '#64748b', marginBottom: '2px' }}>业务类型</div>
                           <select value={tplForm.bizType} onChange={e => setTplForm(p => ({ ...p, bizType: e.target.value }))}
-                            style={{ width: '100%', padding: '4px 6px', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '4px', background: '#1e2a3a', color: '#111827', fontSize: '11px' }}>
+                            style={{ width: '100%', padding: '4px 6px', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '4px', background: '#1e2a3a', color: '#e2e8f0', fontSize: '11px' }}>
                             {BIZ_TYPES.map(bt => <option key={bt.key} value={bt.key}>{bt.label}</option>)}
                           </select>
                         </div>
                         <div>
-                          <div style={{ fontSize: '9px', color: '#9ca3af', marginBottom: '2px' }}>语言</div>
+                          <div style={{ fontSize: '9px', color: '#64748b', marginBottom: '2px' }}>语言</div>
                           <select value={tplForm.lang} onChange={e => {
                             const labels = { zh: '中文', en: '英文', ru: '俄文', ar: '阿拉伯文' }
                             setTplForm(p => ({ ...p, lang: e.target.value, langLabel: labels[e.target.value] || e.target.value }))
                           }}
-                            style={{ width: '100%', padding: '4px 6px', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '4px', background: '#1e2a3a', color: '#111827', fontSize: '11px' }}>
+                            style={{ width: '100%', padding: '4px 6px', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '4px', background: '#1e2a3a', color: '#e2e8f0', fontSize: '11px' }}>
                             <option value="zh">中文</option>
                             <option value="en">英文</option>
                             <option value="ru">俄文</option>
@@ -1351,11 +1351,11 @@ function MainApp({ currentUser, onLogout }) {
                         </div>
                       </div>
                       <div style={{ marginBottom: '6px' }}>
-                        <div style={{ fontSize: '9px', color: '#9ca3af', marginBottom: '2px' }}>模板内容（支持 &#123;name&#125; &#123;country&#125; 变量）</div>
+                        <div style={{ fontSize: '9px', color: '#64748b', marginBottom: '2px' }}>模板内容（支持 &#123;name&#125; &#123;country&#125; 变量）</div>
                         <textarea value={tplForm.content} onChange={e => setTplForm(p => ({ ...p, content: e.target.value }))}
                           placeholder="Hi {name}, we are..."
                           rows={3}
-                          style={{ width: '100%', padding: '4px 6px', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '4px', background: '#f3f4f6', color: '#111827', fontSize: '11px', boxSizing: 'border-box', resize: 'none' }} />
+                          style={{ width: '100%', padding: '4px 6px', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '4px', background: 'rgba(255,255,255,0.07)', color: '#e2e8f0', fontSize: '11px', boxSizing: 'border-box', resize: 'none' }} />
                       </div>
                       <div style={{ display: 'flex', gap: '4px' }}>
                         <button onClick={saveTplForm}
@@ -1363,7 +1363,7 @@ function MainApp({ currentUser, onLogout }) {
                           保存
                         </button>
                         <button onClick={() => setEditingTpl(null)}
-                          style={{ padding: '5px 10px', borderRadius: '5px', border: '1px solid rgba(255,255,255,0.1)', background: 'transparent', color: '#9ca3af', fontSize: '11px', cursor: 'pointer' }}>
+                          style={{ padding: '5px 10px', borderRadius: '5px', border: '1px solid rgba(255,255,255,0.1)', background: 'transparent', color: '#64748b', fontSize: '11px', cursor: 'pointer' }}>
                           取消
                         </button>
                       </div>
@@ -1432,7 +1432,7 @@ function MainApp({ currentUser, onLogout }) {
                       <div style={{ fontSize: '13px', fontWeight: 600, color: active ? '#fff' : '#e2e8f0', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '150px' }}>
                         {item.name}
                       </div>
-                      <div style={{ fontSize: '9px', color: '#6b7280', flexShrink: 0 }}>
+                      <div style={{ fontSize: '9px', color: '#475569', flexShrink: 0 }}>
                         {item.time && item.time !== '—' ? item.time.slice(-5) : ''}
                       </div>
                     </div>
@@ -1681,7 +1681,7 @@ function MainApp({ currentUser, onLogout }) {
               )}
 
               {/* Chat bubbles area */}
-              <div style={{ flex: 1, overflowY: 'auto', padding: isMobile ? '12px 10px' : '16px 24px', background: '#f8fafc', display: 'flex', flexDirection: 'column', gap: '2px' }}>
+              <div style={{ flex: 1, overflowY: 'auto', padding: isMobile ? '12px 10px' : '16px 24px', background: '#f0f2f5', display: 'flex', flexDirection: 'column', gap: '2px' }}>
                 {isFacebookEmptyView ? (
                   <div style={{ textAlign: 'center', color: '#9ca3af', fontSize: '13px', paddingTop: '48px' }}>
                     <div style={{ fontSize: '36px', marginBottom: '10px' }}>💬</div>
