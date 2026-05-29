@@ -1021,7 +1021,29 @@ class WolongAPIHandler(BaseHTTPRequestHandler):
                     results["waba_subscribe"] = _j.loads(r2.read())
             except Exception as e:
                 results["waba_subscribe_error"] = str(e)
-            # 步骤4: 直接更新 phone number webhook
+            # 步骤4: 用 User Token 直接更新 app subscriptions
+            try:
+                import urllib.parse as _p2
+                data4 = _p2.urlencode({
+                    "object": "whatsapp_business_account",
+                    "callback_url": railway_url,
+                    "verify_token": "wolong_webhook_token",
+                    "fields": "messages"
+                }).encode()
+                req4 = urllib.request.Request(
+                    f"https://graph.facebook.com/v19.0/{app_id}/subscriptions",
+                    data=data4, method="POST"
+                )
+                req4.add_header("Content-Type", "application/x-www-form-urlencoded")
+                req4.add_header("Authorization", f"Bearer {user_token}")
+                with urllib.request.urlopen(req4, timeout=15, context=ctx) as r4:
+                    results["subscriptions_user_token"] = _j.loads(r4.read())
+            except Exception as e:
+                try:
+                    results["subscriptions_user_token_error"] = str(e) + " | " + e.read().decode()
+                except:
+                    results["subscriptions_user_token_error"] = str(e)
+            # 步骤4b: 直接更新 phone number webhook
             try:
                 waba_id = "2817262535309287"
                 update_data = _p.urlencode({
