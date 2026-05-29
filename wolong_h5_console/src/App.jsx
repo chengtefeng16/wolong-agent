@@ -1387,12 +1387,12 @@ function MainApp({ currentUser, onLogout }) {
 
           {/* Customer list */}
           <div style={{ flex: 1, overflowY: 'auto', padding: '6px 8px' }}>
-            {(activeChannel === '历史激活' || activeChannel === '全部客户') && (
+            {activeChannel === '历史激活' && (
               <div style={{ padding: '24px 10px', textAlign: 'center', color: '#334155', fontSize: '12px' }}>
                 {activeChannel === '历史激活' ? '📂 查看右侧激活面板' : '🗂 查看右侧全部客户'}
               </div>
             )}
-            {activeChannel !== '历史激活' && activeChannel !== '全部客户' && (() => {
+            {activeChannel !== '历史激活' && (() => {
               // 合并主动新建的联系人（去重：若 phone 已存在于 customers 则不重复显示）
               const existingPhones = new Set(customers.map(c => c.phone || c.id))
               const freshAdded = addedContacts.filter(c => !existingPhones.has(c.phone))
