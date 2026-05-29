@@ -1082,13 +1082,13 @@ function MainApp({ currentUser, onLogout }) {
               </div>
               <div style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
                 {newCustomerCount > 0 && (
-                  <div style={{ background: '#10b981', color: '#fff', borderRadius: '999px', padding: '2px 7px', fontSize: '10px', fontWeight: 700 }}>
+                  <div title="新进客户数量" style={{ background: '#10b981', color: '#fff', borderRadius: '999px', padding: '2px 7px', fontSize: '10px', fontWeight: 700, cursor: 'default' }}>
                     +{newCustomerCount}
                   </div>
                 )}
                 {alerts.length > 0 && (
                   <button onClick={() => setShowAlerts(v => !v)}
-                    style={{ background: '#ef4444', color: '#fff', border: 'none', borderRadius: '999px', padding: '2px 7px', fontSize: '10px', fontWeight: 700, cursor: 'pointer' }}>
+                    title="系统警报，点击查看详情" style={{ background: '#ef4444', color: '#fff', border: 'none', borderRadius: '999px', padding: '2px 7px', fontSize: '10px', fontWeight: 700, cursor: 'pointer' }}>
                     🚨 {alerts.length}
                   </button>
                 )}
@@ -1122,10 +1122,18 @@ function MainApp({ currentUser, onLogout }) {
 
             {/* Takeover notice */}
             {takeoverWorkbench.count > 0 && (
-              <div style={{ marginTop: '7px', background: 'rgba(37,99,235,0.2)', borderRadius: '6px', padding: '4px 8px', fontSize: '10px', color: '#2563eb' }}>
-                ⚡ {takeoverWorkbench.count} 条待接管
+              <div
+                onClick={() => {
+                  const first = takeoverWorkbench.items?.[0]
+                  if (first?.phone) {
+                    const match = customers.find(c => c.phone === first.phone || c.id === first.phone)
+                    if (match) { setSelected(match); if (isMobile) setMobileShowDetail(true) }
+                  }
+                }}
+                style={{ marginTop: '7px', background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: '6px', padding: '5px 10px', fontSize: '11px', color: '#1d4ed8', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span>⚡ {takeoverWorkbench.count} 条待接管，点击查看</span>
                 {takeoverWorkbench.level_counts?.high > 0 && (
-                  <span style={{ marginLeft: '8px', color: '#fca5a5' }}>高优 {takeoverWorkbench.level_counts.high}</span>
+                  <span style={{ background: '#fee2e2', color: '#b91c1c', borderRadius: '4px', padding: '1px 6px', fontSize: '10px', fontWeight: 700 }}>高优 {takeoverWorkbench.level_counts.high}</span>
                 )}
               </div>
             )}
