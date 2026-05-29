@@ -1283,35 +1283,7 @@ def main():
                     print("[WABA] ✅ WABA 订阅已激活")
                 else:
                     print(f"[WABA] ⚠️  激活失败: {result}")
-            # 查询并打印当前 webhook 配置
-            phone_id = os.getenv("WHATSAPP_PHONE_NUMBER_ID", "1116512831537320")
-            check_url = f"https://graph.facebook.com/v19.0/{phone_id}?fields=webhook_configuration&access_token={token}"
-            req2 = urllib.request.Request(check_url)
-            with urllib.request.urlopen(req2, timeout=15, context=ctx) as resp2:
-                wh = _json.loads(resp2.read())
-                current = wh.get('webhook_configuration', {}).get('application', '')
-                print(f"[WABA] 当前 webhook: {current}")
-                railway_url = "https://wolong-agent-production.up.railway.app/webhook"
-                if current != railway_url:
-                    print(f"[WABA] 尝试更新 webhook 到 Railway...")
-                    update_url = f"https://graph.facebook.com/v19.0/{phone_id}"
-                    import urllib.parse as _parse
-                    app_id = "941216881630307"
-                    sub_url = f"https://graph.facebook.com/v19.0/{app_id}/subscriptions"
-                    data = _parse.urlencode({
-                        "object": "whatsapp_business_account",
-                        "callback_url": railway_url,
-                        "verify_token": "wolong_webhook_token",
-                        "fields": "messages",
-                        "access_token": token
-                    }).encode()
-                    req3 = urllib.request.Request(sub_url, data=data, method="POST")
-                    req3.add_header("Content-Type", "application/x-www-form-urlencoded")
-                    with urllib.request.urlopen(req3, timeout=15, context=ctx) as resp3:
-                        update_result = _json.loads(resp3.read())
-                        print(f"[WABA] subscriptions 结果: {update_result}")
-                else:
-                    print(f"[WABA] ✅ webhook 已是 Railway 地址")
+            print(f"[WABA] ✅ webhook 地址已在 Meta 后台配置为 Railway，无需自动更新")
         except Exception as e:
             import traceback
             print(f"[WABA] ⚠️  激活异常: {e}")
