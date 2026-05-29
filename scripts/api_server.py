@@ -1008,7 +1008,10 @@ class WolongAPIHandler(BaseHTTPRequestHandler):
                 with urllib.request.urlopen(req, timeout=15, context=ctx) as r:
                     results["subscriptions"] = _j.loads(r.read())
             except Exception as e:
-                results["subscriptions_error"] = str(e)
+                try:
+                    results["subscriptions_error"] = str(e) + " | " + e.read().decode()
+                except:
+                    results["subscriptions_error"] = str(e)
             # 步骤3: 用 User Token 订阅 WABA
             try:
                 waba_id = "2817262535309287"
@@ -1018,12 +1021,28 @@ class WolongAPIHandler(BaseHTTPRequestHandler):
                     results["waba_subscribe"] = _j.loads(r2.read())
             except Exception as e:
                 results["waba_subscribe_error"] = str(e)
-            # 步骤4: 验证当前 webhook
+            # 步骤4: 直接更新 phone number webhook
+            try:
+                waba_id = "2817262535309287"
+                update_data = _p.urlencode({
+                    "subscribed_fields": "messages"
+                }).encode()
+                req3 = urllib.request.Request(
+                    f"https://graph.facebook.com/v20.0/{waba_id}/subscribed_apps",
+                    data=update_data, method="POST"
+                )
+                req3.add_header("Authorization", f"Bearer {user_token}")
+                req3.add_header("Content-Type", "application/x-www-form-urlencoded")
+                with urllib.request.urlopen(req3, timeout=15, context=ctx) as r3:
+                    results["waba_subscribe_fields"] = _j.loads(r3.read())
+            except Exception as e:
+                results["waba_subscribe_fields_error"] = str(e)
+            # 步骤5: 验证当前 webhook
             try:
                 check_url = f"https://graph.facebook.com/v19.0/{WHATSAPP_PHONE_NUMBER_ID}?fields=webhook_configuration&access_token={user_token}"
-                req3 = urllib.request.Request(check_url)
-                with urllib.request.urlopen(req3, timeout=15, context=ctx) as r3:
-                    results["current_webhook"] = _j.loads(r3.read())
+                req4 = urllib.request.Request(check_url)
+                with urllib.request.urlopen(req4, timeout=15, context=ctx) as r4:
+                    results["current_webhook"] = _j.loads(r4.read())
             except Exception as e:
                 results["current_webhook_error"] = str(e)
             self._send_json(results)
