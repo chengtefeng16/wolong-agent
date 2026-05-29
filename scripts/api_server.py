@@ -1000,11 +1000,11 @@ class WolongAPIHandler(BaseHTTPRequestHandler):
                     "object": "whatsapp_business_account",
                     "callback_url": railway_url,
                     "verify_token": "wolong_webhook_token",
-                    "fields": "messages",
-                    "access_token": app_token
+                    "fields": "messages"
                 }).encode()
                 req = urllib.request.Request(f"https://graph.facebook.com/v19.0/{app_id}/subscriptions", data=data, method="POST")
                 req.add_header("Content-Type", "application/x-www-form-urlencoded")
+                req.add_header("Authorization", f"Bearer {app_token}")
                 with urllib.request.urlopen(req, timeout=15, context=ctx) as r:
                     results["subscriptions"] = _j.loads(r.read())
             except Exception as e:
