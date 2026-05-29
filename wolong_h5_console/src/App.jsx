@@ -1125,10 +1125,13 @@ function MainApp({ currentUser, onLogout }) {
               <div
                 onClick={() => {
                   const first = takeoverWorkbench.items?.[0]
-                  if (first?.phone) {
-                    const match = customers.find(c => c.phone === first.phone || c.id === first.phone)
-                    if (match) { setSelected(match); if (isMobile) setMobileShowDetail(true) }
-                  }
+                  const match = customers.find(c =>
+                    c.phone === first?.phone ||
+                    c.id === first?.phone ||
+                    c.id === first?.customer_id ||
+                    c.needs_human_review
+                  )
+                  if (match) { setSelected(match); if (isMobile) setMobileShowDetail(true) }
                 }}
                 style={{ marginTop: '7px', background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: '6px', padding: '5px 10px', fontSize: '11px', color: '#1d4ed8', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <span>⚡ {takeoverWorkbench.count} 条待接管，点击查看</span>
