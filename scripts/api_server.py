@@ -448,6 +448,7 @@ def handle_whatsapp_webhook(payload: dict) -> dict:
     processed = []
     errors = []
 
+    print(f"[Webhook] 原始payload: {str(payload)[:500]}")
     entries = payload.get("entry", [])
     for entry in entries:
         for change in entry.get("changes", []):
