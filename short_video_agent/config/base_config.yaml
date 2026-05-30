@@ -11,7 +11,7 @@ api:
   gemini_key: "AIzaSyA4VstFK6ZMoV0rSqjTvMnpgs9BIGB0KV0"
   elevenlabs_key: "sk_2ca0bca9c826a7b7b9a5b68d9fa4737f57deedf2b99deb0d"
   # vrip4LPxKN0LbhJ62533 是克隆音色需要付费升级，暂用 Sarah (premade, 支持中文multilingual)
-  elevenlabs_voice_id: "EXAVITQu4vr4xnSDxMaL"
+  elevenlabs_voice_id: "zh-CN-YunjianNeural"
   # YouTube OAuth credentials path (需要单独配置)
   youtube_credentials: "config/youtube_credentials.json"
   youtube_token: "config/youtube_token.json"
