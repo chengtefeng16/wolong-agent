@@ -21,10 +21,10 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install fonts
+      - name: Check tools
         run: |
-          pip install Pillow
-          fc-list | grep -i noto || true
+          ffmpeg -version
+          fc-list | grep -i noto || echo "no noto fonts"
 
       - name: Install dependencies
         working-directory: short_video_agent
