@@ -21,8 +21,10 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install ffmpeg
-        run: sudo apt-get install -y ffmpeg
+      - name: Install ffmpeg and fonts
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --fix-missing ffmpeg fonts-noto-cjk || sudo apt-get install -y ffmpeg fonts-noto-cjk
 
       - name: Install dependencies
         working-directory: short_video_agent
