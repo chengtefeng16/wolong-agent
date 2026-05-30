@@ -23,8 +23,10 @@ jobs:
 
       - name: Install ffmpeg and fonts
         run: |
-          sudo apt-get update
-          sudo apt-get install -y --fix-missing ffmpeg fonts-noto-cjk || sudo apt-get install -y ffmpeg fonts-noto-cjk
+          sudo apt-get update -y || true
+          sudo apt-get install -y ffmpeg || true
+          sudo apt-get install -y fonts-noto-cjk || true
+          ffmpeg -version
 
       - name: Install dependencies
         working-directory: short_video_agent
