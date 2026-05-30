@@ -21,13 +21,10 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install ffmpeg and fonts
+      - name: Install fonts
         run: |
-          sudo rm -f /etc/apt/sources.list.d/microsoft-prod.list
-          sudo apt-get clean
-          sudo apt-get update -y
-          sudo apt-get install -y ffmpeg fonts-noto-cjk --fix-missing 2>&1 || true
-          ffmpeg -version
+          pip install Pillow
+          fc-list | grep -i noto || true
 
       - name: Install dependencies
         working-directory: short_video_agent
