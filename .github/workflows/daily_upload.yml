@@ -21,8 +21,10 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Check tools
-        run: ffmpeg -version
+      - name: Install ffmpeg
+        run: |
+          sudo snap install ffmpeg
+          ffmpeg -version
 
       - name: Install dependencies
         working-directory: short_video_agent
