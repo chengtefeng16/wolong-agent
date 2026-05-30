@@ -17,6 +17,7 @@ from datetime import datetime
 
 from modules.config_loader import load_config
 from modules.video_composer import VideoComposer
+from modules.background_generator import BackgroundGenerator
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -72,6 +73,11 @@ def run_produce(cfg: dict):
     print()
 
     # ── Step 4: MoviePy 视频合成 ──────────────────────────────────────
+    print("[3.5/4] 生成现代禅意背景图...")
+    bg_gen = BackgroundGenerator(cfg)
+    bg_path = bg_gen.generate(script_data, f"bg_{ts}_{uid}.jpg")
+    print()
+
     print("[4/4] MoviePy 合成9:16竖屏视频...")
     composer   = VideoComposer(cfg)
     is_bilingual = cfg["direction"].get("language", "zh") == "zh-en"
@@ -81,6 +87,7 @@ def run_produce(cfg: dict):
             audio_path=audio_path,
             script_data=script_data,
             output_filename=f"video_{ts}_{uid}.mp4",
+            background_path=bg_path,
         )
     else:
         video_path = composer.compose(
@@ -89,6 +96,7 @@ def run_produce(cfg: dict):
             output_filename=f"video_{ts}_{uid}.mp4",
             title=script_data["title"],
             cover_quote=script_data["cover_quote"],
+            background_path=bg_path,
         )
     cover_path = composer.make_cover_image(
         script_data["title"],
