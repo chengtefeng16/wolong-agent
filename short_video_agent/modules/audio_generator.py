@@ -29,7 +29,7 @@ class AudioGenerator:
         return out_path
 
     async def _generate_async(self, text: str, out_path: str):
-        communicate = edge_tts.Communicate(text, self.voice)
+        communicate = edge_tts.Communicate(text, self.voice, rate="-15%")
         await communicate.save(out_path)
 
     def get_voice_list(self) -> list:
