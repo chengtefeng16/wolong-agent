@@ -216,7 +216,7 @@ def main():
                         help="完整生产模式（步骤1-4，跳过YouTube上传）")
     parser.add_argument("--demo", action="store_true",
                         help="Demo模式（测试连通性，跳过Gemini）")
-    parser.add_argument("--step", choices=["video", "upload"],
+    parser.add_argument("--step", choices=["video", "upload", "upload_facebook"],
                         help="单步模式")
     parser.add_argument("--audio",  help="音频文件路径（--step video 时使用）")
     parser.add_argument("--script", help="脚本JSON路径（--step video/upload 时使用）")
@@ -255,6 +255,18 @@ def main():
             script_data = json.load(f)
         from modules.youtube_uploader import YouTubeUploader
         YouTubeUploader(cfg).upload(args.video, script_data)
+
+    elif args.step == "upload_facebook":
+        if not args.video or not args.script:
+            print("Error: --step upload_facebook 需要 --video 和 --script 参数")
+            sys.exit(1)
+        with open(args.script, encoding="utf-8") as f:
+            script_data = json.load(f)
+        from modules.facebook_uploader import run as fb_run
+        _parts = [script_data.get("title", ""), script_data.get("cover_quote", "")]
+        _desc = (chr(10) + chr(10)).join([p for p in _parts if p])
+        _vid = fb_run(video=args.video, description=_desc)
+        print("Facebook Reel 发布成功 video_id=" + str(_vid))
 
     else:
         # 默认：完整5步流程含YouTube

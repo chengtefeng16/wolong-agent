@@ -59,6 +59,17 @@ jobs:
           echo "video_id=$VIDEO_ID" >> $GITHUB_OUTPUT
           echo "title=$TITLE" >> $GITHUB_OUTPUT
 
+      - name: Upload to Facebook
+        working-directory: short_video_agent
+        continue-on-error: true
+        env:
+          FB_PAGE_ACCESS_TOKEN: ${{ secrets.FB_PAGE_ACCESS_TOKEN }}
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+        run: |
+          VIDEO=$(ls -t output/video_*.mp4 | head -1)
+          SCRIPT=$(ls -t output/script_*.json | head -1)
+          python main.py --step upload_facebook --video "$VIDEO" --script "$SCRIPT"
+
       - name: Update history.json
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
