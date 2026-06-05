@@ -8,8 +8,8 @@ content_config: "buddhism_zh"
 
 # API Keys
 api:
-  gemini_key: "AIzaSyA4VstFK6ZMoV0rSqjTvMnpgs9BIGB0KV0"
-  elevenlabs_key: "sk_2ca0bca9c826a7b7b9a5b68d9fa4737f57deedf2b99deb0d"
+  gemini_key: ""       # 留空，从环境变量 GEMINI_KEY 读取
+  elevenlabs_key: ""   # 留空，从环境变量 ELEVENLABS_KEY 读取
   # vrip4LPxKN0LbhJ62533 是克隆音色需要付费升级，暂用 Sarah (premade, 支持中文multilingual)
   elevenlabs_voice_id: "zh-CN-YunjianNeural"
   # YouTube OAuth credentials path (需要单独配置)
