@@ -2,7 +2,8 @@
 
 密钥优先级（从高到低）：
   1. 环境变量  GEMINI_KEY / ELEVENLABS_KEY
-  2. base_config.yaml 里的值（仅本地调试用，生产环境保持空字符串）
+  2. 项目根目录 .env 文件（本地开发用，已加入 .gitignore）
+  3. base_config.yaml 里的值（留空，不存密钥）
 """
 import os
 import yaml
@@ -11,8 +12,26 @@ from pathlib import Path
 _ROOT = Path(__file__).parent.parent
 
 
+def _load_dotenv():
+    """读取项目根目录的 .env 文件，不覆盖已有环境变量"""
+    env_path = _ROOT / ".env"
+    if not env_path.exists():
+        return
+    with open(env_path) as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            key, _, val = line.partition("=")
+            key = key.strip()
+            val = val.strip().strip('"').strip("'")
+            if key and key not in os.environ:   # 不覆盖已有 env var
+                os.environ[key] = val
+
+
 def load_config(base_path: str = None) -> dict:
     """加载并合并配置，返回完整 config dict"""
+    _load_dotenv()   # 先读 .env，再读 yaml，环境变量优先
     base_path = base_path or _ROOT / "config" / "base_config.yaml"
     with open(base_path) as f:
         cfg = yaml.safe_load(f)

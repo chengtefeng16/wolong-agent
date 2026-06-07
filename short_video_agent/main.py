@@ -24,8 +24,13 @@ from modules.background_generator import BackgroundGenerator
 # 完整生产流程（步骤1-4，跳过YouTube）
 # ──────────────────────────────────────────────────────────────────────────────
 
-def run_produce(cfg: dict):
-    """Sheet → Gemini脚本 → ElevenLabs音频 → MoviePy视频合成"""
+def run_produce(cfg: dict, mark_after_video: bool = True):
+    """Sheet → Gemini脚本 → ElevenLabs音频 → MoviePy视频合成
+
+    mark_after_video=False 时跳过成功后的 mark_as_used 调用
+    （供 run_full_pipeline 在 YouTube 上传成功后再标记）。
+    返回 (video_path, script_data, reader)。
+    """
     from modules.sheet_reader import SheetReader
     from modules.script_generator import ScriptGenerator
     from modules.audio_generator import AudioGenerator
@@ -37,10 +42,14 @@ def run_produce(cfg: dict):
     print("\n=== 短视频Agent 生产模式（步骤1-4）===\n")
 
     # ── Step 1: 读取素材 ───────────────────────────────────────────────
-    print("[1/4] 从 Google Sheet 读取讲义素材...")
+    print("[1/4] 从 Google Sheet 读取讲义素材（主题轮换）...")
     reader    = SheetReader(cfg)
     materials = reader.get_unused_material(count=3)
     cols      = cfg["direction"]["google_sheet"]["columns"]
+
+    # 记录主素材的真实行号，用于视频生成成功后标记已用
+    source_row = materials[0].get("_row_number") if materials else None
+
     for i, m in enumerate(materials, 1):
         preview = str(m.get(cols["source_text"], ""))[:50]
         print(f"      素材{i}: {preview}...")
@@ -56,6 +65,9 @@ def run_produce(cfg: dict):
     print(f"      字数  : {len(script_data['full_script'])}字")
     print(f"      脚本预览: {script_data['full_script'][:60]}...")
     print()
+
+    # 把行号写进脚本 JSON（方便 --step upload 单步时读取再标记）
+    script_data["_source_row"] = source_row
 
     # 保存脚本 JSON（方便后续单步重跑）
     script_path = os.path.join(cfg["output"]["dir"], f"script_{ts}_{uid}.json")
@@ -105,6 +117,12 @@ def run_produce(cfg: dict):
     )
     print()
 
+    # ── 视频生成成功后标记素材已用 ───────────────────────────────────────
+    if mark_after_video and source_row:
+        print("[✓] 标记素材已用...")
+        reader.mark_as_used(source_row)
+        print()
+
     print("=" * 55)
     print(f"✅ 生产完成！")
     print(f"   标题  : {script_data['title']}")
@@ -113,8 +131,10 @@ def run_produce(cfg: dict):
     print(f"   音频  : {audio_path}")
     print(f"   视频  : {video_path}")
     print(f"   封面  : {cover_path}")
+    if source_row:
+        print(f"   已用行 : 行{source_row}（F列已写入今日日期）")
     print(f"\n   下一步: python main.py --step upload --video {video_path} --script {script_path}")
-    return video_path, script_data
+    return video_path, script_data, reader
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -122,15 +142,22 @@ def run_produce(cfg: dict):
 # ──────────────────────────────────────────────────────────────────────────────
 
 def run_full_pipeline(cfg: dict):
-    """完整5步流程，包含YouTube上传"""
+    """完整5步流程，包含YouTube上传（YouTube成功后才标记素材已用）"""
     from modules.youtube_uploader import YouTubeUploader
 
-    video_path, script_data = run_produce(cfg)
+    # mark_after_video=False：先不标记，等 YouTube 上传成功再标
+    video_path, script_data, reader = run_produce(cfg, mark_after_video=False)
 
     print("\n[5/5] 上传到 YouTube...")
     uploader = YouTubeUploader(cfg)
     video_id = uploader.upload(video_path, script_data)
     print(f"\n🎉 YouTube 发布成功: https://youtu.be/{video_id}")
+
+    # YouTube 上传成功后标记素材已用
+    source_row = script_data.get("_source_row")
+    if source_row:
+        print("\n[✓] YouTube 已上传，标记素材已用...")
+        reader.mark_as_used(source_row)
 
 
 # ──────────────────────────────────────────────────────────────────────────────

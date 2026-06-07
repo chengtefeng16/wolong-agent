@@ -90,6 +90,8 @@ google_sheet:
   # 例: https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms/edit
   spreadsheet_id: "1rC0T5Jmo5Th2KYqiNCa7Z3c510dOVkt3NQNLc_76hVk"
   worksheet_name: "素材库"
+  # 主题轮换：最近 N 次已用主题不重复（0 = 不限制）
+  recent_themes_count: 3
   # 列映射
   columns:
     source_text: "D"      # segment_text — 讲义原文段落
