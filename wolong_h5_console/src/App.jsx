@@ -49,7 +49,75 @@ const fallbackStats = [
   { label: '沟通无效', value: 0 },
 ]
 
-const channels = ['全部客户', 'WhatsApp', 'Facebook', '历史激活', 'Ins（后续）', '更多渠道（后续）']
+const channels = ['全部客户', 'WhatsApp', 'Facebook', '历史激活', '待审批', 'Ins（后续）', '更多渠道（后续）']
+
+function PendingRepliesPanel({ pendingReplies, pendingEdits, setPendingEdits, pendingBusy, pendingError, onResolve }) {
+  if (!pendingReplies || pendingReplies.length === 0) {
+    return (
+      <div style={{ padding: '24px 12px', textAlign: 'center', color: '#9ca3af', fontSize: '12px' }}>
+        暂无待审批草稿
+      </div>
+    )
+  }
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', padding: '8px' }}>
+      {pendingReplies.map(item => {
+        const phone = item.phone
+        const text = pendingEdits[phone] ?? item.draft_text
+        const busy = pendingBusy[phone]
+        const err = pendingError[phone]
+        return (
+          <div key={phone} style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '10px', background: '#fff' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '4px' }}>
+              <div style={{ fontWeight: 700, fontSize: '13px', color: '#111827' }}>{item.customer_name}</div>
+              <div style={{ fontSize: '11px', color: '#9ca3af' }}>{phone}</div>
+            </div>
+            <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: '6px' }}>
+              {item.language_name && (
+                <span style={{ fontSize: '10px', padding: '2px 7px', borderRadius: '999px', background: '#eff6ff', color: '#1d4ed8', fontWeight: 600 }}>
+                  🌐 {item.language_name}
+                </span>
+              )}
+              {item.contains_price_terms && (
+                <span style={{ fontSize: '10px', padding: '2px 7px', borderRadius: '999px', background: '#fef3c7', color: '#92400e', fontWeight: 700 }}>
+                  ⚠️ 含价格/报价信息，请仔细核对
+                </span>
+              )}
+              {item.stale && (
+                <span style={{ fontSize: '10px', padding: '2px 7px', borderRadius: '999px', background: '#fee2e2', color: '#b91c1c', fontWeight: 700 }}>
+                  🔄 客户有新消息，建议重新生成
+                </span>
+              )}
+            </div>
+            <div style={{ fontSize: '11px', color: '#6b7280', marginBottom: '6px' }}>
+              客户最后一条消息（{item.last_customer_message_time}）：
+              <div style={{ marginTop: '2px', color: '#374151', whiteSpace: 'pre-wrap' }}>{item.last_customer_message}</div>
+            </div>
+            <textarea
+              value={text}
+              onChange={e => setPendingEdits(prev => ({ ...prev, [phone]: e.target.value }))}
+              rows={3}
+              style={{ width: '100%', fontSize: '12px', padding: '6px', borderRadius: '6px', border: '1px solid #e5e7eb', resize: 'vertical', marginBottom: '6px', fontFamily: 'inherit' }}
+            />
+            {err && (
+              <div style={{ fontSize: '11px', color: '#dc2626', marginBottom: '6px' }}>⚠ {err}</div>
+            )}
+            <div style={{ display: 'flex', gap: '6px' }}>
+              <button onClick={() => onResolve(phone, 'send')} disabled={!!busy}
+                style={{ padding: '5px 14px', borderRadius: '7px', fontSize: '12px', fontWeight: 700, cursor: 'pointer', border: 'none', background: '#16a34a', color: '#fff', opacity: busy ? 0.6 : 1 }}>
+                {busy === 'send' ? '发送中...' : '✓ 发送'}
+              </button>
+              <button onClick={() => onResolve(phone, 'discard')} disabled={!!busy}
+                style={{ padding: '5px 12px', borderRadius: '7px', fontSize: '12px', cursor: 'pointer', border: '1px solid #e5e7eb', background: '#fff', color: '#6b7280', opacity: busy ? 0.6 : 1 }}>
+                {busy === 'discard' ? '处理中...' : '丢弃'}
+              </button>
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
 
 function getCounts(messages) {
   const safeMessages = Array.isArray(messages) ? messages : []
@@ -477,6 +545,12 @@ function MainApp({ currentUser, onLogout }) {
   const [autoDispatch, setAutoDispatch] = useState(false)
   const [newCustomerCount, setNewCustomerCount] = useState(0)
 
+  // ── 待审批草稿列表（多语言销售助理 - 第一阶段）──
+  const [pendingReplies, setPendingReplies] = useState([])
+  const [pendingEdits, setPendingEdits] = useState({})   // phone -> 编辑中的文本
+  const [pendingBusy, setPendingBusy] = useState({})     // phone -> 'send' | 'discard' | null
+  const [pendingError, setPendingError] = useState({})   // phone -> 错误信息
+
   // ── 发消息面板 ──
   const [sendPanelOpen, setSendPanelOpen] = useState(false)
   const [sendForm, setSendForm] = useState({ phone: '', name: '', country: '', message: '' })
@@ -630,6 +704,48 @@ function MainApp({ currentUser, onLogout }) {
       clearInterval(timer)
     }
   }, [activeChannel])
+
+  // ── 待审批草稿列表轮询（独立于activeChannel，始终运行）──
+  useEffect(() => {
+    let disposed = false
+    async function loadPending() {
+      const data = await fetchJson('/runtime/views/pending_replies.json', { items: [] })
+      if (!disposed && data && Array.isArray(data.items)) {
+        setPendingReplies(data.items)
+      }
+    }
+    loadPending()
+    const t = setInterval(loadPending, 8000)
+    return () => { disposed = true; clearInterval(t) }
+  }, [])
+
+  async function handleResolvePendingReply(phone, action) {
+    setPendingBusy(prev => ({ ...prev, [phone]: action }))
+    setPendingError(prev => ({ ...prev, [phone]: null }))
+    try {
+      const finalText = action === 'send' ? (pendingEdits[phone] ?? '') : ''
+      const res = await fetch('/api/pending_reply/resolve', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone, action, final_text: finalText }),
+      })
+      const data = await res.json()
+      if (data.success) {
+        setPendingReplies(prev => prev.filter(p => p.phone !== phone))
+        setPendingEdits(prev => { const n = { ...prev }; delete n[phone]; return n })
+      } else if (data.already_handled) {
+        setPendingReplies(prev => prev.filter(p => p.phone !== phone))
+      } else {
+        setPendingError(prev => ({ ...prev, [phone]: data.note || data.error || '操作失败' }))
+        const refreshed = await fetchJson('/runtime/views/pending_replies.json', { items: [] })
+        if (refreshed && Array.isArray(refreshed.items)) setPendingReplies(refreshed.items)
+      }
+    } catch (e) {
+      setPendingError(prev => ({ ...prev, [phone]: '网络错误，请重试' }))
+    } finally {
+      setPendingBusy(prev => ({ ...prev, [phone]: null }))
+    }
+  }
 
   useEffect(() => {
     if (flashTimerRef.current) {
@@ -1152,6 +1268,7 @@ function MainApp({ currentUser, onLogout }) {
                   ch === 'Facebook' ? '👥 FB' :
                   ch === '历史激活' ? '📂 激活' :
                   ch === '全部客户' ? '🗂 全部' :
+                  ch === '待审批' ? `📝 待审批${pendingReplies.length > 0 ? ` (${pendingReplies.length})` : ''}` :
                   ch
                 return (
                   <button
@@ -1173,7 +1290,7 @@ function MainApp({ currentUser, onLogout }) {
           </div>
 
           {/* Customer list header: filters + actions */}
-          {activeChannel !== '历史激活' && activeChannel !== '全部客户' && (
+          {activeChannel !== '历史激活' && activeChannel !== '全部客户' && activeChannel !== '待审批' && (
             <div style={{ padding: '6px 8px 4px', borderBottom: '1px solid #f3f4f6' }}>
               {/* Biz-type filter chips */}
               <div style={{ display: 'flex', gap: '3px', flexWrap: 'wrap', marginBottom: '4px' }}>
@@ -1392,7 +1509,17 @@ function MainApp({ currentUser, onLogout }) {
                 {activeChannel === '历史激活' ? '📂 查看右侧激活面板' : '🗂 查看右侧全部客户'}
               </div>
             )}
-            {activeChannel !== '历史激活' && (() => {
+            {activeChannel === '待审批' && (
+              <PendingRepliesPanel
+                pendingReplies={pendingReplies}
+                pendingEdits={pendingEdits}
+                setPendingEdits={setPendingEdits}
+                pendingBusy={pendingBusy}
+                pendingError={pendingError}
+                onResolve={handleResolvePendingReply}
+              />
+            )}
+            {activeChannel !== '历史激活' && activeChannel !== '待审批' && (() => {
               // 合并主动新建的联系人（去重：若 phone 已存在于 customers 则不重复显示）
               const existingPhones = new Set(customers.map(c => c.phone || c.id))
               const freshAdded = addedContacts.filter(c => !existingPhones.has(c.phone))
@@ -1752,10 +1879,10 @@ function MainApp({ currentUser, onLogout }) {
                   </div>
                   <div style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
                     {aiReplyEnabled && (
-                      <button onClick={() => setAiAutoSend(v => !v)}
-                        style={{ padding: '3px 9px', borderRadius: '999px', fontSize: '10px', fontWeight: 700, cursor: 'pointer', border: aiAutoSend ? '1px solid #dc2626' : '1px solid #d1d5db', background: aiAutoSend ? '#fef2f2' : '#f9fafb', color: aiAutoSend ? '#dc2626' : '#6b7280' }}>
-                        {aiAutoSend ? '⚡ AI自动发（高风险）' : '○ 人工审核'}
-                      </button>
+                      <span title="第一阶段安全闸门：所有回复必须人工点击才会发送"
+                        style={{ padding: '3px 9px', borderRadius: '999px', fontSize: '10px', fontWeight: 700, border: '1px solid #d1d5db', background: '#f9fafb', color: '#6b7280' }}>
+                        🔒 人工审核（已锁定）
+                      </span>
                     )}
                     <button onClick={() => { setAiReplyEnabled(v => !v); setAiReplyText(''); setAiReplyStatus(null) }}
                       style={{ padding: '3px 9px', borderRadius: '999px', fontSize: '11px', fontWeight: 700, cursor: 'pointer', border: aiReplyEnabled ? '1px solid #2563eb' : '1px solid #d1d5db', background: aiReplyEnabled ? '#eff6ff' : '#f9fafb', color: aiReplyEnabled ? '#1d4ed8' : '#6b7280' }}>

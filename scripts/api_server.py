@@ -120,6 +120,183 @@ RUNTIME_ALERTS = _DATA_ROOT / "qianqiu_os" / "runtime_alerts"
 RUNTIME_I18N = PROJECT_ROOT / "wolong_h5_console" / "public" / "runtime" / "i18n"
 
 
+import threading
+import os
+
+_FILE_LOCK = threading.Lock()
+
+
+def _atomic_write_json(path: Path, data):
+    # 写临时文件再 rename，避免前端轮询读到写一半的文件
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp_path = path.with_name(path.name + f".tmp.{os.getpid()}.{threading.get_ident()}")
+    tmp_path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    os.replace(tmp_path, path)
+
+
+# 价格/报价/承诺相关关键词 —— 仅用于前端 ⚠️ 提醒，不是安全闸门，可随时扩充
+_PRICE_KEYWORDS = [
+    "price", "cost", "quote", "quotation", "how much", "discount",
+    "deposit", "down payment", "$", "usd", "cif", "fob", "fca", "exw",
+    "报价", "多少钱", "价格", "定金", "订金", "折扣", "运费", "到岸价", "首付",
+]
+
+
+def _contains_price_terms(*texts) -> bool:
+    combined = " ".join((t or "") for t in texts).lower()
+    return any(kw in combined for kw in _PRICE_KEYWORDS)
+
+
+def _rebuild_pending_replies_view():
+    # 扫描所有对话文件，汇总未处理的 pending_ai_reply，原子写入 pending_replies.json
+    items = []
+    with _FILE_LOCK:
+        if CONVERSATIONS_DIR.exists():
+            for conv_file in sorted(CONVERSATIONS_DIR.glob("*.json")):
+                conv = _read_json(conv_file, {})
+                pending = conv.get("pending_ai_reply")
+                if not pending or not pending.get("text"):
+                    continue
+                if pending.get("status") == "processing":
+                    continue  # 正在发送中，不展示，避免双击窗口期重复出现
+                messages = conv.get("messages", [])
+                last_customer_msg = None
+                for m in reversed(messages):
+                    if m.get("role") == "customer":
+                        last_customer_msg = m
+                        break
+                items.append({
+                    "phone": conv.get("phone", ""),
+                    "customer_name": conv.get("customer_name", "客户"),
+                    "country": conv.get("country", ""),
+                    "bucket": conv.get("bucket", "待判断"),
+                    "last_customer_message": last_customer_msg.get("text", "") if last_customer_msg else "",
+                    "last_customer_message_time": last_customer_msg.get("time", "") if last_customer_msg else "",
+                    "draft_text": pending.get("text", ""),
+                    "language_code": pending.get("language_code", ""),
+                    "language_name": pending.get("language_name", ""),
+                    "contains_price_terms": pending.get("contains_price_terms", False),
+                    "generated_at": pending.get("generated_at", ""),
+                    "stale": pending.get("stale", False),
+                    "stale_reason": pending.get("stale_reason", ""),
+                    "last_send_error": pending.get("last_send_error", ""),
+                })
+        items.sort(key=lambda x: max(x.get("generated_at", ""), x.get("last_customer_message_time", "")), reverse=True)
+        view = {
+            "generated_at": time.strftime("%Y-%m-%d %H:%M:%S"),
+            "view_name": "pending_replies",
+            "count": len(items),
+            "items": items,
+        }
+        _atomic_write_json(H5_VIEWS / "pending_replies.json", view)
+
+
+def handle_resolve_pending_reply(body: dict) -> dict:
+    # 「待审批」列表的人工操作：发送（含修改后发送）或丢弃。
+    # 安全设计：
+    #   - 全程不允许任何自动发送；只有此函数被调用（销售点击按钮）才会触发 wa_send_message。
+    #   - 两段式发送：锁内先标记 processing（天然防双击/并发重复发送），锁外真实发送；
+    #     成功才清空草稿+记录消息；失败则恢复为 pending 并把错误返给前端，让销售可重试。
+    phone = body.get("phone", "")
+    action = body.get("action", "")  # 'send' | 'discard'
+    final_text = (body.get("final_text") or "").strip()
+
+    if not phone or action not in ("send", "discard"):
+        return {"success": False, "error": "参数错误：需要 phone 和 action(send|discard)"}
+
+    safe_phone = phone.replace("+", "").replace(" ", "_")
+    conv_path = CONVERSATIONS_DIR / f"{safe_phone}.json"
+
+    # ── 阶段1（锁内）：幂等检查 + 标记状态 ──
+    with _FILE_LOCK:
+        conv = _read_json(conv_path, {})
+        pending = conv.get("pending_ai_reply")
+        if not pending or not pending.get("text") or pending.get("status") == "processing":
+            return {
+                "success": False, "error": "already_handled", "already_handled": True,
+                "note": "该草稿已被处理，或正在处理中（防止重复操作）",
+            }
+
+        if action == "discard":
+            conv["pending_ai_reply"] = None
+            _atomic_write_json(conv_path, conv)
+            discarded = True
+            saved_pending = None
+        else:
+            saved_pending = dict(pending)
+            pending = dict(pending)
+            pending["status"] = "processing"
+            conv["pending_ai_reply"] = pending
+            _atomic_write_json(conv_path, conv)
+            discarded = False
+
+    if discarded:
+        _rebuild_pending_replies_view()
+        return {"success": True, "action": "discard", "phone": phone}
+
+    # ── 阶段2（锁外）：唯一真实发送入口 ──
+    text_to_send = final_text or saved_pending.get("text", "")
+    if not text_to_send:
+        with _FILE_LOCK:
+            conv = _read_json(conv_path, {})
+            saved_pending["status"] = "pending"
+            conv["pending_ai_reply"] = saved_pending
+            _atomic_write_json(conv_path, conv)
+        _rebuild_pending_replies_view()
+        return {"success": False, "error": "发送内容为空"}
+
+    send_result = wa_send_message(phone, text_to_send)
+    send_ok = bool(send_result.get("sent")) or send_result.get("mode") == "dry_run"
+
+    if send_ok:
+        now = time.strftime("%Y-%m-%d %H:%M:%S")
+        with _FILE_LOCK:
+            conv = _read_json(conv_path, {})
+            messages = conv.get("messages", [])
+            messages.append({"role": "agent", "text": text_to_send, "time": now, "timestamp": now})
+            conv["messages"] = messages
+            conv["last_updated"] = now
+            conv["pending_ai_reply"] = None
+            _atomic_write_json(conv_path, conv)
+
+            index_data = _read_json(INDEX_PATH, {"index_name": "whatsapp_conversation_index", "items": []})
+            items = index_data.get("items", [])
+            idx = next((i for i, x in enumerate(items) if x.get("phone") == phone), -1)
+            if idx >= 0:
+                items[idx]["latest_message"] = text_to_send
+                items[idx]["last_message_time"] = now
+            index_data["items"] = items
+            _atomic_write_json(INDEX_PATH, index_data)
+
+        try:
+            from qianqiu_os.services.runtime_whatsapp_h5_sync_v1 import sync as rebuild_dashboard
+            rebuild_dashboard()
+        except Exception as e:
+            print(f"[pending_reply] dashboard重建失败: {e}")
+        if SYNC_AVAILABLE:
+            try:
+                sync_once()
+            except Exception as e:
+                print(f"[pending_reply] 文件同步失败: {e}")
+        _rebuild_pending_replies_view()
+
+        return {"success": True, "action": "send", "phone": phone,
+                "sent_text": text_to_send, "wa_send": send_result}
+    else:
+        with _FILE_LOCK:
+            conv = _read_json(conv_path, {})
+            saved_pending["status"] = "pending"
+            saved_pending["last_send_error"] = send_result.get("error", "unknown_error")
+            saved_pending["last_send_attempt_at"] = time.strftime("%Y-%m-%d %H:%M:%S")
+            if final_text:
+                saved_pending["text"] = final_text
+            conv["pending_ai_reply"] = saved_pending
+            _atomic_write_json(conv_path, conv)
+        _rebuild_pending_replies_view()
+        return {"success": False, "error": "send_failed", "wa_send": send_result,
+                "note": "发送失败，草稿已恢复为待审批，可修改后重试"}
+
+
 def _read_json(path: Path, default=None):
     if not path.exists():
         return default
@@ -161,54 +338,58 @@ def handle_send_message(body: dict) -> dict:
 
     now = time.strftime("%Y-%m-%d %H:%M:%S")
 
-    # 1. 写入/更新 conversation 文件
+    # 1. 写入/更新 conversation 文件（加锁+原子写，避免并发丢更新/写坏文件）
     CONVERSATIONS_DIR.mkdir(parents=True, exist_ok=True)
     safe_phone = phone.replace("+", "").replace(" ", "_")
     conv_path = CONVERSATIONS_DIR / f"{safe_phone}.json"
 
-    existing_conv = _read_json(conv_path, {})
-    messages = existing_conv.get("messages", [])
-    messages.append({
-        "role": role,        # 保留真实 role（agent / customer）
-        "text": message_text,
-        "time": now,
-        "timestamp": now,
-    })
+    with _FILE_LOCK:
+        existing_conv = _read_json(conv_path, {})
+        messages = existing_conv.get("messages", [])
+        messages.append({
+            "role": role,        # 保留真实 role（agent / customer）
+            "text": message_text,
+            "time": now,
+            "timestamp": now,
+        })
 
-    conv_data = {
-        "phone": phone,
-        "customer_name": name,
-        "country": country,
-        "channel": "whatsapp",
-        "bucket": existing_conv.get("bucket", "待判断"),
-        "summary": existing_conv.get("summary", message_text[:80]),
-        "crm_status": existing_conv.get("crm_status", "unknown"),
-        "messages": messages,
-        "last_updated": now,
-    }
-    _write_json(conv_path, conv_data)
+        conv_data = {
+            "phone": phone,
+            "customer_name": name,
+            "country": country,
+            "channel": "whatsapp",
+            "bucket": existing_conv.get("bucket", "待判断"),
+            "summary": existing_conv.get("summary", message_text[:80]),
+            "crm_status": existing_conv.get("crm_status", "unknown"),
+            "messages": messages,
+            "last_updated": now,
+        }
+        # 保留待审批草稿字段，避免新消息写入时把草稿"静默吃掉"
+        if "pending_ai_reply" in existing_conv:
+            conv_data["pending_ai_reply"] = existing_conv["pending_ai_reply"]
+        _atomic_write_json(conv_path, conv_data)
 
-    # 2. 更新 conversation_index
-    index_data = _read_json(INDEX_PATH, {"index_name": "whatsapp_conversation_index", "items": []})
-    items = index_data.get("items", [])
-    existing_idx = next((i for i, x in enumerate(items) if x.get("phone") == phone), -1)
-    entry = {
-        "phone": phone,
-        "customer_name": name,
-        "country": country,
-        "channel": "whatsapp",
-        "bucket": existing_conv.get("bucket", "待判断"),
-        "latest_message": message_text,
-        "last_message_time": now,
-        "needs_human_review": False,
-        "crm_status": "unknown",
-    }
-    if existing_idx >= 0:
-        items[existing_idx] = entry
-    else:
-        items.insert(0, entry)
-    index_data["items"] = items
-    _write_json(INDEX_PATH, index_data)
+        # 2. 更新 conversation_index
+        index_data = _read_json(INDEX_PATH, {"index_name": "whatsapp_conversation_index", "items": []})
+        items = index_data.get("items", [])
+        existing_idx = next((i for i, x in enumerate(items) if x.get("phone") == phone), -1)
+        entry = {
+            "phone": phone,
+            "customer_name": name,
+            "country": country,
+            "channel": "whatsapp",
+            "bucket": existing_conv.get("bucket", "待判断"),
+            "latest_message": message_text,
+            "last_message_time": now,
+            "needs_human_review": False,
+            "crm_status": "unknown",
+        }
+        if existing_idx >= 0:
+            items[existing_idx] = entry
+        else:
+            items.insert(0, entry)
+        index_data["items"] = items
+        _atomic_write_json(INDEX_PATH, index_data)
 
     # 3. 重新生成 h5_dashboard_whatsapp.json 并同步到 H5
     try:
@@ -220,6 +401,9 @@ def handle_send_message(body: dict) -> dict:
     # 4. 强制同步到 H5 public 目录
     if SYNC_AVAILABLE:
         sync_once()
+
+    # 5. 刷新「待审批」聚合视图（发送/丢弃后也会走这里，保持列表实时）
+    _rebuild_pending_replies_view()
 
     result = {
         "success": True,
@@ -247,7 +431,8 @@ def handle_ai_reply(body: dict) -> dict:
     category = body.get("category", "待判断")
     last_message = body.get("last_message", "").strip()
     conversation_history = body.get("conversation_history", [])
-    auto_send = body.get("auto_send", False)
+    # 安全闸门（第一阶段）：全局禁止自动发送，无视前端传入值，所有发送必须经人工点击
+    auto_send = False
 
     if not last_message:
         return {"success": False, "error": "last_message 不能为空", "suggested_reply": None}
@@ -530,26 +715,62 @@ def handle_whatsapp_webhook(payload: dict) -> dict:
                     def _auto_generate_ai(phone=phone, customer_name=customer_name,
                                           message_text=message_text):
                         try:
-                            from qianqiu_os.services.llm_gateway_v1 import generate_reply
+                            from qianqiu_os.services.llm_gateway_v1 import generate_reply, _detect_customer_language
                             safe_phone = phone.replace("+", "").replace(" ", "_")
                             conv_path = CONVERSATIONS_DIR / f"{safe_phone}.json"
-                            conv = _read_json(conv_path, {})
+
+                            # 已有未处理草稿：不覆盖，只标记 stale，交人工决定是否重新生成
+                            with _FILE_LOCK:
+                                conv = _read_json(conv_path, {})
+                                existing = conv.get("pending_ai_reply")
+                                if existing and existing.get("text") and existing.get("status") != "processing" and not existing.get("stale"):
+                                    existing["stale"] = True
+                                    existing["stale_reason"] = "客户发来新消息，建议重新生成"
+                                    existing["new_message_preview"] = message_text[:80]
+                                    conv["pending_ai_reply"] = existing
+                                    _atomic_write_json(conv_path, conv)
+                                    print(f"[AI-Auto] {phone} 已有待审批草稿，标记 stale（新消息到达）")
+                                    needs_rebuild = True
+                                    skip_generate = True
+                                else:
+                                    needs_rebuild = False
+                                    skip_generate = False
+
+                            if skip_generate:
+                                if needs_rebuild:
+                                    _rebuild_pending_replies_view()
+                                return
+
                             history = conv.get("messages", [])
                             country = conv.get("country", "")
                             category = conv.get("bucket", "疑似车商")
                             r = generate_reply(customer_name, country, category,
                                                message_text, history)
                             if r.get("suggested_reply"):
-                                conv["pending_ai_reply"] = {
-                                    "text": r["suggested_reply"],
-                                    "source": r.get("source", "unknown"),
-                                    "generated_at": time.strftime("%Y-%m-%d %H:%M:%S"),
-                                }
-                                _write_json(conv_path, conv)
-                                print(f"[AI-Auto] 已为 {phone} 预生成建议回复 ({r.get('source')})")
+                                lang_code, lang_name = _detect_customer_language(message_text)
+                                with _FILE_LOCK:
+                                    conv = _read_json(conv_path, {})
+                                    current_pending = conv.get("pending_ai_reply")
+                                    if current_pending and current_pending.get("text") and current_pending.get("status") != "processing":
+                                        # 并发：另一线程已生成草稿，不覆盖，丢弃本次重复结果
+                                        print(f"[AI-Auto] {phone} 并发生成，已有草稿，丢弃本次重复结果")
+                                    else:
+                                        conv["pending_ai_reply"] = {
+                                            "text": r["suggested_reply"],
+                                            "source": r.get("source", "unknown"),
+                                            "generated_at": time.strftime("%Y-%m-%d %H:%M:%S"),
+                                            "language_code": lang_code,
+                                            "language_name": lang_name,
+                                            "contains_price_terms": _contains_price_terms(message_text, r["suggested_reply"]),
+                                            "based_on_message": message_text[:200],
+                                            "status": "pending",
+                                            "stale": False,
+                                        }
+                                        _atomic_write_json(conv_path, conv)
+                                        print(f"[AI-Auto] 已为 {phone} 预生成建议回复 ({r.get('source')})")
+                                _rebuild_pending_replies_view()
                         except Exception as e:
                             print(f"[AI-Auto] 预生成失败 {phone}: {e}")
-                    import threading
                     threading.Thread(target=_auto_generate_ai, daemon=True).start()
                 else:
                     errors.append({"phone": phone, "error": result.get("error", "unknown")})
@@ -1255,6 +1476,11 @@ class WolongAPIHandler(BaseHTTPRequestHandler):
 
         elif path == "/api/reflection":
             result = handle_reflection(body)
+            self._send_json(result)
+
+        elif path == "/api/pending_reply/resolve":
+            # 「待审批」列表的发送/丢弃操作 —— 唯一允许触发真实WhatsApp发送的人工入口
+            result = handle_resolve_pending_reply(body)
             self._send_json(result)
 
         elif path == "/api/mock_incoming":
