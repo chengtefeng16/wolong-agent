@@ -108,6 +108,9 @@ def _detect_customer_language(text: str) -> tuple[str, str]:
     # 阿拉伯语检测
     if re.search(r"[؀-ۿ]", text):
         return "ar", "Arabic (阿拉伯语)"
+    # 孟加拉语/孟加拉文检测
+    if re.search(r"[ঀ-৿]", text):
+        return "bn", "Bengali (孟加拉语)"
     # 土库曼语/乌兹别克语等拉丁字母语言（含特殊字符）
     if re.search(r"[äöüňşçýžÄÖÜŇŞÇÝŽ]", text):
         return "tk", "Turkmen/Uzbek (土库曼语/乌兹别克语)"
@@ -185,12 +188,20 @@ def _call_gemini_rest(api_key: str, prompt: str, system: str,
     try:
         with opener.open(req, timeout=30) as resp:
             body = json.loads(resp.read().decode("utf-8"))
-            text = (
+            parts = (
                 body.get("candidates", [{}])[0]
                     .get("content", {})
-                    .get("parts", [{}])[0]
-                    .get("text", "")
+                    .get("parts", [])
             )
+            # Gemini 2.5 Flash may return a thought part ({"thought": true}) before
+            # the actual reply. Always skip thought parts — only join non-thought text.
+            text = "".join(
+                p.get("text", "") for p in parts if not p.get("thought", False)
+            )
+            if not text and parts:
+                # Fallback: last part regardless of thought flag
+                text = parts[-1].get("text", "")
+            print(f"[Gemini] parts={len(parts)} thought_parts={sum(1 for p in parts if p.get('thought'))} text_len={len(text)}", flush=True)
             return {"text": text, "source": "gemini", "error": None}
     except Exception as e:
         return {"text": None, "source": "api_error", "error": str(e)}
@@ -283,8 +294,9 @@ def generate_reply(
     if conversation_history:
         last_5 = conversation_history[-5:]
         history_text = "\n".join([
-            f"{'客户' if m.get('role') in ('customer','客户') else '我方'}：{m.get('text','')}"
+            f"{'客户' if m.get('role') in ('customer','客户') else '我方'}：{m.get('text') or ''}"
             for m in last_5
+            if (m.get('text') or '').strip()  # skip empty/None entries
         ])
 
     experience_text = ""
@@ -361,8 +373,9 @@ def classify_customer(last_message: str, conversation_history: List[Dict] = None
     if conversation_history:
         last_3 = conversation_history[-3:]
         history_text = "\n".join([
-            f"{'客户' if m.get('role') in ('customer','客户') else '我方'}：{m.get('text','')}"
+            f"{'客户' if m.get('role') in ('customer','客户') else '我方'}：{m.get('text') or ''}"
             for m in last_3
+            if (m.get('text') or '').strip()
         ])
 
     prompt = f"""历史对话：
@@ -427,6 +440,11 @@ def _rule_based_reply(customer_name: str, country: str, category: str, last_mess
         # 阿拉伯语模板
         return (f"مرحباً! نحن متخصصون في تصدير السيارات المستعملة إلى {country}. "
                 f"يرجى مشاركة متطلباتك (الموديل، الكمية، الميزانية) وسنرد فوراً.")
+
+    elif lang_code == "bn":
+        # 孟加拉语模板
+        return (f"নমস্কার! আমরা {country}-এ ব্যবহৃত গাড়ি রপ্তানিতে বিশেষজ্ঞ। "
+                f"আপনার প্রয়োজনীয়তা (মডেল, পরিমাণ, বাজেট) শেয়ার করুন, আমরা দ্রুত জানাব।")
 
     else:
         # 英语模板（默认）
