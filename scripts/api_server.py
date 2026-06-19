@@ -1520,6 +1520,24 @@ class WolongAPIHandler(BaseHTTPRequestHandler):
             result = handle_save_template(body)
             self._send_json(result)
 
+        elif path == "/api/clear_conversations":
+            # 清除所有运行时对话数据（用于清除污染的历史记录）
+            import shutil
+            cleared = []
+            if CONVERSATIONS_DIR.exists():
+                for f in CONVERSATIONS_DIR.glob("*.json"):
+                    f.unlink()
+                    cleared.append(f.name)
+            if INDEX_PATH.exists():
+                INDEX_PATH.unlink()
+                cleared.append(INDEX_PATH.name)
+            pending_view = SESSIONS_DIR / "pending_replies_view.json"
+            if pending_view.exists():
+                pending_view.unlink()
+                cleared.append(pending_view.name)
+            print(f"[clear_conversations] 已清除 {len(cleared)} 个文件", flush=True)
+            self._send_json({"success": True, "cleared": cleared, "count": len(cleared)})
+
         else:
             self._send_json({"error": f"POST 未知路径: {path}"}, 404)
 
