@@ -16,11 +16,6 @@ RUN npm run build
 # Stage 2: Python API 服务器（运行时）
 FROM python:3.11-slim
 
-# 基础工具
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
-
 WORKDIR /app
 
 # 安装 Python 依赖（仅 anthropic SDK，其余标准库）
