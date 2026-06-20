@@ -532,7 +532,7 @@ def wa_send_message(to_phone: str, text: str) -> dict:
     - WHATSAPP_ACCESS_TOKEN 已配置 → 调用 WhatsApp Cloud API 真实发送
     - 未配置 → dry_run 模式，仅打印日志，不实际发送
 
-    to_phone 格式：+8613122101699 或 8613122101699（自动处理 + 前缀）
+    to_phone 格式：+8613222101699 或 8613222101699（自动处理 + 前缀）
     """
     import urllib.request
 
@@ -583,7 +583,7 @@ def handle_mock_incoming(body: dict) -> dict:
     模拟一条入站 WhatsApp 消息（用于测试，不依赖真实 WhatsApp）。
     构造与真实 Webhook 相同的 payload 结构，走同一条处理链路。
     """
-    phone = body.get("phone", "+8613122101699")
+    phone = body.get("phone", "+8613222101699")
     name  = body.get("name",  "测试客户")
     text  = body.get("message", "Hello, I want to buy 5 Toyota Corollas.")
 
@@ -596,7 +596,7 @@ def handle_mock_incoming(body: dict) -> dict:
                 "value": {
                     "messaging_product": "whatsapp",
                     "metadata": {
-                        "display_phone_number": "+8613122101699",
+                        "display_phone_number": "+8613222101699",
                         "phone_number_id": WHATSAPP_PHONE_NUMBER_ID,
                     },
                     "contacts": [{"profile": {"name": name}, "wa_id": wa_id}],
