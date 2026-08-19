@@ -136,9 +136,32 @@ class ScriptGenerator:
         print(f"           候选2: {hook_data.get('hook_2','')}")
         print(f"           候选3: {hook_data.get('hook_3','')}")
 
+        # ── 易经式随机维度：每天不同受众+基调+结构 ──────────────────────
+        import datetime
+        day_seed = int(datetime.date.today().strftime("%Y%m%d")) + len(source_material) % 100
+        rng = __import__('random').Random(day_seed)
+
+        audiences = self.direction.get("audiences", [])
+        tones = self.direction.get("tones", [])
+        body_structures = self.direction.get("body_structures", [])
+
+        combo_injection = ""
+        if audiences and tones and body_structures:
+            audience = rng.choice(audiences)
+            tone = rng.choice(tones)
+            structure = rng.choice(body_structures)
+            combo_injection = f"""
+今日创作维度（严格按照这个方向写正文）：
+- 核心受众：{audience}
+- 情绪基调：{tone}
+- 叙事结构：{structure}
+
+"""
+            print(f"  [Gemini] 今日维度：{tone[:8]}｜{structure[:5]}")
+
         # ── 阶段2：接正文 ──────────────────────────────────────────────
         print(f"  [Gemini] 阶段2/2 — 生成正文...")
-        body_prompt = BODY_PROMPT.format(
+        body_prompt = combo_injection + BODY_PROMPT.format(
             hook=chosen_hook,
             source_material=source_material,
         )
