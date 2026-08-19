@@ -38,22 +38,54 @@ class BackgroundGenerator:
         print("  [BG] 使用默认渐变背景")
         return None
 
+    SCENES = [
+        "ancient chinese buddhist temple courtyard at dawn, incense smoke rising, golden morning light through wooden pillars, no people",
+        "small zen temple in misty mountain, stone steps, moss covered walls, ethereal fog, soft light",
+        "mountain stream flowing over ancient stones, bamboo forest, morning mist, soft dappled light",
+        "lone pine tree on mountain cliff at sunrise, vast dramatic sky, chinese ink painting aesthetic",
+        "cherry blossom petals falling on still dark water, soft pink reflection, zen atmosphere",
+        "single incense stick burning in dark room, smoke curling upward, warm candlelight glow, deep shadows",
+        "golden sunset light streaming through ancient temple gate, dramatic sky, spiritual atmosphere",
+        "morning dew on lotus leaf in ancient pond, soft bokeh background, warm golden hour light",
+        "stone buddha statue in deep forest covered in moss, sunlight rays breaking through trees",
+        "ancient temple bell tower in mountain monastery, foggy morning, soft blue mist",
+        "empty meditation hall, polished wooden floor, single arched window with light beams, dust particles",
+        "waterfall cascading over ancient moss stones in deep forest, long exposure, morning mist",
+        "candle flame reflected in dark still water, minimal, meditative, warm glow in darkness",
+        "mountain peak above clouds at golden hour, vast ethereal landscape, rays of light",
+        "old stone lantern in japanese garden, night, soft warm glow, cherry blossoms, misty",
+    ]
+
     def _build_prompt(self, script_data: dict) -> str:
+        import random, hashlib
         tags = script_data.get("tags", [])
         tag_str = " ".join(tags)
-        if any(w in tag_str for w in ["焦虑", "压力", "迷茫", "比较"]):
-            base = "still water with soft ripples, calming blue-green tones, misty morning lake"
-        elif any(w in tag_str for w in ["放下", "执着", "当下"]):
-            base = "fallen autumn leaves on ancient stone path, maple forest, warm amber light"
-        elif any(w in tag_str for w in ["付出", "布施", "功德", "慈悲"]):
-            base = "golden sunrise over misty mountain peaks, expansive sky, rays of light"
+        title = script_data.get("title", "")
+
+        # 根据主题选择对应场景
+        if any(w in tag_str for w in ["焦虑", "压力", "迷茫"]):
+            candidates = [2, 11, 12]  # 流水、瀑布、烛光
+        elif any(w in tag_str for w in ["放下", "执着", "比较"]):
+            candidates = [3, 4, 13]  # 松树、樱花、山峰
+        elif any(w in tag_str for w in ["付出", "布施", "慈悲"]):
+            candidates = [6, 13, 14]  # 夕阳、山峰、石灯
+        elif any(w in tag_str for w in ["当下", "专注", "平静"]):
+            candidates = [5, 10, 7]  # 香烛、禅堂、荷叶
+        elif any(w in tag_str for w in ["孤独", "异乡", "思念"]):
+            candidates = [0, 1, 9]  # 寺庙、晨雾、钟楼
         else:
-            base = "zen garden with raked sand patterns, single stone, morning mist"
+            candidates = list(range(len(self.SCENES)))
+
+        # 用title做随机种子，保证同一视频每次生成相同背景
+        seed = int(hashlib.md5(title.encode()).hexdigest(), 16) % len(candidates)
+        scene_idx = candidates[seed % len(candidates)]
+        base = self.SCENES[scene_idx]
+
         return (
-            f"modern zen aesthetic, {base}, "
-            "9:16 vertical portrait, cinematic photography, "
+            f"cinematic zen photography, {base}, "
+            "9:16 vertical portrait orientation, "
             "soft natural diffused lighting, muted earth tones with subtle warmth, "
-            "no people, no text, no watermark, high quality"
+            "no text, no watermark, high quality, photorealistic"
         )
 
     def _try_imagen(self, prompt: str, out_path: str):
