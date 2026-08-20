@@ -413,9 +413,9 @@ class VideoComposer:
         img = bg_img.copy()
 
         # 深色蒙版
-        overlay = Image.new("RGBA", (self.W, self.H), (0, 0, 0, 160))
-        img = img.convert("RGBA")
-        img = Image.alpha_composite(img, overlay).convert("RGB")
+        draw = ImageDraw.Draw(img)
+        dark_overlay = Image.new("RGB", (self.W, self.H), (0, 0, 0))
+        img = Image.blend(img, dark_overlay, alpha=0.55)
         draw = ImageDraw.Draw(img)
 
         # 金色装饰线（上）
