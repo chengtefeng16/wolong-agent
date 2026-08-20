@@ -95,21 +95,20 @@ class BackgroundGenerator:
             from google import genai
             from google.genai import types
             client = genai.Client(api_key=self.gemini_key)
-            response = client.models.generate_images(
-                model="imagen-4.0-generate-001",
-                prompt=prompt,
-                config=types.GenerateImagesConfig(
-                    number_of_images=1,
-                    aspect_ratio="9:16",
-                    output_mime_type="image/jpeg",
-                ),
+            response = client.models.generate_content(
+                model="gemini-2.5-flash-preview-05-20",
+                contents=prompt,
+                config=types.GenerateContentConfig(
+                    response_modalities=["IMAGE", "TEXT"],
+                    response_mime_type="image/jpeg",
+                )
             )
-            if response.generated_images:
-                img_bytes = response.generated_images[0].image.image_bytes
-                img = Image.open(io.BytesIO(img_bytes)).convert("RGB")
-                img = self._resize_and_darken(img)
-                img.save(out_path, "JPEG", quality=92)
-                return out_path
+            for part in response.candidates[0].content.parts:
+                if part.inline_data and part.inline_data.data:
+                    img = Image.open(io.BytesIO(part.inline_data.data)).convert("RGB")
+                    img = self._resize_and_darken(img)
+                    img.save(out_path, "JPEG", quality=92)
+                    return out_path
         except Exception as e:
             print(f"  [BG] Imagen错误: {e}")
         return None
