@@ -89,28 +89,42 @@ class BackgroundGenerator:
         )
 
     def _try_imagen(self, prompt: str, out_path: str):
-        if not self.gemini_key:
-            return None
+        """用Unsplash获取高质量禅意背景图（免费稳定）"""
+        # Unsplash关键词映射
+        zen_queries = [
+            "zen buddhist temple morning",
+            "misty mountain forest path",
+            "bamboo forest sunlight",
+            "lotus pond reflection",
+            "incense smoke meditation",
+            "autumn forest path",
+            "mountain peak clouds sunrise",
+            "stone garden meditation",
+            "waterfall forest moss",
+            "candlelight dark peaceful",
+            "cherry blossom water",
+            "monastery foggy morning",
+            "pine tree cliff sunrise",
+            "ancient stone lantern",
+            "empty hall wooden floor light",
+        ]
+        import random, hashlib
+        seed = int(hashlib.md5(prompt[:50].encode()).hexdigest(), 16) % len(zen_queries)
+        query = zen_queries[seed]
+        return self._try_unsplash_query(query, out_path)
+
+    def _try_unsplash_query(self, query: str, out_path: str):
         try:
-            from google import genai
-            from google.genai import types
-            client = genai.Client(api_key=self.gemini_key)
-            response = client.models.generate_content(
-                model="gemini-2.5-flash-preview-05-20",
-                contents=prompt,
-                config=types.GenerateContentConfig(
-                    response_modalities=["IMAGE", "TEXT"],
-                    response_mime_type="image/jpeg",
-                )
-            )
-            for part in response.candidates[0].content.parts:
-                if part.inline_data and part.inline_data.data:
-                    img = Image.open(io.BytesIO(part.inline_data.data)).convert("RGB")
-                    img = self._resize_and_darken(img)
-                    img.save(out_path, "JPEG", quality=92)
-                    return out_path
+            url = f"https://source.unsplash.com/1080x1920/?{query.replace(' ', ',')}"
+            resp = requests.get(url, timeout=20, allow_redirects=True)
+            if resp.status_code == 200 and len(resp.content) > 10000:
+                img = Image.open(io.BytesIO(resp.content)).convert("RGB")
+                img = self._resize_and_darken(img)
+                img.save(out_path, "JPEG", quality=92)
+                print(f"  [BG] Unsplash图片: {query}")
+                return out_path
         except Exception as e:
-            print(f"  [BG] Imagen错误: {e}")
+            print(f"  [BG] Unsplash错误: {e}")
         return None
 
     def _try_unsplash(self, script_data: dict, out_path: str):
