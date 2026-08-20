@@ -54,7 +54,14 @@ class SheetReader:
             f"https://docs.google.com/spreadsheets/d/{sid}"
             f"/gviz/tq?tqx=out:csv&sheet={requests.utils.quote(sheet_name)}"
         )
-        resp = requests.get(url, timeout=15)
+        for attempt in range(3):
+                try:
+                    resp = requests.get(url, timeout=30)
+                    break
+                except Exception as e:
+                    if attempt == 2:
+                        raise
+                    import time; time.sleep(5)
         if resp.status_code != 200:
             raise RuntimeError(
                 f"无法读取 Google Sheet (HTTP {resp.status_code})。\n"
