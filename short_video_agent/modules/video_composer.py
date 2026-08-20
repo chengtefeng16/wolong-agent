@@ -361,7 +361,7 @@ class VideoComposer:
         output_filename: str,
         background_path: str = None,
     ) -> str:
-        """双语字幕版本：中文主字幕 + 英文副字幕"""
+        """双语字幕版本：中文主字幕 + 英文副字幕，开头3秒封面大字"""
         os.makedirs(self.output_dir, exist_ok=True)
         out_path = os.path.join(self.output_dir, output_filename)
 
@@ -371,13 +371,23 @@ class VideoComposer:
         bg_img = self._make_background(background_path)
         script_text = script_data.get("full_script", "")
         en_subtitles = script_data.get("en_subtitles", [])
+        cover_quote = script_data.get("cover_quote", "")
 
+        # 开头3秒：封面大字冲击帧
+        COVER_DURATION = 3.0
+        cover_img = self._make_cover_frame(bg_img, cover_quote)
+        cover_clip = ImageClip(self._pil_to_array(cover_img), duration=COVER_DURATION)
+
+        # 剩余时间：双语字幕
+        subtitle_duration = duration - COVER_DURATION
         subtitle_clips = self._make_bilingual_subtitle_clips(
-            script_text, en_subtitles, duration, bg_img
+            script_text, en_subtitles, subtitle_duration, bg_img
         )
+        # 字幕clips时间偏移3秒
+        subtitle_clips = [c.with_start(c.start + COVER_DURATION) for c in subtitle_clips]
 
         bg_clip = ImageClip(self._pil_to_array(bg_img), duration=duration)
-        all_clips = [bg_clip] + subtitle_clips
+        all_clips = [bg_clip, cover_clip] + subtitle_clips
 
         video = CompositeVideoClip(all_clips, size=(self.W, self.H))
         video = video.with_audio(audio_clip)
@@ -396,6 +406,50 @@ class VideoComposer:
         print(f"  [Video] 双语视频已合成: {out_path}  ({duration:.1f}s)")
         return out_path
 
+
+    def _make_cover_frame(self, bg_img, cover_quote: str):
+        """生成开头3秒的封面冲击帧：超大金字+黑色蒙版"""
+        from PIL import ImageDraw
+        img = bg_img.copy()
+
+        # 深色蒙版
+        overlay = Image.new("RGBA", (self.W, self.H), (0, 0, 0, 160))
+        img = img.convert("RGBA")
+        img = Image.alpha_composite(img, overlay).convert("RGB")
+        draw = ImageDraw.Draw(img)
+
+        # 金色装饰线（上）
+        gold = (212, 175, 55)
+        cx = self.W // 2
+        draw.line([(cx-120, int(self.H*0.3)), (cx+120, int(self.H*0.3))], fill=gold, width=3)
+
+        # 超大金句（暖白色）
+        font_size = 88
+        font = self._get_font(font_size)
+        import textwrap
+        lines = textwrap.wrap(cover_quote, width=9)
+        line_h = int(font_size * 1.5)
+        total_h = line_h * len(lines)
+        y = int(self.H * 0.35)
+
+        for line in lines:
+            bbox = draw.textbbox((0, 0), line, font=font)
+            x = (self.W - (bbox[2] - bbox[0])) // 2
+            draw.text((x+3, y+3), line, font=font, fill=(0,0,0))
+            draw.text((x, y), line, font=font, fill=(255, 248, 220))
+            y += line_h
+
+        # 金色装饰线（下）
+        draw.line([(cx-120, y+10), (cx+120, y+10)], fill=gold, width=3)
+
+        # 小字提示
+        font_sm = self._get_font(36)
+        tip = "↓ 继续看"
+        bbox = draw.textbbox((0, 0), tip, font=font_sm)
+        x = (self.W - (bbox[2] - bbox[0])) // 2
+        draw.text((x, int(self.H*0.72)), tip, font=font_sm, fill=(180, 160, 100))
+
+        return img
     def _make_bilingual_subtitle_clips(
         self, zh_text: str, en_subtitles: list, duration: float, bg_img
     ) -> list:
@@ -403,10 +457,18 @@ class VideoComposer:
         if not zh_sentences:
             return []
 
-        # 对齐中英句子数量
-        while len(en_subtitles) < len(zh_sentences):
-            en_subtitles.append("")
-        en_subtitles = en_subtitles[:len(zh_sentences)]
+        # 比例映射：把英文句子按比例分配给中文句子，解决数量不一致问题
+        n_zh = len(zh_sentences)
+        n_en = len(en_subtitles)
+        mapped_en = []
+        for i in range(n_zh):
+            if n_en == 0:
+                mapped_en.append("")
+            else:
+                en_idx = int(i * n_en / n_zh)
+                en_idx = min(en_idx, n_en - 1)
+                mapped_en.append(en_subtitles[en_idx])
+        en_subtitles = mapped_en
 
         time_per_char = duration / max(sum(len(s) for s in zh_sentences), 1)
         clips = []
