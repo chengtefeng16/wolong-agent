@@ -114,17 +114,31 @@ class BackgroundGenerator:
         return self._try_unsplash_query(query, out_path)
 
     def _try_unsplash_query(self, query: str, out_path: str):
+        """用Pexels API获取高质量禅意图片"""
         try:
-            url = f"https://source.unsplash.com/1080x1920/?{query.replace(' ', ',')}"
-            resp = requests.get(url, timeout=20, allow_redirects=True)
-            if resp.status_code == 200 and len(resp.content) > 10000:
-                img = Image.open(io.BytesIO(resp.content)).convert("RGB")
-                img = self._resize_and_darken(img)
-                img.save(out_path, "JPEG", quality=92)
-                print(f"  [BG] Unsplash图片: {query}")
-                return out_path
+            pexels_key = "P0a88apfxfsKw2wzW5BK8fIpIq5mui64iDGbqUGHZpxoH3M9igl2HoNK"
+            headers = {"Authorization": pexels_key}
+            resp = requests.get(
+                "https://api.pexels.com/v1/search",
+                headers=headers,
+                params={"query": query, "orientation": "portrait", "per_page": 10},
+                timeout=15
+            )
+            if resp.status_code == 200:
+                photos = resp.json().get("photos", [])
+                if photos:
+                    import hashlib
+                    idx = int(hashlib.md5(query.encode()).hexdigest(), 16) % len(photos)
+                    img_url = photos[idx]["src"]["large2x"]
+                    img_resp = requests.get(img_url, timeout=20)
+                    if img_resp.status_code == 200:
+                        img = Image.open(io.BytesIO(img_resp.content)).convert("RGB")
+                        img = self._resize_and_darken(img)
+                        img.save(out_path, "JPEG", quality=92)
+                        print(f"  [BG] Pexels图片: {query}")
+                        return out_path
         except Exception as e:
-            print(f"  [BG] Unsplash错误: {e}")
+            print(f"  [BG] Pexels错误: {e}")
         return None
 
     def _try_unsplash(self, script_data: dict, out_path: str):
