@@ -84,31 +84,58 @@ class VideoComposer:
         return out_path
 
     def make_cover_image(self, title: str, cover_quote: str, output_filename: str, background_path: str = None) -> str:
-        """生成封面图（1080x1920 JPG）"""
+        """生成封面图 - 视觉冲击版：大字金句+装饰线+半透明蒙版"""
         os.makedirs(self.output_dir, exist_ok=True)
         out_path = os.path.join(self.output_dir, output_filename)
 
         img = self._make_background(background_path).copy()
         draw = ImageDraw.Draw(img)
 
-        # 金句（居中大字）
-        self._draw_centered_text(
-            draw, cover_quote,
-            y_center=self.H * 0.42,
-            font_size=self.scfg["font_size"] + 10,
-            max_chars=12,
-            bold=True,
+        # 中央区域加深色半透明蒙版，让文字更清晰
+        overlay = Image.new("RGBA", (self.W, self.H), (0, 0, 0, 0))
+        overlay_draw = ImageDraw.Draw(overlay)
+        overlay_draw.rectangle(
+            [0, int(self.H * 0.25), self.W, int(self.H * 0.75)],
+            fill=(0, 0, 0, 140)
         )
+        img = img.convert("RGBA")
+        img = Image.alpha_composite(img, overlay).convert("RGB")
+        draw = ImageDraw.Draw(img)
 
-        # 标题（小字，金句下方）
-        self._draw_centered_text(
-            draw, title,
-            y_center=self.H * 0.58,
-            font_size=self.scfg["font_size"] - 14,
-            max_chars=16,
-        )
+        # 装饰线（金句上方）
+        line_y = int(self.H * 0.33)
+        line_color = (200, 170, 100)  # 金色
+        draw.line([(self.W//2 - 80, line_y), (self.W//2 + 80, line_y)], fill=line_color, width=2)
 
-        img.save(out_path, "JPEG", quality=92)
+        # 金句（超大字，居中，金色）
+        font_size_quote = self.scfg["font_size"] + 24  # 96px
+        font = self._get_font(font_size_quote)
+        lines = textwrap.wrap(cover_quote, width=10)
+        line_height = int(font_size_quote * 1.4)
+        total_h = line_height * len(lines)
+        y_start = int(self.H * 0.38) - total_h // 2
+
+        for i, line in enumerate(lines):
+            y = y_start + i * line_height
+            bbox = draw.textbbox((0, 0), line, font=font)
+            x = (self.W - (bbox[2] - bbox[0])) // 2
+            # 阴影
+            draw.text((x+3, y+3), line, font=font, fill=(0, 0, 0))
+            # 主文字（暖白色）
+            draw.text((x, y), line, font=font, fill=(255, 248, 220))
+
+        # 装饰线（金句下方）
+        line_y2 = y_start + total_h + 20
+        draw.line([(self.W//2 - 80, line_y2), (self.W//2 + 80, line_y2)], fill=line_color, width=2)
+
+        # 频道标识（小字，底部）
+        font_small = self._get_font(32)
+        channel = "佛法与生活"
+        bbox = draw.textbbox((0, 0), channel, font=font_small)
+        x = (self.W - (bbox[2] - bbox[0])) // 2
+        draw.text((x, int(self.H * 0.68)), channel, font=font_small, fill=(180, 160, 120))
+
+        img.save(out_path, "JPEG", quality=95)
         print(f"  [Cover] 已生成: {out_path}")
         return out_path
 
