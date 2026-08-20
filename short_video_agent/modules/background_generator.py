@@ -88,29 +88,63 @@ class BackgroundGenerator:
             "no text, no watermark, high quality, photorealistic"
         )
 
+    # 主题周配置：每周一个视觉主题，便于A/B测试
+    WEEKLY_THEMES = {
+        0: {  # 第1周：山水自然
+            "name": "山水自然",
+            "queries": [
+                "mountain waterfall nature serene",
+                "forest stream moss rocks",
+                "misty mountain sunrise",
+                "bamboo forest path light",
+                "autumn forest reflection water",
+            ]
+        },
+        1: {  # 第2周：烛光禅意
+            "name": "烛光禅意",
+            "queries": [
+                "candle flame dark peaceful",
+                "incense smoke meditation dark",
+                "candlelight bokeh warm dark",
+                "single candle night calm",
+                "fire light meditation",
+            ]
+        },
+        2: {  # 第3周：寺庙古建
+            "name": "寺庙古建",
+            "queries": [
+                "buddhist temple morning mist",
+                "ancient stone temple forest",
+                "monastery foggy mountain",
+                "zen garden stone lantern",
+                "ancient wooden temple light",
+            ]
+        },
+        3: {  # 第4周：现代简约
+            "name": "现代简约",
+            "queries": [
+                "minimal dark room light beam",
+                "empty room window light dust",
+                "dark background single light",
+                "minimalist interior calm",
+                "shadow light abstract calm",
+            ]
+        },
+    }
+
     def _try_imagen(self, prompt: str, out_path: str):
-        """用Unsplash获取高质量禅意背景图（免费稳定）"""
-        # Unsplash关键词映射
-        zen_queries = [
-            "zen buddhist temple morning",
-            "misty mountain forest path",
-            "bamboo forest sunlight",
-            "lotus pond reflection",
-            "incense smoke meditation",
-            "autumn forest path",
-            "mountain peak clouds sunrise",
-            "stone garden meditation",
-            "waterfall forest moss",
-            "candlelight dark peaceful",
-            "cherry blossom water",
-            "monastery foggy morning",
-            "pine tree cliff sunrise",
-            "ancient stone lantern",
-            "empty hall wooden floor light",
-        ]
-        import random, hashlib
-        seed = int(hashlib.md5(prompt[:50].encode()).hexdigest(), 16) % len(zen_queries)
-        query = zen_queries[seed]
+        """按主题周选择Pexels图片，同一天内用时间戳保证不重复"""
+        import datetime, hashlib
+        # 计算当前是第几周主题（每4周循环）
+        week_num = datetime.date.today().isocalendar()[1] % 4
+        theme = self.WEEKLY_THEMES[week_num]
+
+        # 用当前时间戳+prompt做种子，确保每次不重复
+        seed_str = prompt[:30] + datetime.datetime.now().strftime("%Y%m%d%H%M")
+        seed = int(hashlib.md5(seed_str.encode()).hexdigest(), 16)
+        query = theme["queries"][seed % len(theme["queries"])]
+
+        print(f"  [BG] 本周主题：{theme['name']} | 关键词：{query}")
         return self._try_unsplash_query(query, out_path)
 
     def _try_unsplash_query(self, query: str, out_path: str):
