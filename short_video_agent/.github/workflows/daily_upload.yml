@@ -41,6 +41,7 @@ jobs:
         run: |
           sed -i "s|gemini_key:.*|gemini_key: \"${{ secrets.GEMINI_KEY }}\""|" config/base_config.yaml
           sed -i "s|elevenlabs_key:.*|elevenlabs_key: \"${{ secrets.ELEVENLABS_KEY }}\""|" config/base_config.yaml
+          sed -i "s|youtube_api_key:.*|youtube_api_key: \"${{ secrets.YOUTUBE_API_KEY }}\""|" config/base_config.yaml
 
       - name: Run full pipeline
         working-directory: short_video_agent
