@@ -38,6 +38,20 @@ def load_config(base_path: str = None) -> dict:
 
     # 加载内容方向配置并合并
     direction = cfg.get("content_config", "buddhism_zh")
+
+    # 简繁轮换：偶数日简体，奇数日繁体（同频道扩大覆盖）
+    import datetime, os
+    force_direction = os.environ.get("FORCE_DIRECTION", "")
+    if force_direction:
+        direction = force_direction
+    elif direction == "buddhism_zh":
+        day = datetime.date.today().day
+        if day % 2 == 1:  # 奇数日用繁体
+            tw_path = _ROOT / "config" / "buddhism_zh_tw.yaml"
+            if tw_path.exists():
+                direction = "buddhism_zh_tw"
+        print(f"  [Config] 今日方向: {direction}")
+
     direction_path = _ROOT / "config" / f"{direction}.yaml"
     if direction_path.exists():
         with open(direction_path) as f:
