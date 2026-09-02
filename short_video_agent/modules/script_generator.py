@@ -85,7 +85,7 @@ BODY_PROMPT = """你是一位面向海外华人的短视频创作者，风格像
 输出JSON：
 {{
   "body": "（正文，不含开场句，130-160字，全是大白话）",
-  "title": "（12字以内，口语化，让人想点进来）",
+  "title": "（12字以内，必须符合爆款结构。铁律：①优先用疑问句或反问句，如'你是不是活得太用力了？'②或用对比反差，如'别再比了，你的心会更自由'③禁止陈述句和正能量口号，如'自己点亮自己的路'这种必死④多用'别再比''放下''太用力''羡慕''睡不着'等已验证高效词⑤戳具体痛点，不说抽象道理）",
   "cover_quote": "（直接用开场句，或一句更适合截图的金句，大白话）",
   "tags": ["标签1", "标签2", "标签3"]
 }}"""
@@ -96,6 +96,8 @@ class ScriptGenerator:
         self.cfg = cfg
         self.direction = cfg["direction"]
         self._client = genai.Client(api_key=cfg["api"]["gemini_key"])
+        from modules.hotword_engine import HotwordEngine
+        self._hotword = HotwordEngine(api_key=cfg["api"].get("youtube_api_key", ""))
         self._model = "gemini-2.5-flash"
         self._bilingual = self.direction.get("language", "zh") == "zh-en"
 
@@ -150,14 +152,22 @@ class ScriptGenerator:
             audience = rng.choice(audiences)
             tone = rng.choice(tones)
             structure = rng.choice(body_structures)
+            # 融入当下热词（三源：自己高效词+YouTube实时+海外情绪）
+            hotwords = self._hotword.pick_hotwords(rng, count=2)
+            hotword_line = ""
+            if hotwords:
+                hotword_line = f"- 当下热词（自然融入正文，不生硬堆砌）：{' / '.join(hotwords)}\n"
+
             combo_injection = f"""
 今日创作维度（严格按照这个方向写正文）：
 - 核心受众：{audience}
 - 情绪基调：{tone}
 - 叙事结构：{structure}
-
+{hotword_line}
 """
             print(f"  [Gemini] 今日维度：{tone[:8]}｜{structure[:5]}")
+            if hotwords:
+                print(f"  [Gemini] 今日热词：{' / '.join(hotwords)}")
 
         # ── 阶段2：接正文 ──────────────────────────────────────────────
         print(f"  [Gemini] 阶段2/2 — 生成正文...")
