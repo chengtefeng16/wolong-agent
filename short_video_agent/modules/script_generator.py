@@ -123,7 +123,10 @@ class ScriptGenerator:
         print(f"  [Gemini] 阶段1/2 — 钩子形式: 【{style['name']}】")
 
         # ── 阶段1：生成3个同一形式的钩子候选 ────────────────────────────
-        hook_prompt = HOOK_PROMPT.format(
+        hook_trad = ""
+        if self.direction.get("output_traditional"):
+            hook_trad = "\n【重要】钩子必须用繁体中文（台湾用语）。\n"
+        hook_prompt = hook_trad + HOOK_PROMPT.format(
             theme_hint=theme_hint,
             style_name=style["name"],
             style_desc=style["desc"],
@@ -171,7 +174,12 @@ class ScriptGenerator:
 
         # ── 阶段2：接正文 ──────────────────────────────────────────────
         print(f"  [Gemini] 阶段2/2 — 生成正文...")
-        body_prompt = combo_injection + BODY_PROMPT.format(
+        # 繁体中文输出（台港受众）
+        traditional_req = ""
+        if self.direction.get("output_traditional"):
+            traditional_req = "\n\n【重要】全部输出必须使用繁体中文（台湾用语习惯），包括标题、金句、正文、标签，一个简体字都不要出现。\n"
+
+        body_prompt = traditional_req + combo_injection + BODY_PROMPT.format(
             hook=chosen_hook,
             source_material=source_material,
         )
