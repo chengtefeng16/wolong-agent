@@ -10,6 +10,8 @@ import time
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
+import google_auth_httplib2
+import httplib2
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from googleapiclient.http import MediaFileUpload
@@ -80,7 +82,23 @@ class YouTubeUploader:
                 self._save_creds_to_json(creds, self.token_path)
                 print(f"  [YouTube] Token 已保存: {self.token_path}")
 
-        self._service = build("youtube", "v3", credentials=creds)
+        # 注入代理：httplib2 不读环境变量，需显式配置
+        import httplib2
+        proxy_info = None
+        proxy_url = os.environ.get("https_proxy") or os.environ.get("HTTPS_PROXY") \
+                    or os.environ.get("http_proxy") or os.environ.get("HTTP_PROXY")
+        if proxy_url:
+            from urllib.parse import urlparse
+            p = urlparse(proxy_url)
+            proxy_info = httplib2.ProxyInfo(
+                proxy_type=3,  # PROXY_TYPE_HTTP
+                proxy_host=p.hostname,
+                proxy_port=p.port or 8080,
+            )
+        http = google_auth_httplib2.AuthorizedHttp(
+            creds, http=httplib2.Http(proxy_info=proxy_info)
+        )
+        self._service = build("youtube", "v3", http=http)
         print("  [YouTube] 认证成功 ✅")
 
     def upload(self, video_path: str, script_data: dict, privacy: str = None) -> str:
@@ -95,6 +113,8 @@ class YouTubeUploader:
         description = self.yt_cfg["description_template"].format(
             cover_quote=script_data.get("cover_quote", ""),
             theme=first_tag,
+            report_url=script_data.get("report_url", self.yt_cfg.get("report_url", "")),
+            title=script_data.get("title", ""),
         )
         tags = self.yt_cfg["tags"] + tags_from_script
 
@@ -112,7 +132,7 @@ class YouTubeUploader:
             },
         }
 
-        media = MediaFileUpload(video_path, mimetype="video/mp4", resumable=True, chunksize=8*1024*1024)
+        media = MediaFileUpload(video_path, mimetype="video/mp4", resumable=True, chunksize=-1)
         request = self._service.videos().insert(part=",".join(body.keys()), body=body, media_body=media)
 
         print(f"  [YouTube] 开始上传: 「{title}」")
@@ -141,5 +161,12 @@ class YouTubeUploader:
                     time.sleep(wait)
                 else:
                     raise
+            except httplib2.error.RedirectMissingLocation:
+                retry += 1
+                if retry > MAX_RETRIES:
+                    raise
+                wait = 2 ** retry
+                print(f"\n  [YouTube] 重定向异常，{wait}秒后重试（{retry}/{MAX_RETRIES}）...")
+                time.sleep(wait)
         print()
         return response["id"]
