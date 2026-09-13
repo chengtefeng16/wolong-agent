@@ -1,0 +1,70 @@
+name: CNcar Story Upload
+
+on:
+  workflow_dispatch:
+    inputs:
+      story_file:
+        description: 'Story file path (relative to short_video_agent/)'
+        required: true
+        default: 'cncar/stories/story_01.txt'
+
+permissions:
+  contents: write
+
+jobs:
+  generate-and-upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y ffmpeg fonts-noto-cjk
+
+      - name: Install Python dependencies
+        working-directory: short_video_agent
+        run: pip install -r requirements.txt
+
+      - name: Restore CNcar YouTube credentials
+        working-directory: short_video_agent
+        run: |
+          mkdir -p cncar/config
+          echo "${{ secrets.CNCAR_YOUTUBE_CREDENTIALS }}" | base64 -d > cncar/config/cncar_youtube_credentials.json
+          echo "${{ secrets.CNCAR_YOUTUBE_TOKEN }}" | base64 -d > cncar/config/cncar_youtube_token.json
+
+      - name: Run story pipeline (TTS + Pexels + 合成 + BGM)
+        id: story
+        working-directory: short_video_agent
+        run: |
+          python3 cncar/main.py --story "${{ github.event.inputs.story_file }}" 2>&1 | tee /tmp/story_log.txt
+          VIDEO_ID=$(python3 -c "
+          import json
+          data = json.load(open('cncar/pending.json'))
+          pending = [x for x in data if x.get('status') == 'pending']
+          print(pending[-1]['id'])
+          ")
+          echo "video_id=$VIDEO_ID" >> $GITHUB_OUTPUT
+          echo "生成完成，ID: $VIDEO_ID"
+
+      - name: Upload to YouTube (unlisted)
+        id: upload
+        working-directory: short_video_agent
+        run: |
+          python3 cncar/main.py --approve "${{ steps.story.outputs.video_id }}" 2>&1 | tee /tmp/upload_log.txt
+          VIDEO_URL=$(grep -oP "youtu\.be/[a-zA-Z0-9_-]+" /tmp/upload_log.txt | head -1)
+          echo "video_url=https://$VIDEO_URL" >> $GITHUB_OUTPUT
+
+      - name: Print result
+        run: |
+          echo "=========================================="
+          echo "✅ 上传完成（unlisted，审核后手动转公开）"
+          echo "🔗 ${{ steps.upload.outputs.video_url }}"
+          echo "=========================================="
