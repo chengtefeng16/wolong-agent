@@ -17,7 +17,10 @@ from googleapiclient.errors import HttpError
 from googleapiclient.http import MediaFileUpload
 
 
-SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
+SCOPES = [
+    "https://www.googleapis.com/auth/youtube.upload",
+    "https://www.googleapis.com/auth/youtube.force-ssl",  # required for thumbnails().set()
+]
 RETRIABLE_STATUS_CODES = {500, 502, 503, 504}
 MAX_RETRIES = 5
 
