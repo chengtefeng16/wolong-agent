@@ -27,7 +27,7 @@ Your audience: overseas Chinese who are considering importing a car,
 or who want to avoid scams and hidden costs. They speak English in this video.
 
 Write in a direct, journalistic style — real story, real stakes, clear advice.
-The script will be read aloud as voiceover (60–90 seconds when spoken at a natural pace).
+The script will be read aloud as voiceover (40–50 seconds when spoken at a natural pace).
 """
 
 SCRIPT_PROMPT = """Write a short video script for CNcar based on this story angle:
@@ -41,8 +41,8 @@ title: {title_hint}
 caption: [ONE punchy hook sentence, max 12 words, present tense]
 
 [blank line]
-[Narration: 5–7 short paragraphs. Natural spoken English.
-No bullet points. No headers. Each paragraph 2–3 sentences.
+[Narration: 3–4 short paragraphs. Natural spoken English.
+No bullet points. No headers. Each paragraph 2 sentences max.
 End with a clear call to action mentioning CNcar.]
 """
 
