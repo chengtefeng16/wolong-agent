@@ -83,18 +83,25 @@ class YouTubeUploader:
                 print(f"  [YouTube] Token 已保存: {self.token_path}")
 
         # 注入代理：httplib2 不读环境变量，需显式配置
+        # 优先级：环境变量 → macOS 系统代理（urllib.request.getproxies()）
         import httplib2
+        import urllib.request
         proxy_info = None
-        proxy_url = os.environ.get("https_proxy") or os.environ.get("HTTPS_PROXY") \
-                    or os.environ.get("http_proxy") or os.environ.get("HTTP_PROXY")
+        proxy_url = (os.environ.get("https_proxy") or os.environ.get("HTTPS_PROXY")
+                     or os.environ.get("http_proxy") or os.environ.get("HTTP_PROXY"))
+        if not proxy_url:
+            sys_proxies = urllib.request.getproxies()
+            proxy_url = sys_proxies.get("https") or sys_proxies.get("http")
         if proxy_url:
             from urllib.parse import urlparse
             p = urlparse(proxy_url)
+            proxy_type = 2 if (p.scheme or "").startswith("socks5") else 3  # SOCKS5 or HTTP
             proxy_info = httplib2.ProxyInfo(
-                proxy_type=3,  # PROXY_TYPE_HTTP
+                proxy_type=proxy_type,
                 proxy_host=p.hostname,
                 proxy_port=p.port or 8080,
             )
+            print(f"  [YouTube] 代理: {p.scheme}://{p.hostname}:{p.port}")
         http = google_auth_httplib2.AuthorizedHttp(
             creds, http=httplib2.Http(proxy_info=proxy_info)
         )

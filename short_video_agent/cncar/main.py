@@ -371,45 +371,83 @@ def run_demo(cfg: dict):
 # 故事线：旁白文案 → TTS → 多图视频 → BGM混音 → pending.json           #
 # ------------------------------------------------------------------ #
 
+def _parse_story_file(path: str) -> tuple[dict, str]:
+    """
+    解析 story 文件。
+
+    文件格式：
+      mood: tense | neutral | uplift
+      title: 封面标题文字
+      caption: 视频画面上的钩子句（全程显示，1-2句）
+      （空行）
+      [旁白正文，只有这部分传给 TTS 和 Pexels，header 绝不传出]
+
+    返回 (headers_dict, narration_text)。
+    """
+    _KNOWN = {"mood", "title", "caption"}
+    headers: dict[str, str] = {}
+    narration_lines: list[str] = []
+    in_header = True
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            stripped = line.strip()
+            if in_header:
+                if not stripped:          # 空行 → header 结束
+                    in_header = False
+                    continue
+                if ":" in stripped:
+                    key, _, val = stripped.partition(":")
+                    if key.strip().lower() in _KNOWN:
+                        headers[key.strip().lower()] = val.strip()
+                        continue
+                # 非 header 行在空行前出现 → 直接进旁白
+                in_header = False
+                narration_lines.append(line)
+            else:
+                narration_lines.append(line)
+    return headers, "".join(narration_lines).strip()
+
+
 def run_story(cfg: dict, story_path: str):
     """
     故事线生产：直接读旁白文案文件，不读工作表2。
 
-    story_path 格式：
-      第一行（可选）: mood: tense | neutral | uplift
-      其余行        : 英文旁白正文
+    story 文件格式（header 块 + 空行 + 旁白正文）：
+      mood: tense
+      title: $12,000 Gone — A Gulf Car Scam
+      caption: $12,000 sent. No car. No refund. Here's what to check.
+
+      A buyer sent $12,000 to a dealer in Guangzhou...
 
     流程：
-      TTS（edge-tts） → Pexels多背景图 → 视频合成 → BGM混音
-      → 封面（复用 cover_me.jpg） → pending.json（source=story）
+      解析 header → TTS（仅旁白正文） → Pexels多背景图（仅旁白正文分段）
+      → 视频合成（caption全程固定显示） → BGM混音
+      → 封面（cover_me.jpg + overlay_title叠字）
+      → pending.json（source=story）
     """
-    from pathlib import Path as _P
-    import shutil
-
-    story_file = _P(story_path)
+    story_file = Path(story_path)
     if not story_file.exists():
         print(f"❌ 故事文件不存在: {story_path}")
         sys.exit(1)
 
-    # 读文案：跳过 mood: 标注行，其余拼成旁白正文
-    with open(story_file, encoding="utf-8") as f:
-        lines = f.readlines()
-
-    narration_lines = [
-        ln for ln in lines if not ln.strip().lower().startswith("mood:")
-    ]
-    narration = "".join(narration_lines).strip()
+    # ── 解析 header（mood/title/caption）和旁白正文 ──────────────────
+    headers, narration = _parse_story_file(story_path)
     if not narration:
-        print("❌ 故事文件内容为空（去掉 mood: 行后无正文）")
+        print("❌ 故事文件旁白正文为空（空行后无内容）")
         sys.exit(1)
+
+    title   = headers.get("title", story_file.stem.replace("_", " ").title())
+    caption = headers.get("caption", "")
 
     ts  = datetime.now().strftime("%Y%m%d_%H%M%S")
     uid = str(uuid.uuid4())[:6]
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     print(f"\n=== CNcar 故事线生产模式 ===")
-    print(f"  文件  : {story_path}")
-    print(f"  字符数: {len(narration)}\n")
+    print(f"  文件   : {story_path}")
+    print(f"  标题   : {title}")
+    print(f"  Caption: {caption or '(未指定，不显示画面字)'}")
+    print(f"  旁白字数: {len(narration)}\n")
 
     from modules.audio_generator import AudioGenerator
     from modules.video_composer import VideoComposer
@@ -418,55 +456,62 @@ def run_story(cfg: dict, story_path: str):
         n_images_for_duration, fetch_segment_images, segment_script, compose_multi_bg,
     )
     from cncar.modules.bgm_selector import BgmSelector, mix_bgm_into_video
+    from cncar.modules.cover_maker import overlay_title
 
-    # ── Step 1: TTS ──────────────────────────────────────────────────
+    # ── Step 1: TTS（只传旁白正文，header 绝不传入）──────────────────
     print("[1/4] 生成配音（edge-tts）...")
     audio_gen  = AudioGenerator(cfg)
     audio_path = audio_gen.generate(narration, f"audio_{ts}_{uid}.mp3")
 
-    # ── Step 2: 背景图 ────────────────────────────────────────────────
+    # ── Step 2: 背景图（Pexels 分段搜索只用旁白正文）────────────────
     _audio_dur = _AFC(audio_path).duration
     n_bg = n_images_for_duration(_audio_dur)
     print(f"\n[2/4] 抓取背景图（时长={_audio_dur:.1f}s → {n_bg} 张）...")
     tmp_bg_dir = str(OUTPUT_DIR / f"multibg_{ts}_{uid}")
-    segments   = segment_script(narration, n_bg)
+    segments   = segment_script(narration, n_bg)          # 只分旁白正文
     bg_paths   = fetch_segment_images(segments, tmp_bg_dir, story_file.stem)
 
-    # ── Step 3: 视频合成 ──────────────────────────────────────────────
+    # ── Step 3: 视频合成（caption 全程固定显示）──────────────────────
     print("\n[3/4] 合成视频...")
     composer   = VideoComposer(cfg)
     video_path = compose_multi_bg(
         composer=composer,
         audio_path=audio_path,
-        script_text=narration,
+        script_text=narration,            # 只用于 Pexels 主题判断（已通过 segments 传完）
         bg_paths=bg_paths,
         output_path=str(OUTPUT_DIR / f"video_{ts}_{uid}.mp4"),
+        caption=caption,                  # 空字符串 = 无画面字；非空 = 全程固定钩子
     )
 
     # ── Step 3.5: BGM 混音 ────────────────────────────────────────────
     bgm_sel  = BgmSelector()
-    mood     = bgm_sel.get_mood(story_path, narration)
+    # 优先使用文件里的 mood 标注，避免重读文件
+    mood_tag = headers.get("mood", "")
+    if mood_tag in ("tense", "neutral", "uplift"):
+        mood = mood_tag
+        print(f"  [BGM] 情绪: {mood}  (文件标注)")
+    else:
+        mood = bgm_sel.detect_mood(narration)
+        print(f"  [BGM] 情绪: {mood}  (关键词兜底)")
     bgm_path = bgm_sel.select(mood)
     if bgm_path:
-        print(f"\n[3.5/4] 混入背景音乐（{mood} / {_P(bgm_path).name}）...")
+        print(f"\n[3.5/4] 混入背景音乐（{mood} / {Path(bgm_path).name}）...")
         mix_bgm_into_video(video_path, bgm_path)
     else:
         print(f"\n[3.5/4] 跳过背景音乐（bgm/{mood}/ 目录为空）")
 
-    # ── Step 4: 封面（复用 cover_me.jpg）─────────────────────────────
-    print("\n[4/4] 准备封面...")
+    # ── Step 4: 封面（cover_me.jpg 底图 + overlay_title 叠字）────────
+    print("\n[4/4] 生成封面...")
     cover_src  = _HERE / "assets" / "cover_me.jpg"
     cover_path = str(OUTPUT_DIR / f"cover_{ts}_{uid}.jpg")
-    shutil.copy2(str(cover_src), cover_path)
-    print(f"  封面: {cover_path}")
+    overlay_title(str(cover_src), title, cover_path)
 
     # ── 写入 pending.json ─────────────────────────────────────────────
-    if not video_path or not _P(video_path).exists():
+    if not video_path or not Path(video_path).exists():
         print("❌ 视频文件未生成，退出")
         sys.exit(1)
 
-    story_title = story_file.stem.replace("_", " ").title()
-    cover_quote = narration[:80] + ("…" if len(narration) > 80 else "")
+    cover_quote = caption or narration[:80] + ("…" if len(narration) > 80 else "")
 
     pending_id = f"{ts}_{uid}"
     entry = {
@@ -480,22 +525,22 @@ def run_story(cfg: dict, story_path: str):
         "destination":     "",
         "landed_cost_usd": "",
         "report_url":      "",
-        "title":           story_title,
+        "title":           title,
         "cover_quote":     cover_quote,
         "video_path":      str(video_path),
         "cover_path":      str(cover_path),
-        "script_path":     "",          # 故事线无单独脚本文件
-        "_source_row":     None,        # 故事线不读 Sheet，无行号
+        "script_path":     "",
+        "_source_row":     None,
     }
     _add_pending(entry)
 
     print("\n" + "=" * 55)
     print(f"✅ 故事线视频已写入 pending.json，等待人工审核")
-    print(f"   ID    : {pending_id}")
-    print(f"   情绪  : {mood}")
-    print(f"   时长  : {_audio_dur:.1f}s")
-    print(f"   视频  : {video_path}")
-    print(f"   封面  : {cover_path}")
+    print(f"   ID     : {pending_id}")
+    print(f"   情绪   : {mood}")
+    print(f"   时长   : {_audio_dur:.1f}s")
+    print(f"   视频   : {video_path}")
+    print(f"   封面   : {cover_path}")
     print(f"\n   审核命令: python3 cncar/main.py --list")
     print(f"   通过命令: python3 cncar/main.py --approve {pending_id}")
     print(f"   拒绝命令: python3 cncar/main.py --reject {pending_id}")

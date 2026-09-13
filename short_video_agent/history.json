@@ -958,5 +958,43 @@
     "privacy": "public",
     "status": "success",
     "source": "dingxin"
+  },
+  {
+    "id": "20260906_221209_61b79e",
+    "source": "cncar",
+    "published_at": "2026-09-07T11:31:35.184900",
+    "youtube_url": "https://youtu.be/9lnQCGDEZv4",
+    "title": "BYD Han EV 2024 in UAE — Landed Cost",
+    "car_model": "BYD Han EV 2024",
+    "destination": "UAE"
+  },
+  {
+    "id": "20260906_221209_61b79e",
+    "source": "cncar",
+    "published_at": "2026-09-07T12:49:28.472630",
+    "youtube_url": "https://youtu.be/4O6qWqtx9ak",
+    "title": "BYD Han EV 2024 in UAE — Landed Cost",
+    "car_model": "BYD Han EV 2024",
+    "destination": "UAE"
+  },
+  {
+    "id": "20260907_194733_4731c5",
+    "source": "cncar",
+    "published_at": "2026-09-07T20:00:58.312637",
+    "youtube_url": "https://youtu.be/vhqTku0CVAE",
+    "title": "Deepal G318 2026 in Lebanon — Landed Cost",
+    "car_model": "Deepal G318 2026",
+    "destination": "Lebanon"
+  },
+  {
+    "id": "20260912_203801_8a0ef3",
+    "source": "story",
+    "published_at": "2026-09-12T20:49:19.740119",
+    "youtube_url": "https://youtu.be/sbqwKFwqOGg",
+    "title": "Story 01",
+    "car_model": "",
+    "destination": "",
+    "story_file": "story_01.txt",
+    "mood": "tense"
   }
 ]
