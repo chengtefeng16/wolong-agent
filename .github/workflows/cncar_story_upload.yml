@@ -44,6 +44,7 @@ jobs:
         id: story
         working-directory: short_video_agent
         run: |
+          set -eo pipefail
           python3 cncar/main.py --story "${{ github.event.inputs.story_file }}" 2>&1 | tee /tmp/story_log.txt
           VIDEO_ID=$(python3 -c "
           import json

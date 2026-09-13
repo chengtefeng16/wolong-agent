@@ -1,0 +1,101 @@
+# ====================================================
+# CNcar 内容方向配置：汽车进口落地成本
+# 面向海湾地区（UAE/Saudi/Oman 等）中文/英文受众
+# ====================================================
+
+direction_name: "CNcar汽车进口"
+target_audience: "海湾地区有购车意向的消费者，关注中国新能源车进口落地价格"
+language: "en"   # en | ar | en-ar (双语)
+elevenlabs_voice_id: "en-US-ChristopherNeural"  # edge-tts deep male EN; AR fallback: ar-AE-HamdanNeural
+
+# Google Sheet 素材库（工作表2）
+google_sheet:
+  spreadsheet_id: "1rC0T5Jmo5Th2KYqiNCa7Z3c510dOVkt3NQNLc_76hVk"
+  worksheet_name: "工作表2"
+  recent_themes_count: 3
+  # 列映射（A-H）
+  columns:
+    car_model:        "A"
+    destination:      "B"
+    landed_cost_usd:  "C"
+    report_url:       "D"
+    copy_en:          "E"   # 预填则直接用，空则 AI 生成
+    copy_ar:          "F"   # 预填则直接用，空则 AI 生成（暂不生成，留 Step 4）
+    cover_prompt:     "G"
+    used:             "H"   # 已用日期 YYYY-MM-DD，空=未用
+
+# 封面生成配置
+cover:
+  # 钩子问句：按语言分组，seed 轮换选一条
+  hook_lines:
+    - "Real landed cost 👇"
+    - "Profit or loss?"
+    - "True cost revealed"
+    - "Is this deal worth it?"
+  hook_lines_ar:          # 预留阿语扩展位（Step 4 填充）
+    - "التكلفة الحقيقية 👇"
+  brightness_min: 90      # 0-255；低于此丢弃重抓（可微调）
+  brightness_retries: 5   # 最多重抓次数，超出取最亮那张
+
+# CNcar YouTube 凭证（独立于定心，待配置）
+youtube_credentials: "cncar/config/cncar_youtube_credentials.json"
+youtube_token:       "cncar/config/cncar_youtube_token.json"
+
+# YouTube 发布设置
+youtube:
+  category_id: "2"          # Autos & Vehicles
+  default_language: "en"
+  privacy: "unlisted"        # 人工审核通过后改为 public
+  title_template: "{title} | CNcar"
+  description_template: |
+    {cover_quote}
+
+    🚗 Thinking about importing a Chinese EV to the Gulf?
+    CNcar gives you real landed-cost breakdowns — duties, VAT, freight included.
+
+    👉 Get your free report: {report_url}
+
+    #ChineseEV #CarImport #UAE #BYD #CNcar
+  tags:
+    - "Chinese EV"
+    - "car import"
+    - "landed cost"
+    - "UAE"
+    - "BYD"
+    - "CNcar"
+
+# 脚本生成 Prompt（当 copy_en 为空时调用）
+script_prompt: |
+  You are a short-video script writer for CNcar, a platform that helps Gulf-region buyers
+  understand the real cost of importing Chinese cars (BYD, Chery, GAC, etc.).
+
+  Your tone: direct, informative, like a knowledgeable friend — not a salesperson.
+  Target: someone already considering buying a Chinese EV and wants to know the REAL price.
+
+  Given this car data:
+  - Car model: {car_model}
+  - Destination country: {destination}
+  - Landed cost estimate (USD): {landed_cost_usd}
+  - Full report: {report_url}
+
+  Write a 40–55 second English video script. Structure:
+  1. Hook — MUST be the very first sentence (0–3 seconds). Lead with the most striking number,
+     contrast, or question. No warm-up, no intro. Viewers decide in 3 seconds.
+     ✅ Good: "$8,315 landed in Dubai — that's cheaper than a Corolla. Here's why."
+     ✅ Good: "Most dealers lose money on this route. Here's the exact breakdown."
+     ❌ Bad: "Did you know that..." (weak opener — bury the lede)
+  2. Core content (~80 words): Specific cost breakdown — duty %, VAT %, freight. Use actual numbers.
+  3. CTA (~20 words): Visit CNcar for the full report. Soft, not pushy.
+
+  Rules:
+  - No jargon, no buzzwords. Plain English.
+  - Every sentence earns its place. No filler.
+  - Total: 120–150 words.
+
+  Output strict JSON:
+  {{
+    "title": "(under 10 words, hook-style, e.g. 'BYD Han Landed in Dubai: Full Cost')",
+    "cover_quote": "(one punchy sentence for the thumbnail, under 15 words)",
+    "full_script": "(complete script, 120-150 words)",
+    "tags": ["tag1", "tag2", "tag3"]
+  }}
