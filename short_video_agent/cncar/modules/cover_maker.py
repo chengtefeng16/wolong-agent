@@ -181,18 +181,25 @@ class CNcarCoverMaker:
         out_path = os.path.join(self.output_dir, filename)
         os.makedirs(self.output_dir, exist_ok=True)
 
-        car_model    = script_data.get("car_model", "")
-        destination  = script_data.get("destination", "")
-        landed_cost  = str(script_data.get("landed_cost_usd", "")).strip()
+        import hashlib as _hs
+        from cncar.modules.brand_cover import make_brand_cover
 
-        line1 = (
-            f"{car_model}  →  {destination}"
-            if (car_model or destination)
-            else script_data.get("title", "CNcar")
+        car_model   = script_data.get("car_model", "")
+        destination = script_data.get("destination", "")
+        landed_cost = str(script_data.get("landed_cost_usd", "")).strip()
+        title       = script_data.get("title", "CNcar")
+
+        hook = (f"{car_model} → {destination}" if (car_model or destination) else title)
+        subtitle = f"Landed ≈ ${landed_cost}" if landed_cost else title
+
+        seed = int(_hs.md5(title.encode()).hexdigest(), 16)
+        make_brand_cover(
+            hook=hook,
+            subtitle=subtitle,
+            mood="neutral",
+            output_path=out_path,
+            seed=seed,
         )
-        line2 = f"Landed ≈ ${landed_cost}" if landed_cost else ""
-
-        overlay_title(str(_BASE_COVER), line1, out_path, line2)
         return out_path
 
     # ── 背景（亮调筛选）──────────────────────────────────────────────── #

@@ -281,6 +281,16 @@ def run_approve(cfg: dict, pending_id: str):
     uploader = YouTubeUploader(cfg)
     video_id = uploader.upload(video_path, script_data)
     yt_url   = f"https://youtu.be/{video_id}"
+
+    # 上传自定义缩略图
+    cover_path = entry.get("cover_path", "")
+    if cover_path and Path(cover_path).exists():
+        try:
+            uploader.set_thumbnail(video_id, cover_path)
+            print(f"  [YouTube] 🖼  缩略图已上传")
+        except Exception as e:
+            print(f"  [YouTube] ⚠️  缩略图上传失败（不影响视频）: {e}")
+
     print(f"\n🎉 YouTube 发布成功: {yt_url}")
 
     # 标记素材已用
@@ -500,11 +510,19 @@ def run_story(cfg: dict, story_path: str):
     else:
         print(f"\n[3.5/4] 跳过背景音乐（bgm/{mood}/ 目录为空）")
 
-    # ── Step 4: 封面（cover_me.jpg 底图 + overlay_title 叠字）────────
+    # ── Step 4: 品牌封面（Pexels 背景 + 情绪色条 + Bebas Neue 大字）────
     print("\n[4/4] 生成封面...")
-    cover_src  = _HERE / "assets" / "cover_me.jpg"
+    from cncar.modules.brand_cover import make_brand_cover
     cover_path = str(OUTPUT_DIR / f"cover_{ts}_{uid}.jpg")
-    overlay_title(str(cover_src), title, cover_path)
+    import hashlib as _hs
+    _seed = int(_hs.md5(title.encode()).hexdigest(), 16)
+    make_brand_cover(
+        hook=title,
+        subtitle=caption or narration[:60],
+        mood=mood,
+        output_path=cover_path,
+        seed=_seed,
+    )
 
     # ── 写入 pending.json ─────────────────────────────────────────────
     if not video_path or not Path(video_path).exists():

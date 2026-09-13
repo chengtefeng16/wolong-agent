@@ -148,6 +148,12 @@ class YouTubeUploader:
         print(f"  [YouTube] ✅ 上传完成: https://youtu.be/{video_id}")
         return video_id
 
+    def set_thumbnail(self, video_id: str, image_path: str):
+        if not self._service:
+            self.authenticate()
+        media = MediaFileUpload(image_path, mimetype="image/jpeg", resumable=False)
+        self._service.thumbnails().set(videoId=video_id, media_body=media).execute()
+
     def _resumable_upload(self, request) -> str:
         response = None
         retry = 0
