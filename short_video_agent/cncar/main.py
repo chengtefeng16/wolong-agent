@@ -613,6 +613,7 @@ def main():
     parser.add_argument("--demo",        action="store_true", help="测试模块连通性")
     parser.add_argument("--write-sheet", action="store_true", help="自动选题→交互输入成本+链接→直接写表")
     parser.add_argument("--story",       metavar="FILE",      help="故事线：直接指定旁白文案文件（.txt）生成视频")
+    parser.add_argument("--auto-story",  action="store_true", help="故事线：Gemini 自动选题生成脚本再生成视频")
     args = parser.parse_args()
 
     if args.list:
@@ -635,8 +636,12 @@ def main():
         run_write_sheet(cfg)
     elif args.story:
         run_story(cfg, args.story)
+    elif args.auto_story:
+        from cncar.modules.story_generator import generate_story
+        story_file = generate_story(cfg)
+        run_story(cfg, story_file)
     else:
-        print("请指定模式：--produce / --list / --approve <id> / --reject <id> / --demo / --write-sheet / --story <file>")
+        print("请指定模式：--produce / --list / --approve <id> / --reject <id> / --demo / --write-sheet / --story <file> / --auto-story")
         parser.print_help()
 
 

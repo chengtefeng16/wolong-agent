@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       story_file:
-        description: 'Story file path (留空则自动选下一个未用文件)'
+        description: '手动指定 story 文件路径（留空则 Gemini 自动生成）'
         required: false
         default: ''
 
@@ -42,58 +42,21 @@ jobs:
           echo "${{ secrets.CNCAR_YOUTUBE_CREDENTIALS }}" | base64 -d > cncar/config/cncar_youtube_credentials.json
           echo "${{ secrets.CNCAR_YOUTUBE_TOKEN }}" | base64 -d > cncar/config/cncar_youtube_token.json
 
-      - name: Pick story file
-        id: pick
-        working-directory: short_video_agent
-        run: |
-          MANUAL="${{ github.event.inputs.story_file }}"
-          if [ -n "$MANUAL" ]; then
-            echo "story_file=$MANUAL" >> $GITHUB_OUTPUT
-            echo "使用手动指定: $MANUAL"
-          else
-            python3 - << 'PYEOF'
-          import json, os, glob, sys
-          from pathlib import Path
-
-          stories = sorted(glob.glob("cncar/stories/story_*.txt"))
-          if not stories:
-              print("❌ 没有找到 story 文件", file=sys.stderr)
-              sys.exit(1)
-
-          # 读已上传过的故事文件列表
-          used = set()
-          if os.path.exists("cncar/pending.json"):
-              for entry in json.load(open("cncar/pending.json")):
-                  if entry.get("source") == "story" and entry.get("status") in ("approved", "uploaded"):
-                      sf = entry.get("story_file", "")
-                      if sf:
-                          used.add(sf)
-
-          # 选第一个未用过的
-          chosen = None
-          for s in stories:
-              if s not in used:
-                  chosen = s
-                  break
-
-          if chosen is None:
-              # 全部用过了，从头轮
-              chosen = stories[0]
-              print(f"所有故事已轮完，从头开始: {chosen}")
-          else:
-              print(f"选中: {chosen}")
-
-          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
-              f.write(f"story_file={chosen}\n")
-          PYEOF
-          fi
-
-      - name: Run story pipeline (TTS + Pexels + 合成 + BGM)
+      - name: Run story pipeline
         id: story
         working-directory: short_video_agent
+        env:
+          GEMINI_KEY: ${{ secrets.GEMINI_KEY }}
         run: |
           set -eo pipefail
-          python3 cncar/main.py --story "${{ steps.pick.outputs.story_file }}" 2>&1 | tee /tmp/story_log.txt
+          MANUAL="${{ github.event.inputs.story_file }}"
+          if [ -n "$MANUAL" ]; then
+            echo "使用手动指定故事文件: $MANUAL"
+            python3 cncar/main.py --story "$MANUAL" 2>&1 | tee /tmp/story_log.txt
+          else
+            echo "Gemini 自动生成故事脚本..."
+            python3 cncar/main.py --auto-story 2>&1 | tee /tmp/story_log.txt
+          fi
           VIDEO_ID=$(python3 -c "
           import json
           data = json.load(open('cncar/pending.json'))
@@ -115,6 +78,5 @@ jobs:
         run: |
           echo "=========================================="
           echo "✅ 上传完成（unlisted，审核后手动转公开）"
-          echo "📄 故事: ${{ steps.pick.outputs.story_file }}"
           echo "🔗 ${{ steps.upload.outputs.video_url }}"
           echo "=========================================="
