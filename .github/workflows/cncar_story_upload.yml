@@ -66,17 +66,10 @@ jobs:
           echo "video_id=$VIDEO_ID" >> $GITHUB_OUTPUT
           echo "生成完成，ID: $VIDEO_ID"
 
-      - name: Upload to YouTube (unlisted)
-        id: upload
-        working-directory: short_video_agent
-        run: |
-          python3 cncar/main.py --approve "${{ steps.story.outputs.video_id }}" 2>&1 | tee /tmp/upload_log.txt
-          VIDEO_URL=$(grep -oP "youtu\.be/[a-zA-Z0-9_-]+" /tmp/upload_log.txt | head -1)
-          echo "video_url=https://$VIDEO_URL" >> $GITHUB_OUTPUT
-
-      - name: Print result
+      - name: Print pending summary (no auto-upload)
         run: |
           echo "=========================================="
-          echo "✅ 上传完成（unlisted，审核后手动转公开）"
-          echo "🔗 ${{ steps.upload.outputs.video_url }}"
+          echo "⏳ 视频已生成，等待人工审核后手动 approve"
+          echo "ID: ${{ steps.story.outputs.video_id }}"
+          echo "本地运行: python3 cncar/main.py --approve ${{ steps.story.outputs.video_id }}"
           echo "=========================================="
