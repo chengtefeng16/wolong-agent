@@ -1,9 +1,7 @@
 name: CNcar Story Upload
 
 on:
-  schedule:
-    - cron: "0 23 * * *"   # 每天 23:00 UTC = 北京时间 07:00
-  workflow_dispatch:
+  workflow_dispatch:  # 仅手动触发（本地已用 launchd 每日 07:00 自动生成）
     inputs:
       story_file:
         description: '手动指定 story 文件路径（留空则 Gemini 自动生成）'
