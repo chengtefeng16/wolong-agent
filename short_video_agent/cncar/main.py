@@ -510,17 +510,21 @@ def run_story(cfg: dict, story_path: str):
     else:
         print(f"\n[3.5/4] 跳过背景音乐（bgm/{mood}/ 目录为空）")
 
-    # ── Step 4: 品牌封面（Pexels 背景 + 情绪色条 + Bebas Neue 大字）────
+    # ── Step 4: 品牌封面 ─────────────────────────────────────────────────
     print("\n[4/4] 生成封面...")
+    import re as _re, hashlib as _hs
     from cncar.modules.brand_cover import make_brand_cover
     cover_path = str(OUTPUT_DIR / f"cover_{ts}_{uid}.jpg")
-    import hashlib as _hs
     _seed = int(_hs.md5(title.encode()).hexdigest(), 16)
+    # 从 title / caption 提取金额作为巨型数字
+    _nums = _re.findall(r'\$[\d,]+', f"{title} {caption or ''}")
+    _big_num = _nums[0] if _nums else ""
     make_brand_cover(
-        hook=title,
-        subtitle=caption or narration[:60],
+        title=title,
+        caption=caption or narration[:80],
         mood=mood,
         output_path=cover_path,
+        big_number=_big_num,
         seed=_seed,
     )
 

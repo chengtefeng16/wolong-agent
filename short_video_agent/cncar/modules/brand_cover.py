@@ -1,69 +1,90 @@
-"""CNcar 品牌封面生成器
+"""CNcar 品牌封面生成器 v2
 
 布局（9:16, 1080×1920）：
-  ┌──┬──────────────────────────────┐
-  │  │  CNcar           cncar.io   │  ← 顶栏 (深蓝底, 110px)
-  │  │                              │
-  │  │   [Pexels 背景图, 暗化]       │
-  │  │                              │
-  │  │                              │
-  │  │  ████ 底部渐变黑 ████         │
-  │  │                              │
-  │  │  HOOK LINE 1                 │  ← Bebas Neue 白色大字
-  │  │  HOOK LINE 2                 │
-  │  │  ─────                       │  ← 情绪色分割线
-  │  │  subtitle text here          │  ← Inter 小字
-  └──┴──────────────────────────────┘
+  ┌──┬─────────────────────────────────┐
+  │  │ [顶部 navy 渐变压色]             │
+  │  │ BIG TITLE LINE ONE              │  ← Bebas Neue 白+黑描边
+  │  │ LINE TWO                        │
+  │  │                                 │
+  │  │ [背景图，62% 暗化]              │
+  │  │                                 │
+  │  │       $19,340                   │  ← 巨型数字（金/红），自适应宽度
+  │  │       LANDED                    │  ← 冲击词，白色
+  │  │                                 │
+  │  ├─────────────────────────────────┤
+  │  │▐ hook caption sentence here     │  ← 底部钩子条（左彩边+半透明黑底）
+  │  │       CNcar.io                  │  ← 金色签名
+  └──┴─────────────────────────────────┘
   ↑
-  情绪色条 (14px, 全高)
-  tense=红  neutral=金  uplift=青
+  左侧竖色条 16px（red=tense / gold=其他）
+  右上角 金盾✓
 """
 
 import io
 import os
-import random
+import re
 from pathlib import Path
 
 import requests
 from PIL import Image, ImageDraw, ImageFont
 
 W, H = 1080, 1920
+PAD_X   = 80          # 文字左边距（色条16 + 间距64）
+MAX_TW  = W - PAD_X - 40   # 标题最大宽度
 
-# ── 品牌色 ──────────────────────────────────────────────────────────────── #
-NAVY        = (9,   16,  31)
-GOLD        = (201, 168, 76)
-WHITE       = (255, 255, 255)
+# ── 品牌色 ───────────────────────────────────────────────────────────────── #
+NAVY      = (9,   16,  31)
+GOLD      = (201, 168,  76)
+WHITE     = (255, 255, 255)
+BLACK     = (0,   0,    0)
+RED_ALERT = (200,  55,  45)
+
 MOOD_COLORS = {
-    "tense":   (200,  55,  45),   # 砖红
-    "neutral": (201, 168,  76),   # 烫金
-    "uplift":  ( 42, 157, 143),   # 青绿
+    "tense":   RED_ALERT,
+    "neutral": GOLD,
+    "uplift":  GOLD,
+    "data":    GOLD,
 }
 
-# ── 字体路径 ──────────────────────────────────────────────────────────────── #
-_FONTS = Path(__file__).parent.parent.parent / "assets" / "fonts"
-_BEBAS    = _FONTS / "BebasNeue-Regular.ttf"
+_IMPACT_DEFAULT = {
+    "tense":   "GONE",
+    "neutral": "REAL COST",
+    "uplift":  "SAVED",
+    "data":    "LANDED",
+}
+_IMPACT_FALLBACK = {   # 提不到金额时使用
+    "tense":   "RED FLAG",
+    "neutral": "REAL COST",
+    "uplift":  "WATCH OUT",
+    "data":    "LANDED",
+}
+
+# ── 字体：从 cncar/assets/fonts/ 显式加载，不依赖系统 ─────────────────────── #
+_FONTS = Path(__file__).parent.parent / "assets" / "fonts"
+_BEBAS = _FONTS / "BebasNeue-Regular.ttf"
 _BODY_CANDIDATES = [
     _FONTS / "NotoSansSC-Bold.ttf",
     Path("/Library/Fonts/Arial Unicode.ttf"),
     Path("/System/Library/Fonts/STHeiti Medium.ttc"),
+    Path("/usr/share/fonts/truetype/noto/NotoSans-Bold.ttf"),   # GitHub Actions
+    Path("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"),
 ]
 
 PEXELS_KEY = "P0a88apfxfsKw2wzW5BK8fIpIq5mui64iDGbqUGHZpxoH3M9igl2HoNK"
 
-# Pexels 查询按情绪分组
 _PEXELS_POOL = {
     "tense": [
         "empty car dealership dark moody",
-        "suspicious businessman dark office",
-        "contract signing negotiation tense",
+        "contract signing negotiation tense dark",
         "port shipping containers night",
+        "suspicious businessman dark office",
         "money loss financial crisis dark",
     ],
     "neutral": [
         "modern car showroom bright interior",
         "professional car import export",
         "luxury car dealership UAE",
-        "businessman reviewing documents",
+        "businessman reviewing documents office",
         "automotive industry professional",
     ],
     "uplift": [
@@ -71,7 +92,14 @@ _PEXELS_POOL = {
         "BYD electric car UAE sunny",
         "modern city skyline Dubai bright",
         "successful business handshake",
-        "luxury car delivery excited",
+        "luxury car delivery excited customer",
+    ],
+    "data": [
+        "modern car showroom bright interior",
+        "luxury car dealership UAE",
+        "car port shipping professional",
+        "automotive industry professional",
+        "professional car import export",
     ],
 }
 
@@ -81,6 +109,7 @@ _PEXELS_POOL = {
 def _bebas(size: int) -> ImageFont.FreeTypeFont:
     if _BEBAS.exists():
         return ImageFont.truetype(str(_BEBAS), size)
+    print(f"  [BrandCover] ⚠ BebasNeue 未找到 ({_BEBAS})，退回默认字体，冲击力会下降")
     return ImageFont.load_default(size=size)
 
 
@@ -94,10 +123,16 @@ def _body(size: int) -> ImageFont.FreeTypeFont:
     return ImageFont.load_default(size=size)
 
 
-# ── Pexels 抓图 ───────────────────────────────────────────────────────────── #
+# ── 背景图 ────────────────────────────────────────────────────────────────── #
 
-def _fetch_bg(mood: str, seed: int) -> Image.Image:
-    pool = _PEXELS_POOL.get(mood, _PEXELS_POOL["neutral"])
+def _fetch_bg(mood: str, seed: int, bg_image_path: str = "") -> Image.Image:
+    if bg_image_path and Path(bg_image_path).exists():
+        try:
+            return _crop_916(Image.open(bg_image_path).convert("RGB"))
+        except Exception as e:
+            print(f"  [BrandCover] 本地背景图加载失败: {e}")
+
+    pool  = _PEXELS_POOL.get(mood, _PEXELS_POOL["neutral"])
     query = pool[seed % len(pool)]
     try:
         resp = requests.get(
@@ -113,38 +148,39 @@ def _fetch_bg(mood: str, seed: int) -> Image.Image:
                 r = requests.get(photo["src"]["large2x"], timeout=20)
                 if r.status_code == 200:
                     img = Image.open(io.BytesIO(r.content)).convert("RGB")
-                    print(f"  [BrandCover] 背景图: {query} (photo#{photo['id']})")
+                    print(f"  [BrandCover] Pexels: {query} (photo#{photo['id']})")
                     return _crop_916(img)
     except Exception as e:
         print(f"  [BrandCover] Pexels 失败，用渐变: {e}")
+
     return _gradient_bg(mood)
 
 
 def _crop_916(img: Image.Image) -> Image.Image:
     w, h = img.size
     if (w / h) > (W / H):
-        new_w = int(h * W / H)
-        img = img.crop(((w - new_w) // 2, 0, (w - new_w) // 2 + new_w, h))
+        nw = int(h * W / H)
+        img = img.crop(((w - nw) // 2, 0, (w - nw) // 2 + nw, h))
     else:
-        new_h = int(w * H / W)
-        img = img.crop((0, (h - new_h) // 2, w, (h - new_h) // 2 + new_h))
+        nh = int(w * H / W)
+        img = img.crop((0, (h - nh) // 2, w, (h - nh) // 2 + nh))
     return img.resize((W, H), Image.LANCZOS)
 
 
 def _gradient_bg(mood: str) -> Image.Image:
-    mc = MOOD_COLORS.get(mood, MOOD_COLORS["neutral"])
+    mc = MOOD_COLORS.get(mood, GOLD)
     img = Image.new("RGB", (W, H))
     draw = ImageDraw.Draw(img)
     for y in range(H):
         t = y / H
-        r = int(NAVY[0] * (1 - t * 0.3) + mc[0] * t * 0.15)
-        g = int(NAVY[1] * (1 - t * 0.3) + mc[1] * t * 0.10)
-        b = int(NAVY[2] * (1 - t * 0.3) + mc[2] * t * 0.10)
+        r = int(NAVY[0] * (1 - t * 0.3) + mc[0] * t * 0.12)
+        g = int(NAVY[1] * (1 - t * 0.3) + mc[1] * t * 0.08)
+        b = int(NAVY[2] * (1 - t * 0.3) + mc[2] * t * 0.08)
         draw.line([(0, y), (W, y)], fill=(r, g, b))
     return img
 
 
-# ── 文字排版工具 ───────────────────────────────────────────────────────────── #
+# ── 排版工具 ──────────────────────────────────────────────────────────────── #
 
 def _wrap(text: str, font: ImageFont.FreeTypeFont,
           max_w: int, draw: ImageDraw.ImageDraw) -> list[str]:
@@ -162,124 +198,199 @@ def _wrap(text: str, font: ImageFont.FreeTypeFont,
     return lines
 
 
-def _text_h(text: str, font: ImageFont.FreeTypeFont,
-            draw: ImageDraw.ImageDraw) -> int:
-    bb = draw.textbbox((0, 0), text, font=font)
-    return bb[3] - bb[1]
+def _fit_bebas(text: str, max_w: int, start: int = 250, minimum: int = 80) -> ImageFont.FreeTypeFont:
+    """从 start 逐步缩小字号直到文字宽度 ≤ max_w。"""
+    tmp_draw = ImageDraw.Draw(Image.new("RGB", (1, 1)))
+    size = start
+    while size >= minimum:
+        f = _bebas(size)
+        bb = tmp_draw.textbbox((0, 0), text, font=f)
+        if bb[2] - bb[0] <= max_w:
+            return f
+        size -= 10
+    return _bebas(minimum)
+
+
+def _stroke_text(draw: ImageDraw.ImageDraw, xy, text, font,
+                 fill, stroke_fill, stroke_width: int = 4, bold_sim: int = 2):
+    """
+    绘文字：先黑色描边，再用 fill 色偏移 bold_sim px 模拟加粗，最后画主体。
+    bold_sim=0 关闭假粗体；建议标题 2、数字 3。
+    """
+    x, y = xy
+    # 1. 外描边（黑色）
+    sw = stroke_width
+    for dx in range(-sw, sw + 1):
+        for dy in range(-sw, sw + 1):
+            if dx == 0 and dy == 0:
+                continue
+            draw.text((x + dx, y + dy), text, font=font, fill=stroke_fill)
+    # 2. 假粗体：用 fill 色在 ±bold_sim 偏移处再画一遍
+    if bold_sim:
+        for dx, dy in [(-bold_sim, 0), (bold_sim, 0), (0, -bold_sim), (0, bold_sim)]:
+            draw.text((x + dx, y + dy), text, font=font, fill=fill)
+    # 3. 主体
+    draw.text((x, y), text, font=font, fill=fill)
+
+
+def _draw_shield(draw: ImageDraw.ImageDraw, cx: int, cy: int, r: int, color):
+    draw.ellipse([(cx - r, cy - r), (cx + r, cy + r)], fill=color)
+    sw = max(3, r // 7)
+    x0, y0 = cx - r // 2 + 4, cy + 4
+    xm, ym = cx - r // 10, cy + r // 3
+    x1, y1 = cx + r // 2 - 2, cy - r // 3
+    draw.line([(x0, y0), (xm, ym)], fill=WHITE, width=sw)
+    draw.line([(xm, ym), (x1, y1)], fill=WHITE, width=sw)
 
 
 # ── 主函数 ────────────────────────────────────────────────────────────────── #
 
 def make_brand_cover(
-    hook: str,
-    subtitle: str,
+    title: str,
+    caption: str,
     mood: str,
     output_path: str,
+    big_number: str = "",
+    impact_word: str = "",
+    bg_image_path: str = "",
     seed: int = 0,
 ) -> str:
     """
-    生成一张 1080×1920 品牌封面。
+    生成 1080×1920 CNcar 品牌封面。
 
-    hook      : 大字钩子文案（1-3 行，Bebas Neue）
-    subtitle  : 小字副文案（1-2 行，Inter）
-    mood      : tense / neutral / uplift
-    output_path: 输出 JPEG 路径
-    seed      : 用于 Pexels 查询轮换
+    title       : 顶部大标题（Bebas Neue 白色+黑描边，自适应行数）
+    caption     : 底部钩子句（底部条内白色）
+    mood        : tense / neutral / uplift / data
+    big_number  : "$19,340" 等；留空则从 title/caption 自动提取
+    impact_word : 数字下方冲击词；留空则按 mood 自动选
+    bg_image_path: 本地图路径；留空则走 Pexels
+    seed        : 控制 Pexels 查询轮换
     """
-    mood_color = MOOD_COLORS.get(mood, MOOD_COLORS["neutral"])
+    mood = mood if mood in MOOD_COLORS else "data"
+    mc   = MOOD_COLORS[mood]
 
-    # 1. 背景图
-    bg = _fetch_bg(mood, seed)
+    # 自动提取巨型数字
+    if not big_number:
+        found = re.findall(r'\$[\d,]+', f"{title} {caption}")
+        big_number = found[0] if found else ""
 
-    # 2. 暗化叠层 (0.55 不透明度)
-    dark = Image.new("RGBA", (W, H), (0, 0, 0, 140))
-    canvas = Image.alpha_composite(bg.convert("RGBA"), dark)
+    # 自动选冲击词
+    if not impact_word:
+        impact_word = (
+            _IMPACT_DEFAULT.get(mood, "LANDED") if big_number
+            else _IMPACT_FALLBACK.get(mood, "RED FLAG")
+        )
 
-    # 3. 底部渐变黑（下 55%）
-    grad = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    gd = ImageDraw.Draw(grad)
-    grad_start = int(H * 0.42)
-    for y in range(grad_start, H):
-        t = (y - grad_start) / (H - grad_start)
-        alpha = int(min(245, 60 + 190 * t ** 0.7))
-        gd.line([(0, y), (W, y)], fill=(0, 0, 0, alpha))
-    canvas = Image.alpha_composite(canvas, grad)
+    # ── 1. 背景 ───────────────────────────────────────────────────────── #
+    bg = _fetch_bg(mood, seed, bg_image_path)
 
-    # 4. 顶栏（深蓝底, 110px）
-    bar = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    bd = ImageDraw.Draw(bar)
-    bd.rectangle([(0, 0), (W, 110)], fill=(*NAVY, 230))
-    # 底边金线
-    bd.line([(0, 110), (W, 110)], fill=(*mood_color, 120), width=2)
-    canvas = Image.alpha_composite(canvas, bar)
-
-    # 5. 左侧情绪色条（14px 全高）
-    stripe = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    sd = ImageDraw.Draw(stripe)
-    sd.rectangle([(0, 0), (14, H)], fill=(*mood_color, 255))
-    canvas = Image.alpha_composite(canvas, stripe)
-
-    # 转 RGB 开始绘文字
-    img = canvas.convert("RGB")
-    draw = ImageDraw.Draw(img)
-
-    # 6. 顶栏文字
-    f_logo = _bebas(48)
-    f_domain = _body(28)
-    draw.text((30, 30), "CNcar", font=f_logo, fill=WHITE)
-    bb = draw.textbbox((0, 0), "cncar.io", font=f_domain)
-    draw.text((W - bb[2] - bb[0] - 28, 40), "cncar.io", font=f_domain, fill=GOLD)
-
-    # 7. 钩子文字区（底部往上布局）
-    pad_x = 50
-    max_w = W - pad_x - 30
-
-    f_hook = _bebas(92)
-    hook_lines = _wrap(hook.upper(), f_hook, max_w, draw)
-    # 最多 3 行，超出缩小
-    if len(hook_lines) > 3:
-        f_hook = _bebas(74)
-        hook_lines = _wrap(hook.upper(), f_hook, max_w, draw)
-
-    f_sub = _body(38)
-    sub_lines = _wrap(subtitle, f_sub, max_w, draw)
-
-    line_gap_hook = 8
-    hook_size = 92 if len(hook_lines) <= 3 else 74
-    total_hook_h = len(hook_lines) * (hook_size + line_gap_hook)
-    divider_h = 6
-    sub_h = len(sub_lines) * 50
-    margin_bot = 72
-
-    # 从底部往上确定 y 起点
-    y_sub_start = H - margin_bot - sub_h
-    y_divider   = y_sub_start - 28
-    y_hook_start = y_divider - 20 - total_hook_h
-
-    # 画钩子大字（带描边增强可读性）
-    for ln in hook_lines:
-        bb = draw.textbbox((0, 0), ln, font=f_hook)
-        x = pad_x
-        # 描边
-        for dx, dy in [(-2,0),(2,0),(0,-2),(0,2)]:
-            draw.text((x+dx, y_hook_start+dy), ln, font=f_hook,
-                      fill=(0, 0, 0, 180))
-        draw.text((x, y_hook_start), ln, font=f_hook, fill=WHITE)
-        y_hook_start += hook_size + line_gap_hook
-
-    # 情绪色分割线
-    draw.rectangle(
-        [(pad_x, y_divider), (pad_x + 60, y_divider + 3)],
-        fill=mood_color
+    # ── 2. 暗化遮罩（62%）─────────────────────────────────────────────── #
+    canvas = Image.alpha_composite(
+        bg.convert("RGBA"),
+        Image.new("RGBA", (W, H), (0, 0, 0, 158)),
     )
 
-    # 小字副标
-    for ln in sub_lines:
-        draw.text((pad_x, y_sub_start), ln, font=f_sub,
-                  fill=(220, 220, 220))
-        y_sub_start += 50
+    # ── 3. 顶部 navy 渐变（y=0→440）───────────────────────────────────── #
+    top_grad = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    tgd = ImageDraw.Draw(top_grad)
+    for y in range(440):
+        t = 1 - y / 440
+        tgd.line([(0, y), (W, y)], fill=(*NAVY, int(215 * t ** 0.6)))
+    canvas = Image.alpha_composite(canvas, top_grad)
+
+    # ── 4. 底部渐变（y=1520→底部）──────────────────────────────────────── #
+    bot_grad = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    bgd = ImageDraw.Draw(bot_grad)
+    for y in range(1520, H):
+        t = (y - 1520) / (H - 1520)
+        bgd.line([(0, y), (W, y)], fill=(0, 0, 0, int(175 * t)))
+    canvas = Image.alpha_composite(canvas, bot_grad)
+
+    # ── 5. 左侧竖色条（16px 全高）──────────────────────────────────────── #
+    stripe = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    ImageDraw.Draw(stripe).rectangle([(0, 0), (16, H)], fill=(*mc, 255))
+    canvas = Image.alpha_composite(canvas, stripe)
+
+    img  = canvas.convert("RGB")
+    draw = ImageDraw.Draw(img)
+
+    # ── 6. 大标题（自适应字号：1行112 / 2行88 / 3行70）─────────────────── #
+    title_up = title.upper()
+    chosen_font, chosen_lines = None, None
+    for sz in (112, 88, 70):
+        f = _bebas(sz)
+        lns = _wrap(title_up, f, MAX_TW, draw)
+        if len(lns) <= 3:
+            chosen_font, chosen_lines = f, lns[:3]
+            break
+    if chosen_font is None:
+        chosen_font = _bebas(70)
+        chosen_lines = _wrap(title_up, chosen_font, MAX_TW, draw)[:3]
+
+    line_h = chosen_font.size + 10
+    y_cur  = 80
+    for ln in chosen_lines:
+        _stroke_text(draw, (PAD_X, y_cur), ln, chosen_font,
+                     fill=WHITE, stroke_fill=(*BLACK, 210), stroke_width=4, bold_sim=2)
+        y_cur += line_h
+
+    # ── 7. 巨型数字 + 冲击词（垂直居中于 y=520-1580 区间）─────────────── #
+    NUM_MAX_W = W - 120
+
+    if big_number:
+        f_num = _fit_bebas(big_number, NUM_MAX_W, start=250)
+        bb_num = draw.textbbox((0, 0), big_number, font=f_num)
+        num_h = bb_num[3] - bb_num[1]
+    else:
+        f_num, num_h = None, 0
+
+    f_imp  = _bebas(82)
+    bb_imp = draw.textbbox((0, 0), impact_word, font=f_imp)
+    imp_h  = bb_imp[3] - bb_imp[1]
+
+    gap     = 20
+    total_h = num_h + (gap + imp_h if big_number else imp_h)
+    zone_c  = (520 + 1580) // 2
+    y_num   = zone_c - total_h // 2
+    y_imp   = y_num + num_h + (gap if big_number else 0)
+
+    if big_number and f_num:
+        bb = draw.textbbox((0, 0), big_number, font=f_num)
+        x  = (W - (bb[2] - bb[0])) // 2
+        _stroke_text(draw, (x, y_num), big_number, f_num,
+                     fill=mc, stroke_fill=(*BLACK, 220), stroke_width=6, bold_sim=3)
+
+    bb  = draw.textbbox((0, 0), impact_word, font=f_imp)
+    x   = (W - (bb[2] - bb[0])) // 2
+    _stroke_text(draw, (x, y_imp), impact_word, f_imp,
+                 fill=WHITE, stroke_fill=(*BLACK, 180), stroke_width=3, bold_sim=2)
+
+    # ── 8. 底部钩子条（y=1640, h=190, 左彩边14px, 半透明黑底）──────────── #
+    BAR_Y, BAR_H, BORDER = 1640, 190, 14
+    bar_layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    bd = ImageDraw.Draw(bar_layer)
+    bd.rectangle([(0, BAR_Y), (W, BAR_Y + BAR_H)], fill=(0, 0, 0, 184))
+    bd.rectangle([(0, BAR_Y), (BORDER, BAR_Y + BAR_H)], fill=(*mc, 255))
+    img  = Image.alpha_composite(img.convert("RGBA"), bar_layer).convert("RGB")
+    draw = ImageDraw.Draw(img)
+
+    f_cap   = _body(42)
+    cap_lns = _wrap(caption, f_cap, W - PAD_X - 30, draw)[:2]
+    y_cap   = BAR_Y + 26
+    for ln in cap_lns:
+        draw.text((PAD_X, y_cap), ln, font=f_cap, fill=WHITE)
+        y_cap += 54
+
+    # ── 9. CNcar.io 签名（底部居中）────────────────────────────────────── #
+    f_sig = _bebas(38)
+    sig   = "CNcar.io"
+    bb    = draw.textbbox((0, 0), sig, font=f_sig)
+    draw.text(((W - (bb[2] - bb[0])) // 2, 1862), sig, font=f_sig, fill=GOLD)
+
+    # ── 10. 金盾✓（右上角）──────────────────────────────────────────────── #
+    _draw_shield(draw, cx=1030, cy=68, r=42, color=GOLD)
 
     os.makedirs(os.path.dirname(output_path) or ".", exist_ok=True)
     img.save(output_path, "JPEG", quality=93)
-    print(f"  [BrandCover] ✅ 封面: {output_path}")
+    print(f"  [BrandCover] ✅ {output_path}")
     return output_path

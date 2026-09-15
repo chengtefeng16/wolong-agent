@@ -189,15 +189,31 @@ class CNcarCoverMaker:
         landed_cost = str(script_data.get("landed_cost_usd", "")).strip()
         title       = script_data.get("title", "CNcar")
 
-        hook = (f"{car_model} → {destination}" if (car_model or destination) else title)
-        subtitle = f"Landed ≈ ${landed_cost}" if landed_cost else title
+        hook = f"{car_model} → {destination}" if (car_model or destination) else title
+
+        big_number = ""
+        if landed_cost:
+            try:
+                big_number = f"${int(float(landed_cost)):,}"
+                caption = f"Full breakdown: duty, VAT, freight & port fees"
+            except Exception:
+                caption = f"Landed ≈ ${landed_cost}"
+        else:
+            caption = title
 
         seed = int(_hs.md5(title.encode()).hexdigest(), 16)
+
+        # 使用 cover_me.jpg 作为背景（如存在），否则 Pexels 抓图
+        cover_me = Path(__file__).parent.parent / "assets" / "cover_me.jpg"
+
         make_brand_cover(
-            hook=hook,
-            subtitle=subtitle,
-            mood="neutral",
+            title=hook,
+            caption=caption,
+            mood="data",
             output_path=out_path,
+            big_number=big_number,
+            impact_word="LANDED",
+            bg_image_path=str(cover_me) if cover_me.exists() else "",
             seed=seed,
         )
         return out_path
