@@ -13,9 +13,9 @@ STORY_TOPICS = [
     (
         "scam_deposit",
         "tense",
-        "A Chinese buyer paid a $12,000 deposit to a Gulf car dealer who then vanished. "
-        "Focus on: what warning signs they missed, what documents to demand, "
-        "and how CNcar's verified network prevents this.",
+        "A buyer paid a $12,000 deposit to a car dealer who then vanished. "
+        "Focus on: what warning signs they missed, which documents to demand before wiring any money, "
+        "and what buyers can check independently to avoid this.",
         ["scam", "dealer", "contract", "money", "fraud"],
     ),
     (
@@ -32,16 +32,16 @@ STORY_TOPICS = [
         "tense",
         "A buyer bought a 'China-spec' EV in the Gulf that had no local warranty. "
         "The battery failed 8 months later — repair cost $6,000 out of pocket. "
-        "Focus on: difference between grey-market and official import, "
-        "what to verify before buying, CNcar's role.",
+        "Focus on: the difference between grey-market and official import, "
+        "what specific questions to ask and documents to check before buying.",
         ["warranty", "EV", "battery", "grey market", "repair"],
     ),
     (
         "vat_surprise",
         "tense",
         "An importer quoted $18,000 landed. The real cost after VAT, duty and port fees was $24,000. "
-        "Focus on: what costs are commonly hidden, how to calculate true landed cost, "
-        "why CNcar shows the full breakdown upfront.",
+        "Focus on: which costs are commonly omitted from quotes, "
+        "how buyers can calculate the true landed cost before committing.",
         ["VAT", "duty", "landed cost", "import tax", "hidden fees"],
     ),
 
@@ -59,7 +59,8 @@ STORY_TOPICS = [
         "neutral",
         "Most people don't know there are two ways to ship a car from China to the Gulf — "
         "RoRo and container. One is cheaper. One is safer. "
-        "Focus on: what each method means, cost difference, which CNcar recommends and why.",
+        "Focus on: what each method means, the real cost and risk difference, "
+        "and how buyers can decide which fits their situation.",
         ["RoRo", "shipping", "container", "freight", "port"],
     ),
     (

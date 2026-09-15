@@ -78,24 +78,39 @@ script_prompt: |
   - Landed cost estimate (USD): {landed_cost_usd}
   - Full report: {report_url}
 
-  Write a 40–55 second English video script. Structure:
-  1. Hook — MUST be the very first sentence (0–3 seconds). Lead with the most striking number,
-     contrast, or question. No warm-up, no intro. Viewers decide in 3 seconds.
-     ✅ Good: "$8,315 landed in Dubai — that's cheaper than a Corolla. Here's why."
-     ✅ Good: "Most dealers lose money on this route. Here's the exact breakdown."
-     ❌ Bad: "Did you know that..." (weak opener — bury the lede)
-  2. Core content (~80 words): Specific cost breakdown — duty %, VAT %, freight. Use actual numbers.
-  3. CTA (~20 words): Visit CNcar for the full report. Soft, not pushy.
+  Write a 25–30 second English video script (60–80 words TOTAL). Structure:
 
-  Rules:
-  - No jargon, no buzzwords. Plain English.
-  - Every sentence earns its place. No filler.
-  - Total: 120–150 words.
+  1. HOOK — sentence #1 only. RULES (non-negotiable):
+     • Lead with the GAP between what buyers expect and reality — the "quoted price vs real cost" shock.
+     • Must contain a specific dollar number AND a contrast or surprise. No warm-up. No scene-setting.
+     ✅ "The dealer quoted $22,000. It landed at $29,473. Here's every dollar in between."
+     ✅ "$27,850 to land this car. The dealer's price? $21,000. Know the gap before you wire."
+     ❌ "Thinking about importing a BYD?" (too soft — BANNED)
+     ❌ "A dealer bought a car and shipped it..." (scene-setting — BANNED)
+
+  2. CORE — 35–45 words. Reveal the real cost gap: what the buyer expected vs what actually landed.
+     Use ONE or TWO specific cost drivers (duty %, VAT, freight) — not a checklist of every fee.
+     Build tension: each line adds to the "no one told you this" feeling.
+     Short sentences, max 12 words each.
+
+  3. ENDING HOOK — 1 sentence, 10–12 words. Lead viewers to CNcar to see their own numbers.
+     Frame as "see for yourself / know before you commit" — NOT "we recommend / protect yourself".
+     ✅ "See the full breakdown at CNcar.io before you decide."
+     ✅ "Know your real number at CNcar.io."
+     ❌ "Get your free report at CNcar." (sounds like a sales CTA — BANNED)
+     ❌ "CNcar recommends..." (we don't recommend products — BANNED)
+
+  HARD RULES:
+  - 60–80 words TOTAL. Hard cap — count them.
+  - Every sentence ≤ 12 words.
+  - Zero filler: no "basically", "actually", "as you know", "in today's video".
+  - Functional persuasion only — facts, gaps, numbers. Not emotion.
+  - Do NOT name specific dealers or individuals.
 
   Output strict JSON:
   {{
     "title": "(under 10 words, hook-style, e.g. 'BYD Han Landed in Dubai: Full Cost')",
     "cover_quote": "(one punchy sentence for the thumbnail, under 15 words)",
-    "full_script": "(complete script, 120-150 words)",
+    "full_script": "(complete script, 60-80 words)",
     "tags": ["tag1", "tag2", "tag3"]
   }}
