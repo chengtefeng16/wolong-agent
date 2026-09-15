@@ -12,8 +12,20 @@ import json
 import os
 import re
 import sys
+import time
 from datetime import datetime
 from pathlib import Path
+
+_RETRY_DELAYS = [5, 10, 20]  # seconds between attempts (4 total tries)
+
+
+def _is_network_error(exc: Exception) -> bool:
+    name = type(exc).__qualname__.lower()
+    msg  = str(exc).lower()
+    return any(k in name or k in msg for k in (
+        "remoteprotocol", "connecterror", "timeout",
+        "disconnected", "network", "connection", "remotedisconnected",
+    ))
 
 _HERE = Path(__file__).parent
 _STORIES_DIR = _HERE.parent / "stories"
@@ -128,11 +140,26 @@ def generate_story(cfg: dict) -> str:
         title_hint=_title_hint(angle),
     )
 
-    response = client.models.generate_content(
-        model="gemini-2.5-flash",
-        contents=prompt,
-        config={"system_instruction": SYSTEM_PROMPT},
-    )
+    last_exc: Exception | None = None
+    for attempt in range(1, len(_RETRY_DELAYS) + 2):  # up to 4 attempts
+        try:
+            response = client.models.generate_content(
+                model="gemini-2.5-flash",
+                contents=prompt,
+                config={"system_instruction": SYSTEM_PROMPT},
+            )
+            break
+        except Exception as exc:
+            last_exc = exc
+            if attempt <= len(_RETRY_DELAYS) and _is_network_error(exc):
+                delay = _RETRY_DELAYS[attempt - 1]
+                print(f"  [StoryGen] ⚠️  网络错误(第{attempt}次)，{delay}s 后重试: {exc}")
+                time.sleep(delay)
+            else:
+                raise
+    else:
+        raise RuntimeError(f"Gemini 调用失败，已重试 {len(_RETRY_DELAYS)} 次: {last_exc}") from last_exc
+
     raw = response.text.strip()
     print(f"  [StoryGen] Gemini 返回 {len(raw)} 字符")
 
