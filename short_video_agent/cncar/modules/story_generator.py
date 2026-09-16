@@ -16,7 +16,9 @@ import time
 from datetime import datetime
 from pathlib import Path
 
-_RETRY_DELAYS = [5, 10, 20]  # seconds between attempts (4 total tries)
+# Gemini/代理偶发 TLS 断流时，不应该让当天的定时任务直接断更。
+# 总等待约 135 秒；每一次会新建 client，避免复用已损坏的连接池。
+_RETRY_DELAYS = [5, 10, 20, 40, 60]  # seconds between attempts (6 total tries)
 
 
 def _is_network_error(exc: Exception) -> bool:
@@ -126,8 +128,6 @@ def generate_story(cfg: dict) -> str:
 
     from google import genai
 
-    client = genai.Client(api_key=gemini_key)
-
     topics = _load_topics()
     usage = _load_usage()
     topic_id, mood, angle, _keywords = _pick_topic(topics, usage)
@@ -141,8 +141,10 @@ def generate_story(cfg: dict) -> str:
     )
 
     last_exc: Exception | None = None
-    for attempt in range(1, len(_RETRY_DELAYS) + 2):  # up to 4 attempts
+    for attempt in range(1, len(_RETRY_DELAYS) + 2):  # 6 attempts total
         try:
+            # 每次都创建新的 HTTP client：代理偶发中断后，不复用旧连接。
+            client = genai.Client(api_key=gemini_key)
             response = client.models.generate_content(
                 model="gemini-2.5-flash",
                 contents=prompt,
@@ -153,7 +155,10 @@ def generate_story(cfg: dict) -> str:
             last_exc = exc
             if attempt <= len(_RETRY_DELAYS) and _is_network_error(exc):
                 delay = _RETRY_DELAYS[attempt - 1]
-                print(f"  [StoryGen] ⚠️  网络错误(第{attempt}次)，{delay}s 后重试: {exc}")
+                print(
+                    f"  [StoryGen] ⚠️  网络错误(第{attempt}次)，"
+                    f"{delay}s 后以新连接重试: {exc}"
+                )
                 time.sleep(delay)
             else:
                 raise
