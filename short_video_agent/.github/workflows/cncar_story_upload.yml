@@ -1,12 +1,15 @@
 name: CNcar Story Upload
 
 on:
+  # 北京时间每天 07:00（UTC 前一天 23:00）：自动生成后上传为 unlisted，供人工审核。
+  schedule:
+    - cron: "0 23 * * *"
   workflow_dispatch:
     inputs:
       story_file:
-        description: 'Story file path (relative to short_video_agent/)'
-        required: true
-        default: 'cncar/stories/story_01.txt'
+        description: 'Optional story file path (relative to short_video_agent/). Leave blank to generate a new Gemini story.'
+        required: false
+        default: ''
 
 permissions:
   contents: write
@@ -43,8 +46,19 @@ jobs:
       - name: Run story pipeline (TTS + Pexels + 合成 + BGM)
         id: story
         working-directory: short_video_agent
+        env:
+          GEMINI_KEY: ${{ secrets.GEMINI_KEY }}
+          ELEVENLABS_KEY: ${{ secrets.ELEVENLABS_KEY }}
+          MANUAL_STORY: ${{ inputs.story_file }}
         run: |
-          python3 cncar/main.py --story "${{ github.event.inputs.story_file }}" 2>&1 | tee /tmp/story_log.txt
+          set -eo pipefail
+          if [ -n "$MANUAL_STORY" ]; then
+            echo "Using manually selected story: $MANUAL_STORY"
+            python3 cncar/main.py --story "$MANUAL_STORY" 2>&1 | tee /tmp/story_log.txt
+          else
+            echo "Generating a new story from the rotated topic pool"
+            python3 cncar/main.py --auto-story 2>&1 | tee /tmp/story_log.txt
+          fi
           VIDEO_ID=$(python3 -c "
           import json
           data = json.load(open('cncar/pending.json'))
