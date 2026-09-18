@@ -48,14 +48,12 @@ youtube:
   privacy: "unlisted"        # 人工审核通过后改为 public
   title_template: "{title} | CNcar"
   description_template: |
-    {cover_quote}
+    👉 See the full landed-cost report: {report_url}
 
-    🚗 Thinking about importing a Chinese EV to the Gulf?
-    CNcar gives you real landed-cost breakdowns — duties, VAT, freight included.
+    Real landed cost from China, all-in. No surprises at the port.
 
-    👉 Get your free report: {report_url}
-
-    #ChineseEV #CarImport #UAE #BYD #CNcar
+    import car from China | landed cost calculator | used car export | vehicle import duty
+    #ImportCarFromChina #CarExport #LandedCost #UsedCarImport #CNcar
   tags:
     - "Chinese EV"
     - "car import"

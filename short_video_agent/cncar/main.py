@@ -246,7 +246,7 @@ def run_list():
 # 审核通过 → 上传 YouTube                                                #
 # ------------------------------------------------------------------ #
 
-def run_approve(cfg: dict, pending_id: str):
+def run_approve(cfg: dict, pending_id: str, privacy: str | None = None):
     items = _read_pending()
     entry = next((x for x in items if x["id"] == pending_id), None)
     if not entry:
@@ -279,7 +279,7 @@ def run_approve(cfg: dict, pending_id: str):
 
     from modules.youtube_uploader import YouTubeUploader
     uploader = YouTubeUploader(cfg)
-    video_id = uploader.upload(video_path, script_data)
+    video_id = uploader.upload(video_path, script_data, privacy=privacy)
     yt_url   = f"https://youtu.be/{video_id}"
 
     # 上传自定义缩略图
@@ -389,12 +389,19 @@ def _parse_story_file(path: str) -> tuple[dict, str]:
       mood: tense | neutral | uplift
       title: 封面标题文字
       caption: 视频画面上的钩子句（全程显示，1-2句）
+      cover_hook: 封面短冲击词
+      cover_number: 封面巨型数字
+      cover_impact: 数字的解释词
+      visuals: wide shot ... | close-up ... | medium shot ... | close-up ... | medium shot ...
       （空行）
-      [旁白正文，只有这部分传给 TTS 和 Pexels，header 绝不传出]
+      [旁白正文，只有这部分传给 TTS；visuals 单独作为 Pexels 分镜指令]
 
     返回 (headers_dict, narration_text)。
     """
-    _KNOWN = {"mood", "title", "caption"}
+    _KNOWN = {
+        "mood", "title", "caption", "visuals",
+        "cover_hook", "cover_number", "cover_impact",
+    }
     headers: dict[str, str] = {}
     narration_lines: list[str] = []
     in_header = True
@@ -418,6 +425,13 @@ def _parse_story_file(path: str) -> tuple[dict, str]:
     return headers, "".join(narration_lines).strip()
 
 
+def _clean_cover_hook(value: str, fallback: str) -> str:
+    """封面主钩子必须短；模型若误输出多个备选，只采用第一个。"""
+    candidate = (value or fallback).split(",", 1)[0].split("|", 1)[0].strip()
+    words = candidate.split()
+    return " ".join(words[:4]) or "REAL COST"
+
+
 def run_story(cfg: dict, story_path: str):
     """
     故事线生产：直接读旁白文案文件，不读工作表2。
@@ -432,7 +446,7 @@ def run_story(cfg: dict, story_path: str):
     流程：
       解析 header → TTS（仅旁白正文） → Pexels多背景图（仅旁白正文分段）
       → 视频合成（caption全程固定显示） → BGM混音
-      → 封面（cover_me.jpg + overlay_title叠字）
+      → 封面（统一品牌版式 + 本条视频首张背景图）
       → pending.json（source=story）
     """
     story_file = Path(story_path)
@@ -448,6 +462,12 @@ def run_story(cfg: dict, story_path: str):
 
     title   = headers.get("title", story_file.stem.replace("_", " ").title())
     caption = headers.get("caption", "")
+    cover_hook = _clean_cover_hook(headers.get("cover_hook", ""), title)
+    cover_number = headers.get("cover_number", "")
+    cover_impact = headers.get("cover_impact", "")
+    visual_beats = [
+        beat.strip() for beat in headers.get("visuals", "").split("|") if beat.strip()
+    ]
 
     ts  = datetime.now().strftime("%Y%m%d_%H%M%S")
     uid = str(uuid.uuid4())[:6]
@@ -457,6 +477,7 @@ def run_story(cfg: dict, story_path: str):
     print(f"  文件   : {story_path}")
     print(f"  标题   : {title}")
     print(f"  Caption: {caption or '(未指定，不显示画面字)'}")
+    print(f"  分镜   : {len(visual_beats)} 条{'（故事推进模式）' if visual_beats else '（兼容旧版自动匹配）'}")
     print(f"  旁白字数: {len(narration)}\n")
 
     from modules.audio_generator import AudioGenerator
@@ -464,9 +485,9 @@ def run_story(cfg: dict, story_path: str):
     from moviepy import AudioFileClip as _AFC
     from cncar.modules.multi_bg_composer import (
         n_images_for_duration, fetch_segment_images, segment_script, compose_multi_bg,
+        pick_hook_image,
     )
     from cncar.modules.bgm_selector import BgmSelector, mix_bgm_into_video
-    from cncar.modules.cover_maker import overlay_title
 
     # ── Step 1: TTS（只传旁白正文，header 绝不传入）──────────────────
     print("[1/4] 生成配音（edge-tts）...")
@@ -479,7 +500,10 @@ def run_story(cfg: dict, story_path: str):
     print(f"\n[2/4] 抓取背景图（时长={_audio_dur:.1f}s → {n_bg} 张）...")
     tmp_bg_dir = str(OUTPUT_DIR / f"multibg_{ts}_{uid}")
     segments   = segment_script(narration, n_bg)          # 只分旁白正文
-    bg_paths   = fetch_segment_images(segments, tmp_bg_dir, story_file.stem)
+    bg_paths   = fetch_segment_images(
+        segments, tmp_bg_dir, story_file.stem, visual_beats=visual_beats
+    )
+    hook_path = pick_hook_image(title)
 
     # ── Step 3: 视频合成（caption 全程固定显示）──────────────────────
     print("\n[3/4] 合成视频...")
@@ -491,6 +515,8 @@ def run_story(cfg: dict, story_path: str):
         bg_paths=bg_paths,
         output_path=str(OUTPUT_DIR / f"video_{ts}_{uid}.mp4"),
         caption=caption,                  # 空字符串 = 无画面字；非空 = 全程固定钩子
+        visual_beats=visual_beats,
+        hook_image_path=hook_path,
     )
 
     # ── Step 3.5: BGM 混音 ────────────────────────────────────────────
@@ -517,14 +543,18 @@ def run_story(cfg: dict, story_path: str):
     cover_path = str(OUTPUT_DIR / f"cover_{ts}_{uid}.jpg")
     _seed = int(_hs.md5(title.encode()).hexdigest(), 16)
     # 从 title / caption 提取金额作为巨型数字
-    _nums = _re.findall(r'\$[\d,]+', f"{title} {caption or ''}")
-    _big_num = _nums[0] if _nums else ""
+    _nums = _re.findall(r'(?:\$[\d,]+|\+?\d+%)', f"{title} {caption or ''}")
+    _big_num = cover_number or (_nums[0] if _nums else "")
     make_brand_cover(
-        title=title,
+        title=cover_hook,
         caption=caption or narration[:80],
         mood=mood,
         output_path=cover_path,
         big_number=_big_num,
+        impact_word=cover_impact,
+        accent_color=(200, 55, 45),
+        # 封面沿用本条视频已成功获取的首张背景图，避免额外联网抓图失败时退化成纯色。
+        bg_image_path=bg_paths[0] if bg_paths else "",
         seed=_seed,
     )
 
@@ -546,7 +576,7 @@ def run_story(cfg: dict, story_path: str):
         "car_model":       "",
         "destination":     "",
         "landed_cost_usd": "",
-        "report_url":      "",
+        "report_url":      "https://cncar.io/cost-calculator",
         "title":           title,
         "cover_quote":     cover_quote,
         "video_path":      str(video_path),
@@ -631,6 +661,7 @@ def main():
     parser.add_argument("--cover",       metavar="PATH",      help="手动指定封面图片路径（临时覆盖自动生成）")
     parser.add_argument("--list",        action="store_true", help="列出待审核视频")
     parser.add_argument("--approve",     metavar="ID",        help="审核通过并上传 YouTube")
+    parser.add_argument("--public",      action="store_true", help="与 --approve 一起使用，直接公开发布")
     parser.add_argument("--reject",      metavar="ID",        help="拒绝该视频")
     parser.add_argument("--demo",        action="store_true", help="测试模块连通性")
     parser.add_argument("--write-sheet", action="store_true", help="自动选题→交互输入成本+链接→直接写表")
@@ -653,7 +684,9 @@ def main():
     elif args.produce:
         run_produce(cfg, cover_override=getattr(args, "cover", None))
     elif args.approve:
-        run_approve(cfg, args.approve)
+        run_approve(cfg, args.approve, privacy="public" if args.public else None)
+    elif args.public:
+        parser.error("--public 只能与 --approve <ID> 一起使用")
     elif getattr(args, "write_sheet", False):
         run_write_sheet(cfg)
     elif args.story:
