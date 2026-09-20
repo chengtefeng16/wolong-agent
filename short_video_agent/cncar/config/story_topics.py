@@ -72,6 +72,76 @@ STORY_TOPICS = [
         ["dealer", "license", "verification", "export", "China"],
     ),
 
+    # ── 新增：合规卡壳 / 认证风险（tense）────────────────────────────
+    (
+        "era_glonass_blocked",
+        "tense",
+        "A car shipped from China to Russia arrived at port — but couldn't be "
+        "registered because the ERA-GLONASS emergency transponder wasn't installed. "
+        "The buyer spent 3 months and $4,000 trying to retrofit it locally. "
+        "Focus on: what ERA-GLONASS is, why China-spec cars almost always miss it, "
+        "and which steps importers must take before the cargo leaves China.",
+        ["Russia", "registration", "customs compliance", "car import", "telematics"],
+    ),
+    (
+        "soncap_stuck",
+        "tense",
+        "A car shipment to Nigeria was held at port for 60 days because the SONCAP "
+        "product certificate was missing. Demurrage and storage fees hit $8,000 "
+        "before anything moved. "
+        "Focus on: what SONCAP is, why Nigerian customs won't release cargo without it, "
+        "how to get it certified before the ship leaves China.",
+        ["Nigeria", "port", "certificate", "customs", "cargo clearance"],
+    ),
+    (
+        "saber_saso_blocked",
+        "tense",
+        "A car arrived at a Gulf port but was blocked by customs — the SABER product "
+        "registration was missing. The car sat in storage for 4 months while the "
+        "importer tried to certify it retroactively. It failed. "
+        "Focus on: what SABER and SASO registration cover, why Gulf customs rejects "
+        "uncertified vehicles, and why this must be done before the cargo ships.",
+        ["Saudi Arabia", "Gulf customs", "SASO", "certification", "import block"],
+    ),
+    (
+        "demurrage_trap",
+        "tense",
+        "An importer's shipment arrived on schedule — but a one-week port processing "
+        "delay triggered demurrage fees that wiped out $3,500 of margin on a single car. "
+        "Focus on: how demurrage accumulates by the day, which delays commonly trigger it, "
+        "and what importers can negotiate upfront to limit exposure.",
+        ["demurrage", "port delay", "shipping cost", "freight", "container"],
+    ),
+    (
+        "recycling_tax_spike",
+        "tense",
+        "A dealer budgeted $4,000 for Russia's vehicle recycling (utilisation) fee. "
+        "By the time the car cleared customs, the fee had doubled to $8,000 — "
+        "the landed cost was $10,000 over budget with no warning. "
+        "Focus on: what the Russian recycling fee is, why it changes without notice, "
+        "and how importers can build a safety margin into their cost model.",
+        ["Russia", "import duty", "recycling fee", "cost overrun", "landed cost"],
+    ),
+    (
+        "fake_forwarder",
+        "tense",
+        "A buyer hired a freight forwarder they found online, paid $15,000 in advance "
+        "for shipping and customs handling — then the forwarder vanished. "
+        "Focus on: how fake forwarders target car importers, what verified credentials "
+        "to demand before paying, and how to use escrow safely.",
+        ["freight forwarder", "scam", "shipping fraud", "money", "verification"],
+    ),
+    (
+        "ev_range_fraud",
+        "tense",
+        "A buyer imported a Chinese EV advertised at 500 km range. "
+        "In Gulf heat, real-world range was 240 km — under half. "
+        "The battery specs on the certificate didn't match the actual cells inside. "
+        "Focus on: how EV range is inflated on paper, which spec fields to verify "
+        "independently, and what battery health checks to demand before purchase.",
+        ["EV battery", "range fraud", "electric car import", "specification", "Gulf heat"],
+    ),
+
     # ── 成功故事 / 励志（uplift）──────────────────────────────────────
     (
         "smart_buyer_win",

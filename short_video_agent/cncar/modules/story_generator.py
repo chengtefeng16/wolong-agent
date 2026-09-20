@@ -7,13 +7,12 @@
   4. 返回文件路径供 run_story() 使用
 """
 
-import hashlib
 import json
 import os
 import re
 import sys
 import time
-from datetime import datetime
+from datetime import date, datetime, timedelta
 from pathlib import Path
 
 # Gemini/代理偶发 TLS 断流时，不应该让当天的定时任务直接断更。
@@ -40,7 +39,7 @@ overseas buyers import cars from China to the Gulf region (UAE, Saudi Arabia, Om
 Your audience: people considering importing a car, or wanting to avoid scams and hidden costs.
 Write in a direct, journalistic style — real stakes, real numbers, clear advice.
 
-TARGET LENGTH: 60–80 words of narration (spoken in 25–30 seconds). Hard cap.
+TARGET LENGTH: 85–100 words of narration (spoken in 40–50 seconds). Hard cap.
 FIRST SENTENCE RULE: The opening line must be a hook — a specific number, a sharp conflict,
 or a counterintuitive fact. No background. No scene-setting. No "A buyer once...".
 Start mid-action so viewers are hooked before they can swipe away.
@@ -71,9 +70,13 @@ Output ONLY this exact format (no extra text, no markdown):
 mood: {mood}
 title: {title_hint}
 caption: [ONE punchy hook sentence, max 12 words, present tense, must contain a number or conflict]
+cover_hook: [2–4 ALL-CAPS punch words for the thumbnail, e.g. HIDDEN FEES, PORT TRAP, BYD BOOM. Never repeat the full title.]
+cover_number: [the single strongest number from the story, e.g. $6,000 or 140%]
+cover_impact: [1–2 ALL-CAPS words explaining that number, e.g. EXTRA COST, HIDDEN FEES, SURGE]
+visuals: [EXACTLY 5 English visual beats separated by |. Each beat is 5–12 words and starts with wide shot / medium shot / close-up. Tell the same story in order: 1) vehicle/import setting, 2) problem or warning sign, 3) consequence at port/dealer, 4) cost or proof detail, 5) buyer verifying/checking solution. EVERY beat must visibly include at least one auto-trade element: a car/vehicle, car key, dealership, vehicle document, car carrier, or port with cars. Do not use generic phone, generic laptop, generic money, generic person, or abstract words alone.]
 
 [blank line]
-[Narration: 2–3 very short paragraphs. 60–80 words TOTAL — count every word, hard cap.
+[Narration: 2–3 very short paragraphs. 85–100 words TOTAL — count every word, hard cap.
 Short sentences, max 12 words each. Each sentence must add NEW information.
 If two sentences say the same thing in different words, delete one.
 No bullet points. No headers. No filler words. Facts and numbers only.
@@ -90,25 +93,53 @@ def _load_topics():
     return mod.STORY_TOPICS
 
 
+_COOLDOWN_DAYS = 14  # 同一选题至少间隔 N 天才能再次被选
+
+
 def _load_usage() -> dict:
-    if _USAGE_FILE.exists():
-        return json.loads(_USAGE_FILE.read_text())
-    return {}
+    """返回 {topic_id: "YYYY-MM-DD"}，兼容旧格式（count 整数）。"""
+    if not _USAGE_FILE.exists():
+        return {}
+    raw = json.loads(_USAGE_FILE.read_text())
+    # 旧格式是整数 count，统一转为遥远过去的占位日期（确保不影响冷却逻辑）
+    migrated = {}
+    for k, v in raw.items():
+        if isinstance(v, int):
+            migrated[k] = "2000-01-01"
+        else:
+            migrated[k] = v
+    return migrated
 
 
 def _save_usage(usage: dict):
     _USAGE_FILE.write_text(json.dumps(usage, indent=2, ensure_ascii=False))
 
 
-def _pick_topic(topics: list, usage: dict) -> tuple:
-    """轮换选题：优先选从未用过的，全部用完后从使用次数最少的开始。"""
-    used_counts = {t[0]: usage.get(t[0], 0) for t in topics}
-    min_count = min(used_counts.values())
-    candidates = [t for t in topics if used_counts[t[0]] == min_count]
-    # 用 topic_id 的 hash 做稳定排序，避免每次随机
-    seed = int(datetime.utcnow().strftime("%Y%m%d"))
-    candidates.sort(key=lambda t: int(hashlib.md5((t[0] + str(seed)).encode()).hexdigest(), 16))
-    return candidates[0]
+def _pick_topic(topics: list, usage: dict, today: date | None = None) -> tuple:
+    """14天冷却轮换：排除最近 COOLDOWN_DAYS 天内用过的选题，优先选最久未用的。
+    若全部选题均在冷却期（极端情况），降级为选最久未用的（不阻断生成）。
+    """
+    if today is None:
+        today = date.today()
+    cutoff = today - timedelta(days=_COOLDOWN_DAYS)
+
+    def last_used(topic_id: str) -> date:
+        d = usage.get(topic_id)
+        if not d:
+            return date.min          # 从未用过，最优先
+        try:
+            return date.fromisoformat(d)
+        except ValueError:
+            return date.min
+
+    available = [t for t in topics if last_used(t[0]) <= cutoff]
+    pool = available if available else topics  # 全冷却时降级使用全部
+
+    if not available:
+        print("  [StoryGen] ⚠️  所有选题均在冷却期，降级选最久未用选题")
+
+    pool.sort(key=lambda t: last_used(t[0]))   # 最久未用的排最前
+    return pool[0]
 
 
 def _title_hint(angle: str) -> str:
@@ -169,7 +200,7 @@ def generate_story(cfg: dict) -> str:
     print(f"  [StoryGen] Gemini 返回 {len(raw)} 字符")
 
     # 校验基本格式
-    if "mood:" not in raw or "caption:" not in raw:
+    if "mood:" not in raw or "caption:" not in raw or "visuals:" not in raw:
         raise ValueError(f"Gemini 输出格式不符合预期:\n{raw[:200]}")
 
     # 保存文件
@@ -179,8 +210,8 @@ def generate_story(cfg: dict) -> str:
     out_path.write_text(raw, encoding="utf-8")
     print(f"  [StoryGen] ✅ 故事文件: {out_path}")
 
-    # 更新使用记录
-    usage[topic_id] = usage.get(topic_id, 0) + 1
+    # 更新使用记录（记最后使用日期，用于 14 天冷却窗口）
+    usage[topic_id] = date.today().isoformat()
     _save_usage(usage)
 
     return str(out_path)
