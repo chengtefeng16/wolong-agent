@@ -1,17 +1,11 @@
 """
-AI 服务层 — 封装现有 llm_gateway_v1.py（包含 thought-part 修复）。
-保持独立，方便后续替换模型或接入 CNcar 成本模块。
+AI 服务层 — 封装 llm_gateway_v1.py（包含 thought-part 修复）。
+llm_gateway_v1.py 已复制到本目录，SaaS 完全独立于 qianqiu_os。
 """
 from __future__ import annotations
 
-import sys
-from pathlib import Path
+import asyncio
 from typing import Any
-
-# /app/saas/backend/ai/service.py → parents[3] = /app
-_project_root = Path(__file__).resolve().parents[3]
-if str(_project_root) not in sys.path:
-    sys.path.insert(0, str(_project_root))
 
 
 async def generate_reply(
@@ -21,20 +15,13 @@ async def generate_reply(
     last_message: str,
     conversation_history: list[dict] | None = None,
 ) -> dict[str, Any]:
-    """
-    异步包装 llm_gateway_v1.generate_reply（同步函数）。
-    thought-part 修复已在 llm_gateway_v1.py 里，这里直接调用即可。
-    """
-    import asyncio
-    from qianqiu_os.services.llm_gateway_v1 import generate_reply as _sync_reply, _detect_customer_language
+    from .llm_gateway_v1 import generate_reply as _sync_reply, _detect_customer_language
 
     loop = asyncio.get_event_loop()
     result = await loop.run_in_executor(
         None,
         lambda: _sync_reply(customer_name, country, category, last_message, conversation_history),
     )
-
-    # 补充语言信息
     lang_code, _ = _detect_customer_language(last_message)
     result["language_code"] = lang_code
     return result
