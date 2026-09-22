@@ -1,10 +1,12 @@
-name: CNcar Story Upload
+name: CNcar Story Auto-Upload
 
 on:
-  workflow_dispatch:  # 仅手动触发（本地已用 launchd 每日 07:00 自动生成）
+  schedule:
+    - cron: '0 16 * * *'   # UTC 16:00 = 海湾/中东 20:00 GST，晚高峰前上线
+  workflow_dispatch:
     inputs:
       story_file:
-        description: '手动指定 story 文件路径（留空则 Gemini 自动生成）'
+        description: '手动指定故事文件路径（留空则 Gemini 自动生成）'
         required: false
         default: ''
 
@@ -12,7 +14,7 @@ permissions:
   contents: write
 
 jobs:
-  generate-and-upload:
+  story-auto-upload:
     runs-on: ubuntu-latest
 
     steps:
@@ -33,14 +35,16 @@ jobs:
         working-directory: short_video_agent
         run: pip install -r requirements.txt
 
+      # 凭证只存在 runner 内存/临时目录，不进日志不进代码
       - name: Restore CNcar YouTube credentials
         working-directory: short_video_agent
         run: |
           mkdir -p cncar/config
           echo "${{ secrets.CNCAR_YOUTUBE_CREDENTIALS }}" | base64 -d > cncar/config/cncar_youtube_credentials.json
-          echo "${{ secrets.CNCAR_YOUTUBE_TOKEN }}" | base64 -d > cncar/config/cncar_youtube_token.json
+          echo "${{ secrets.CNCAR_YOUTUBE_TOKEN }}"        | base64 -d > cncar/config/cncar_youtube_token.json
 
-      - name: Run story pipeline
+      # ── Step 1: 生成故事线视频（Gemini + FFmpeg） ───────────────────────
+      - name: Generate story video
         id: story
         working-directory: short_video_agent
         env:
@@ -55,19 +59,46 @@ jobs:
             echo "Gemini 自动生成故事脚本..."
             python3 cncar/main.py --auto-story 2>&1 | tee /tmp/story_log.txt
           fi
+          # 取最新一条 story 类型 pending 条目的 ID
           VIDEO_ID=$(python3 -c "
           import json
           data = json.load(open('cncar/pending.json'))
-          pending = [x for x in data if x.get('status') == 'pending']
-          print(pending[-1]['id'])
+          pending = [x for x in data if x.get('status') == 'pending' and x.get('source') == 'story']
+          print(sorted(pending, key=lambda x: x['id'])[-1]['id'])
           ")
           echo "video_id=$VIDEO_ID" >> $GITHUB_OUTPUT
           echo "生成完成，ID: $VIDEO_ID"
 
-      - name: Print pending summary (no auto-upload)
+      # ── Step 2: 上传到 @pierpont-006 频道，public ───────────────────────
+      # 注意：不是 @jackyctf16（定心），凭证由上面步骤还原到 cncar/config/
+      - name: Upload to YouTube (public)
+        id: upload
+        working-directory: short_video_agent
         run: |
-          echo "=========================================="
-          echo "⏳ 视频已生成，等待人工审核后手动 approve"
-          echo "ID: ${{ steps.story.outputs.video_id }}"
-          echo "本地运行: python3 cncar/main.py --approve ${{ steps.story.outputs.video_id }}"
-          echo "=========================================="
+          set -eo pipefail
+          python3 cncar/main.py --approve "${{ steps.story.outputs.video_id }}" --public \
+            2>&1 | tee /tmp/upload_log.txt
+          VIDEO_URL=$(grep -oP 'https://youtu\.be/[a-zA-Z0-9_-]+' /tmp/upload_log.txt | head -1)
+          echo "youtube_url=$VIDEO_URL" >> $GITHUB_OUTPUT
+          echo "✅ 上传完成: $VIDEO_URL"
+
+      # ── Step 3: 把 usage + pending 写回仓库（供下次14天冷却判断） ────────
+      # 【顺序保证】视频在 Step 2 已发出，Step 3 失败不影响视频
+      # 【冲突容错】rebase/push 失败只打警告，workflow 仍显示绿色
+      - name: Commit updated state back to repo
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add short_video_agent/cncar/story_topic_usage.json \
+                  short_video_agent/cncar/pending.json
+          if git diff --cached --quiet; then
+            echo "无变更，跳过提交"
+            exit 0
+          fi
+          git commit -m "ci(cncar): auto story ${{ steps.upload.outputs.youtube_url }}"
+          # pull --rebase 吸收远端新提交，失败则跳过（视频已发）
+          git pull --rebase origin main || {
+            echo "⚠️ rebase 冲突，跳过提交（视频已发出，usage.json 下次补偿）"
+            exit 0
+          }
+          git push origin main || echo "⚠️ push 失败，跳过（视频已发出）"
