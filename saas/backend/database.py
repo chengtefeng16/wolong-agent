@@ -9,8 +9,12 @@ class Base(DeclarativeBase):
 
 def _make_engine():
     settings = get_settings()
+    url = settings.database_url
+    # Railway injects postgresql:// — asyncpg needs postgresql+asyncpg://
+    if url.startswith("postgresql://") or url.startswith("postgres://"):
+        url = url.replace("://", "+asyncpg://", 1)
     return create_async_engine(
-        settings.database_url,
+        url,
         pool_size=5,
         max_overflow=10,
         echo=settings.environment == "development",
