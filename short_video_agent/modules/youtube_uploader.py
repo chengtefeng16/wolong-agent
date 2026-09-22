@@ -7,7 +7,8 @@ import os
 import json
 import time
 
-from google.auth.transport.requests import Request
+import requests as _requests
+from google.auth.transport.requests import Request, AuthorizedSession
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 import google_auth_httplib2
@@ -109,6 +110,17 @@ class YouTubeUploader:
             creds, http=httplib2.Http(proxy_info=proxy_info)
         )
         self._service = build("youtube", "v3", http=http)
+        # AuthorizedSession：proxies 控制上传流量，auth_request 控制 token 刷新流量
+        # 两者都需要走代理，否则 token refresh 会直连超时
+        if proxy_url:
+            proxy_sess = _requests.Session()
+            proxy_sess.proxies = {"https": proxy_url, "http": proxy_url}
+            auth_req = Request(session=proxy_sess)
+        else:
+            auth_req = None
+        self._session = AuthorizedSession(creds, auth_request=auth_req)
+        if proxy_url:
+            self._session.proxies = {"https": proxy_url, "http": proxy_url}
         print("  [YouTube] 认证成功 ✅")
 
     def upload(self, video_path: str, script_data: dict, privacy: str = None) -> str:
@@ -142,12 +154,9 @@ class YouTubeUploader:
             },
         }
 
-        media = MediaFileUpload(video_path, mimetype="video/mp4", resumable=True, chunksize=-1)
-        request = self._service.videos().insert(part=",".join(body.keys()), body=body, media_body=media)
-
         print(f"  [YouTube] 开始上传: 「{title}」")
         print(f"  [YouTube] 隐私设置: {privacy}")
-        video_id = self._resumable_upload(request)
+        video_id = self._requests_resumable_upload(video_path, body)
         print(f"  [YouTube] ✅ 上传完成: https://youtu.be/{video_id}")
         return video_id
 
@@ -157,32 +166,101 @@ class YouTubeUploader:
         media = MediaFileUpload(image_path, mimetype="image/jpeg", resumable=False)
         self._service.thumbnails().set(videoId=video_id, media_body=media).execute()
 
-    def _resumable_upload(self, request) -> str:
-        response = None
-        retry = 0
-        while response is None:
+    def _requests_resumable_upload(self, video_path: str, body: dict) -> str:
+        """5MB分块断点续传，用 AuthorizedSession 规避 httplib2+代理重定向问题。"""
+        _NETWORK_ERRS = (
+            ConnectionError,
+            TimeoutError,
+            _requests.exceptions.ConnectionError,
+            _requests.exceptions.ChunkedEncodingError,
+            _requests.exceptions.ReadTimeout,
+        )
+        sess = self._session
+        file_size = os.path.getsize(video_path)
+        chunk_size = 5 * 1024 * 1024  # 5 MB
+
+        # ── Step 1: 初始化 resumable upload，拿到 upload URI ──────────────
+        init_url = (
+            "https://www.googleapis.com/upload/youtube/v3/videos"
+            "?uploadType=resumable&part=snippet,status"
+        )
+        for attempt in range(MAX_RETRIES + 1):
             try:
-                status, response = request.next_chunk()
-                if status:
-                    pct = int(status.progress() * 100)
-                    bar = "█" * (pct // 5) + "░" * (20 - pct // 5)
-                    print(f"\r  [YouTube] [{bar}] {pct}%", end="", flush=True)
-            except HttpError as e:
-                if e.resp.status in RETRIABLE_STATUS_CODES:
-                    retry += 1
-                    if retry > MAX_RETRIES:
-                        raise
-                    wait = 2 ** retry
-                    print(f"\n  [YouTube] 服务器错误 {e.resp.status}，{wait}秒后重试...")
-                    time.sleep(wait)
-                else:
+                resp = sess.post(
+                    init_url,
+                    headers={
+                        "Content-Type": "application/json; charset=UTF-8",
+                        "X-Upload-Content-Type": "video/mp4",
+                        "X-Upload-Content-Length": str(file_size),
+                    },
+                    json=body,
+                    timeout=30,
+                )
+                resp.raise_for_status()
+                upload_uri = resp.headers["Location"]
+                break
+            except _NETWORK_ERRS as e:
+                if attempt >= MAX_RETRIES:
                     raise
-            except httplib2.error.RedirectMissingLocation:
-                retry += 1
-                if retry > MAX_RETRIES:
-                    raise
-                wait = 2 ** retry
-                print(f"\n  [YouTube] 重定向异常，{wait}秒后重试（{retry}/{MAX_RETRIES}）...")
+                wait = 2 ** (attempt + 1)
+                print(f"\n  [YouTube] 初始化失败({type(e).__name__})，{wait}s后重试...")
                 time.sleep(wait)
-        print()
-        return response["id"]
+
+        # ── Step 2: 分块上传，网络断开后从服务器确认的偏移量继续 ──────────
+        with open(video_path, "rb") as f:
+            offset = 0
+            while offset < file_size:
+                f.seek(offset)
+                chunk = f.read(chunk_size)
+                if not chunk:
+                    break
+                chunk_end = offset + len(chunk) - 1
+
+                for attempt in range(MAX_RETRIES + 1):
+                    try:
+                        resp = sess.put(
+                            upload_uri,
+                            headers={
+                                "Content-Type": "video/mp4",
+                                "Content-Range": f"bytes {offset}-{chunk_end}/{file_size}",
+                            },
+                            data=chunk,
+                            timeout=120,
+                        )
+                        if resp.status_code in (200, 201):
+                            print()
+                            return resp.json()["id"]
+                        elif resp.status_code == 308:
+                            offset += len(chunk)
+                            pct = int(offset / file_size * 100)
+                            bar = "█" * (pct // 5) + "░" * (20 - pct // 5)
+                            print(f"\r  [YouTube] [{bar}] {pct}%", end="", flush=True)
+                            break
+                        elif resp.status_code in RETRIABLE_STATUS_CODES:
+                            wait = 2 ** (attempt + 1)
+                            print(f"\n  [YouTube] 服务器错误 {resp.status_code}，{wait}s后重试...")
+                            time.sleep(wait)
+                        else:
+                            raise RuntimeError(f"上传错误: {resp.status_code} {resp.text[:200]}")
+                    except _NETWORK_ERRS as e:
+                        if attempt >= MAX_RETRIES:
+                            raise
+                        wait = 2 ** (attempt + 1)
+                        print(f"\n  [YouTube] 网络中断({type(e).__name__})，{wait}s后查询断点({attempt+1}/{MAX_RETRIES})...")
+                        time.sleep(wait)
+                        try:
+                            qr = sess.put(
+                                upload_uri,
+                                headers={"Content-Range": f"bytes */{file_size}"},
+                                timeout=30,
+                            )
+                            if qr.status_code == 308 and "Range" in qr.headers:
+                                offset = int(qr.headers["Range"].split("-")[1]) + 1
+                                f.seek(offset)
+                                chunk = f.read(chunk_size)
+                                chunk_end = offset + len(chunk) - 1
+                                print(f"  [YouTube] 服务器已确认 {offset} 字节，从此续传")
+                        except Exception:
+                            pass
+
+        raise RuntimeError("上传结束但未收到完成响应")
