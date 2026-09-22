@@ -21,7 +21,7 @@ export default function Login({ onLogin }) {
         : `${API_BASE}/api/v1/auth/register`
       const body = mode === 'login'
         ? { email, password }
-        : { email, password, name, tenant_name: tenantName }
+        : { email, password, name, company_name: tenantName }
       const res = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
