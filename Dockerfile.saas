@@ -1,0 +1,32 @@
+# 卧龙 SaaS — 独立 Dockerfile（仓库根，避免被 Railway 误选为 wolong-agent 的 Dockerfile）
+# 构建上下文：仓库根
+
+# Stage 1: 构建 React 前端
+FROM node:20-slim AS saas-frontend-builder
+WORKDIR /build/frontend
+COPY saas/frontend/package*.json ./
+RUN npm ci
+COPY saas/frontend/ ./
+ARG VITE_API_BASE
+ARG VITE_META_APP_ID
+ENV VITE_API_BASE=${VITE_API_BASE}
+ENV VITE_META_APP_ID=${VITE_META_APP_ID}
+RUN npm run build
+
+# Stage 2: Python 后端
+FROM python:3.11-slim
+WORKDIR /app
+
+COPY saas/requirements.txt ./requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY saas/__init__.py ./saas/__init__.py
+COPY saas/backend/ ./saas/backend/
+COPY qianqiu_os/ ./qianqiu_os/
+
+COPY --from=saas-frontend-builder /build/frontend/dist/ ./frontend/dist/
+
+ENV PYTHONPATH=/app
+ENV PORT=8000
+EXPOSE 8000
+CMD ["uvicorn", "saas.backend.main:app", "--host", "0.0.0.0", "--port", "8000"]

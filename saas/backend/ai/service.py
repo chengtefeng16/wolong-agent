@@ -8,8 +8,8 @@ import sys
 from pathlib import Path
 from typing import Any
 
-# 让 saas/backend 能 import 项目根的 qianqiu_os
-_project_root = Path(__file__).resolve().parents[4]
+# /app/saas/backend/ai/service.py → parents[3] = /app
+_project_root = Path(__file__).resolve().parents[3]
 if str(_project_root) not in sys.path:
     sys.path.insert(0, str(_project_root))
 
