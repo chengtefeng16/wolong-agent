@@ -20,6 +20,7 @@ COPY saas/requirements.txt ./requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt || true
 
 # 复制后端源码
+COPY saas/__init__.py ./saas/__init__.py
 COPY saas/backend/ ./saas/backend/
 COPY qianqiu_os/ ./qianqiu_os/
 
