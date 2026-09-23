@@ -59,14 +59,23 @@ _IMPACT_FALLBACK = {   # 提不到金额时使用
     "data":    "LANDED",
 }
 
-# ── 字体：从 cncar/assets/fonts/ 显式加载，不依赖系统 ─────────────────────── #
+# ── 字体：优先项目字体，缺失时使用各运行环境的系统字体 ───────────────────── #
 _FONTS = Path(__file__).parent.parent / "assets" / "fonts"
-_BEBAS = _FONTS / "BebasNeue-Regular.ttf"
 _BODY_CANDIDATES = [
     _FONTS / "NotoSansSC-Bold.ttf",
     Path("/Library/Fonts/Arial Unicode.ttf"),
     Path("/System/Library/Fonts/STHeiti Medium.ttc"),
     Path("/usr/share/fonts/truetype/noto/NotoSans-Bold.ttf"),   # GitHub Actions
+    Path("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"),
+]
+
+# 之前下载的 BebasNeue 文件不含可用英文 glyph，会渲染为方框。这里不再使用它；
+# 标题与正文统一走经过验证的粗体字体，确保本机和 GitHub Actions 都不会出现方框。
+_HEADLINE_CANDIDATES = [
+    _FONTS / "NotoSansSC-Bold.ttf",
+    Path("/System/Library/Fonts/Supplemental/Arial Bold.ttf"),
+    Path("/Library/Fonts/Arial Unicode.ttf"),
+    Path("/usr/share/fonts/truetype/noto/NotoSans-Bold.ttf"),
     Path("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"),
 ]
 
@@ -107,9 +116,14 @@ _PEXELS_POOL = {
 # ── 字体加载 ──────────────────────────────────────────────────────────────── #
 
 def _bebas(size: int) -> ImageFont.FreeTypeFont:
-    if _BEBAS.exists():
-        return ImageFont.truetype(str(_BEBAS), size)
-    print(f"  [BrandCover] ⚠ BebasNeue 未找到 ({_BEBAS})，退回默认字体，冲击力会下降")
+    """品牌标题字体；保留函数名以免影响现有排版调用。"""
+    for p in _HEADLINE_CANDIDATES:
+        if Path(p).exists():
+            try:
+                return ImageFont.truetype(str(p), size)
+            except Exception:
+                continue
+    print("  [BrandCover] ⚠ 标题字体不可用，退回默认字体")
     return ImageFont.load_default(size=size)
 
 
@@ -252,6 +266,7 @@ def make_brand_cover(
     output_path: str,
     big_number: str = "",
     impact_word: str = "",
+    accent_color: tuple[int, int, int] | None = None,
     bg_image_path: str = "",
     seed: int = 0,
 ) -> str:
@@ -268,10 +283,11 @@ def make_brand_cover(
     """
     mood = mood if mood in MOOD_COLORS else "data"
     mc   = MOOD_COLORS[mood]
+    accent = accent_color or mc
 
     # 自动提取巨型数字
     if not big_number:
-        found = re.findall(r'\$[\d,]+', f"{title} {caption}")
+        found = re.findall(r'(?:\$[\d,]+|\+?\d+%)', f"{title} {caption}")
         big_number = found[0] if found else ""
 
     # 自动选冲击词
@@ -358,12 +374,13 @@ def make_brand_cover(
         bb = draw.textbbox((0, 0), big_number, font=f_num)
         x  = (W - (bb[2] - bb[0])) // 2
         _stroke_text(draw, (x, y_num), big_number, f_num,
-                     fill=mc, stroke_fill=(*BLACK, 220), stroke_width=6, bold_sim=3)
+                     fill=accent, stroke_fill=(*BLACK, 220), stroke_width=6, bold_sim=3)
 
     bb  = draw.textbbox((0, 0), impact_word, font=f_imp)
     x   = (W - (bb[2] - bb[0])) // 2
     _stroke_text(draw, (x, y_imp), impact_word, f_imp,
-                 fill=WHITE, stroke_fill=(*BLACK, 180), stroke_width=3, bold_sim=2)
+                 fill=accent if accent_color else WHITE,
+                 stroke_fill=(*BLACK, 180), stroke_width=3, bold_sim=2)
 
     # ── 8. 底部钩子条（y=1640, h=190, 左彩边14px, 半透明黑底）──────────── #
     BAR_Y, BAR_H, BORDER = 1640, 190, 14

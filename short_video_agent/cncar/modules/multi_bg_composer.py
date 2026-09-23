@@ -7,7 +7,12 @@
   20–40s → 3 张
   > 40s  → min(5, floor(duration/10)) 张
 
-淡变: CrossFadeIn(0.8s)，背景叠加补偿公式:
+淡变: CrossFadeIn(0.8s)，并配合 3–4% 的缓慢推近 / 拉远：
+  - 每段只做轻微镜头推进，不做跳切或夸张特效
+  - 分段按故事中的「场景 → 文件/风险 → 港口/费用 → 核验/CTA」推进
+  - 保持同一汽车贸易语境，避免变成无关的素材拼贴
+
+背景叠加补偿公式:
   每张 clip_dur = (audio_dur + (n-1)*FADE_DUR) / n
   保证叠加后总时长 = audio_dur
 
@@ -34,6 +39,9 @@ _CAPTION_FONT_CANDIDATES = [
     Path("/Library/Fonts/Arial Unicode.ttf"),
     Path("/System/Library/Fonts/STHeiti Medium.ttc"),
     Path("/System/Library/Fonts/STHeiti Light.ttc"),
+    Path("/usr/share/fonts/truetype/noto/NotoSans-Bold.ttf"),
+    Path("/usr/share/fonts/opentype/noto/NotoSansCJKsc-Bold.otf"),
+    Path("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"),
 ]
 
 
@@ -97,8 +105,28 @@ def _make_static_caption_clip(caption: str, duration: float, W: int, H: int):
 
 PEXELS_KEY = "P0a88apfxfsKw2wzW5BK8fIpIq5mui64iDGbqUGHZpxoH3M9igl2HoNK"
 FADE_DUR = 0.8  # 淡变秒数
+HOOK_DUR = 2.4  # 开头高反差视觉钩子；旁白不中断
+_HOOK_DIR = Path(__file__).parent.parent / "assets" / "hook"
 
 THEME_RULES = [
+    {
+        "name": "documents",
+        "triggers": {"certificate", "document", "paperwork", "license", "coc", "registration"},
+        "queries": [
+            "car import documents close up desk",
+            "customs certificate paperwork close up",
+            "vehicle export documents inspection",
+        ],
+    },
+    {
+        "name": "money",
+        "triggers": {"deposit", "fee", "fees", "cost", "paid", "payment", "money", "refund", "loss"},
+        "queries": [
+            "car buyer reviewing invoice dealership",
+            "import cost documents calculator desk",
+            "car purchase contract close up hands",
+        ],
+    },
     {
         "name": "customs",
         "triggers": {"customs", "duty", "vat", "tax", "tariff", "import"},
@@ -155,7 +183,23 @@ def n_images_for_duration(duration: float) -> int:
         return 1
     if duration <= 40:
         return 3
-    return min(5, math.floor(duration / 10))
+    # 40–50 秒故事固定使用 5 个镜头：足够讲出起因、问题、后果、成本、核验，
+    # 又不会因为过多切换破坏专业感。
+    return min(5, max(5, math.ceil(duration / 10)))
+
+
+def pick_hook_image(seed_text: str) -> str:
+    """从本地高反差开场素材中稳定轮换一张；目录为空则优雅跳过。"""
+    choices = sorted(
+        p for p in _HOOK_DIR.glob("*")
+        if p.suffix.lower() in {".jpg", ".jpeg", ".png", ".webp"}
+    )
+    if not choices:
+        return ""
+    seed = int(hashlib.md5(seed_text.encode()).hexdigest(), 16)
+    chosen = choices[seed % len(choices)]
+    print(f"  [MultiBG] 开场反差钩子: {chosen.name} ({HOOK_DUR:.1f}s)")
+    return str(chosen)
 
 
 # ── 主题检测 ─────────────────────────────────────────────────────────────── #
@@ -166,6 +210,51 @@ def theme_for_segment(text: str) -> dict:
         if any(re.search(r"\b" + re.escape(t) + r"\b", lower) for t in theme["triggers"]):
             return theme
     return THEME_RULES[-1]
+
+
+def motion_for_segment(index: int, visual_beat: str = "") -> str:
+    """按照分镜景别决定轻微推拉，而非机械交替。"""
+    beat = visual_beat.lower()
+    if "close" in beat:
+        return "pull_out"       # 细节从近到略远，留出呼吸
+    if "wide" in beat:
+        return "push_in"        # 场景从远轻推向故事主体
+    return "push_in" if index % 2 == 0 else "pull_out"
+
+
+def visual_theme_for_segment(text: str, index: int, total: int) -> dict:
+    """让画面随故事推进，而不是仅按单词机械命中。
+
+    开头优先给车/场景建立上下文，结尾稳定落到核验/解决方案；
+    中间才根据费用、文件、清关、运输等实际情节选画面。
+    """
+    if index == 0:
+        return next(rule for rule in THEME_RULES if rule["name"] == "vehicle")
+    if index == total - 1:
+        return next(rule for rule in THEME_RULES if rule["name"] == "cta")
+    return theme_for_segment(text)
+
+
+def _with_car_context(visual_beat: str) -> str:
+    """把 Gemini 的分镜转成更适合素材库搜索的汽车贸易画面描述。
+
+    即使模型偶尔写出“phone”或“laptop”，也必须把它放回买车、证件、港口的
+    真实语境，避免视频突然变成无关的手机或泛商务素材。
+    """
+    beat = visual_beat.lower()
+    if any(word in beat for word in ("certificate", "license", "document", "paperwork")):
+        return "vehicle export certificate document with car key close up"
+    if any(word in beat for word in ("phone", "message", "unresponsive", "call")):
+        return "car dealer phone message with car key close up"
+    if any(word in beat for word in ("laptop", "computer", "verify", "checking")):
+        return "car buyer checking vehicle import documents on laptop"
+    if any(word in beat for word in ("port", "ship", "cargo", "carrier", "customs")):
+        return "cars at import port cargo ship customs inspection"
+    if any(word in beat for word in ("invoice", "fee", "cost", "payment", "money")):
+        return "car import invoice with vehicle key close up"
+    if any(word in beat for word in ("car", "vehicle", "dealership", "key")):
+        return visual_beat
+    return f"car import {visual_beat}"
 
 
 # ── 脚本分段 ─────────────────────────────────────────────────────────────── #
@@ -200,8 +289,18 @@ def _crop_to_916(img: Image.Image, W=1080, H=1920) -> Image.Image:
 
 
 
+def _has_vehicle_context(photo: dict) -> bool:
+    """用 Pexels 自带图片描述做一层低成本语义筛选。"""
+    alt = (photo.get("alt") or "").lower()
+    vehicle_words = (
+        "car", "vehicle", "automobile", "auto", "suv", "ev", "electric vehicle",
+        "dealership", "showroom", "car key", "driving", "parking",
+    )
+    return any(word in alt for word in vehicle_words)
+
+
 def _fetch_pexels_dedup(query: str, seed: int, out_path: str,
-                        used_photo_ids: set) -> "int | None":
+                        used_photo_ids: set, require_vehicle: bool = False) -> "int | None":
     """抓一张 Pexels 图，跳过 used_photo_ids 中已用过的 photo_id。
     成功返回 photo_id，失败返回 None。"""
     try:
@@ -222,6 +321,9 @@ def _fetch_pexels_dedup(query: str, seed: int, out_path: str,
             pid = photo["id"]
             if pid in used_photo_ids:
                 continue
+            # 故事线有明确汽车分镜时，宁可继续找图，也不要混入泛货轮、手机或办公素材。
+            if require_vehicle and not _has_vehicle_context(photo):
+                continue
             r = requests.get(photo["src"]["large2x"], timeout=20)
             if r.status_code != 200:
                 continue
@@ -234,7 +336,10 @@ def _fetch_pexels_dedup(query: str, seed: int, out_path: str,
         return None
 
 
-def fetch_segment_images(segments: list[str], tmp_dir: str, title_seed: str) -> list[str]:
+def fetch_segment_images(
+    segments: list[str], tmp_dir: str, title_seed: str,
+    visual_beats: list[str] | None = None,
+) -> list[str]:
     """为每段脚本抓 Pexels 图，同一次视频内每段图各不相同。
 
     去重策略：记录已用 photo_id；同主题需多张时轮询同 query 的不同图，
@@ -244,24 +349,35 @@ def fetch_segment_images(segments: list[str], tmp_dir: str, title_seed: str) -> 
     paths = []
     used_photo_ids: set[int] = set()
 
-    fallback_queries = ["car dealership business professional", "auto trade logistics team"]
+    fallback_queries = [
+        "car dealership vehicle documents professional",
+        "cars import export logistics port",
+    ]
 
     for i, seg in enumerate(segments):
-        theme = theme_for_segment(seg)
+        theme = visual_theme_for_segment(seg, i, len(segments))
+        visual_beat = visual_beats[i] if visual_beats and i < len(visual_beats) else ""
+        visual_query = _with_car_context(visual_beat) if visual_beat else ""
         base_seed = int(hashlib.md5((title_seed + seg[:20]).encode()).hexdigest(), 16) + i
         out = os.path.join(tmp_dir, f"multibg_seg{i}.jpg")
         success = False
 
-        for query in theme["queries"] + fallback_queries:
+        # Gemini 的分镜先行；无分镜的旧文件继续沿用关键词匹配。
+        queries = ([visual_query] if visual_query else []) + theme["queries"] + fallback_queries
+        for query in queries:
             if success:
                 break
             # 同一 query 最多 12 张轮询（per_page=12），每次偏移 seed
             for offset in range(12):
                 seed = base_seed + hash(query) % 100 + offset
-                pid = _fetch_pexels_dedup(query, seed, out, used_photo_ids)
+                pid = _fetch_pexels_dedup(
+                    query, seed, out, used_photo_ids,
+                    require_vehicle=bool(visual_beat),
+                )
                 if pid is not None:
                     used_photo_ids.add(pid)
-                    print(f"  [MultiBG] 段{i+1}/{len(segments)} [{theme['name']}] ← {query} (photo#{pid})")
+                    label = visual_beat or theme["name"]
+                    print(f"  [MultiBG] 段{i+1}/{len(segments)} [{label}] ← {query} (photo#{pid})")
                     success = True
                     break
 
@@ -285,6 +401,49 @@ def _make_gradient(out_path: str, W=1080, H=1920):
     img.save(out_path, "JPEG", quality=90)
 
 
+def _make_motion_background(composer, bg_path: str, duration: float, motion: str):
+    """创建一段轻微镜头运动的背景图。
+
+    原图已被 VideoComposer 裁成 9:16；再做极小的缩放并居中，
+    不会出现黑边，也不会让画面看起来像夸张特效。
+    """
+    from moviepy import ImageClip
+
+    bg_img = composer._make_background(bg_path)
+    base = ImageClip(composer._pil_to_array(bg_img), duration=duration)
+    amount = 0.035
+
+    if motion == "push_in":
+        # 由全景轻轻推向主体。
+        scale = lambda t: 1.0 + amount * min(1.0, t / max(duration, 0.01))
+    else:
+        # 从近景轻轻回到全景；末帧仍为 1.0，不会露出边缘。
+        scale = lambda t: 1.0 + amount * (1.0 - min(1.0, t / max(duration, 0.01)))
+
+    return base.resized(scale).with_position("center"), bg_img
+
+
+def _apply_opening_hook(video, composer, hook_image_path: str,
+                        caption: str, duration: float):
+    """在成片最前面覆盖 2.4 秒视觉反差钩子，之后硬切回真实故事画面。"""
+    if not hook_image_path or not Path(hook_image_path).exists():
+        return video
+
+    from moviepy import CompositeVideoClip, ImageClip
+    hook_img = composer._make_background(hook_image_path)
+    hook_bg = ImageClip(
+        composer._pil_to_array(hook_img), duration=min(HOOK_DUR, duration)
+    )
+    layers = [hook_bg]
+    # 用户设定的 caption 仍然全程可见，包括 2.4 秒钩子画面。
+    if caption:
+        layers.append(_make_static_caption_clip(
+            caption, min(HOOK_DUR, duration), composer.W, composer.H
+        ))
+    hook = CompositeVideoClip(layers, size=(composer.W, composer.H))
+    return CompositeVideoClip([video, hook], size=(composer.W, composer.H))
+
+
 # ── 核心：多图合成 ────────────────────────────────────────────────────────── #
 
 def compose_multi_bg(
@@ -294,6 +453,8 @@ def compose_multi_bg(
     bg_paths: list[str],
     output_path: str,
     caption: str = "",   # 故事线专用：若有值则全程静态显示此钩子，忽略逐句字幕
+    visual_beats: list[str] | None = None,
+    hook_image_path: str = "",
 ) -> str:
     """
     多背景图视频合成，复用 VideoComposer 的字幕渲染，不修改定心代码。
@@ -318,14 +479,17 @@ def compose_multi_bg(
         print(f"  [MultiBG] caption模式（全程钩子）: {caption[:60]!r}")
 
     if n == 1:
-        bg_img = composer._make_background(bg_paths[0])
-        bg_clip = ImageClip(composer._pil_to_array(bg_img), duration=audio_dur)
+        bg_clip, bg_img = _make_motion_background(
+            composer, bg_paths[0], audio_dur,
+            motion_for_segment(0, visual_beats[0] if visual_beats else "")
+        )
         if caption:
             cap_clip = _make_static_caption_clip(caption, audio_dur, composer.W, composer.H)
             video = CompositeVideoClip([bg_clip, cap_clip], size=(composer.W, composer.H))
         else:
             sub_clips = composer._make_subtitle_clips(script_text, audio_dur, bg_img)
             video = CompositeVideoClip([bg_clip] + sub_clips, size=(composer.W, composer.H))
+        video = _apply_opening_hook(video, composer, hook_image_path, caption, audio_dur)
         video = video.with_audio(audio).with_duration(audio_dur)
         video.write_videofile(output_path, fps=composer.fps, codec="libx264",
                               audio_codec="aac", logger=None)
@@ -338,8 +502,9 @@ def compose_multi_bg(
 
     seg_clips = []
     for i, (bg_path, seg_text) in enumerate(zip(bg_paths, segments)):
-        bg_img = composer._make_background(bg_path)
-        bg_base = ImageClip(composer._pil_to_array(bg_img), duration=clip_dur)
+        beat = visual_beats[i] if visual_beats and i < len(visual_beats) else ""
+        motion = motion_for_segment(i, beat)
+        bg_base, bg_img = _make_motion_background(composer, bg_path, clip_dur, motion)
         if caption:
             cap_clip = _make_static_caption_clip(caption, clip_dur, composer.W, composer.H)
             seg = CompositeVideoClip([bg_base, cap_clip], size=(composer.W, composer.H))
@@ -351,7 +516,10 @@ def compose_multi_bg(
             seg = seg.with_effects([CrossFadeIn(FADE_DUR)])
 
         seg_clips.append(seg)
-        print(f"  [MultiBG] 段{i+1} clip_dur={clip_dur:.2f}s  文本={seg_text[:40]!r}")
+        print(
+            f"  [MultiBG] 段{i+1} clip_dur={clip_dur:.2f}s "
+            f"镜头={motion} 分镜={beat or theme_for_segment(seg_text)['name']}"
+        )
 
     final = concatenate_videoclips(seg_clips, method="compose", padding=-FADE_DUR)
 
@@ -363,6 +531,7 @@ def compose_multi_bg(
         print(f"  [MultiBG] ⚠️  强制截断到 {expected:.2f}s")
         final = final.with_duration(expected)
 
+    final = _apply_opening_hook(final, composer, hook_image_path, caption, audio_dur)
     final = final.with_audio(audio)
     final.write_videofile(
         output_path,
