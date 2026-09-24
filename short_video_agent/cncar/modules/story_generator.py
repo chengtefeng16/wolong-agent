@@ -43,6 +43,8 @@ TARGET LENGTH: 85–100 words of narration (spoken in 40–50 seconds). Hard cap
 FIRST SENTENCE RULE: The opening line must be a hook — a specific number, a sharp conflict,
 or a counterintuitive fact. No background. No scene-setting. No "A buyer once...".
 Start mid-action so viewers are hooked before they can swipe away.
+LANGUAGE LEVEL: Grade 5 English only. One idea per sentence. Use the simplest word that works.
+No jargon, no complex words, no long clauses. If a 10-year-old can't read it, rewrite it.
 """
 
 SCRIPT_PROMPT = """Write a short video script for CNcar based on this story angle:
@@ -80,6 +82,7 @@ visuals: [EXACTLY 5 English visual beats separated by |. Each beat is 5–12 wor
 Short sentences, max 12 words each. Each sentence must add NEW information.
 If two sentences say the same thing in different words, delete one.
 No bullet points. No headers. No filler words. Facts and numbers only.
+Grade 5 English only. One idea per sentence. Simplest word always wins.
 Do NOT name specific dealers or individuals. Do NOT give a final recommendation.
 End with one curiosity-hook CTA sentence pointing to CNcar.io.]
 """

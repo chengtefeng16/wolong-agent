@@ -472,6 +472,23 @@ def compose_multi_bg(
 
     audio = AudioFileClip(audio_path)
     audio_dur = audio.duration
+
+    # Trim TTS trailing silence so video ends within 1s of the last spoken word.
+    # Edge-TTS typically appends 200-500ms of silence; strip it here.
+    try:
+        _arr = audio.to_soundarray(fps=800)
+        _amp = np.abs(_arr).max(axis=1) if _arr.ndim > 1 else np.abs(_arr)
+        _active = np.where(_amp > 0.003)[0]
+        if len(_active) > 0:
+            _last_s = _active[-1] / 800.0
+            _trim_to = min(_last_s + 0.5, audio_dur)  # ≤0.5s tail after last word
+            if audio_dur - _trim_to > 0.15:            # only trim if it saves ≥0.15s
+                audio = audio.subclipped(0, _trim_to)
+                audio_dur = _trim_to
+                print(f"  [MultiBG] 结尾静音截除 → 时长={audio_dur:.2f}s")
+    except Exception:
+        pass  # non-critical: keep original duration on any failure
+
     n = len(bg_paths)
 
     print(f"  [MultiBG] 合成 {n} 段，音频时长={audio_dur:.1f}s，淡变={FADE_DUR}s")

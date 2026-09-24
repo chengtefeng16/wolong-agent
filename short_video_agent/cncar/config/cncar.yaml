@@ -104,6 +104,8 @@ script_prompt: |
   - Zero filler: no "basically", "actually", "as you know", "in today's video".
   - Functional persuasion only — facts, gaps, numbers. Not emotion.
   - Do NOT name specific dealers or individuals.
+  - Grade 5 English only. One idea per sentence. Use the simplest word that works.
+  - No jargon, no complex words, no long clauses. If a 10-year-old can't read it, rewrite it.
 
   Output strict JSON:
   {{
