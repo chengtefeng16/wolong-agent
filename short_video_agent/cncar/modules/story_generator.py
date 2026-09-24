@@ -146,9 +146,12 @@ def _pick_topic(topics: list, usage: dict, today: date | None = None) -> tuple:
 
 
 def _title_hint(angle: str) -> str:
-    """从 angle 提取前几个词作为标题提示。"""
-    words = angle.split()[:8]
-    return " ".join(words) + "..."
+    """Returns a format constraint so Gemini generates a punchy, number-first title."""
+    return (
+        "[under 10 words, MUST contain a specific number AND a conflict or consequence. "
+        "e.g. 'He Lost $4,000 Over One Missing Chip.' or '$12,000 Sent. No Car. Here's Why.' "
+        "NEVER start with 'A buyer' or scene-setting. Lead with the cost or the shock.]"
+    )
 
 
 def generate_story(cfg: dict) -> str:

@@ -172,7 +172,10 @@ def run_produce(cfg: dict, cover_override: str = None):
         print(f"  [CNcar Cover] 使用手动封面: {cover_override}")
     else:
         cover_maker = CNcarCoverMaker(cfg)
-        cover_path = cover_maker.make(script_data, f"cover_{ts}_{uid}.jpg")
+        cover_path = cover_maker.make(
+            script_data, f"cover_{ts}_{uid}.jpg",
+            bg_image_path=bg_paths[0] if bg_paths else "",  # 复用视频首帧图
+        )
 
     # 写入 pending.json — 视频文件确实存在才算成功
     if not video_path or not Path(video_path).exists():

@@ -109,8 +109,8 @@ script_prompt: |
 
   Output strict JSON:
   {{
-    "title": "(under 10 words, hook-style, e.g. 'BYD Han Landed in Dubai: Full Cost')",
-    "cover_quote": "(one punchy sentence for the thumbnail, under 15 words)",
+    "title": "(under 10 words, MUST contain a dollar amount AND a contrast or shock. e.g. '$29,473 to Land This BYD. Not $21,000.' or 'He Paid $8,000 More Than the Quote.')",
+    "cover_quote": "(one punchy sentence for the thumbnail, under 15 words, must contain a number or conflict word)",
     "full_script": "(complete script, 60-80 words)",
     "tags": ["tag1", "tag2", "tag3"]
   }}

@@ -104,11 +104,11 @@ _PEXELS_POOL = {
         "luxury car delivery excited customer",
     ],
     "data": [
-        "modern car showroom bright interior",
-        "luxury car dealership UAE",
-        "car port shipping professional",
-        "automotive industry professional",
-        "professional car import export",
+        "shipping port containers cargo terminal aerial",
+        "roll-on roll-off car carrier ship port",
+        "container terminal shipping cars export overhead",
+        "car transport truck highway convoy distant",
+        "cargo ship port industrial loading dock",
     ],
 }
 

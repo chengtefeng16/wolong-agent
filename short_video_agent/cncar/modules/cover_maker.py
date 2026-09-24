@@ -177,7 +177,9 @@ class CNcarCoverMaker:
 
     # ------------------------------------------------------------------ #
 
-    def make(self, script_data: dict, filename: str) -> str:
+    def make(self, script_data: dict, filename: str,
+             bg_image_path: str = "") -> str:
+        """bg_image_path: 优先用视频首帧图；留空则 make_brand_cover 自行从 Pexels 抓图。"""
         out_path = os.path.join(self.output_dir, filename)
         os.makedirs(self.output_dir, exist_ok=True)
 
@@ -187,24 +189,28 @@ class CNcarCoverMaker:
         car_model   = script_data.get("car_model", "")
         destination = script_data.get("destination", "")
         landed_cost = str(script_data.get("landed_cost_usd", "")).strip()
-        title       = script_data.get("title", "CNcar")
+        title       = script_data.get("title", "")
 
-        hook = f"{car_model} → {destination}" if (car_model or destination) else title
+        # 封面顶部大标题：优先用 AI 生成的带数字钩子标题，
+        # 退回到 "车型 → 目的国" 作为上下文兜底。
+        hook = title if title else (
+            f"{car_model} → {destination}" if (car_model or destination) else "CNcar"
+        )
+
+        # 底部钩子句：用脚本的 cover_quote（已是最抓眼的一句话）
+        caption = (
+            script_data.get("cover_quote", "")
+            or (f"Landed ≈ ${landed_cost}" if landed_cost else hook)
+        )
 
         big_number = ""
         if landed_cost:
             try:
                 big_number = f"${int(float(landed_cost)):,}"
-                caption = f"Full breakdown: duty, VAT, freight & port fees"
             except Exception:
-                caption = f"Landed ≈ ${landed_cost}"
-        else:
-            caption = title
+                pass
 
         seed = int(_hs.md5(title.encode()).hexdigest(), 16)
-
-        # 使用 cover_me.jpg 作为背景（如存在），否则 Pexels 抓图
-        cover_me = Path(__file__).parent.parent / "assets" / "cover_me.jpg"
 
         make_brand_cover(
             title=hook,
@@ -213,7 +219,7 @@ class CNcarCoverMaker:
             output_path=out_path,
             big_number=big_number,
             impact_word="LANDED",
-            bg_image_path=str(cover_me) if cover_me.exists() else "",
+            bg_image_path=bg_image_path,   # 调用方传视频首帧图；留空→Pexels
             seed=seed,
         )
         return out_path

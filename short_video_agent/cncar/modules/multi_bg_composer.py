@@ -213,13 +213,14 @@ def theme_for_segment(text: str) -> dict:
 
 
 def motion_for_segment(index: int, visual_beat: str = "") -> str:
-    """按照分镜景别决定轻微推拉，而非机械交替。"""
+    """5-mode Ken Burns rotation with beat overrides."""
     beat = visual_beat.lower()
     if "close" in beat:
-        return "pull_out"       # 细节从近到略远，留出呼吸
+        return "pull_out"
     if "wide" in beat:
-        return "push_in"        # 场景从远轻推向故事主体
-    return "push_in" if index % 2 == 0 else "pull_out"
+        return "push_in_left" if index % 2 == 0 else "push_in_right"
+    _modes = ("push_in_left", "pull_out", "push_in_right", "pull_out_left", "push_in")
+    return _modes[index % len(_modes)]
 
 
 def visual_theme_for_segment(text: str, index: int, total: int) -> dict:
@@ -401,47 +402,154 @@ def _make_gradient(out_path: str, W=1080, H=1920):
     img.save(out_path, "JPEG", quality=90)
 
 
-def _make_motion_background(composer, bg_path: str, duration: float, motion: str):
-    """创建一段轻微镜头运动的背景图。
+def _zoom_crop_frame(bg_img: Image.Image, scale: float, dx_frac: float,
+                     W: int, H: int) -> np.ndarray:
+    """Resize bg_img to scale×(W,H) then crop a W×H tile offset by dx_frac.
 
-    原图已被 VideoComposer 裁成 9:16；再做极小的缩放并居中，
-    不会出现黑边，也不会让画面看起来像夸张特效。
+    dx_frac: horizontal offset as fraction of W (positive = shift right in source).
+    Returns H×W×3 uint8 array — no black edges as long as |dx_frac| ≤ (scale-1)/2.
     """
-    from moviepy import ImageClip
+    new_w = round(W * scale)
+    new_h = round(H * scale)
+    scaled = bg_img.resize((new_w, new_h), Image.BILINEAR)
+    cx = new_w // 2 + round(W * dx_frac)
+    cy = new_h // 2
+    x0 = max(0, min(cx - W // 2, new_w - W))
+    y0 = max(0, min(cy - H // 2, new_h - H))
+    return np.array(scaled.crop((x0, y0, x0 + W, y0 + H)))
+
+
+def _make_motion_background(composer, bg_path: str, duration: float, motion: str):
+    """Ken Burns v2: ease-in-out zoom 10% + horizontal pan 3.5%.
+
+    Generates a VideoClip via per-frame PIL resize+crop.
+    PIL BILINEAR at 1080×1920 ≈ 3-6 ms/frame — negligible vs encoding.
+    """
+    from moviepy import VideoClip
 
     bg_img = composer._make_background(bg_path)
-    base = ImageClip(composer._pil_to_array(bg_img), duration=duration)
-    amount = 0.035
+    W, H = composer.W, composer.H
+    ZOOM = 0.10   # 1.0 → 1.10 (or 1.10 → 1.0)
+    PAN  = 0.035  # max 3.5% lateral drift
+
+    def _ease(t: float) -> float:
+        p = min(1.0, t / max(duration, 0.001))
+        return (1.0 - math.cos(math.pi * p)) / 2.0
 
     if motion == "push_in":
-        # 由全景轻轻推向主体。
-        scale = lambda t: 1.0 + amount * min(1.0, t / max(duration, 0.01))
-    else:
-        # 从近景轻轻回到全景；末帧仍为 1.0，不会露出边缘。
-        scale = lambda t: 1.0 + amount * (1.0 - min(1.0, t / max(duration, 0.01)))
+        def make_frame(t):
+            e = _ease(t)
+            return _zoom_crop_frame(bg_img, 1.0 + ZOOM * e, 0.0, W, H)
+    elif motion == "push_in_left":
+        def make_frame(t):
+            e = _ease(t)
+            return _zoom_crop_frame(bg_img, 1.0 + ZOOM * e, -PAN * e, W, H)
+    elif motion == "push_in_right":
+        def make_frame(t):
+            e = _ease(t)
+            return _zoom_crop_frame(bg_img, 1.0 + ZOOM * e, PAN * e, W, H)
+    elif motion == "pull_out_left":
+        def make_frame(t):
+            e = _ease(t)
+            return _zoom_crop_frame(bg_img, 1.0 + ZOOM * (1.0 - e), -PAN * (1.0 - e), W, H)
+    else:  # pull_out
+        def make_frame(t):
+            e = _ease(t)
+            return _zoom_crop_frame(bg_img, 1.0 + ZOOM * (1.0 - e), PAN * e * 0.5, W, H)
 
-    return base.resized(scale).with_position("center"), bg_img
+    clip = VideoClip(make_frame, duration=duration)
+    clip.fps = composer.fps
+    return clip, bg_img
 
 
 def _apply_opening_hook(video, composer, hook_image_path: str,
                         caption: str, duration: float):
-    """在成片最前面覆盖 2.4 秒视觉反差钩子，之后硬切回真实故事画面。"""
+    """2.4s 开场反差钩子 — 现在也加 Ken Burns push_in，不再是静止帧。"""
     if not hook_image_path or not Path(hook_image_path).exists():
         return video
 
-    from moviepy import CompositeVideoClip, ImageClip
-    hook_img = composer._make_background(hook_image_path)
-    hook_bg = ImageClip(
-        composer._pil_to_array(hook_img), duration=min(HOOK_DUR, duration)
-    )
+    from moviepy import CompositeVideoClip
+    hook_dur = min(HOOK_DUR, duration)
+    hook_bg, _ = _make_motion_background(composer, hook_image_path, hook_dur, "push_in")
     layers = [hook_bg]
-    # 用户设定的 caption 仍然全程可见，包括 2.4 秒钩子画面。
     if caption:
         layers.append(_make_static_caption_clip(
-            caption, min(HOOK_DUR, duration), composer.W, composer.H
+            caption, hook_dur, composer.W, composer.H
         ))
     hook = CompositeVideoClip(layers, size=(composer.W, composer.H))
     return CompositeVideoClip([video, hook], size=(composer.W, composer.H))
+
+
+# ── 大数字砸屏（仅 hook 段，报价→到岸跳变）─────────────────────────────── #
+
+def _render_price_frame(price: str, label: str, W: int, H: int,
+                        highlight: bool) -> Image.Image:
+    """RGBA overlay: semi-transparent band + label + big price number."""
+    img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(img)
+
+    box_h   = int(H * 0.24)
+    box_top = int(H * 0.13)
+    draw.rectangle([(0, box_top), (W, box_top + box_h)],
+                   fill=(0, 0, 0, 190 if highlight else 155))
+
+    # Label
+    lbl_font  = _caption_font(52)
+    lbl_color = (255, 210, 0, 255) if highlight else (200, 200, 200, 210)
+    lbl_bb    = draw.textbbox((0, 0), label, font=lbl_font)
+    lbl_x     = (W - (lbl_bb[2] - lbl_bb[0])) // 2
+    lbl_y     = box_top + 18
+    draw.text((lbl_x, lbl_y), label, font=lbl_font, fill=lbl_color)
+
+    # Price — auto-shrink to fit
+    for psz in (155, 125, 100, 80):
+        pfont = _caption_font(psz)
+        p_bb  = draw.textbbox((0, 0), price, font=pfont)
+        if (p_bb[2] - p_bb[0]) <= W - 60:
+            break
+    price_color = (255, 75, 55, 255) if highlight else (255, 230, 80, 220)
+    px = (W - (p_bb[2] - p_bb[0])) // 2
+    py = lbl_y + 58
+    draw.text((px + 4, py + 4), price, font=pfont, fill=(0, 0, 0, 160))  # shadow
+    draw.text((px, py), price, font=pfont, fill=price_color)
+
+    return img
+
+
+def _make_number_splash_clips(script_text: str, seg_dur: float, W: int, H: int):
+    """Returns two timed ImageClip overlays for the hook segment.
+
+    Smaller price → 'DEALER QUOTE', larger price → 'LANDED COST'.
+    Visible window starts after HOOK_DUR (hook image exits).
+    Returns [] if <2 prices found or window too short.
+    """
+    from moviepy import ImageClip
+
+    raw = re.findall(r'\$[\d,]+', script_text)
+    if len(raw) < 2:
+        return []
+
+    def _num(s: str) -> int:
+        return int(re.sub(r'[^\d]', '', s))
+
+    nums = sorted(set(raw[:4]), key=_num)   # deduplicate, sort ascending
+    if len(nums) < 2:
+        return []
+    quote_str, landed_str = nums[0], nums[-1]  # smallest=quote, largest=landed
+
+    after_hook = seg_dur - HOOK_DUR
+    if after_hook < 3.0:
+        return []
+
+    dur1 = after_hook * 0.38
+    dur2 = after_hook * 0.62
+
+    f1 = _render_price_frame(quote_str,  "DEALER QUOTE", W, H, highlight=False)
+    f2 = _render_price_frame(landed_str, "LANDED COST",  W, H, highlight=True)
+
+    c1 = ImageClip(np.array(f1), duration=dur1).with_start(HOOK_DUR)
+    c2 = ImageClip(np.array(f2), duration=dur2).with_start(HOOK_DUR + dur1)
+    return [c1, c2]
 
 
 # ── 核心：多图合成 ────────────────────────────────────────────────────────── #
@@ -500,12 +608,15 @@ def compose_multi_bg(
             composer, bg_paths[0], audio_dur,
             motion_for_segment(0, visual_beats[0] if visual_beats else "")
         )
+        splash = _make_number_splash_clips(script_text, audio_dur, composer.W, composer.H)
         if caption:
             cap_clip = _make_static_caption_clip(caption, audio_dur, composer.W, composer.H)
-            video = CompositeVideoClip([bg_clip, cap_clip], size=(composer.W, composer.H))
+            video = CompositeVideoClip([bg_clip] + splash + [cap_clip],
+                                       size=(composer.W, composer.H))
         else:
             sub_clips = composer._make_subtitle_clips(script_text, audio_dur, bg_img)
-            video = CompositeVideoClip([bg_clip] + sub_clips, size=(composer.W, composer.H))
+            video = CompositeVideoClip([bg_clip] + splash + sub_clips,
+                                       size=(composer.W, composer.H))
         video = _apply_opening_hook(video, composer, hook_image_path, caption, audio_dur)
         video = video.with_audio(audio).with_duration(audio_dur)
         video.write_videofile(output_path, fps=composer.fps, codec="libx264",
@@ -516,18 +627,23 @@ def compose_multi_bg(
     # 每段 clip 的时长（补偿叠加缩短）
     clip_dur = (audio_dur + (n - 1) * FADE_DUR) / n
     segments = segment_script(script_text, n)
+    # Splash clips for first segment only (hook = first ~8s where prices are stated)
+    hook_splash = _make_number_splash_clips(script_text, clip_dur, composer.W, composer.H)
 
     seg_clips = []
     for i, (bg_path, seg_text) in enumerate(zip(bg_paths, segments)):
         beat = visual_beats[i] if visual_beats and i < len(visual_beats) else ""
         motion = motion_for_segment(i, beat)
         bg_base, bg_img = _make_motion_background(composer, bg_path, clip_dur, motion)
+        splash = hook_splash if i == 0 else []
         if caption:
             cap_clip = _make_static_caption_clip(caption, clip_dur, composer.W, composer.H)
-            seg = CompositeVideoClip([bg_base, cap_clip], size=(composer.W, composer.H))
+            seg = CompositeVideoClip([bg_base] + splash + [cap_clip],
+                                     size=(composer.W, composer.H))
         else:
             sub_clips = composer._make_subtitle_clips(seg_text, clip_dur, bg_img)
-            seg = CompositeVideoClip([bg_base] + sub_clips, size=(composer.W, composer.H))
+            seg = CompositeVideoClip([bg_base] + splash + sub_clips,
+                                     size=(composer.W, composer.H))
 
         if i > 0:
             seg = seg.with_effects([CrossFadeIn(FADE_DUR)])
