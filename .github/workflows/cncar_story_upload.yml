@@ -82,23 +82,25 @@ jobs:
           echo "youtube_url=$VIDEO_URL" >> $GITHUB_OUTPUT
           echo "✅ 上传完成: $VIDEO_URL"
 
-      # ── Step 3: 把 usage + pending 写回仓库（供下次14天冷却判断） ────────
+      # ── Step 3: 把 usage + pending + history 写回仓库（供14天冷却判断） ──
       # 【顺序保证】视频在 Step 2 已发出，Step 3 失败不影响视频
-      # 【冲突容错】rebase/push 失败只打警告，workflow 仍显示绿色
+      # 【冲突容错】push 失败只打警告，workflow 仍显示绿色
       - name: Commit updated state back to repo
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          # 只 add 这三个文件；--autostash 会临时 stash 其他未暂存变更（如刷新后的 token）
           git add short_video_agent/cncar/story_topic_usage.json \
-                  short_video_agent/cncar/pending.json
+                  short_video_agent/cncar/pending.json \
+                  short_video_agent/history.json
           if git diff --cached --quiet; then
             echo "无变更，跳过提交"
             exit 0
           fi
           git commit -m "ci(cncar): auto story ${{ steps.upload.outputs.youtube_url }}"
-          # pull --rebase 吸收远端新提交，失败则跳过（视频已发）
-          git pull --rebase origin main || {
-            echo "⚠️ rebase 冲突，跳过提交（视频已发出，usage.json 下次补偿）"
+          # --autostash 自动 stash 未暂存变更（如刷新后的 token 文件），rebase 后恢复
+          git pull --rebase --autostash origin main || {
+            echo "⚠️ rebase 失败，跳过 push（视频已发出）"
             exit 0
           }
           git push origin main || echo "⚠️ push 失败，跳过（视频已发出）"
