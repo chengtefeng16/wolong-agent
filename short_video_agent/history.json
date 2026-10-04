@@ -1143,5 +1143,16 @@
     "destination": "",
     "story_file": "story_01.txt",
     "mood": "tense"
+  },
+  {
+    "id": "20261004_023232_10d36b",
+    "source": "story",
+    "published_at": "2026-10-04T02:38:23.447269",
+    "youtube_url": "https://youtu.be/_skrC5JPTmk",
+    "title": "BYD Sales Up 140%. Hidden Fees Add 20%.",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261004_023232_byd_gulf_surge.txt",
+    "mood": "neutral"
   }
 ]

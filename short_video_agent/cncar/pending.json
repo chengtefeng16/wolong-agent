@@ -241,5 +241,25 @@
     "cover_path": "/Users/cheng/autogen_gemini_gui_test/short_video_agent/cncar/output/cover_20260912_213032_bd6ecd.jpg",
     "script_path": "",
     "_source_row": null
+  },
+  {
+    "id": "20261004_023232_10d36b",
+    "status": "approved",
+    "source": "story",
+    "story_file": "auto_20261004_023232_byd_gulf_surge.txt",
+    "mood": "neutral",
+    "created_at": "2026-10-04T02:38:14.764583",
+    "car_model": "",
+    "destination": "",
+    "landed_cost_usd": "",
+    "report_url": "https://cncar.io/cost-calculator",
+    "title": "BYD Sales Up 140%. Hidden Fees Add 20%.",
+    "cover_quote": "BYD sales surged 140%, but many pay 20% more for EVs.",
+    "video_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/video_20261004_023232_10d36b.mp4",
+    "cover_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/cover_20261004_023232_10d36b.jpg",
+    "script_path": "",
+    "_source_row": null,
+    "youtube_url": "https://youtu.be/_skrC5JPTmk",
+    "approved_at": "2026-10-04T02:38:23.448346"
   }
 ]
