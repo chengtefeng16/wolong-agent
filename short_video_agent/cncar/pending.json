@@ -261,5 +261,25 @@
     "_source_row": null,
     "youtube_url": "https://youtu.be/_skrC5JPTmk",
     "approved_at": "2026-10-04T02:38:23.448346"
+  },
+  {
+    "id": "20261004_185620_4ea29a",
+    "status": "approved",
+    "source": "story",
+    "story_file": "auto_20261004_185620_dealer_verification.txt",
+    "mood": "neutral",
+    "created_at": "2026-10-04T19:02:09.853328",
+    "car_model": "",
+    "destination": "",
+    "landed_cost_usd": "",
+    "report_url": "https://cncar.io/cost-calculator",
+    "title": "45 Days Delay. Thousands Lost. Verify Your Dealer.",
+    "cover_quote": "One missing license caused 45 days delay and thousands in fees.",
+    "video_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/video_20261004_185620_4ea29a.mp4",
+    "cover_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/cover_20261004_185620_4ea29a.jpg",
+    "script_path": "",
+    "_source_row": null,
+    "youtube_url": "https://youtu.be/7vC1Tt8hnYI",
+    "approved_at": "2026-10-04T19:02:15.538683"
   }
 ]

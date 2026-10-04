@@ -1161,5 +1161,16 @@
     "destination": "",
     "story_file": "auto_20261004_023232_byd_gulf_surge.txt",
     "mood": "neutral"
+  },
+  {
+    "id": "20261004_185620_4ea29a",
+    "source": "story",
+    "published_at": "2026-10-04T19:02:15.537465",
+    "youtube_url": "https://youtu.be/7vC1Tt8hnYI",
+    "title": "45 Days Delay. Thousands Lost. Verify Your Dealer.",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261004_185620_dealer_verification.txt",
+    "mood": "neutral"
   }
 ]
