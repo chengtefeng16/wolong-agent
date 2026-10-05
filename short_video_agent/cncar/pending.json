@@ -281,5 +281,25 @@
     "_source_row": null,
     "youtube_url": "https://youtu.be/7vC1Tt8hnYI",
     "approved_at": "2026-10-04T19:02:15.538683"
+  },
+  {
+    "id": "20261005_221741_aab800",
+    "status": "approved",
+    "source": "story",
+    "story_file": "auto_20261005_221741_smart_buyer_win.txt",
+    "mood": "uplift",
+    "created_at": "2026-10-05T22:21:06.766035",
+    "car_model": "",
+    "destination": "",
+    "landed_cost_usd": "",
+    "report_url": "https://cncar.io/cost-calculator",
+    "title": "BYD Atto 3: $4,200 Saved. Dealer Surprised.",
+    "cover_quote": "$4,200 saved by knowing the real cost. You can too.",
+    "video_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/video_20261005_221741_aab800.mp4",
+    "cover_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/cover_20261005_221741_aab800.jpg",
+    "script_path": "",
+    "_source_row": null,
+    "youtube_url": "https://youtu.be/VPZ_uFTvB6Y",
+    "approved_at": "2026-10-05T22:21:13.476595"
   }
 ]

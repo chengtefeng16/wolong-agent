@@ -1179,5 +1179,16 @@
     "destination": "",
     "story_file": "auto_20261004_185620_dealer_verification.txt",
     "mood": "neutral"
+  },
+  {
+    "id": "20261005_221741_aab800",
+    "source": "story",
+    "published_at": "2026-10-05T22:21:13.475803",
+    "youtube_url": "https://youtu.be/VPZ_uFTvB6Y",
+    "title": "BYD Atto 3: $4,200 Saved. Dealer Surprised.",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261005_221741_smart_buyer_win.txt",
+    "mood": "uplift"
   }
 ]
