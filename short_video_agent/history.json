@@ -1197,5 +1197,16 @@
     "destination": "",
     "story_file": "auto_20261005_221741_smart_buyer_win.txt",
     "mood": "uplift"
+  },
+  {
+    "id": "20261006_204423_fbb913",
+    "source": "story",
+    "published_at": "2026-10-06T20:50:06.990585",
+    "youtube_url": "https://youtu.be/dgvFBIpkSwM",
+    "title": "$6,000 EV Repair: No Warranty.",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261006_204423_grey_market_risk.txt",
+    "mood": "tense"
   }
 ]
