@@ -1215,5 +1215,16 @@
     "destination": "",
     "story_file": "auto_20261006_204423_grey_market_risk.txt",
     "mood": "tense"
+  },
+  {
+    "id": "20261007_210157_31c171",
+    "source": "story",
+    "published_at": "2026-10-07T21:09:28.470715",
+    "youtube_url": "https://youtu.be/yFtYeiMhH1E",
+    "title": "47 Days. Zero Surprises. How He Did It.",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261007_210157_first_time_importer.txt",
+    "mood": "uplift"
   }
 ]

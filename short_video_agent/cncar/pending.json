@@ -321,5 +321,25 @@
     "_source_row": null,
     "youtube_url": "https://youtu.be/dgvFBIpkSwM",
     "approved_at": "2026-10-06T20:50:06.991760"
+  },
+  {
+    "id": "20261007_210157_31c171",
+    "status": "approved",
+    "source": "story",
+    "story_file": "auto_20261007_210157_first_time_importer.txt",
+    "mood": "uplift",
+    "created_at": "2026-10-07T21:09:21.266219",
+    "car_model": "",
+    "destination": "",
+    "landed_cost_usd": "",
+    "report_url": "https://cncar.io/cost-calculator",
+    "title": "47 Days. Zero Surprises. How He Did It.",
+    "cover_quote": "First-time buyer ships Chery in 47 days, zero hidden costs.",
+    "video_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/video_20261007_210157_31c171.mp4",
+    "cover_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/cover_20261007_210157_31c171.jpg",
+    "script_path": "",
+    "_source_row": null,
+    "youtube_url": "https://youtu.be/yFtYeiMhH1E",
+    "approved_at": "2026-10-07T21:09:28.472046"
   }
 ]
