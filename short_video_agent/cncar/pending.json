@@ -341,5 +341,25 @@
     "_source_row": null,
     "youtube_url": "https://youtu.be/yFtYeiMhH1E",
     "approved_at": "2026-10-07T21:09:28.472046"
+  },
+  {
+    "id": "20261008_203213_e7531b",
+    "status": "approved",
+    "source": "story",
+    "story_file": "auto_20261008_203213_vat_surprise.txt",
+    "mood": "tense",
+    "created_at": "2026-10-08T20:36:46.061779",
+    "car_model": "",
+    "destination": "",
+    "landed_cost_usd": "",
+    "report_url": "https://cncar.io/cost-calculator",
+    "title": "His UAE Car Cost $6,000 More Than Quoted.",
+    "cover_quote": "UAE car import? Hidden $6,000 surprise.",
+    "video_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/video_20261008_203213_e7531b.mp4",
+    "cover_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/cover_20261008_203213_e7531b.jpg",
+    "script_path": "",
+    "_source_row": null,
+    "youtube_url": "https://youtu.be/pBLamDiTJxs",
+    "approved_at": "2026-10-08T20:36:55.450474"
   }
 ]

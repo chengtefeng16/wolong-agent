@@ -1233,5 +1233,16 @@
     "destination": "",
     "story_file": "auto_20261007_210157_first_time_importer.txt",
     "mood": "uplift"
+  },
+  {
+    "id": "20261008_203213_e7531b",
+    "source": "story",
+    "published_at": "2026-10-08T20:36:55.449599",
+    "youtube_url": "https://youtu.be/pBLamDiTJxs",
+    "title": "His UAE Car Cost $6,000 More Than Quoted.",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261008_203213_vat_surprise.txt",
+    "mood": "tense"
   }
 ]
