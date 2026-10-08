@@ -148,8 +148,13 @@ def _pick_topic(topics: list, usage: dict, today: date | None = None) -> tuple:
 def _title_hint(angle: str) -> str:
     """Returns a format constraint so Gemini generates a punchy, number-first title."""
     return (
-        "[under 10 words, MUST contain a specific number AND a conflict or consequence. "
-        "e.g. 'He Lost $4,000 Over One Missing Chip.' or '$12,000 Sent. No Car. Here's Why.' "
+        "[under 12 words, MUST contain a specific number AND a conflict or consequence. "
+        "When the story connects to a specific region (UAE, Dubai, Saudi, Gulf, Nigeria, Africa), "
+        "NATURALLY include ONE geographic word — woven into the conflict, not bolted on as a prefix. "
+        "e.g. 'A Gulf Dealer Paid $4,000 Over One Missing Chip.' "
+        "or 'He Shipped to Dubai. One Chip Cost $4,000.' "
+        "or '$12,000 Sent to a Nigerian Port. No Car. Here's Why.' "
+        "If the story has no clear regional setting, omit the geographic word entirely. "
         "NEVER start with 'A buyer' or scene-setting. Lead with the cost or the shock.]"
     )
 

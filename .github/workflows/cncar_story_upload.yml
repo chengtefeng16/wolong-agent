@@ -2,7 +2,8 @@ name: CNcar Story Auto-Upload
 
 on:
   schedule:
-    - cron: '0 16 * * *'   # UTC 16:00 = 海湾/中东 20:00 GST，晚高峰前上线
+    - cron: '0 15 * * *'   # UTC 15:00 = 海湾晚7点 / 尼日利亚下午4点
+    - cron: '0 19 * * *'   # UTC 19:00 = 海湾晚11点 / 尼日利亚晚8点
   workflow_dispatch:
     inputs:
       story_file:
