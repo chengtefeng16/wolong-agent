@@ -361,5 +361,25 @@
     "_source_row": null,
     "youtube_url": "https://youtu.be/pBLamDiTJxs",
     "approved_at": "2026-10-08T20:36:55.450474"
+  },
+  {
+    "id": "20261008_233730_6c442d",
+    "status": "approved",
+    "source": "story",
+    "story_file": "auto_20261008_233730_era_glonass_blocked.txt",
+    "mood": "tense",
+    "created_at": "2026-10-08T23:44:24.711540",
+    "car_model": "",
+    "destination": "",
+    "landed_cost_usd": "",
+    "report_url": "https://cncar.io/cost-calculator",
+    "title": "$4,000 Cost, 3 Months Lost: One Small Chip Stopped His Car",
+    "cover_quote": "$4,000 extra cost for one missing part. Don't make this mistake.",
+    "video_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/video_20261008_233730_6c442d.mp4",
+    "cover_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/cover_20261008_233730_6c442d.jpg",
+    "script_path": "",
+    "_source_row": null,
+    "youtube_url": "https://youtu.be/Tb1jtfHEzQw",
+    "approved_at": "2026-10-08T23:44:31.706596"
   }
 ]

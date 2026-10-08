@@ -1244,5 +1244,16 @@
     "destination": "",
     "story_file": "auto_20261008_203213_vat_surprise.txt",
     "mood": "tense"
+  },
+  {
+    "id": "20261008_233730_6c442d",
+    "source": "story",
+    "published_at": "2026-10-08T23:44:31.705400",
+    "youtube_url": "https://youtu.be/Tb1jtfHEzQw",
+    "title": "$4,000 Cost, 3 Months Lost: One Small Chip Stopped His Car",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261008_233730_era_glonass_blocked.txt",
+    "mood": "tense"
   }
 ]
