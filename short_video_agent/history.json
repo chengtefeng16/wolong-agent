@@ -1269,5 +1269,16 @@
     "destination": "",
     "story_file": "auto_20261008_233730_era_glonass_blocked.txt",
     "mood": "tense"
+  },
+  {
+    "id": "20261009_200127_ce12c2",
+    "source": "story",
+    "published_at": "2026-10-09T20:05:23.709067",
+    "youtube_url": "https://youtu.be/S_CPGtjYhUY",
+    "title": "$8,000 Fine at Nigerian Port for One Missing Paper.",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261009_200127_soncap_stuck.txt",
+    "mood": "tense"
   }
 ]

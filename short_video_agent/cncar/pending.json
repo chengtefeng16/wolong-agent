@@ -381,5 +381,25 @@
     "_source_row": null,
     "youtube_url": "https://youtu.be/Tb1jtfHEzQw",
     "approved_at": "2026-10-08T23:44:31.706596"
+  },
+  {
+    "id": "20261009_200127_ce12c2",
+    "status": "approved",
+    "source": "story",
+    "story_file": "auto_20261009_200127_soncap_stuck.txt",
+    "mood": "tense",
+    "created_at": "2026-10-09T20:05:18.009926",
+    "car_model": "",
+    "destination": "",
+    "landed_cost_usd": "",
+    "report_url": "https://cncar.io/cost-calculator",
+    "title": "$8,000 Fine at Nigerian Port for One Missing Paper.",
+    "cover_quote": "Missing SONCAP holds cars 60 days, costs $8,000.",
+    "video_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/video_20261009_200127_ce12c2.mp4",
+    "cover_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/cover_20261009_200127_ce12c2.jpg",
+    "script_path": "",
+    "_source_row": null,
+    "youtube_url": "https://youtu.be/S_CPGtjYhUY",
+    "approved_at": "2026-10-09T20:05:23.709983"
   }
 ]
