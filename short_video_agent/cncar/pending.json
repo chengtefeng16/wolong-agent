@@ -401,5 +401,25 @@
     "_source_row": null,
     "youtube_url": "https://youtu.be/S_CPGtjYhUY",
     "approved_at": "2026-10-09T20:05:23.709983"
+  },
+  {
+    "id": "20261009_225958_8fb9c4",
+    "status": "approved",
+    "source": "story",
+    "story_file": "auto_20261009_225958_saber_saso_blocked.txt",
+    "mood": "tense",
+    "created_at": "2026-10-09T23:05:53.849638",
+    "car_model": "",
+    "destination": "",
+    "landed_cost_usd": "",
+    "report_url": "https://cncar.io/cost-calculator",
+    "title": "Saudi Port Trap: 4 Months, $12,000 Lost",
+    "cover_quote": "Car stuck 4 months, $12,000 lost. Don't make this Saudi mistake.",
+    "video_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/video_20261009_225958_8fb9c4.mp4",
+    "cover_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/cover_20261009_225958_8fb9c4.jpg",
+    "script_path": "",
+    "_source_row": null,
+    "youtube_url": "https://youtu.be/hJ5uy2T0zzQ",
+    "approved_at": "2026-10-09T23:06:00.490051"
   }
 ]
