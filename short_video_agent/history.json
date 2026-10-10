@@ -1305,5 +1305,16 @@
     "destination": "",
     "story_file": "auto_20261009_225958_saber_saso_blocked.txt",
     "mood": "tense"
+  },
+  {
+    "id": "20261010_190937_49cf2c",
+    "source": "story",
+    "published_at": "2026-10-10T19:14:37.555021",
+    "youtube_url": "https://youtu.be/BwqLm4m0J8o",
+    "title": "$3,500 Profit Lost. One Week at Dubai Port Caused It.",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261010_190937_demurrage_trap.txt",
+    "mood": "tense"
   }
 ]
