@@ -1370,5 +1370,16 @@
     "destination": "",
     "story_file": "auto_20261011_223656_ev_range_fraud.txt",
     "mood": "tense"
+  },
+  {
+    "id": "20261013_203218_8c7ec1",
+    "source": "story",
+    "published_at": "2026-10-13T20:39:08.496934",
+    "youtube_url": "https://youtu.be/u-tUTKCztOs",
+    "title": "$12,000 Gone to Dubai. No Car. Missed These Red Flags.",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261013_203218_scam_deposit.txt",
+    "mood": "tense"
   }
 ]
