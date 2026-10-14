@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>io.dingxin.distill</string>
+
+    <!-- 瘦 plist：定时调用包装脚本（PATH/代理/GEMINI_KEY/venv 都在脚本里处理），脚本内先提炼再导入 -->
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>/Users/cheng/autogen_gemini_gui_test/short_video_agent/tools/distill_source_cron.sh</string>
+    </array>
+
+    <!-- 每周一 09:30（Weekday 1 = 周一） -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Weekday</key><integer>1</integer>
+        <key>Hour</key><integer>9</integer>
+        <key>Minute</key><integer>30</integer>
+    </dict>
+
+    <key>RunAtLoad</key>
+    <false/>
+
+    <key>StandardOutPath</key>
+    <string>/Users/cheng/autogen_gemini_gui_test/short_video_agent/logs/distill.out.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/cheng/autogen_gemini_gui_test/short_video_agent/logs/distill.err.log</string>
+</dict>
+</plist>
