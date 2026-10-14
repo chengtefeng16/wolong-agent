@@ -1417,5 +1417,16 @@
     "destination": "",
     "story_file": "auto_20261014_191246_fake_certificate.txt",
     "mood": "tense"
+  },
+  {
+    "id": "20261014_220035_ba8f18",
+    "source": "story",
+    "published_at": "2026-10-14T22:06:17.908062",
+    "youtube_url": "https://youtu.be/4_DgSiNxuWI",
+    "title": "Gulf BYD Buyers Paid 25% More: 140% Sales Surge",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261014_220035_byd_gulf_surge.txt",
+    "mood": "neutral"
   }
 ]

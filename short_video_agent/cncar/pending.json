@@ -561,5 +561,25 @@
     "_source_row": null,
     "youtube_url": "https://youtu.be/gYoxtMTpCxA",
     "approved_at": "2026-10-14T19:17:45.825467"
+  },
+  {
+    "id": "20261014_220035_ba8f18",
+    "status": "approved",
+    "source": "story",
+    "story_file": "auto_20261014_220035_byd_gulf_surge.txt",
+    "mood": "neutral",
+    "created_at": "2026-10-14T22:06:09.835242",
+    "car_model": "",
+    "destination": "",
+    "landed_cost_usd": "",
+    "report_url": "https://cncar.io/cost-calculator",
+    "title": "Gulf BYD Buyers Paid 25% More: 140% Sales Surge",
+    "cover_quote": "Gulf BYD sales soared 140%, but 25% hidden fees surprise buyers.",
+    "video_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/video_20261014_220035_ba8f18.mp4",
+    "cover_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/cover_20261014_220035_ba8f18.jpg",
+    "script_path": "",
+    "_source_row": null,
+    "youtube_url": "https://youtu.be/4_DgSiNxuWI",
+    "approved_at": "2026-10-14T22:06:17.909164"
   }
 ]
