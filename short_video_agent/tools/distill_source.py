@@ -4,16 +4,16 @@
 定心 素材提炼器 (short_video_agent/tools/distill_source.py)
 
 把"灵感来源"文本（如王利杰抖音视频的口播/文案，你或豆包导出后放进来）
-用 Gemini 改写成「定心」风格的原创素材，输出成 待导入-*.csv 丢进收件箱，
-随后由 import_inbox.py 自动追加进素材库，形成闭环。
+用 Gemini 提炼核心洞察、**融进定心既有的思维世界**改写成原创素材（绝不跑题），
+输出成 待导入-*.csv 丢进收件箱，随后由 import_inbox.py 自动追加进素材库，形成闭环。
 
 规则：
   - 只处理"没提炼过的"源文件（靠 源文件夹/.processed.json 记账去重）
   - 每次最多 4 个新主题，每主题 3 条 = 最多 12 条
   - 每条正文 50-200 字；tags 为白名单中的 1-2 个（与导入器完全一致）
-  - Gemini 输出先过同样的校验，不合格自动重试；3 次仍不行则跳过该源（不记为已处理，下次再试）
-  - chapter_id 从 .processed.json 的计数器续号（默认从 28 起，接在现有 27 之后，单调递增不复用）
-  - 完全原创改写，禁止照抄原文、禁止出现作者名/平台名
+  - 结合定心既有调性、绝不跑题（不许写成创业/商业/AI/投资/职场内容）
+  - Gemini 输出先过同样的校验，不合格自动重试；3 次仍不行则跳过该源（不记为已处理）
+  - chapter_id 优先读素材库当前最大章号 +1（读不到时退回 .processed.json 计数器）
   - --dry-run：只列出"这次会提炼哪些源"，不调 Gemini、不写文件、不记账
 
 输入：源文件夹放 *.txt / *.md，一个文件 = 一个视频/一条灵感来源
@@ -21,7 +21,7 @@
   python3 distill_source.py            # 正式提炼
   python3 distill_source.py --dry-run  # 预览将提炼的源
 环境变量：GEMINI_KEY（由 .env 提供，必需）；可选 WLJ_SOURCE_DIR / IMPORT_INBOX_DIR /
-          WLJ_MAX_THEMES / WLJ_START_CHAPTER / GEMINI_MODEL 覆盖
+          WLJ_MAX_THEMES / WLJ_START_CHAPTER / GEMINI_MODEL / GSHEETS_SA 覆盖
 """
 import argparse
 import csv
@@ -45,23 +45,43 @@ MAX_THEMES = int(os.environ.get("WLJ_MAX_THEMES", "4"))
 SEGS_PER_THEME = 3
 START_CHAPTER = int(os.environ.get("WLJ_START_CHAPTER", "28"))
 
+# 读素材库最大章号用（与导入器同一张表/服务账号）
+SA_KEY_PATH = Path(os.path.expanduser(
+    os.environ.get("GSHEETS_SA", "~/.config/cncar/gsheets_sa.json")))
+SPREADSHEET_ID = os.environ.get(
+    "DINGXIN_SHEET_ID", "1rC0T5Jmo5Th2KYqiNCa7Z3c510dOVkt3NQNLc_76hVk")
+WORKSHEET_NAME = os.environ.get("DINGXIN_WS", "素材库")
+
 ALLOWED_TAGS = {"焦虑", "失眠", "比较", "放下", "当下", "付出", "孤独", "执着"}
 TEXT_MIN, TEXT_MAX = 50, 200
 GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
+SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 # ──────────────────────────────────────────────────────────────────
 
 PROMPT = """你是「定心」短视频的文案作者。定心面向在海外打拼的华人，用现代生活的困境切入，\
-融合佛法视角，把焦虑、失眠、比较、孤独等情绪轻轻化解。语气温暖、口语化、适合睡前听。
+融合佛法视角，把焦虑、失眠、比较、孤独、执着这些情绪轻轻化解。语气温暖、口语，像睡前跟朋友说话。
 
-下面是一条"灵感来源"的原始文字（可能是某条短视频的口播或文案）。\
-请你**提炼其中的核心观点，用定心自己的话完全原创地重写**，产出一个主题、正好 3 条短文案：
+【定心已有素材的调性——照这个来，不要跑题】
+· 现象开场：你有没有被一句话冒犯，气了一整天？佛法说"无我"，不是说你不存在，是说那个一碰就痛的"我"，\
+更像大脑每天在讲的一个故事……
+· 转念落地：不是等到成功才安心，而是每一个当下的动作都认真去做。海外打工人最容易犯的毛病：\
+总觉得现在做的事不够高级，焦虑于"我该去做更重要的事"，结果连当下都活不好……
+· 今日练习：今天试着用一句不带头衔、身份、收入的话介绍自己，比如"我是一个每天认真生活的人"，\
+说给自己听一遍，感受一下不靠标签的自己是什么感觉。
+
+【这次任务】
+下面是一条"灵感来源"原文。请**提炼其中的核心洞察，把它融进定心上面这种思维世界**，\
+产出一个与定心一脉相承、但带来新角度的主题，正好 3 条：
 - 第1条：从现代人的一个具体场景/情绪切入，让人共鸣
-- 第2条：转念，给出佛法/智慧的视角，把情绪松开
+- 第2条：转念，用佛法/智慧的视角把情绪松开
 - 第3条：以"今日练习："开头，给一个今晚就能做的小动作
 
-硬性要求：
-- 完全原创重写，禁止照抄原文句子；禁止出现任何作者名、平台名、"视频/抖音/博主"等字样。
-- 每条正文 50-200 个汉字（务必落在这个区间内）。
+【硬性要求——务必遵守】
+- 绝不跑题：最终内容必须是定心（安心/放下/觉察/面向海外华人情绪）的调子，\
+绝不能写成创业、商业、AI、投资、职场成功学。若来源偏离定心，就只取其中能跟\
+"焦虑/执着/放下/当下/比较/孤独"呼应的那个情绪内核，用定心的话完全重讲。
+- 完全原创：禁止照抄原文句子；禁止出现任何人名、平台名、"视频/抖音/博主/手册"等字样。
+- 每条正文 50-200 个汉字（务必落在区间内）。
 - 每条配 1-2 个标签，只能从这个集合里选：焦虑, 失眠, 比较, 放下, 当下, 付出, 孤独, 执着。
 - 主题名格式为「现代视角·<不超过12字的概括>」。
 
@@ -137,6 +157,24 @@ def validate_theme(obj):
     return True, ""
 
 
+def next_chapter_from_sheet():
+    """读素材库 A 列最大章号 +1；读不到返回 None（退回计数器）。"""
+    try:
+        import gspread
+        from google.oauth2.service_account import Credentials
+        if not SA_KEY_PATH.exists():
+            return None
+        creds = Credentials.from_service_account_file(
+            str(SA_KEY_PATH), scopes=SCOPES)
+        ws = gspread.authorize(creds).open_by_key(
+            SPREADSHEET_ID).worksheet(WORKSHEET_NAME)
+        nums = [int(v) for v in ws.col_values(1)[1:] if v.strip().isdigit()]
+        return (max(nums) + 1) if nums else None
+    except Exception as e:
+        log(f"  读取素材库最大章号失败，改用计数器：{e}")
+        return None
+
+
 def make_client():
     from google import genai
     key = os.environ.get("GEMINI_KEY", "").strip()
@@ -191,7 +229,9 @@ def main():
         return 0
 
     client = make_client()
-    next_ch = int(ledger.get("next_chapter", START_CHAPTER))
+    next_ch = next_chapter_from_sheet() or int(
+        ledger.get("next_chapter", START_CHAPTER))
+    log(f"起始章号 = {next_ch}")
     rows = []
     processed_now = []
     themes = 0
