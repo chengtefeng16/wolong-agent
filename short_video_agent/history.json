@@ -1442,5 +1442,16 @@
     "destination": "",
     "story_file": "auto_20261014_220035_byd_gulf_surge.txt",
     "mood": "neutral"
+  },
+  {
+    "id": "20261015_185456_bc0b65",
+    "source": "story",
+    "published_at": "2026-10-15T19:01:19.220870",
+    "youtube_url": "https://youtu.be/yzooB21Eu60",
+    "title": "Over $7,000 Vanished for a Dubai Buyer. Unlicensed Dealer.",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261015_185456_dealer_verification.txt",
+    "mood": "neutral"
   }
 ]
