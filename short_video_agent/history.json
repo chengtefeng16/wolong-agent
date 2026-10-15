@@ -1453,5 +1453,16 @@
     "destination": "",
     "story_file": "auto_20261015_185456_dealer_verification.txt",
     "mood": "neutral"
+  },
+  {
+    "id": "20261015_215400_0f9a8b",
+    "source": "story",
+    "published_at": "2026-10-15T22:01:37.220929",
+    "youtube_url": "https://youtu.be/y13L3RLWtbY",
+    "title": "Dubai Dealer Cut $4,200 From BYD Price. Here's Why.",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261015_215400_smart_buyer_win.txt",
+    "mood": "uplift"
   }
 ]
