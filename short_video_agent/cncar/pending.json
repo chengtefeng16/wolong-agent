@@ -641,5 +641,25 @@
     "_source_row": null,
     "youtube_url": "https://youtu.be/t5ljBvK7MaU",
     "approved_at": "2026-10-16T18:46:31.280894"
+  },
+  {
+    "id": "20261016_215157_e0e018",
+    "status": "approved",
+    "source": "story",
+    "story_file": "auto_20261016_215157_first_time_importer.txt",
+    "mood": "uplift",
+    "created_at": "2026-10-16T21:55:42.716203",
+    "car_model": "",
+    "destination": "",
+    "landed_cost_usd": "",
+    "report_url": "https://cncar.io/cost-calculator",
+    "title": "47 Days. Zero Oman Surprises. He Beat the Import Trap.",
+    "cover_quote": "Get your car in 47 days, avoid import shocks.",
+    "video_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/video_20261016_215157_e0e018.mp4",
+    "cover_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/cover_20261016_215157_e0e018.jpg",
+    "script_path": "",
+    "_source_row": null,
+    "youtube_url": "https://youtu.be/Ae2nxrTYStY",
+    "approved_at": "2026-10-16T21:55:51.306833"
   }
 ]
