@@ -1478,5 +1478,16 @@
     "destination": "",
     "story_file": "auto_20261015_215400_smart_buyer_win.txt",
     "mood": "uplift"
+  },
+  {
+    "id": "20261016_184002_fa3910",
+    "source": "story",
+    "published_at": "2026-10-16T18:46:31.279526",
+    "youtube_url": "https://youtu.be/t5ljBvK7MaU",
+    "title": "Gulf EV Battery Failed: $6,000 Lost, No Warranty.",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261016_184002_grey_market_risk.txt",
+    "mood": "tense"
   }
 ]
