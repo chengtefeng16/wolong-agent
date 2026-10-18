@@ -1550,5 +1550,16 @@
     "destination": "",
     "story_file": "auto_20261017_211042_era_glonass_blocked.txt",
     "mood": "tense"
+  },
+  {
+    "id": "20261018_175240_c83eab",
+    "source": "story",
+    "published_at": "2026-10-18T17:59:44.428090",
+    "youtube_url": "https://youtu.be/muXuIkh_15w",
+    "title": "Nigeria Car Stuck 60 Days: $8,000 Cost for One Missing Paper.",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261018_175240_soncap_stuck.txt",
+    "mood": "tense"
   }
 ]

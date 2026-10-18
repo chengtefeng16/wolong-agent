@@ -701,5 +701,25 @@
     "_source_row": null,
     "youtube_url": "https://youtu.be/3yvPGBRu6VE",
     "approved_at": "2026-10-17T21:17:17.955837"
+  },
+  {
+    "id": "20261018_175240_c83eab",
+    "status": "approved",
+    "source": "story",
+    "story_file": "auto_20261018_175240_soncap_stuck.txt",
+    "mood": "tense",
+    "created_at": "2026-10-18T17:59:37.201360",
+    "car_model": "",
+    "destination": "",
+    "landed_cost_usd": "",
+    "report_url": "https://cncar.io/cost-calculator",
+    "title": "Nigeria Car Stuck 60 Days: $8,000 Cost for One Missing Paper.",
+    "cover_quote": "Missing SONCAP cost Nigerian importer $8,000 extra.",
+    "video_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/video_20261018_175240_c83eab.mp4",
+    "cover_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/cover_20261018_175240_c83eab.jpg",
+    "script_path": "",
+    "_source_row": null,
+    "youtube_url": "https://youtu.be/muXuIkh_15w",
+    "approved_at": "2026-10-18T17:59:44.429514"
   }
 ]
