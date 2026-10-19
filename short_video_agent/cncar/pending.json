@@ -761,5 +761,25 @@
     "_source_row": null,
     "youtube_url": "https://youtu.be/5vdVcCZ45S0",
     "approved_at": "2026-10-19T20:30:41.213797"
+  },
+  {
+    "id": "20261019_224324_d014b6",
+    "status": "approved",
+    "source": "story",
+    "story_file": "auto_20261019_224324_recycling_tax_spike.txt",
+    "mood": "tense",
+    "created_at": "2026-10-19T22:50:33.552069",
+    "car_model": "",
+    "destination": "",
+    "landed_cost_usd": "",
+    "report_url": "https://cncar.io/cost-calculator",
+    "title": "Russian Fee Doubled to $8,000. Dealer Paid $10,000 Over Budget.",
+    "cover_quote": "Russian recycling fee doubled to $8,000. $10,000 over budget.",
+    "video_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/video_20261019_224324_d014b6.mp4",
+    "cover_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/cover_20261019_224324_d014b6.jpg",
+    "script_path": "",
+    "_source_row": null,
+    "youtube_url": "https://youtu.be/FtVaJBhoCVw",
+    "approved_at": "2026-10-19T22:50:39.834555"
   }
 ]

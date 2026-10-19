@@ -1597,5 +1597,16 @@
     "destination": "",
     "story_file": "auto_20261019_202443_demurrage_trap.txt",
     "mood": "tense"
+  },
+  {
+    "id": "20261019_224324_d014b6",
+    "source": "story",
+    "published_at": "2026-10-19T22:50:39.833042",
+    "youtube_url": "https://youtu.be/FtVaJBhoCVw",
+    "title": "Russian Fee Doubled to $8,000. Dealer Paid $10,000 Over Budget.",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261019_224324_recycling_tax_spike.txt",
+    "mood": "tense"
   }
 ]
