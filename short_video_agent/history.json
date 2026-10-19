@@ -1586,5 +1586,16 @@
     "destination": "",
     "story_file": "auto_20261018_211254_saber_saso_blocked.txt",
     "mood": "tense"
+  },
+  {
+    "id": "20261019_202443_89109d",
+    "source": "story",
+    "published_at": "2026-10-19T20:30:41.212083",
+    "youtube_url": "https://youtu.be/5vdVcCZ45S0",
+    "title": "One Week Port Delay Wiped $3,500 Profit",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261019_202443_demurrage_trap.txt",
+    "mood": "tense"
   }
 ]
