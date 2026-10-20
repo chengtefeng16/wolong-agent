@@ -1633,5 +1633,16 @@
     "destination": "",
     "story_file": "auto_20261020_185839_fake_forwarder.txt",
     "mood": "tense"
+  },
+  {
+    "id": "20261020_220043_506abc",
+    "source": "story",
+    "published_at": "2026-10-20T22:04:10.721771",
+    "youtube_url": "https://youtu.be/br6AhLopofg",
+    "title": "500 km Claim. 240 km Real Range in Gulf Heat.",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261020_220043_ev_range_fraud.txt",
+    "mood": "tense"
   }
 ]
