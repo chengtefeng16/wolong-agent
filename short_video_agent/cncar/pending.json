@@ -781,5 +781,25 @@
     "_source_row": null,
     "youtube_url": "https://youtu.be/FtVaJBhoCVw",
     "approved_at": "2026-10-19T22:50:39.834555"
+  },
+  {
+    "id": "20261020_185839_080187",
+    "status": "approved",
+    "source": "story",
+    "story_file": "auto_20261020_185839_fake_forwarder.txt",
+    "mood": "tense",
+    "created_at": "2026-10-20T19:04:07.726617",
+    "car_model": "",
+    "destination": "",
+    "landed_cost_usd": "",
+    "report_url": "https://cncar.io/cost-calculator",
+    "title": "$15,000 Vanished. No Car for Dubai. Fake Forwarder Trap.",
+    "cover_quote": "$15,000 lost. Fake forwarder vanished with car funds.",
+    "video_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/video_20261020_185839_080187.mp4",
+    "cover_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/cover_20261020_185839_080187.jpg",
+    "script_path": "",
+    "_source_row": null,
+    "youtube_url": "https://youtu.be/S10s_XSQcIU",
+    "approved_at": "2026-10-20T19:04:16.199933"
   }
 ]

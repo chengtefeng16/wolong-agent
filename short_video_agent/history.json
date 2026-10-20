@@ -1622,5 +1622,16 @@
     "destination": "",
     "story_file": "auto_20261019_224324_recycling_tax_spike.txt",
     "mood": "tense"
+  },
+  {
+    "id": "20261020_185839_080187",
+    "source": "story",
+    "published_at": "2026-10-20T19:04:16.198752",
+    "youtube_url": "https://youtu.be/S10s_XSQcIU",
+    "title": "$15,000 Vanished. No Car for Dubai. Fake Forwarder Trap.",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261020_185839_fake_forwarder.txt",
+    "mood": "tense"
   }
 ]
