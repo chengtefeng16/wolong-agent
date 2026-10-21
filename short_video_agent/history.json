@@ -1658,5 +1658,16 @@
     "destination": "",
     "story_file": "auto_20261020_220043_ev_range_fraud.txt",
     "mood": "tense"
+  },
+  {
+    "id": "20261021_190908_783a51",
+    "source": "story",
+    "published_at": "2026-10-21T19:12:58.936024",
+    "youtube_url": "https://youtu.be/oWQjXqqLM-s",
+    "title": "$12,000 Gone in Gulf Scam. Check These Before Paying.",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261021_190908_scam_deposit.txt",
+    "mood": "tense"
   }
 ]
