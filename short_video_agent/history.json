@@ -1705,5 +1705,16 @@
     "destination": "",
     "story_file": "auto_20261022_200201_fake_certificate.txt",
     "mood": "tense"
+  },
+  {
+    "id": "20261022_220132_4dda91",
+    "source": "story",
+    "published_at": "2026-10-22T22:05:41.097289",
+    "youtube_url": "https://youtu.be/q3TrGqQYvzo",
+    "title": "BYD Gulf Sales Jump 140%. Hidden Import Costs Trap Buyers.",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261022_220132_byd_gulf_surge.txt",
+    "mood": "neutral"
   }
 ]
