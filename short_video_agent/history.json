@@ -1694,5 +1694,16 @@
     "destination": "",
     "story_file": "auto_20261021_220349_roro_vs_container.txt",
     "mood": "neutral"
+  },
+  {
+    "id": "20261022_200201_ede259",
+    "source": "story",
+    "published_at": "2026-10-22T20:09:09.347222",
+    "youtube_url": "https://youtu.be/WEYU18s_8oA",
+    "title": "60 Days Held at Gulf Customs: $4,800 Lost Over One Paper",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261022_200201_fake_certificate.txt",
+    "mood": "tense"
   }
 ]
