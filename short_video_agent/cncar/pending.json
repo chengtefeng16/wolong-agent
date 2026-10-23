@@ -921,5 +921,25 @@
     "_source_row": null,
     "youtube_url": "https://youtu.be/UQVRRkV_IIs",
     "approved_at": "2026-10-23T19:01:12.294508"
+  },
+  {
+    "id": "20261023_223826_97d862",
+    "status": "approved",
+    "source": "story",
+    "story_file": "auto_20261023_223826_smart_buyer_win.txt",
+    "mood": "uplift",
+    "created_at": "2026-10-23T22:42:46.800207",
+    "car_model": "",
+    "destination": "",
+    "landed_cost_usd": "",
+    "report_url": "https://cncar.io/cost-calculator",
+    "title": "$4,200 Dubai Dealer Markup Exposed. One Buyer Fought Back.",
+    "cover_quote": "Dubai buyer saved $4,200 by showing dealer the car's true landed cost.",
+    "video_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/video_20261023_223826_97d862.mp4",
+    "cover_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/cover_20261023_223826_97d862.jpg",
+    "script_path": "",
+    "_source_row": null,
+    "youtube_url": "https://youtu.be/pVYr2wI4V1k",
+    "approved_at": "2026-10-23T22:42:53.679442"
   }
 ]

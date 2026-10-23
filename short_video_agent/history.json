@@ -1741,5 +1741,16 @@
     "destination": "",
     "story_file": "auto_20261023_185443_dealer_verification.txt",
     "mood": "neutral"
+  },
+  {
+    "id": "20261023_223826_97d862",
+    "source": "story",
+    "published_at": "2026-10-23T22:42:53.678133",
+    "youtube_url": "https://youtu.be/pVYr2wI4V1k",
+    "title": "$4,200 Dubai Dealer Markup Exposed. One Buyer Fought Back.",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261023_223826_smart_buyer_win.txt",
+    "mood": "uplift"
   }
 ]
