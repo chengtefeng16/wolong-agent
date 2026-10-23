@@ -1730,5 +1730,16 @@
     "destination": "",
     "story_file": "auto_20261022_220132_byd_gulf_surge.txt",
     "mood": "neutral"
+  },
+  {
+    "id": "20261023_185443_4806d5",
+    "source": "story",
+    "published_at": "2026-10-23T19:01:12.292851",
+    "youtube_url": "https://youtu.be/UQVRRkV_IIs",
+    "title": "$7,500 Extra Cost: One Missing Export License Blocks Gulf Car.",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261023_185443_dealer_verification.txt",
+    "mood": "neutral"
   }
 ]
