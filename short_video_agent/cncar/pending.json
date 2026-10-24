@@ -941,5 +941,25 @@
     "_source_row": null,
     "youtube_url": "https://youtu.be/pVYr2wI4V1k",
     "approved_at": "2026-10-23T22:42:53.679442"
+  },
+  {
+    "id": "20261024_175421_7ba461",
+    "status": "approved",
+    "source": "story",
+    "story_file": "auto_20261024_175421_grey_market_risk.txt",
+    "mood": "tense",
+    "created_at": "2026-10-24T18:00:27.401649",
+    "car_model": "",
+    "destination": "",
+    "landed_cost_usd": "",
+    "report_url": "https://cncar.io/cost-calculator",
+    "title": "$6,000 EV Battery Fix: Gulf Buyer Had No Warranty",
+    "cover_quote": "EV battery failed. $6,000 repair cost hits Gulf buyer.",
+    "video_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/video_20261024_175421_7ba461.mp4",
+    "cover_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/cover_20261024_175421_7ba461.jpg",
+    "script_path": "",
+    "_source_row": null,
+    "youtube_url": "https://youtu.be/DGRbDUHVgMY",
+    "approved_at": "2026-10-24T18:00:33.513555"
   }
 ]

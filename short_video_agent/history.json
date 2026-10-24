@@ -1766,5 +1766,16 @@
     "destination": "",
     "story_file": "auto_20261023_223826_smart_buyer_win.txt",
     "mood": "uplift"
+  },
+  {
+    "id": "20261024_175421_7ba461",
+    "source": "story",
+    "published_at": "2026-10-24T18:00:33.511836",
+    "youtube_url": "https://youtu.be/DGRbDUHVgMY",
+    "title": "$6,000 EV Battery Fix: Gulf Buyer Had No Warranty",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261024_175421_grey_market_risk.txt",
+    "mood": "tense"
   }
 ]
