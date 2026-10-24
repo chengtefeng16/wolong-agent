@@ -961,5 +961,25 @@
     "_source_row": null,
     "youtube_url": "https://youtu.be/DGRbDUHVgMY",
     "approved_at": "2026-10-24T18:00:33.513555"
+  },
+  {
+    "id": "20261024_212128_e651df",
+    "status": "approved",
+    "source": "story",
+    "story_file": "auto_20261024_212128_first_time_importer.txt",
+    "mood": "uplift",
+    "created_at": "2026-10-24T21:27:00.288181",
+    "car_model": "",
+    "destination": "",
+    "landed_cost_usd": "",
+    "report_url": "https://cncar.io/cost-calculator",
+    "title": "47 Days to Oman: Zero Surprises Beat $3,000 Hidden Fees.",
+    "cover_quote": "47 days, no $3,000 surprise. Oman Chery import done right.",
+    "video_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/video_20261024_212128_e651df.mp4",
+    "cover_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/cover_20261024_212128_e651df.jpg",
+    "script_path": "",
+    "_source_row": null,
+    "youtube_url": "https://youtu.be/tArLkuCiVPk",
+    "approved_at": "2026-10-24T21:27:05.796281"
   }
 ]
