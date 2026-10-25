@@ -1813,5 +1813,16 @@
     "destination": "",
     "story_file": "auto_20261025_181219_vat_surprise.txt",
     "mood": "tense"
+  },
+  {
+    "id": "20261025_212022_e57d80",
+    "source": "story",
+    "published_at": "2026-10-25T21:27:17.062827",
+    "youtube_url": "https://youtu.be/flj0l3ytlg8",
+    "title": "One Missing Chip: $4,000 Extra, 3 Months Delay",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261025_212022_era_glonass_blocked.txt",
+    "mood": "tense"
   }
 ]

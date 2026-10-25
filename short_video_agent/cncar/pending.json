@@ -1001,5 +1001,25 @@
     "_source_row": null,
     "youtube_url": "https://youtu.be/W25fR9q3Rsc",
     "approved_at": "2026-10-25T18:17:45.427298"
+  },
+  {
+    "id": "20261025_212022_e57d80",
+    "status": "approved",
+    "source": "story",
+    "story_file": "auto_20261025_212022_era_glonass_blocked.txt",
+    "mood": "tense",
+    "created_at": "2026-10-25T21:27:10.082164",
+    "car_model": "",
+    "destination": "",
+    "landed_cost_usd": "",
+    "report_url": "https://cncar.io/cost-calculator",
+    "title": "One Missing Chip: $4,000 Extra, 3 Months Delay",
+    "cover_quote": "A $4,000 chip cost 3 months. Don't make this import mistake.",
+    "video_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/video_20261025_212022_e57d80.mp4",
+    "cover_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/cover_20261025_212022_e57d80.jpg",
+    "script_path": "",
+    "_source_row": null,
+    "youtube_url": "https://youtu.be/flj0l3ytlg8",
+    "approved_at": "2026-10-25T21:27:17.064438"
   }
 ]
