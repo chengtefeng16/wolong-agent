@@ -1802,5 +1802,16 @@
     "destination": "",
     "story_file": "auto_20261024_212128_first_time_importer.txt",
     "mood": "uplift"
+  },
+  {
+    "id": "20261025_181219_33117f",
+    "source": "story",
+    "published_at": "2026-10-25T18:17:45.425941",
+    "youtube_url": "https://youtu.be/W25fR9q3Rsc",
+    "title": "$18,000 Quote. His Gulf Car Cost $6,000 More.",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261025_181219_vat_surprise.txt",
+    "mood": "tense"
   }
 ]
