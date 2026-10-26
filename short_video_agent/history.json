@@ -1849,5 +1849,16 @@
     "destination": "",
     "story_file": "auto_20261026_202025_soncap_stuck.txt",
     "mood": "tense"
+  },
+  {
+    "id": "20261026_231526_ab2328",
+    "source": "story",
+    "published_at": "2026-10-26T23:22:05.020073",
+    "youtube_url": "https://youtu.be/HiVqYpCs-EQ",
+    "title": "4 Months Blocked. Gulf Customs Rejected Uncertified Car.",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261026_231526_saber_saso_blocked.txt",
+    "mood": "tense"
   }
 ]

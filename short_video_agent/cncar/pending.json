@@ -1041,5 +1041,25 @@
     "_source_row": null,
     "youtube_url": "https://youtu.be/NmflVLpZFfk",
     "approved_at": "2026-10-26T20:27:21.449079"
+  },
+  {
+    "id": "20261026_231526_ab2328",
+    "status": "approved",
+    "source": "story",
+    "story_file": "auto_20261026_231526_saber_saso_blocked.txt",
+    "mood": "tense",
+    "created_at": "2026-10-26T23:21:58.520426",
+    "car_model": "",
+    "destination": "",
+    "landed_cost_usd": "",
+    "report_url": "https://cncar.io/cost-calculator",
+    "title": "4 Months Blocked. Gulf Customs Rejected Uncertified Car.",
+    "cover_quote": "Gulf customs blocked his car for 4 months. Certification failed.",
+    "video_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/video_20261026_231526_ab2328.mp4",
+    "cover_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/cover_20261026_231526_ab2328.jpg",
+    "script_path": "",
+    "_source_row": null,
+    "youtube_url": "https://youtu.be/HiVqYpCs-EQ",
+    "approved_at": "2026-10-26T23:22:05.021710"
   }
 ]
