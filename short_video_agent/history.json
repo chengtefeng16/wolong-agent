@@ -1838,5 +1838,16 @@
     "destination": "",
     "story_file": "auto_20261025_212022_era_glonass_blocked.txt",
     "mood": "tense"
+  },
+  {
+    "id": "20261026_202025_773e18",
+    "source": "story",
+    "published_at": "2026-10-26T20:27:21.447402",
+    "youtube_url": "https://youtu.be/NmflVLpZFfk",
+    "title": "Nigerian Port: $8,000 Fees, 60 Days Lost.",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261026_202025_soncap_stuck.txt",
+    "mood": "tense"
   }
 ]

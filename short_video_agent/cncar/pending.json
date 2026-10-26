@@ -1021,5 +1021,25 @@
     "_source_row": null,
     "youtube_url": "https://youtu.be/flj0l3ytlg8",
     "approved_at": "2026-10-25T21:27:17.064438"
+  },
+  {
+    "id": "20261026_202025_773e18",
+    "status": "approved",
+    "source": "story",
+    "story_file": "auto_20261026_202025_soncap_stuck.txt",
+    "mood": "tense",
+    "created_at": "2026-10-26T20:27:14.998724",
+    "car_model": "",
+    "destination": "",
+    "landed_cost_usd": "",
+    "report_url": "https://cncar.io/cost-calculator",
+    "title": "Nigerian Port: $8,000 Fees, 60 Days Lost.",
+    "cover_quote": "Missing paper cost one buyer $8,000 at Nigerian customs.",
+    "video_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/video_20261026_202025_773e18.mp4",
+    "cover_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/cover_20261026_202025_773e18.jpg",
+    "script_path": "",
+    "_source_row": null,
+    "youtube_url": "https://youtu.be/NmflVLpZFfk",
+    "approved_at": "2026-10-26T20:27:21.449079"
   }
 ]
