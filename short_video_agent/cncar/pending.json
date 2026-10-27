@@ -1061,5 +1061,25 @@
     "_source_row": null,
     "youtube_url": "https://youtu.be/HiVqYpCs-EQ",
     "approved_at": "2026-10-26T23:22:05.021710"
+  },
+  {
+    "id": "20261027_195206_e48d77",
+    "status": "approved",
+    "source": "story",
+    "story_file": "auto_20261027_195206_demurrage_trap.txt",
+    "mood": "tense",
+    "created_at": "2026-10-27T19:58:29.390989",
+    "car_model": "",
+    "destination": "",
+    "landed_cost_usd": "",
+    "report_url": "https://cncar.io/cost-calculator",
+    "title": "Gulf Importer Lost $3,500 Margin in One Week Port Delay",
+    "cover_quote": "$3,500 lost in one week, thanks to port delays.",
+    "video_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/video_20261027_195206_e48d77.mp4",
+    "cover_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/cover_20261027_195206_e48d77.jpg",
+    "script_path": "",
+    "_source_row": null,
+    "youtube_url": "https://youtu.be/LMVpz0eUVC4",
+    "approved_at": "2026-10-27T19:58:35.498300"
   }
 ]

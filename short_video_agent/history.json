@@ -1874,5 +1874,16 @@
     "destination": "",
     "story_file": "auto_20261026_231526_saber_saso_blocked.txt",
     "mood": "tense"
+  },
+  {
+    "id": "20261027_195206_e48d77",
+    "source": "story",
+    "published_at": "2026-10-27T19:58:35.496677",
+    "youtube_url": "https://youtu.be/LMVpz0eUVC4",
+    "title": "Gulf Importer Lost $3,500 Margin in One Week Port Delay",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261027_195206_demurrage_trap.txt",
+    "mood": "tense"
   }
 ]
