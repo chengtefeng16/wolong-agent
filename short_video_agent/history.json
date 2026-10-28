@@ -1910,5 +1910,16 @@
     "destination": "",
     "story_file": "auto_20261027_224706_recycling_tax_spike.txt",
     "mood": "tense"
+  },
+  {
+    "id": "20261028_200655_aa3957",
+    "source": "story",
+    "published_at": "2026-10-28T20:13:28.750181",
+    "youtube_url": "https://youtu.be/5YtkpJRTDXI",
+    "title": "$15,000 Sent for Dubai. Then the Forwarder Vanished.",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261028_200655_fake_forwarder.txt",
+    "mood": "tense"
   }
 ]
