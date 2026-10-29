@@ -1957,5 +1957,16 @@
     "destination": "",
     "story_file": "auto_20261029_200603_scam_deposit.txt",
     "mood": "tense"
+  },
+  {
+    "id": "20261029_230405_1e40ac",
+    "source": "story",
+    "published_at": "2026-10-29T23:10:37.148124",
+    "youtube_url": "https://youtu.be/5P9Pr_FEX38",
+    "title": "Container Shipping Costs 40% More to Gulf. But Is It Safer?",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261029_230405_roro_vs_container.txt",
+    "mood": "neutral"
   }
 ]

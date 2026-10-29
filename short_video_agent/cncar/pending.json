@@ -1161,5 +1161,25 @@
     "_source_row": null,
     "youtube_url": "https://youtu.be/2XjKnfJBYAQ",
     "approved_at": "2026-10-29T20:11:52.613709"
+  },
+  {
+    "id": "20261029_230405_1e40ac",
+    "status": "approved",
+    "source": "story",
+    "story_file": "auto_20261029_230405_roro_vs_container.txt",
+    "mood": "neutral",
+    "created_at": "2026-10-29T23:10:30.926039",
+    "car_model": "",
+    "destination": "",
+    "landed_cost_usd": "",
+    "report_url": "https://cncar.io/cost-calculator",
+    "title": "Container Shipping Costs 40% More to Gulf. But Is It Safer?",
+    "cover_quote": "RoRo costs less. But is it worth the risk for Gulf buyers?",
+    "video_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/video_20261029_230405_1e40ac.mp4",
+    "cover_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/cover_20261029_230405_1e40ac.jpg",
+    "script_path": "",
+    "_source_row": null,
+    "youtube_url": "https://youtu.be/5P9Pr_FEX38",
+    "approved_at": "2026-10-29T23:10:37.149533"
   }
 ]
