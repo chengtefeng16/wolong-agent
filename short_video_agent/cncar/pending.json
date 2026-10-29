@@ -1141,5 +1141,25 @@
     "_source_row": null,
     "youtube_url": "https://youtu.be/gAy8K5rAJck",
     "approved_at": "2026-10-28T23:04:20.042114"
+  },
+  {
+    "id": "20261029_200603_4bdf6b",
+    "status": "approved",
+    "source": "story",
+    "story_file": "auto_20261029_200603_scam_deposit.txt",
+    "mood": "tense",
+    "created_at": "2026-10-29T20:11:43.685051",
+    "car_model": "",
+    "destination": "",
+    "landed_cost_usd": "",
+    "report_url": "https://cncar.io/cost-calculator",
+    "title": "$12,000 Gone: Missing Deposit, Missing Dealer. Don't Fall For This.",
+    "cover_quote": "$12,000 vanished with dealer. Check these vital documents first.",
+    "video_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/video_20261029_200603_4bdf6b.mp4",
+    "cover_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/cover_20261029_200603_4bdf6b.jpg",
+    "script_path": "",
+    "_source_row": null,
+    "youtube_url": "https://youtu.be/2XjKnfJBYAQ",
+    "approved_at": "2026-10-29T20:11:52.613709"
   }
 ]
