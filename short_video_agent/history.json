@@ -1982,5 +1982,16 @@
     "destination": "",
     "story_file": "auto_20261029_230405_roro_vs_container.txt",
     "mood": "neutral"
+  },
+  {
+    "id": "20261030_195210_149362",
+    "source": "story",
+    "published_at": "2026-10-30T19:56:22.850358",
+    "youtube_url": "https://youtu.be/h8LXpuYnEtQ",
+    "title": "Missing Paper Cost $4,800 Extra at UAE Port",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261030_195210_fake_certificate.txt",
+    "mood": "tense"
   }
 ]
