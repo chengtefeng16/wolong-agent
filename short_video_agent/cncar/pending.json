@@ -1201,5 +1201,25 @@
     "_source_row": null,
     "youtube_url": "https://youtu.be/h8LXpuYnEtQ",
     "approved_at": "2026-10-30T19:56:22.851562"
+  },
+  {
+    "id": "20261030_224505_d04233",
+    "status": "approved",
+    "source": "story",
+    "story_file": "auto_20261030_224505_byd_gulf_surge.txt",
+    "mood": "neutral",
+    "created_at": "2026-10-30T22:51:52.982561",
+    "car_model": "",
+    "destination": "",
+    "landed_cost_usd": "",
+    "report_url": "https://cncar.io/cost-calculator",
+    "title": "BYD Gulf Sales Jumped 140%, But Many Overpay Thousands",
+    "cover_quote": "BYD sales surged 140% in Gulf, but hidden costs hit buyers.",
+    "video_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/video_20261030_224505_d04233.mp4",
+    "cover_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/cover_20261030_224505_d04233.jpg",
+    "script_path": "",
+    "_source_row": null,
+    "youtube_url": "https://youtu.be/LSRSxzQv9Oc",
+    "approved_at": "2026-10-30T22:52:06.870764"
   }
 ]

@@ -1993,5 +1993,16 @@
     "destination": "",
     "story_file": "auto_20261030_195210_fake_certificate.txt",
     "mood": "tense"
+  },
+  {
+    "id": "20261030_224505_d04233",
+    "source": "story",
+    "published_at": "2026-10-30T22:52:06.869055",
+    "youtube_url": "https://youtu.be/LSRSxzQv9Oc",
+    "title": "BYD Gulf Sales Jumped 140%, But Many Overpay Thousands",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261030_224505_byd_gulf_surge.txt",
+    "mood": "neutral"
   }
 ]
