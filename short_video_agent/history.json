@@ -2018,5 +2018,16 @@
     "destination": "",
     "story_file": "auto_20261030_224505_byd_gulf_surge.txt",
     "mood": "neutral"
+  },
+  {
+    "id": "20261031_190824_a78f12",
+    "source": "story",
+    "published_at": "2026-10-31T19:13:56.282986",
+    "youtube_url": "https://youtu.be/JPS3kR5-IDI",
+    "title": "60 Days at Gulf Port, $4,800 Cost: Unlicensed China Dealer.",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261031_190824_dealer_verification.txt",
+    "mood": "neutral"
   }
 ]
