@@ -1241,5 +1241,25 @@
     "_source_row": null,
     "youtube_url": "https://youtu.be/JPS3kR5-IDI",
     "approved_at": "2026-10-31T19:13:56.284401"
+  },
+  {
+    "id": "20261031_220634_170d63",
+    "status": "approved",
+    "source": "story",
+    "story_file": "auto_20261031_220634_smart_buyer_win.txt",
+    "mood": "uplift",
+    "created_at": "2026-10-31T22:12:37.307898",
+    "car_model": "",
+    "destination": "",
+    "landed_cost_usd": "",
+    "report_url": "https://cncar.io/cost-calculator",
+    "title": "Dubai Buyer Saved $4,200. Dealer Matched True BYD Cost.",
+    "cover_quote": "$4,200 saved! Your real landed cost unlocks dealer discounts.",
+    "video_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/video_20261031_220634_170d63.mp4",
+    "cover_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/cover_20261031_220634_170d63.jpg",
+    "script_path": "",
+    "_source_row": null,
+    "youtube_url": "https://youtu.be/qNVA-ohH9uk",
+    "approved_at": "2026-10-31T22:12:43.095321"
   }
 ]

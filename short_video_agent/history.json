@@ -2029,5 +2029,16 @@
     "destination": "",
     "story_file": "auto_20261031_190824_dealer_verification.txt",
     "mood": "neutral"
+  },
+  {
+    "id": "20261031_220634_170d63",
+    "source": "story",
+    "published_at": "2026-10-31T22:12:43.093546",
+    "youtube_url": "https://youtu.be/qNVA-ohH9uk",
+    "title": "Dubai Buyer Saved $4,200. Dealer Matched True BYD Cost.",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261031_220634_smart_buyer_win.txt",
+    "mood": "uplift"
   }
 ]
