@@ -1281,5 +1281,25 @@
     "_source_row": null,
     "youtube_url": "https://youtu.be/U7fur8GI3Z4",
     "approved_at": "2026-11-01T19:27:53.872230"
+  },
+  {
+    "id": "20261101_223318_afe05d",
+    "status": "approved",
+    "source": "story",
+    "story_file": "auto_20261101_223318_first_time_importer.txt",
+    "mood": "uplift",
+    "created_at": "2026-11-01T22:38:32.712722",
+    "car_model": "",
+    "destination": "",
+    "landed_cost_usd": "",
+    "report_url": "https://cncar.io/cost-calculator",
+    "title": "47 Days to Oman. Zero Surprises. He Dodged Hidden Import Costs.",
+    "cover_quote": "47 days to Oman. One buyer avoids thousands in surprise charges.",
+    "video_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/video_20261101_223318_afe05d.mp4",
+    "cover_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/cover_20261101_223318_afe05d.jpg",
+    "script_path": "",
+    "_source_row": null,
+    "youtube_url": "https://youtu.be/IiLme8iAOWg",
+    "approved_at": "2026-11-01T22:38:40.752538"
   }
 ]
