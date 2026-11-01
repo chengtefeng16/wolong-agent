@@ -2054,5 +2054,16 @@
     "destination": "",
     "story_file": "auto_20261031_220634_smart_buyer_win.txt",
     "mood": "uplift"
+  },
+  {
+    "id": "20261101_192353_9677f4",
+    "source": "story",
+    "published_at": "2026-11-01T19:27:53.871071",
+    "youtube_url": "https://youtu.be/U7fur8GI3Z4",
+    "title": "$6,000 Repair in Dubai. His EV Had No Warranty.",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261101_192353_grey_market_risk.txt",
+    "mood": "tense"
   }
 ]

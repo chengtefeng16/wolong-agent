@@ -1261,5 +1261,25 @@
     "_source_row": null,
     "youtube_url": "https://youtu.be/qNVA-ohH9uk",
     "approved_at": "2026-10-31T22:12:43.095321"
+  },
+  {
+    "id": "20261101_192353_9677f4",
+    "status": "approved",
+    "source": "story",
+    "story_file": "auto_20261101_192353_grey_market_risk.txt",
+    "mood": "tense",
+    "created_at": "2026-11-01T19:27:46.547733",
+    "car_model": "",
+    "destination": "",
+    "landed_cost_usd": "",
+    "report_url": "https://cncar.io/cost-calculator",
+    "title": "$6,000 Repair in Dubai. His EV Had No Warranty.",
+    "cover_quote": "His EV battery failed. $6,000 repair, zero warranty in Dubai.",
+    "video_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/video_20261101_192353_9677f4.mp4",
+    "cover_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/cover_20261101_192353_9677f4.jpg",
+    "script_path": "",
+    "_source_row": null,
+    "youtube_url": "https://youtu.be/U7fur8GI3Z4",
+    "approved_at": "2026-11-01T19:27:53.872230"
   }
 ]
