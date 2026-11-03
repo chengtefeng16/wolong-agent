@@ -1321,5 +1321,25 @@
     "_source_row": null,
     "youtube_url": "https://youtu.be/bxKkc9e4mSw",
     "approved_at": "2026-11-02T23:06:59.206147"
+  },
+  {
+    "id": "20261103_012741_940a53",
+    "status": "approved",
+    "source": "story",
+    "story_file": "auto_20261103_012741_era_glonass_blocked.txt",
+    "mood": "tense",
+    "created_at": "2026-11-03T01:34:34.228235",
+    "car_model": "",
+    "destination": "",
+    "landed_cost_usd": "",
+    "report_url": "https://cncar.io/cost-calculator",
+    "title": "A Gulf Dealer Paid $4,000 Over One Missing Chip",
+    "cover_quote": "One missing $4,000 chip traps car at port.",
+    "video_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/video_20261103_012741_940a53.mp4",
+    "cover_path": "/home/runner/work/wolong-agent/wolong-agent/short_video_agent/cncar/output/cover_20261103_012741_940a53.jpg",
+    "script_path": "",
+    "_source_row": null,
+    "youtube_url": "https://youtu.be/qfdTw9s15tE",
+    "approved_at": "2026-11-03T01:34:42.999042"
   }
 ]

@@ -2094,5 +2094,16 @@
     "destination": "",
     "story_file": "auto_20261102_230033_vat_surprise.txt",
     "mood": "tense"
+  },
+  {
+    "id": "20261103_012741_940a53",
+    "source": "story",
+    "published_at": "2026-11-03T01:34:42.997273",
+    "youtube_url": "https://youtu.be/qfdTw9s15tE",
+    "title": "A Gulf Dealer Paid $4,000 Over One Missing Chip",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261103_012741_era_glonass_blocked.txt",
+    "mood": "tense"
   }
 ]
