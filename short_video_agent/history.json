@@ -2130,5 +2130,16 @@
     "destination": "",
     "story_file": "auto_20261103_204833_soncap_stuck.txt",
     "mood": "tense"
+  },
+  {
+    "id": "20261103_234941_fe8dfb",
+    "source": "story",
+    "published_at": "2026-11-03T23:54:14.755141",
+    "youtube_url": "https://youtu.be/ODBHGLNALms",
+    "title": "Gulf Customs Blocked Car 4 Months Over Missing SABER",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261103_234941_saber_saso_blocked.txt",
+    "mood": "tense"
   }
 ]
