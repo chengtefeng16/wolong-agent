@@ -2155,5 +2155,16 @@
     "destination": "",
     "story_file": "auto_20261103_234941_saber_saso_blocked.txt",
     "mood": "tense"
+  },
+  {
+    "id": "20261104_210516_709b10",
+    "source": "story",
+    "published_at": "2026-11-04T21:12:15.405850",
+    "youtube_url": "https://youtu.be/AbRvWj7PfaM",
+    "title": "One Week at Saudi Port: $3,500 Profit Gone.",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261104_210516_demurrage_trap.txt",
+    "mood": "tense"
   }
 ]
