@@ -2191,5 +2191,16 @@
     "destination": "",
     "story_file": "auto_20261105_000413_recycling_tax_spike.txt",
     "mood": "tense"
+  },
+  {
+    "id": "20261105_212142_636fd0",
+    "source": "story",
+    "published_at": "2026-11-05T21:31:02.666579",
+    "youtube_url": "https://youtu.be/IqrN53-wcwM",
+    "title": "$15,000 Lost. Gulf Car Vanished. Fake Forwarder Trap.",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261105_212142_fake_forwarder.txt",
+    "mood": "tense"
   }
 ]
