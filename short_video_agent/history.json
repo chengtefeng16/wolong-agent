@@ -2202,5 +2202,16 @@
     "destination": "",
     "story_file": "auto_20261105_212142_fake_forwarder.txt",
     "mood": "tense"
+  },
+  {
+    "id": "20261105_235454_982ce7",
+    "source": "story",
+    "published_at": "2026-11-06T00:01:21.715188",
+    "youtube_url": "https://youtu.be/pMqNPNd4sSY",
+    "title": "500km EV Range Claim. Only 240km in Gulf Heat. That's a 260km Loss.",
+    "car_model": "",
+    "destination": "",
+    "story_file": "auto_20261105_235454_ev_range_fraud.txt",
+    "mood": "tense"
   }
 ]
