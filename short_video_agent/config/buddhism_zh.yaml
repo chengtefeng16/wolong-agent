@@ -176,8 +176,13 @@ youtube:
   default_language: "zh-Hans"
   privacy: "public"   # 首次上传私密，确认效果后手动改为 public
   title_template: "{title} | 佛法与生活"
+  outro_text: "想静一静？点下方链接进佛堂 ↓"
   description_template: |
     {cover_quote}
+
+    🪷 走进定心佛堂：敲木鱼·听诵经·静一静
+    👉 https://dingxin-temple.dingxin-tracker.workers.dev
+    不用求什么，进来坐坐就好。
 
     📿 这一期，我们聊聊{theme}。
 

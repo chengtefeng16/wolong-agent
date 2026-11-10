@@ -39,6 +39,7 @@ class VideoComposer:
         background_path: str = None,
         title: str = "",
         cover_quote: str = "",
+        outro_text: str = "",
     ) -> str:
         """
         合成视频主入口。
@@ -63,7 +64,20 @@ class VideoComposer:
 
         # 3. 合成：背景 + 字幕层叠
         bg_clip = ImageClip(self._pil_to_array(bg_img), duration=duration)
-        all_clips = [bg_clip] + subtitle_clips
+
+        # 片尾引导帧（最后3秒叠加，覆盖最后一条字幕）
+        outro_clips = []
+        OUTRO_DUR = 3.0
+        if outro_text and duration > OUTRO_DUR:
+            outro_img = self._draw_subtitle_frame(bg_img, outro_text)
+            outro_clip = (
+                ImageClip(self._pil_to_array(outro_img))
+                .with_start(duration - OUTRO_DUR)
+                .with_duration(OUTRO_DUR)
+            )
+            outro_clips = [outro_clip]
+
+        all_clips = [bg_clip] + subtitle_clips + outro_clips
 
         video = CompositeVideoClip(all_clips, size=(self.W, self.H))
         video = video.with_audio(audio_clip)
@@ -360,6 +374,7 @@ class VideoComposer:
         script_data: dict,
         output_filename: str,
         background_path: str = None,
+        outro_text: str = "",
     ) -> str:
         """双语字幕版本：中文主字幕 + 英文副字幕，开头3秒封面大字"""
         os.makedirs(self.output_dir, exist_ok=True)
@@ -387,7 +402,20 @@ class VideoComposer:
         subtitle_clips = [c.with_start(c.start + COVER_DURATION) for c in subtitle_clips]
 
         bg_clip = ImageClip(self._pil_to_array(bg_img), duration=duration)
-        all_clips = [bg_clip, cover_clip] + subtitle_clips
+
+        # 片尾引导帧（最后3秒）
+        outro_clips = []
+        OUTRO_DUR = 3.0
+        if outro_text and duration > OUTRO_DUR:
+            outro_img = self._draw_subtitle_frame(bg_img, outro_text)
+            outro_clip = (
+                ImageClip(self._pil_to_array(outro_img))
+                .with_start(duration - OUTRO_DUR)
+                .with_duration(OUTRO_DUR)
+            )
+            outro_clips = [outro_clip]
+
+        all_clips = [bg_clip, cover_clip] + subtitle_clips + outro_clips
 
         video = CompositeVideoClip(all_clips, size=(self.W, self.H))
         video = video.with_audio(audio_clip)

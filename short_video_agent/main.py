@@ -93,6 +93,7 @@ def run_produce(cfg: dict, mark_after_video: bool = True):
     print("[4/4] MoviePy 合成9:16竖屏视频...")
     composer   = VideoComposer(cfg)
     is_bilingual = cfg["direction"].get("language", "zh") == "zh-en"
+    outro_text = cfg["direction"].get("youtube", {}).get("outro_text", "")
     if is_bilingual and script_data.get("en_subtitles"):
         print("  [Video] 双语字幕模式")
         video_path = composer.compose_bilingual(
@@ -100,6 +101,7 @@ def run_produce(cfg: dict, mark_after_video: bool = True):
             script_data=script_data,
             output_filename=f"video_{ts}_{uid}.mp4",
             background_path=bg_path,
+            outro_text=outro_text,
         )
     else:
         video_path = composer.compose(
@@ -109,6 +111,7 @@ def run_produce(cfg: dict, mark_after_video: bool = True):
             title=script_data["title"],
             cover_quote=script_data["cover_quote"],
             background_path=bg_path,
+            outro_text=outro_text,
         )
     cover_path = composer.make_cover_image(
         script_data["title"],
