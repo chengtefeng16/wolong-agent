@@ -94,6 +94,7 @@ class VideoComposer:
         if not outro_text:
             return [], narration_dur
         outro_dur = float(self.vcfg.get("outro_duration", 6.0))
+        print(f"  [Video] 片尾引导帧: 旁白 {narration_dur:.1f}s 后追加 {outro_dur:.1f}s「{outro_text}」")
         outro_img = self._draw_subtitle_frame(bg_img, outro_text)
         clip = (
             ImageClip(self._pil_to_array(outro_img))
