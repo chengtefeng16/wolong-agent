@@ -275,6 +275,7 @@ def main():
             output_filename=f"video_{ts}.mp4",
             title=script_data.get("title", ""),
             cover_quote=script_data.get("cover_quote", ""),
+            outro_text=cfg["direction"].get("youtube", {}).get("outro_text", ""),
         )
 
     elif args.step == "upload":

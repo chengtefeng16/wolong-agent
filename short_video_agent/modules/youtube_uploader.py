@@ -158,7 +158,50 @@ class YouTubeUploader:
         print(f"  [YouTube] 隐私设置: {privacy}")
         video_id = self._requests_resumable_upload(video_path, body)
         print(f"  [YouTube] ✅ 上传完成: https://youtu.be/{video_id}")
+
+        # 上传成功后自动发一条作者评论（仅当配置了 pinned_comment，例如定心线）
+        comment_text = (self.yt_cfg.get("pinned_comment") or "").strip()
+        if comment_text:
+            self.post_comment(video_id, comment_text)
         return video_id
+
+    def post_comment(self, video_id: str, text: str):
+        """以频道身份发一条顶层评论。任何失败只打印警告、返回 None，不影响上传结果。
+
+        注意：YouTube Data API v3 没有"置顶评论"接口（comments/commentThreads
+        只有 list/insert/update/delete/setModerationStatus），置顶只能在
+        YouTube Studio 或手机 App 里手动操作。
+        需要 OAuth scope: https://www.googleapis.com/auth/youtube.force-ssl
+        """
+        try:
+            if not self._service:
+                self.authenticate()
+            resp = self._service.commentThreads().insert(
+                part="snippet",
+                body={
+                    "snippet": {
+                        "videoId": video_id,
+                        "topLevelComment": {"snippet": {"textOriginal": text}},
+                    }
+                },
+            ).execute()
+            cid = resp.get("id")
+            print(f"  [YouTube] 💬 评论已发布 (id={cid})；API 不支持置顶，需在 Studio 手动置顶")
+            return cid
+        except HttpError as e:
+            reason = ""
+            try:
+                reason = json.loads(e.content.decode())["error"]["errors"][0].get("reason", "")
+            except Exception:
+                pass
+            if e.resp.status == 403 and reason in ("insufficientPermissions", "forbidden", ""):
+                print("  [YouTube] ⚠️ 评论失败(403)：token 缺少 youtube.force-ssl 权限，"
+                      "需重新授权后更新 config/youtube_token.json 和 Secret YOUTUBE_TOKEN")
+            else:
+                print(f"  [YouTube] ⚠️ 评论失败（不影响上传）: {e.resp.status} {reason} {str(e)[:200]}")
+        except Exception as e:
+            print(f"  [YouTube] ⚠️ 评论失败（不影响上传）: {type(e).__name__}: {str(e)[:200]}")
+        return None
 
     def set_thumbnail(self, video_id: str, image_path: str):
         if not self._service:

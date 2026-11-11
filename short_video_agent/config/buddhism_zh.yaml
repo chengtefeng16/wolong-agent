@@ -176,7 +176,9 @@ youtube:
   default_language: "zh-Hans"
   privacy: "public"   # 首次上传私密，确认效果后手动改为 public
   title_template: "{title} | 佛法与生活"
-  outro_text: "想静一静？点下方链接进佛堂 ↓"
+  outro_text: "进佛堂静一静 → 点开简介 / 看置顶评论"
+  # 上传成功后自动发的作者评论（API 无法置顶，需 Studio 手动置顶）
+  pinned_comment: "🪷 进佛堂坐坐：https://dingxin-temple.dingxin-tracker.workers.dev 不用求什么，来静一静。"
   description_template: |
     {cover_quote}
 
