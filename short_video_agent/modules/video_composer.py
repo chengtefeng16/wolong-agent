@@ -9,7 +9,7 @@ import tempfile
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
-from moviepy import AudioFileClip, ImageClip, CompositeVideoClip, concatenate_videoclips
+from moviepy import AudioFileClip, CompositeAudioClip, ImageClip, CompositeVideoClip, concatenate_videoclips
 
 
 _ASSETS = Path(__file__).parent.parent / "assets"
@@ -65,23 +65,14 @@ class VideoComposer:
         # 3. 合成：背景 + 字幕层叠
         bg_clip = ImageClip(self._pil_to_array(bg_img), duration=duration)
 
-        # 片尾引导帧（最后3秒叠加，覆盖最后一条字幕）
-        outro_clips = []
-        OUTRO_DUR = 3.0
-        if outro_text and duration > OUTRO_DUR:
-            outro_img = self._draw_subtitle_frame(bg_img, outro_text)
-            outro_clip = (
-                ImageClip(self._pil_to_array(outro_img))
-                .with_start(duration - OUTRO_DUR)
-                .with_duration(OUTRO_DUR)
-            )
-            outro_clips = [outro_clip]
-
+        # 片尾引导帧：旁白结束后追加 N 秒静帧（不遮挡最后几句字幕）
+        outro_clips, total_dur = self._make_outro(bg_img, outro_text, duration)
         all_clips = [bg_clip] + subtitle_clips + outro_clips
 
         video = CompositeVideoClip(all_clips, size=(self.W, self.H))
-        video = video.with_audio(audio_clip)
-        video = video.with_duration(duration)
+        video = video.with_audio(self._pad_audio(audio_clip, total_dur))
+        video = video.with_duration(total_dur)
+        duration = total_dur
 
         # 4. 写出 MP4
         video.write_videofile(
@@ -96,6 +87,28 @@ class VideoComposer:
 
         print(f"  [Video] 已合成: {out_path}  ({duration:.1f}s)")
         return out_path
+
+    def _make_outro(self, bg_img: Image.Image, outro_text: str, narration_dur: float):
+        """片尾引导帧：在旁白结束后追加 outro_duration 秒（默认6秒）常驻静帧。
+        返回 (clips, 视频总时长)。outro_text 为空则不追加。"""
+        if not outro_text:
+            return [], narration_dur
+        outro_dur = float(self.vcfg.get("outro_duration", 6.0))
+        print(f"  [Video] 片尾引导帧: 旁白 {narration_dur:.1f}s 后追加 {outro_dur:.1f}s「{outro_text}」")
+        outro_img = self._draw_subtitle_frame(bg_img, outro_text)
+        clip = (
+            ImageClip(self._pil_to_array(outro_img))
+            .with_start(narration_dur)
+            .with_duration(outro_dur)
+        )
+        return [clip], narration_dur + outro_dur
+
+    @staticmethod
+    def _pad_audio(audio_clip, total_dur: float):
+        """音频末尾补静音到 total_dur（CompositeAudioClip 在片段外输出静音）"""
+        if total_dur <= audio_clip.duration + 1e-3:
+            return audio_clip
+        return CompositeAudioClip([audio_clip]).with_duration(total_dur)
 
     def make_cover_image(self, title: str, cover_quote: str, output_filename: str, background_path: str = None) -> str:
         """生成封面图 - 视觉冲击版：大字金句+装饰线+半透明蒙版"""
@@ -403,23 +416,14 @@ class VideoComposer:
 
         bg_clip = ImageClip(self._pil_to_array(bg_img), duration=duration)
 
-        # 片尾引导帧（最后3秒）
-        outro_clips = []
-        OUTRO_DUR = 3.0
-        if outro_text and duration > OUTRO_DUR:
-            outro_img = self._draw_subtitle_frame(bg_img, outro_text)
-            outro_clip = (
-                ImageClip(self._pil_to_array(outro_img))
-                .with_start(duration - OUTRO_DUR)
-                .with_duration(OUTRO_DUR)
-            )
-            outro_clips = [outro_clip]
-
+        # 片尾引导帧：旁白结束后追加 N 秒静帧
+        outro_clips, total_dur = self._make_outro(bg_img, outro_text, duration)
         all_clips = [bg_clip, cover_clip] + subtitle_clips + outro_clips
 
         video = CompositeVideoClip(all_clips, size=(self.W, self.H))
-        video = video.with_audio(audio_clip)
-        video = video.with_duration(duration)
+        video = video.with_audio(self._pad_audio(audio_clip, total_dur))
+        video = video.with_duration(total_dur)
+        duration = total_dur
 
         video.write_videofile(
             out_path,
