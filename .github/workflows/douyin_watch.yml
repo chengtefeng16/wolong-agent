@@ -1,0 +1,147 @@
+# 定心 · 王利杰抖音新视频监控 → Gemini 提炼 → 追加「素材库」
+# 独立 pipeline：不碰 CNcar / 佛堂 / daily_upload。
+# Secrets：DOUYIN_COOKIES（base64 的 Netscape cookies.txt，用 tools/douyin_cookie_export.py 更新）
+#          GEMINI_KEY、GSHEETS_CREDENTIALS（复用现有）
+name: Douyin Watch (定心素材)
+
+on:
+  schedule:
+    - cron: '0 0 * * 1'      # 每周一 00:00 UTC = 北京时间 08:00
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'run=正式 / dry-run=提炼但不写表 / list-only=只列新视频'
+        default: run
+        type: choice
+        options: [run, dry-run, list-only]
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: douyin-watch
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      ISSUE_LABEL: douyin-watch
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Install deps
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          pip install -U yt-dlp faster-whisper playwright gspread google-auth google-genai requests
+          python -m playwright install --with-deps chromium
+
+      - name: Cache whisper model
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: whisper-small-v1
+
+      - name: Write secrets to temp files
+        env:
+          DOUYIN_COOKIES: ${{ secrets.DOUYIN_COOKIES }}
+          GSHEETS_CREDENTIALS: ${{ secrets.GSHEETS_CREDENTIALS }}
+        run: |
+          umask 077
+          if [ -z "$DOUYIN_COOKIES" ]; then
+            echo "::error::Secret DOUYIN_COOKIES 未设置，请在本机运行 short_video_agent/tools/douyin_cookie_export.py"
+          else
+            echo "$DOUYIN_COOKIES" | base64 -d > "$RUNNER_TEMP/dy_cookies.txt" 2>/dev/null \
+              || printf '%s\n' "$DOUYIN_COOKIES" > "$RUNNER_TEMP/dy_cookies.txt"
+          fi
+          python - <<'EOF'
+          import base64, json, os
+          raw = os.environ["GSHEETS_CREDENTIALS"].strip()
+          try:
+              data = json.loads(raw)
+          except Exception:
+              data = json.loads(base64.b64decode(raw))
+          open(os.path.join(os.environ["RUNNER_TEMP"], "gsa.json"), "w").write(json.dumps(data))
+          print("service account:", data.get("client_email"))
+          EOF
+
+      - name: Run douyin watch
+        id: watch
+        working-directory: short_video_agent
+        env:
+          DOUYIN_COOKIES_FILE: ${{ runner.temp }}/dy_cookies.txt
+          GSHEETS_SA: ${{ runner.temp }}/gsa.json
+          GEMINI_KEY: ${{ secrets.GEMINI_KEY }}
+          WHISPER_MODEL: small
+          MODE: ${{ github.event.inputs.mode || 'run' }}
+        run: |
+          case "$MODE" in
+            dry-run)   python tools/douyin_watch.py --dry-run ;;
+            list-only) python tools/douyin_watch.py --list-only ;;
+            *)         python tools/douyin_watch.py ;;
+          esac
+
+      - name: Remove secret temp files
+        if: always()
+        run: shred -u "$RUNNER_TEMP/dy_cookies.txt" "$RUNNER_TEMP/gsa.json" 2>/dev/null || true
+
+      - name: Commit dedup state
+        if: always() && (github.event.inputs.mode || 'run') == 'run'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add short_video_agent/douyin_watch/state.json 2>/dev/null || exit 0
+          git diff --cached --quiet && exit 0
+          git commit -m "douyin-watch: update state"
+          for i in 1 2 3 4 5; do
+            git pull --rebase -q && git push -q && exit 0
+            sleep $((i * 5))
+          done
+          echo "::error::state.json 推送失败，下次可能重复提炼"; exit 1
+
+      - name: Open/update issue on failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          KIND: ${{ steps.watch.outputs.failure_kind }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          gh label create "$ISSUE_LABEL" --color D93F0B -f >/dev/null 2>&1 || true
+          if [ "$KIND" = "cookie" ]; then
+            TITLE="【抖音监控】cookie 失效/列表拿不到，需要更新 DOUYIN_COOKIES"
+            BODY="Chrome 小号重新登录 douyin.com 后，本机运行：\`python3 short_video_agent/tools/douyin_cookie_export.py --profile \"<小号profile>\"\`，然后手动重跑 workflow。若 cookie 是新的仍失败，多半是抖音对海外 IP 风控。日志：$RUN_URL"
+          else
+            TITLE="【抖音监控】运行失败"
+            BODY="详见日志：$RUN_URL"
+          fi
+          N=$(gh issue list --label "$ISSUE_LABEL" --state open --search "$TITLE in:title" --json number -q '.[0].number')
+          if [ -n "$N" ]; then gh issue comment "$N" --body "又失败了：$RUN_URL"
+          else gh issue create --title "$TITLE" --body "$BODY" --label "$ISSUE_LABEL"; fi
+
+      - name: Warn when cookie expiring
+        if: success() && steps.watch.outputs.cookie_expiring == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DAYS: ${{ steps.watch.outputs.cookie_days_left }}
+        run: |
+          gh label create "$ISSUE_LABEL" --color D93F0B -f >/dev/null 2>&1 || true
+          TITLE="【抖音监控】cookie 约 ${DAYS} 天后过期，请更新 DOUYIN_COOKIES"
+          N=$(gh issue list --label "$ISSUE_LABEL" --state open --search "cookie 天后过期 in:title" --json number -q '.[0].number')
+          [ -n "$N" ] || gh issue create --title "$TITLE" --label "$ISSUE_LABEL" \
+            --body "本机运行 \`python3 short_video_agent/tools/douyin_cookie_export.py --profile \"<小号profile>\"\` 即可更新。"
+
+      - name: Close resolved issues on success
+        if: success() && steps.watch.outputs.cookie_expiring != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for N in $(gh issue list --label "$ISSUE_LABEL" --state open --json number -q '.[].number'); do
+            gh issue close "$N" --comment "已恢复：${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          done
