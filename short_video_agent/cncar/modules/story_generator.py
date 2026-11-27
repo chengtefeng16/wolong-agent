@@ -186,7 +186,11 @@ def generate_story(cfg: dict) -> str:
     for attempt in range(1, len(_RETRY_DELAYS) + 2):  # 6 attempts total
         try:
             # 每次都创建新的 HTTP client：代理偶发中断后，不复用旧连接。
-            client = genai.Client(api_key=gemini_key)
+            # google-genai 3.x 默认走 v1，v1 不支持 system_instruction，需固定 v1beta
+            client = genai.Client(
+                api_key=gemini_key,
+                http_options={"api_version": "v1beta"},
+            )
             response = client.models.generate_content(
                 model="gemini-2.5-flash",
                 contents=prompt,
